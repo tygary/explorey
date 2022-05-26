@@ -25,7 +25,7 @@ class Printer(object):
 
     def __init__(self):
         self.logger = Logger()
-        with open("explorey/src/quotes.json", "r") as file:
+        with open("printer/quotes.json", "r") as file:
             self.quotes = json.load(file)
 
     def __print_quiz(self):

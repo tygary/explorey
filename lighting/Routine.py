@@ -230,7 +230,7 @@ LIGHT_NUM_EFFECTS = 2
 
 class BleuRoutine(Routine):
 
-    cave_panel_lights = []
+    cave_panel_lights = None
 
     cavePanelCurrentColor = [0, 0, 255]
     cavePanelNextColor = [0, 0, 255]
@@ -253,8 +253,9 @@ class BleuRoutine(Routine):
 
     def __init__(self, pixels, addresses):
         Routine.__init__(self, pixels, addresses)
-        for i in addresses:
-            self.cave_panel_lights[i] = Light(i+1)
+        self.cave_panel_lights = [Light] * len(addresses)
+        for i in range(len(addresses)):
+            self.cave_panel_lights[i] = Light(addresses[i])
 
     def tick(self):
         for i in range(len(self.cave_panel_lights)):

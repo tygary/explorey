@@ -24,6 +24,7 @@ class ExploreyLights(object):
     pixels = None
     thread = None
     mode = 0
+    delay = 0.01
 
     def __init__(self):
         self.pixels = PixelControl(NUM_PIXELS)
@@ -72,7 +73,9 @@ class ExploreyLights(object):
 
     def __run_thread(self):
         while self.is_running:
+            self.mode_object.tick()
             self.pixels.render()
+            time.sleep(self.delay)
 
     def start(self):
         self.thread = threading.Thread(target=self.__run_thread)

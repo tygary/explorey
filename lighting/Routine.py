@@ -1,8 +1,8 @@
 from random import randint, randrange
 import time, math
-from Light import Light, LIGHT_FADE
+from lighting.Light import Light, LIGHT_FADE
 import random
-from Colors import Colors
+from lighting.Colors import Colors
 
 
 class Routine(object):

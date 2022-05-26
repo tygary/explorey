@@ -1,9 +1,9 @@
 from enum import IntEnum
 import time
-from PixelControl import PixelControl
-from GenericButtonController import GenericButtonController
-from Routine import *
-from Colors import Colors
+from lighting.PixelControl import PixelControl
+from lighting.GenericButtonController import GenericButtonController
+from lighting.Routine import *
+from lighting.Colors import Colors
 import threading
 
 

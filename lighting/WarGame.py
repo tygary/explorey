@@ -1,4 +1,4 @@
-from GenericButtonController import GenericButtonController
+from lighting.GenericButtonController import GenericButtonController
 
 
 MAX_POINTS = 1000

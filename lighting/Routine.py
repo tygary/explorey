@@ -230,6 +230,8 @@ LIGHT_NUM_EFFECTS = 2
 
 class BleuRoutine(Routine):
 
+    cave_panel_lights = []
+
     cavePanelCurrentColor = [0, 0, 255]
     cavePanelNextColor = [0, 0, 255]
     cavePanelFlashColor = [0, 0, 0]
@@ -251,9 +253,11 @@ class BleuRoutine(Routine):
 
     def __init__(self, pixels, addresses):
         Routine.__init__(self, pixels, addresses)
+        for i in addresses:
+            self.cave_panel_lights[i] = Light(i+1)
 
     def tick(self):
-        for i in range(len(self.pixels)):
+        for i in range(len(self.cave_panel_lights)):
             light = self.pixels[i]
             if light.mode == LIGHT_UNSET:
                 self.pickNewLightMode(light)
@@ -288,7 +292,7 @@ class BleuRoutine(Routine):
                         light.on = True
                     light.timestamp = self.now
                     light.nextActionTime = light.timestamp + light.duration
-#             self.pixel.setColor(light.address, light.currentValue)
+            self.pixel.setColor(light.address, light.currentValue)
 
     def pickNewLightMode(self, light):
         rand = random.randrange(0, 100)

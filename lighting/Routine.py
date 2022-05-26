@@ -284,7 +284,7 @@ class BleuRoutine(Routine):
                         self.pickNewLightMode(light)
                     light.on_finish = onFinishDecrement
                     Light.decrement_color(light, self.now)
-                    self.setNewDecrementingLightColor(light)
+#
             elif light.mode == LIGHT_BLINK:
                 if self.now > light.nextActionTime:
                     if light.on:
@@ -299,7 +299,7 @@ class BleuRoutine(Routine):
                         light.on = True
                     light.timestamp = self.now
                     light.nextActionTime = light.timestamp + light.duration
-            self.pixel.setColor(light.address, light.currentValue)
+            self.pixels.setColor(light.address, light.currentValue)
 
     def pickNewLightMode(self, light):
         rand = random.randrange(0, 100)

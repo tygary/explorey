@@ -87,4 +87,6 @@ class ExploreyLights(object):
             self.is_running = False
             self.thread.join()
             self.thread = None
+            self.pixels.blackout()
+            self.pixels.render()
 

@@ -277,13 +277,13 @@ class BleuRoutine(Routine):
                     def onFinishIncrement():
                         self.pickNewLightMode(light)
                     light.on_finish = onFinishIncrement
-                    light.incrementColor(self.now)
+                    Light.incrementColor(light, self.now)
                 #    self.setNewIncrementingLightColor(light)
                 else:
                     def onFinishDecrement():
                         self.pickNewLightMode(light)
                     light.on_finish = onFinishDecrement
-                    light.decrementColor(self.now)
+                    Light.decrementColor(light, self.now)
                     self.setNewDecrementingLightColor(light)
             elif light.mode == LIGHT_BLINK:
                 if self.now > light.nextActionTime:

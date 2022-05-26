@@ -31,8 +31,8 @@ class Light(object):
 
     def __init__(self, address):
         self.address = address
-        self.currentValue = [0, 0, 0, 0]
-        self.intendedColor = [0, 0, 0, 0]
+        self.currentValue = [0, 0, 0]
+        self.intendedColor = [0, 0, 0]
 
     @staticmethod
     def update_color(light, now):
@@ -61,7 +61,7 @@ class Light(object):
             light.currentValue[RED] = get_new_color(light.intendedColor, RED, amount_left)
             light.currentValue[GREEN] = get_new_color(light.intendedColor, GREEN, amount_left)
             light.currentValue[BLUE] = get_new_color(light.intendedColor, BLUE, amount_left)
-            light.currentValue[WHITE] = get_new_color(light.intendedColor, WHITE, amount_left)
+#             light.currentValue[WHITE] = get_new_color(light.intendedColor, WHITE, amount_left)
 
     @staticmethod
     def decrement_color(light, now):
@@ -86,4 +86,4 @@ class Light(object):
             light.currentValue[RED] = int(round(light.intendedColor[RED] * amount_left / 2))
             light.currentValue[GREEN] = int(round(light.intendedColor[GREEN] * amount_left / 2))
             light.currentValue[BLUE] = int(round(light.intendedColor[BLUE] * amount_left / 2))
-            light.currentValue[WHITE] = int(round(light.intendedColor[WHITE] * amount_left / 2))
+#             light.currentValue[WHITE] = int(round(light.intendedColor[WHITE] * amount_left / 2))

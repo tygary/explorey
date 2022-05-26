@@ -20,7 +20,7 @@ ALL_PIXELS = range(0, 50)
 
 # BAR_TOP_PIXELS = range(51, 149)
 
-class ExploreyLighting(object):
+class ExploreyLights(object):
     pixels = None
     thread = None
     mode = 0

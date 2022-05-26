@@ -37,7 +37,7 @@ class ExploreyLighting(object):
 
     def change_mode(self):
         self.mode = (self.mode + 1) % NUM_MODES
-        print "New Mode - {}".format(self.mode)
+        print("New Mode - {}".format(self.mode))
         if self.mode is MODE_COLOR:
             self.mode_object = PulseRoutine(self.pixels, FRONT_PIXELS, Colors.mid_green)
         elif self.mode is MODE_RAINBOW:

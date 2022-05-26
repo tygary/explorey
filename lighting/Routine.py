@@ -233,6 +233,7 @@ LIGHT_BLINK = 1
 LIGHT_NUM_EFFECTS = 2
 
 class BleuRoutine(Routine):
+    now = None
 
     cave_panel_lights = None
 
@@ -262,6 +263,7 @@ class BleuRoutine(Routine):
             self.cave_panel_lights[i] = Light(addresses[i])
 
     def tick(self):
+        self.now = int(round(time.time() * 1000))
         for i in range(len(self.cave_panel_lights)):
             light = self.cave_panel_lights[i]
             if light.mode == LIGHT_UNSET:

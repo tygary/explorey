@@ -327,7 +327,7 @@ class BleuRoutine(Routine):
     def getNewLightColor(self, colorIndex):
         if self.now > (self.cavePanelColorTimestamp + self.cavePanelColorDuration):
             if self.cavePanelColorTransitioning:
-                print "Finished Transitioning Color Scheme"
+                print("Finished Transitioning Color Scheme")
                 self.cavePanelColorTransitioning = False
                 self.cavePanelColorSchemeIndex = self.cavePanelColorSchemeIndexNew
                 self.cavePanelColorDuration = random.randrange(8000, 30000)
@@ -337,7 +337,7 @@ class BleuRoutine(Routine):
                 self.cavePanelColorSchemeIndexNew = random.randrange(0, len(self.cavePanelColorSchemes))
                 self.cavePanelColorDuration = random.randrange(3000, 8000)
                 self.cavePanelColorTimestamp = self.now
-                print "Switching to color scheme {}".format(self.cavePanelColorSchemeIndexNew)
+                print("Switching to color scheme {}".format(self.cavePanelColorSchemeIndexNew))
 
         colorScheme = self.cavePanelColorSchemes[self.cavePanelColorSchemeIndex]
         if self.cavePanelColorTransitioning:

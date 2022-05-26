@@ -259,7 +259,7 @@ class BleuRoutine(Routine):
 
     def tick(self):
         for i in range(len(self.cave_panel_lights)):
-            light = self.pixels[i]
+            light = self.cave_panel_lights[i]
             if light.mode == LIGHT_UNSET:
                 self.pickNewLightMode(light)
             if light.mode == LIGHT_FADE:

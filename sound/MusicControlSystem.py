@@ -9,6 +9,8 @@ class MusicControlSystem(object):
 
     def __init__(self):
         self.player.set_volume(0.4)
+
+    def play_cave_ambient(self):
         self.player.play_song('/home/admin/explorey/sound/CaveAmbient.ogg', 0.25)
 
 #     def handle_change(self, values):

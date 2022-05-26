@@ -4,9 +4,10 @@ from PixelControl import PixelControl
 from GenericButtonController import GenericButtonController
 from Routine import *
 from Colors import Colors
+import threading
 
 
-NUM_PIXELS = 300
+NUM_PIXELS = 50
 
 MODE_ON = 0
 MODE_COLOR = 1
@@ -15,40 +16,24 @@ MODE_FIRE = 3
 MODE_WAVE = 4
 NUM_MODES = 5
 
-ALL_PIXELS = range(0, 268)
+ALL_PIXELS = range(0, 50)
 
-BAR_TOP_PIXELS = range(51, 149)
-BAR_BOTTOM_PIXELS = range(0, 51)
-FRONT_PIXELS = range(148, 268)
-
-FRONT_LEFT = range(250, 268)
-FRONT_LEFT_MID = range(237, 250)
-FRONT_MID = range(177, 237)
-FRONT_RIGHT_MID = range(165, 177)
-FRONT_RIGHT = range(149, 165)
-
+# BAR_TOP_PIXELS = range(51, 149)
 
 class ExploreyLighting(object):
     pixels = None
-    buttons = None
+    thread = None
     mode = 0
-    on_button = False
-    mode_button = False
-    mode_object = None
 
     def __init__(self):
         self.pixels = PixelControl(NUM_PIXELS)
-        self.buttons = ButtonController(self.handle_change)
         self.mode_object = None
+        self.setup_mode()
 
-    def handle_change(self, values):
-        self.on_button = values[0] == 0
-
-        if self.mode_button is False and values[1] is 0:
-            self.change_mode()
-        self.mode_button = values[1] == 0
-
-        print "buttons changed {}".format(values)
+    def setup_mode(self):
+        self.mode_object = MultiRoutine([
+            RainbowRoutine(self.pixels, ALL_PIXELS),
+        ])
 
     def change_mode(self):
         self.mode = (self.mode + 1) % NUM_MODES
@@ -85,32 +70,18 @@ class ExploreyLighting(object):
             self.pixels.setRGBW(i, color)
         self.pixels.render()
 
-    def start(self):
-        self.change_mode()
-        while True:
-            self.buttons.check_for_new_switch_values()
-            if self.on_button:
-                if self.mode is MODE_ON:
-                    for i in BAR_TOP_PIXELS:
-                        self.pixels.setRGBW(i, Colors.bright_white)
-                    for i in BAR_BOTTOM_PIXELS:
-                        self.pixels.setRGBW(i, Colors.bright_white)
-                    for i in FRONT_PIXELS:
-                        self.pixels.setRGBW(i, Colors.soft_white)
-                elif self.mode is MODE_COLOR:
-                    for i in BAR_TOP_PIXELS:
-                        self.pixels.setRGBW(i, Colors.soft_white)
-                    for i in BAR_BOTTOM_PIXELS:
-                        self.pixels.setRGBW(i, Colors.soft_white)
-                    self.mode_object.tick()
-                elif self.mode is MODE_RAINBOW:
-                    self.mode_object.tick()
-                elif self.mode is MODE_FIRE:
-                    self.mode_object.tick()
-                elif self.mode is MODE_WAVE:
-                    self.mode_object.tick()
-            else:
-                self.pixels.blackout()
-                self.mode = MODE_ON
+    def __run_thread(self):
+        while self.is_running:
             self.pixels.render()
-            # time.sleep(0.01)
+
+    def start(self):
+        self.thread = threading.Thread(target=threadFunc)
+        self.is_running = True
+        self.thread.start()
+
+    def stop(self):
+        if self.is_running:
+            self.is_running = False
+            self.thread.join()
+            self.thread = None
+

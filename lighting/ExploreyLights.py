@@ -75,7 +75,7 @@ class ExploreyLights(object):
             self.pixels.render()
 
     def start(self):
-        self.thread = threading.Thread(target=threadFunc)
+        self.thread = threading.Thread(target=self.__run_thread)
         self.is_running = True
         self.thread.start()
 

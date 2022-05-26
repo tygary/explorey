@@ -33,7 +33,8 @@ class ExploreyLights(object):
 
     def setup_mode(self):
         self.mode_object = MultiRoutine([
-            WaveRoutine(self.pixels, ALL_PIXELS, [Colors.mid_green, Colors.mixed_blue, Colors.light_green, Colors.red], delay=1000)
+            BleuRoutine(self.pixels, ALL_PIXELS)
+#             WaveRoutine(self.pixels, ALL_PIXELS, [Colors.mid_green, Colors.mixed_blue, Colors.light_green, Colors.red], delay=1000),
         ])
 
     def change_mode(self):

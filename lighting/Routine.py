@@ -14,7 +14,7 @@ class Routine(object):
         self.addresses = addresses
 
     def tick(self):
-        print "tick"
+        print("tick")
 
 
 class TimeRoutine(Routine):

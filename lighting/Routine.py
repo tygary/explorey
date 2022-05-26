@@ -216,7 +216,7 @@ class MultiRoutine(Routine):
         Routine.__init__(self, None, [])
         self.routines = routines
         for routine in self.routines:
-            print routine.addresses
+            print(routine.addresses)
 
     def tick(self):
         for routine in self.routines:

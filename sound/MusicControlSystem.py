@@ -1,4 +1,4 @@
-from MusicPlayer import MusicPlayer
+from sound.MusicPlayer import MusicPlayer
 import time
 
 class MusicControlSystem(object):

@@ -222,6 +222,10 @@ class MultiRoutine(Routine):
         for routine in self.routines:
             routine.tick()
 
+MAIN_COLOR = 0
+ACCENT_COLOR_1 = 1
+ACCENT_COLOR_2 = 2
+ACCENT_COLOR_3 = 3
 
 LIGHT_UNSET = -1
 LIGHT_FADE = 0

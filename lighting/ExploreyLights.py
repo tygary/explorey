@@ -42,7 +42,7 @@ class ExploreyLights(object):
         self.mode_object = None
         self.setup_mode()
 
-    def setup_mode(self, is_print_machine = True):
+    def setup_mode(self, is_print_machine):
         self.is_print_machine = is_print_machine
 #         if is_print_machine:
 #             self.mode_object = MultiRoutine([

@@ -189,8 +189,7 @@ class PulseRoutine(Routine):
             red = 0
             green = 0
             blue = 0
-            white = 0
-            self.values[i] = [red, green, blue, white]
+            self.values[i] = [red, green, blue]
 
     def tick(self):
         if self.ratio >= 1:
@@ -206,8 +205,7 @@ class PulseRoutine(Routine):
             self.values[i][0] = int(self.ratio * self.color[0])
             self.values[i][1] = int(self.ratio * self.color[1])
             self.values[i][2] = int(self.ratio * self.color[2])
-            self.values[i][3] = int(self.ratio * self.color[3])
-            self.pixels.setRGBW(i, self.values[i])
+            self.pixels.setColor(i, self.values[i])
 
 
 class MultiRoutine(Routine):

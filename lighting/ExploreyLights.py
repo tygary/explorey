@@ -44,7 +44,7 @@ class ExploreyLights(object):
 
     def setup_mode(self, is_print_machine = True):
         self.is_print_machine = is_print_machine
-        if is_print_machine:
+#         if is_print_machine:
 #             self.mode_object = MultiRoutine([
 #                 CyclingMultiRoutine([
 #                     [
@@ -76,12 +76,12 @@ class ExploreyLights(object):
 #                 WaveRoutine(self.pixels, LILI_PIXELS, [Colors.mixed_blue, Colors.light_green, Colors.mid_green, Colors.red]),
 #     #             WaveRoutine(self.pixels, ALL_PIXELS, [Colors.mid_green, Colors.mixed_blue, Colors.light_green, Colors.red], delay=1000),
 #             ])
-        else:
-            self.mode_object = MultiRoutine([
-                FireRoutine(self.pixels, DAVE_PIXELS),
+#         else:
+        self.mode_object = MultiRoutine([
+            FireRoutine(self.pixels, DAVE_PIXELS),
 #                 BleuRoutine(self.pixels, TYLER_PIXELS),
-    #             WaveRoutine(self.pixels, ALL_PIXELS, [Colors.mid_green, Colors.mixed_blue, Colors.light_green, Colors.red], delay=1000),
-            ])
+#             WaveRoutine(self.pixels, ALL_PIXELS, [Colors.mid_green, Colors.mixed_blue, Colors.light_green, Colors.red], delay=1000),
+        ])
 
     def update_war_routine(self, routine):
         if not self.is_print_machine:

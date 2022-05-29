@@ -18,7 +18,7 @@ class Routine(object):
 
 
 class TimeRoutine(Routine):
-    now = None
+    now = 0
 
     def __init__(self, pixels, addresses):
         Routine.__init__(self, pixels, addresses)
@@ -108,7 +108,7 @@ class FireRoutine(Routine):
 
 
 class WaveRoutine(TimeRoutine):
-    next_action = None
+    next_action = 0
     pixel_wait_time = 100
     wave_wait_time = 10000
     pixel_fade_time = 1000

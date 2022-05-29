@@ -1,4 +1,4 @@
-from sound.MusicControlSystem import MusicControlSystem
+# from sound.MusicControlSystem import MusicControlSystem
 from lighting.ExploreyLights import ExploreyLights
 from lighting.WarGame import WarGame
 

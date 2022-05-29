@@ -222,6 +222,32 @@ class MultiRoutine(Routine):
         for routine in self.routines:
             routine.tick()
 
+
+class CyclingMultiRoutine(Routine):
+    duration = 10000
+    next_change = 0
+    current_routine = None
+    current_routine_index = 0
+    routines = []
+
+    def __init__(self, routines, duration):
+        Routine.__init__(self, None, [])
+        self.duration = duration
+        self.next_change = int(round(time.time() * 1000)) + duration
+        self.current_routine = routines[self.current_routine_index]
+        self.routines = routines
+
+    def tick(self):
+        now = int(round(time.time() * 1000))
+        if now > self.next_change:
+            self.current_routine_index += 1
+            if self.current_routine_index >= len(self.routines):
+                self.current_routine_index = 0
+            self.current_routine = self.routines[self.current_routine_index]
+        self.current_routine.tick()
+
+
+
 MAIN_COLOR = 0
 ACCENT_COLOR_1 = 1
 ACCENT_COLOR_2 = 2

@@ -9,33 +9,67 @@ import threading
 
 NUM_PIXELS = 50
 
-MODE_ON = 0
-MODE_COLOR = 1
-MODE_RAINBOW = 2
-MODE_FIRE = 3
-MODE_WAVE = 4
-NUM_MODES = 5
+LILI_START = 10
+LILI_END = 18
+DANIELLE_START = 18
+DANIELLE_END = 30
+NAOMI_START = 0
+NAOMI_END = 10
+DAVE_START = 26
+DAVE_END = 40
+TYLER_START = 41
+TYLER_END = 50
 
-ALL_PIXELS = range(0, 50)
+ALL_PIXELS = range(0, NUM_PIXELS)
 
-# BAR_TOP_PIXELS = range(51, 149)
+LILI_PIXELS = range(LILI_START, LILI_END)
+DANIELLE_PIXELS = range(DANIELLE_START, DANIELLE_END)
+NAOMI_PIXELS = range(NAOMI_START, NAOMI_END)
+DAVE_PIXELS = range(DAVE_START, DAVE_END)
+TYLER_PIXELS = range(TYLER_START, TYLER_END)
+
+WAR_ROUTINE_INDEX = 0
 
 class ExploreyLights(object):
     pixels = None
     thread = None
     mode = 0
     delay = 0.01
+    is_print_machine = None
 
     def __init__(self):
         self.pixels = PixelControl(NUM_PIXELS)
         self.mode_object = None
         self.setup_mode()
 
-    def setup_mode(self):
-        self.mode_object = MultiRoutine([
-            BleuRoutine(self.pixels, ALL_PIXELS)
-#             WaveRoutine(self.pixels, ALL_PIXELS, [Colors.mid_green, Colors.mixed_blue, Colors.light_green, Colors.red], delay=1000),
-        ])
+    def setup_mode(self, is_print_machine = True):
+        self.is_print_machine = is_print_machine
+        if is_print_machine:
+            self.mode_object = MultiRoutine([
+                CyclingMultiRoutine([
+                    WaveRoutine(self.pixels, NAOMI_PIXELS, [Colors.mid_green, Colors.mixed_blue, Colors.light_green, Colors.red], delay=1000),
+                    RainbowRoutine(self.pixels, NAOMI_PIXELS),
+                    WaveRoutine(self.pixels, NAOMI_PIXELS, [Colors.mixed_blue, Colors.light_green, Colors.mid_green, Colors.red]),
+                    FireRoutine(self.pixels, NAOMI_PIXELS)
+                    PulseRoutine(self.pixels, NAOMI_PIXELS, Colors.mid_green)
+                ], 5000)
+                BleuRoutine(self.pixels, DANIELLE_PIXELS)
+                WaveRoutine(self.pixels, LILI_PIXELS, [Colors.mixed_blue, Colors.light_green, Colors.mid_green, Colors.red]),
+    #             WaveRoutine(self.pixels, ALL_PIXELS, [Colors.mid_green, Colors.mixed_blue, Colors.light_green, Colors.red], delay=1000),
+            ])
+        else:
+            self.mode_object = MultiRoutine([
+                BleuRoutine(self.pixels, DAVE_PIXELS)
+                BleuRoutine(self.pixels, TYLER_PIXELS)
+                BleuRoutine(self.pixels, NAOMI_PIXELS)
+                BleuRoutine(self.pixels, DANIELLE_PIXELS)
+                BleuRoutine(self.pixels, LILI_PIXELS)
+    #             WaveRoutine(self.pixels, ALL_PIXELS, [Colors.mid_green, Colors.mixed_blue, Colors.light_green, Colors.red], delay=1000),
+            ])
+
+    def update_war_routine(self, routine):
+        if not is_print_machine:
+            self.mode_object.routines[WAR_ROUTINE_INDEX] = routine
 
     def change_mode(self):
         self.mode = (self.mode + 1) % NUM_MODES

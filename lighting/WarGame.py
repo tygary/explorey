@@ -2,7 +2,7 @@ from lighting.GenericButtonController import GenericButtonController
 
 
 MAX_POINTS = 1000
-
+DAVE_PIXELS = range(DAVE_START, DAVE_END)
 
 class WarGame(object):
 

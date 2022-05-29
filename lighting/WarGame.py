@@ -1,7 +1,7 @@
 from lighting.GenericButtonController import GenericButtonController
 from lighting.ExploreyLights import *
 
-MAX_POINTS = 1000
+MAX_POINTS = 10
 
 RED_BUTTON_PIN = 18
 BLUE_BUTTON_PIN = 22
@@ -29,19 +29,19 @@ class WarGame(object):
     def on_red_button(self, pin):
         if self.points < MAX_POINTS:
             self.points += 1
+            print("Red button: %s" % self.points)
         self.render()
 
     def on_blue_button(self, pin):
         if (self.points > (MAX_POINTS * -1)):
             self.points -= 1
+            print("Blue button: %s" % self.points)
         self.render()
 
     def render(self):
-
-        perc_lost = self.points + MAX_POINTS / (MAX_POINTS * 2)
+        perc_lost = (self.points + MAX_POINTS) / (MAX_POINTS * 2)
 
         middle_pixel = round(perc_lost * self.num_pixels)
-
 
         routine = MultiRoutine([
             WaveRoutine(self.explorey_lights.pixels, range(self.pixel_start, middle_pixel), [Colors.red]),

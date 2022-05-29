@@ -57,10 +57,10 @@ class WarGame(object):
         middle_pixel = round(perc_lost * self.num_pixels)
 
         routine = MultiRoutine([
-            WaveRoutine(self.pixels, range(self.pixel_start, middle_pixel), [Colors.red]),
+            WaveRoutine(self.explorey_lights.pixels, range(self.pixel_start, middle_pixel), [Colors.red]),
 #             PulseRoutine(self.explorey_lights.pixels, range(self.pixel_start, middle_pixel), Colors.red),
             RainbowRoutine(self.explorey_lights.pixels, [middle_pixel]),
-            WaveRoutine(self.pixels, range(middle_pixel + 1, self.pixel_end), [Colors.mixed_blue, Colors.yellow]),
+            WaveRoutine(self.explorey_lights.pixels, range(middle_pixel + 1, self.pixel_end), [Colors.mixed_blue, Colors.yellow]),
 #             PulseRoutine(self.explorey_lights.pixels, range(middle_pixel + 1, self.pixel_end), Colors.mixed_blue),
         ])
         self.explorey_lights.update_war_routine(routine)

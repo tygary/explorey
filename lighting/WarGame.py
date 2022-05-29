@@ -57,8 +57,6 @@ class WarGame(object):
                 print("Advancing...")
                 self.next_advance = now + self.advance_duration
                 self.render()
-                self.mode_object.tick()
-                self.pixels.render()
             time.sleep(self.delay)
 
 

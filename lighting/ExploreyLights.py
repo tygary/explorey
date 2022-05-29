@@ -50,19 +50,19 @@ class ExploreyLights(object):
                     WaveRoutine(self.pixels, NAOMI_PIXELS, [Colors.mid_green, Colors.mixed_blue, Colors.light_green, Colors.red], delay=1000),
                     RainbowRoutine(self.pixels, NAOMI_PIXELS),
                     WaveRoutine(self.pixels, NAOMI_PIXELS, [Colors.mixed_blue, Colors.light_green, Colors.mid_green, Colors.red]),
-                    FireRoutine(self.pixels, NAOMI_PIXELS)
+                    FireRoutine(self.pixels, NAOMI_PIXELS),
                     PulseRoutine(self.pixels, NAOMI_PIXELS, Colors.mid_green)
-                ], 5000)
-                BleuRoutine(self.pixels, DANIELLE_PIXELS)
+                ], 5000),
+                BleuRoutine(self.pixels, DANIELLE_PIXELS),
                 WaveRoutine(self.pixels, LILI_PIXELS, [Colors.mixed_blue, Colors.light_green, Colors.mid_green, Colors.red]),
     #             WaveRoutine(self.pixels, ALL_PIXELS, [Colors.mid_green, Colors.mixed_blue, Colors.light_green, Colors.red], delay=1000),
             ])
         else:
             self.mode_object = MultiRoutine([
-                BleuRoutine(self.pixels, DAVE_PIXELS)
-                BleuRoutine(self.pixels, TYLER_PIXELS)
-                BleuRoutine(self.pixels, NAOMI_PIXELS)
-                BleuRoutine(self.pixels, DANIELLE_PIXELS)
+                BleuRoutine(self.pixels, DAVE_PIXELS),
+                BleuRoutine(self.pixels, TYLER_PIXELS),
+                BleuRoutine(self.pixels, NAOMI_PIXELS),
+                BleuRoutine(self.pixels, DANIELLE_PIXELS),
                 BleuRoutine(self.pixels, LILI_PIXELS)
     #             WaveRoutine(self.pixels, ALL_PIXELS, [Colors.mid_green, Colors.mixed_blue, Colors.light_green, Colors.red], delay=1000),
             ])

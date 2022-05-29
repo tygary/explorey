@@ -121,7 +121,7 @@ class WaveRoutine(TimeRoutine):
     delay = 0
 
     def __init__(self, pixels, addresses, colors, starting_color=None, delay=0):
-        Routine.__init__(self, pixels, addresses)
+        TimeRoutine.__init__(self, pixels, addresses)
         self.colors = colors[:]
         self.lights = []
         self.delay = delay

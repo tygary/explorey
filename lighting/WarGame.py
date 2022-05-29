@@ -17,7 +17,6 @@ class WarGame(object):
     buttons = None
 
     def __init__(self, pixels, explorey_lights):
-        self.pixels = pixels
         self.explorey_lights = explorey_lights
         self.pixel_start = DAVE_START
         self.pixel_end = DAVE_END
@@ -29,26 +28,26 @@ class WarGame(object):
         self.buttons.add_event_detection(BLUE_BUTTON_PIN, self.on_blue_button)
 
     def on_red_button(self):
-        if points < MAX_POINTS:
-            points += 1
+        if self.points < MAX_POINTS:
+            self.points += 1
         self.render()
 
     def on_blue_button(self):
-        if (points > (MAX_POINTS * -1)):
-            points -= 1
+        if (self.points > (MAX_POINTS * -1)):
+            self.points -= 1
         self.render()
 
     def render(self):
 
-        perc_lost = points + MAX_POINTS / (MAX_POINTS * 2)
+        perc_lost = self.points + MAX_POINTS / (MAX_POINTS * 2)
 
         middle_pixel = round(perc_lost * self.num_pixels)
 
 
         routine = MultiRoutine([
-            WaveRoutine(self.pixels, range(self.pixel_start, middle_pixel), [Colors.red]),
-            RainbowRoutine(self.pixels, [middle_pixel]),
-            WaveRoutine(self.pixels, range(middle_pixel + 1, self.pixel_end), [Colors.mixed_blue, Colors.yellow]),
+            WaveRoutine(self.explorey_lights.pixels, range(self.pixel_start, middle_pixel), [Colors.red]),
+            RainbowRoutine(self.explorey_lights.pixels, [middle_pixel]),
+            WaveRoutine(self.explorey_lights.pixels, range(middle_pixel + 1, self.pixel_end), [Colors.mixed_blue, Colors.yellow]),
         ])
         self.explorey_lights.update_war_routine(routine)
 

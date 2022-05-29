@@ -120,11 +120,12 @@ class WaveRoutine(TimeRoutine):
     running = True
     delay = 0
 
-    def __init__(self, pixels, addresses, colors, starting_color=None, delay=0):
+    def __init__(self, pixels, addresses, colors, starting_color=None, delay=0, wave_wait_time=10000):
         TimeRoutine.__init__(self, pixels, addresses)
         self.colors = colors[:]
         self.lights = []
         self.delay = delay
+        self.wave_wait_time = wave_wait_time
         if starting_color:
             self.starting_color = starting_color[:]
         else:

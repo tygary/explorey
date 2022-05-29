@@ -9,13 +9,12 @@ BLUE_BUTTON_PIN = 22
 class WarGame(object):
     pixels = None
     explorey_lights = None
+    points = 0
+    pixel_start = 0
+    pixel_end = 0
+    num_pixels = 0
 
-	points = 0
-	pixel_start = 0
-	pixel_end = 0
-	num_pixels = 0
-
-	buttons = None
+    buttons = None
 
 	def __init__(self, pixels, explorey_lights):
         self.pixels = pixels

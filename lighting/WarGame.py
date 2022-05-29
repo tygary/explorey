@@ -22,6 +22,8 @@ class WarGame(object):
     buttons = None
     delay = 0.25
 
+    prev_middle_pixel = 0
+
     def __init__(self, explorey_lights):
         self.explorey_lights = explorey_lights
         self.pixel_start = DAVE_START
@@ -65,14 +67,16 @@ class WarGame(object):
 
         middle_pixel = round(perc_lost * self.num_pixels)
 
-        routine = MultiRoutine([
-            WaveRoutine(self.explorey_lights.pixels, range(self.pixel_start, middle_pixel), [Colors.red]),
-#             PulseRoutine(self.explorey_lights.pixels, range(self.pixel_start, middle_pixel), Colors.red),
-            RainbowRoutine(self.explorey_lights.pixels, [middle_pixel]),
-            WaveRoutine(self.explorey_lights.pixels, range(middle_pixel + 1, self.pixel_end), [Colors.mixed_blue, Colors.yellow]),
-#             PulseRoutine(self.explorey_lights.pixels, range(middle_pixel + 1, self.pixel_end), Colors.mixed_blue),
-        ])
-        self.explorey_lights.update_war_routine(routine)
+        if (middle_pixel is not self.prev_middle_pixel):
+            routine = MultiRoutine([
+                WaveRoutine(self.explorey_lights.pixels, range(self.pixel_start, middle_pixel), [Colors.red]),
+    #             PulseRoutine(self.explorey_lights.pixels, range(self.pixel_start, middle_pixel), Colors.red),
+                RainbowRoutine(self.explorey_lights.pixels, [middle_pixel]),
+                WaveRoutine(self.explorey_lights.pixels, range(middle_pixel + 1, self.pixel_end), [Colors.mixed_blue, Colors.yellow]),
+    #             PulseRoutine(self.explorey_lights.pixels, range(middle_pixel + 1, self.pixel_end), Colors.mixed_blue),
+            ])
+            self.explorey_lights.update_war_routine(routine)
+            self.prev_middle_pixel = middle_pixel
 
     def start(self):
         self.thread = threading.Thread(target=self.__advance_thread)

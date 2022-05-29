@@ -241,9 +241,9 @@ class CyclingMultiRoutine(Routine):
         now = int(round(time.time() * 1000))
         if now > self.next_change:
             self.current_routine_index += 1
-            if self.current_routine_index >= len(self.routines):
-                self.current_routine_index = 0
+            self.current_routine_index = self.current_routine_index % len(self.routines)
             self.current_routine = self.routines[self.current_routine_index]
+            self.next_change = now + duration
         self.current_routine.tick()
 
 

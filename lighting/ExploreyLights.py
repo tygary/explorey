@@ -38,12 +38,12 @@ class ExploreyLights(object):
     is_print_machine = None
 
     def __init__(self, is_print_machine=True):
+        self.is_print_machine = is_print_machine
         self.pixels = PixelControl(NUM_PIXELS)
         self.mode_object = None
         self.setup_mode()
 
-    def setup_mode(self, is_print_machine):
-        self.is_print_machine = is_print_machine
+    def setup_mode(self):
 #         if is_print_machine:
 #             self.mode_object = MultiRoutine([
 #                 CyclingMultiRoutine([

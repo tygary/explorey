@@ -37,7 +37,7 @@ class ExploreyLights(object):
     delay = 0.01
     is_print_machine = None
 
-    def __init__(self):
+    def __init__(self, is_print_machine=True):
         self.pixels = PixelControl(NUM_PIXELS)
         self.mode_object = None
         self.setup_mode()

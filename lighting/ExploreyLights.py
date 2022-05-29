@@ -79,7 +79,7 @@ class ExploreyLights(object):
         else:
             self.mode_object = MultiRoutine([
                 FireRoutine(self.pixels, DAVE_PIXELS),
-                BleuRoutine(self.pixels, TYLER_PIXELS),
+#                 BleuRoutine(self.pixels, TYLER_PIXELS),
     #             WaveRoutine(self.pixels, ALL_PIXELS, [Colors.mid_green, Colors.mixed_blue, Colors.light_green, Colors.red], delay=1000),
             ])
 

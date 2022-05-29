@@ -48,7 +48,7 @@ class ExploreyLights(object):
             self.mode_object = MultiRoutine([
                 CyclingMultiRoutine([
                     [
-                        WaveRoutine(self.pixels, NAOMI_PIXELS, [Colors.mid_green, Colors.mixed_blue, Colors.light_green, Colors.red], wave_wait_time=5000,
+                        WaveRoutine(self.pixels, NAOMI_PIXELS, [Colors.mid_green, Colors.mixed_blue, Colors.light_green, Colors.red], wave_wait_time=5000),
                         10000
                     ],
                     [

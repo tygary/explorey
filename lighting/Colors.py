@@ -5,6 +5,8 @@ class Colors(object):
     green = [0, 255, 0, 0]
     blue = [0, 0, 255, 0]
 
+    yellow = [255,155,0]
+
     bright_white = [100, 100, 100, 200]
     soft_white = [20, 20, 20, 100]
 

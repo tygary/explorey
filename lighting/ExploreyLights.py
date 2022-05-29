@@ -49,19 +49,19 @@ class ExploreyLights(object):
                 CyclingMultiRoutine([
                     [
                         WaveRoutine(self.pixels, NAOMI_PIXELS, [Colors.mid_green, Colors.mixed_blue, Colors.light_green, Colors.red], wave_wait_time=5000),
-                        10000
+                        30000
                     ],
                     [
                         RainbowRoutine(self.pixels, NAOMI_PIXELS),
-                        20000
+                        5000
                     ],
                     [
                         WaveRoutine(self.pixels, NAOMI_PIXELS, [Colors.mixed_blue, Colors.light_green, Colors.mid_green, Colors.red], wave_wait_time=3000),
-                        10000
+                        30000
                     ],
                     [
                         WaveRoutine(self.pixels, NAOMI_PIXELS, [Colors.mid_green, Colors.mixed_blue, Colors.light_green, Colors.red], wave_wait_time=5000),
-                        10000
+                        30000
                     ],
                     [
                         FireRoutine(self.pixels, NAOMI_PIXELS),

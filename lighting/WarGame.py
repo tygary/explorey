@@ -1,32 +1,33 @@
 from lighting.GenericButtonController import GenericButtonController
-
+from lighting.ExploreyLights import *
 
 MAX_POINTS = 1000
-DAVE_PIXELS = range(DAVE_START, DAVE_END)
+
+RED_BUTTON_PIN = 18
+BLUE_BUTTON_PIN = 22
 
 class WarGame(object):
+    pixels = None
+    explorey_lights = None
 
 	points = 0
 	pixel_start = 0
 	pixel_end = 0
 	num_pixels = 0
-	red_button_pin = 0
-    blue_button_pin = 0
 
 	buttons = None
 
-	def __init__(self, pixels, pixel_start, pixel_end, red_button_pin, blue_button_pin):
+	def __init__(self, pixels, explorey_lights):
         self.pixels = pixels
-        self.pixel_start = pixel_start
-        self.pixel_end = pixel_end
-        self.num_pixels = pixel_end - pixel_start
-        red_button_pin = red_button_pin
-        blue_button_pin = blue_button_pin
+        self.explorey_lights = explorey_lights
+        self.pixel_start = DAVE_START
+        self.pixel_end = DAVE_END
+        self.num_pixels = DAVE_END - DAVE_START
 
         self.buttons = GenericButtonController()
 
-       	self.buttons.add_event_detection(self.red_button_pin, self.on_red_button)
-       	self.buttons.add_event_detection(self.blue_button_pin, self.on_blue_button)
+       	self.buttons.add_event_detection(RED_BUTTON_PIN, self.on_red_button)
+       	self.buttons.add_event_detection(BLUE_BUTTON_PIN, self.on_blue_button)
 
     def on_red_button(self):
     	if points < MAX_POINTS:
@@ -39,7 +40,20 @@ class WarGame(object):
 		self.render()
 
 	def render(self):
-        print("render")
+
+	    perc_lost = points + MAX_POINTS / (MAX_POINTS * 2)
+
+	    middle_pixel = round(perc_lost * self.num_pixels)
+
+
+        routine = MultiRoutine([
+            WaveRoutine(self.pixels, range(self.pixel_start, middle_pixel), [Colors.red]),
+            RainbowRoutine(self.pixels, [middle_pixel]),
+            WaveRoutine(self.pixels, range(middle_pixel + 1, self.pixel_end, [Colors.mixed_blue, Colors.yellow]),
+        ])
+        self.explorey_lights.update_war_routine(routine)
+
+
 		
 
 

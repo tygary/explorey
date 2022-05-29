@@ -243,7 +243,7 @@ class CyclingMultiRoutine(Routine):
             self.current_routine_index += 1
             self.current_routine_index = self.current_routine_index % len(self.routines)
             self.current_routine = self.routines[self.current_routine_index][0]
-            self.duration = routines[self.current_routine_index][1]
+            self.duration = self.routines[self.current_routine_index][1]
             self.next_change = now + self.duration
         self.current_routine.tick()
 

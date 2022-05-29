@@ -45,37 +45,37 @@ class ExploreyLights(object):
     def setup_mode(self, is_print_machine = True):
         self.is_print_machine = is_print_machine
         if is_print_machine:
-            self.mode_object = MultiRoutine([
-                CyclingMultiRoutine([
-                    [
-                        WaveRoutine(self.pixels, NAOMI_PIXELS, [Colors.mid_green, Colors.mixed_blue, Colors.light_green, Colors.red], wave_wait_time=5000),
-                        30000
-                    ],
-                    [
-                        RainbowRoutine(self.pixels, NAOMI_PIXELS),
-                        5000
-                    ],
-                    [
-                        WaveRoutine(self.pixels, NAOMI_PIXELS, [Colors.mixed_blue, Colors.light_green, Colors.mid_green, Colors.red], wave_wait_time=3000),
-                        30000
-                    ],
-                    [
-                        WaveRoutine(self.pixels, NAOMI_PIXELS, [Colors.mid_green, Colors.mixed_blue, Colors.light_green, Colors.red], wave_wait_time=5000),
-                        30000
-                    ],
-                    [
-                        FireRoutine(self.pixels, NAOMI_PIXELS),
-                        20000
-                    ],
-                    [
-                        PulseRoutine(self.pixels, NAOMI_PIXELS, Colors.mid_green),
-                        5000
-                    ],
-                ]),
-                BleuRoutine(self.pixels, DANIELLE_PIXELS),
-                WaveRoutine(self.pixels, LILI_PIXELS, [Colors.mixed_blue, Colors.light_green, Colors.mid_green, Colors.red]),
-    #             WaveRoutine(self.pixels, ALL_PIXELS, [Colors.mid_green, Colors.mixed_blue, Colors.light_green, Colors.red], delay=1000),
-            ])
+#             self.mode_object = MultiRoutine([
+#                 CyclingMultiRoutine([
+#                     [
+#                         WaveRoutine(self.pixels, NAOMI_PIXELS, [Colors.mid_green, Colors.mixed_blue, Colors.light_green, Colors.red], wave_wait_time=5000),
+#                         30000
+#                     ],
+#                     [
+#                         RainbowRoutine(self.pixels, NAOMI_PIXELS),
+#                         5000
+#                     ],
+#                     [
+#                         WaveRoutine(self.pixels, NAOMI_PIXELS, [Colors.mixed_blue, Colors.light_green, Colors.mid_green, Colors.red], wave_wait_time=3000),
+#                         30000
+#                     ],
+#                     [
+#                         WaveRoutine(self.pixels, NAOMI_PIXELS, [Colors.mid_green, Colors.mixed_blue, Colors.light_green, Colors.red], wave_wait_time=5000),
+#                         30000
+#                     ],
+#                     [
+#                         FireRoutine(self.pixels, NAOMI_PIXELS),
+#                         20000
+#                     ],
+#                     [
+#                         PulseRoutine(self.pixels, NAOMI_PIXELS, Colors.mid_green),
+#                         5000
+#                     ],
+#                 ]),
+#                 BleuRoutine(self.pixels, DANIELLE_PIXELS),
+#                 WaveRoutine(self.pixels, LILI_PIXELS, [Colors.mixed_blue, Colors.light_green, Colors.mid_green, Colors.red]),
+#     #             WaveRoutine(self.pixels, ALL_PIXELS, [Colors.mid_green, Colors.mixed_blue, Colors.light_green, Colors.red], delay=1000),
+#             ])
         else:
             self.mode_object = MultiRoutine([
                 FireRoutine(self.pixels, DAVE_PIXELS),

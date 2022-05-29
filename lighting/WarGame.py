@@ -1,7 +1,7 @@
 from lighting.GenericButtonController import GenericButtonController
 from lighting.ExploreyLights import *
 
-MAX_POINTS = 10
+MAX_POINTS = 1000
 
 RED_BUTTON_PIN = 18
 BLUE_BUTTON_PIN = 22

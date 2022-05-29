@@ -54,7 +54,7 @@ class WarGame(object):
     def __advance_thread(self):
         while self.is_running:
             now = int(round(time.time() * 1000))
-            if now > self.next_advance:
+            if now > self.next_advance and self.points < MAX_POINTS:
                 self.points += 1
                 print("Advancing...")
                 self.next_advance = now + self.advance_duration
@@ -67,7 +67,7 @@ class WarGame(object):
 
         middle_pixel = round(perc_lost * self.num_pixels)
 
-        if (middle_pixel is not self.prev_middle_pixel):
+        if (middle_pixel != self.prev_middle_pixel):
             routine = MultiRoutine([
                 WaveRoutine(self.explorey_lights.pixels, range(self.pixel_start, middle_pixel), [Colors.red]),
     #             PulseRoutine(self.explorey_lights.pixels, range(self.pixel_start, middle_pixel), Colors.red),

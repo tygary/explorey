@@ -41,14 +41,14 @@ class WarGame(object):
     def render(self):
 
         perc_lost = points + MAX_POINTS / (MAX_POINTS * 2)
-    
+
         middle_pixel = round(perc_lost * self.num_pixels)
 
 
         routine = MultiRoutine([
             WaveRoutine(self.pixels, range(self.pixel_start, middle_pixel), [Colors.red]),
             RainbowRoutine(self.pixels, [middle_pixel]),
-            WaveRoutine(self.pixels, range(middle_pixel + 1, self.pixel_end, [Colors.mixed_blue, Colors.yellow]),
+            WaveRoutine(self.pixels, range(middle_pixel + 1, self.pixel_end), [Colors.mixed_blue, Colors.yellow]),
         ])
         self.explorey_lights.update_war_routine(routine)
 

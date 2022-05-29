@@ -232,8 +232,8 @@ class CyclingMultiRoutine(Routine):
 
     def __init__(self, routinesWithDuration):
         Routine.__init__(self, None, [])
-        self.current_routine = routines[self.current_routine_index][0]
-        self.duration = routines[self.current_routine_index][1]
+        self.current_routine = routinesWithDuration[self.current_routine_index][0]
+        self.duration = routinesWithDuration[self.current_routine_index][1]
         self.next_change = int(round(time.time() * 1000)) + self.duration
         self.routines = routinesWithDuration
 

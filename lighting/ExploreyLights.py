@@ -68,7 +68,7 @@ class ExploreyLights(object):
                         20000
                     ],
                     [
-                        PulseRoutine(self.pixels, NAOMI_PIXELS, Colors.mid_green)
+                        PulseRoutine(self.pixels, NAOMI_PIXELS, Colors.mid_green),
                         5000
                     ],
                 ]),
@@ -80,9 +80,6 @@ class ExploreyLights(object):
             self.mode_object = MultiRoutine([
                 BleuRoutine(self.pixels, DAVE_PIXELS),
                 BleuRoutine(self.pixels, TYLER_PIXELS),
-                BleuRoutine(self.pixels, NAOMI_PIXELS),
-                BleuRoutine(self.pixels, DANIELLE_PIXELS),
-                BleuRoutine(self.pixels, LILI_PIXELS)
     #             WaveRoutine(self.pixels, ALL_PIXELS, [Colors.mid_green, Colors.mixed_blue, Colors.light_green, Colors.red], delay=1000),
             ])
 

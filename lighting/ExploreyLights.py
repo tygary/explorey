@@ -84,7 +84,7 @@ class ExploreyLights(object):
             ])
 
     def update_war_routine(self, routine):
-        if not is_print_machine:
+        if not self.is_print_machine:
             self.mode_object.routines[WAR_ROUTINE_INDEX] = routine
 
     def change_mode(self):

@@ -7,7 +7,6 @@ RED_BUTTON_PIN = 18
 BLUE_BUTTON_PIN = 22
 
 class WarGame(object):
-    pixels = None
     explorey_lights = None
     points = 0
     pixel_start = 0
@@ -16,7 +15,7 @@ class WarGame(object):
 
     buttons = None
 
-    def __init__(self, pixels, explorey_lights):
+    def __init__(self, explorey_lights):
         self.explorey_lights = explorey_lights
         self.pixel_start = DAVE_START
         self.pixel_end = DAVE_END
@@ -27,12 +26,12 @@ class WarGame(object):
         self.buttons.add_event_detection(RED_BUTTON_PIN, self.on_red_button)
         self.buttons.add_event_detection(BLUE_BUTTON_PIN, self.on_blue_button)
 
-    def on_red_button(self):
+    def on_red_button(self, pin):
         if self.points < MAX_POINTS:
             self.points += 1
         self.render()
 
-    def on_blue_button(self):
+    def on_blue_button(self, pin):
         if (self.points > (MAX_POINTS * -1)):
             self.points -= 1
         self.render()

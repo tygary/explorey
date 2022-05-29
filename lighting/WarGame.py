@@ -59,7 +59,7 @@ class WarGame(object):
         routine = MultiRoutine([
             WaveRoutine(self.pixels, range(self.pixel_start, middle_pixel), [Colors.red]),
 #             PulseRoutine(self.explorey_lights.pixels, range(self.pixel_start, middle_pixel), Colors.red),
-            RainbowRoutine(self.explorey_lights.pixels, [middle_pixel],
+            RainbowRoutine(self.explorey_lights.pixels, [middle_pixel]),
             WaveRoutine(self.pixels, range(middle_pixel + 1, self.pixel_end), [Colors.mixed_blue, Colors.yellow]),
 #             PulseRoutine(self.explorey_lights.pixels, range(middle_pixel + 1, self.pixel_end), Colors.mixed_blue),
         ])

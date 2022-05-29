@@ -16,6 +16,7 @@ lighting = ExploreyLights(is_print_machine=False)
 lighting.start()
 
 war = WarGame(lighting)
+war.start()
 
 while True:
     continue

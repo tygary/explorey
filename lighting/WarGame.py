@@ -16,6 +16,9 @@ class WarGame(object):
     advance_duration = 1000
     next_advance = 0
 
+    thread = None
+    is_running = False
+
     buttons = None
 
     def __init__(self, explorey_lights):
@@ -45,13 +48,15 @@ class WarGame(object):
             print("YOU WIN!")
         self.render()
 
-    def render(self):
+    def __advance_thread(self):
         now = int(round(time.time() * 1000))
         if now > self.next_advance:
             self.points += 1
             print("Advancing...")
             self.next_advance = now + self.advance_duration
+            self.render()
 
+    def render(self):
         perc_lost = (self.points + MAX_POINTS) / (MAX_POINTS * 2)
 
         middle_pixel = round(perc_lost * self.num_pixels)
@@ -65,7 +70,14 @@ class WarGame(object):
         ])
         self.explorey_lights.update_war_routine(routine)
 
+    def start(self):
+        self.thread = threading.Thread(target=self.__advance_thread)
+        self.is_running = True
+        self.thread.start()
 
-		
-
+    def stop(self):
+        if self.is_running:
+            self.is_running = False
+            self.thread.join()
+            self.thread = None
 

@@ -17,10 +17,10 @@ DANIELLE_END = 20
 NAOMI_START = 23
 NAOMI_END = 24
 # War
-DAVE_START = 50
-DAVE_END = 100
-TYLER_START = 0
-TYLER_END = 50
+DAVE_START = 0
+DAVE_END = 50
+TYLER_START = 50
+TYLER_END = 100
 # Beacon
 BEACON_START = 120
 BEACON_END = 200
@@ -54,8 +54,8 @@ class ExploreyLights(object):
         self.mode = mode
         if mode is MODE_PRINT:
             self.num_pixels = 50
-        elif mode is MODE_PRINT:
-            self.num_pixels = 50
+        elif mode is MODE_WAR:
+            self.num_pixels = 100
         else:
             self.num_pixels = 200
 

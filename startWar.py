@@ -12,7 +12,7 @@ print("Machine started, enter 'machine.stop()' before exiting")
 # music.play_cave_ambient()
 # print("Starting Music")
 
-lighting = ExploreyLights(is_print_machine=False)
+lighting = ExploreyLights(MODE_WAR)
 lighting.start()
 
 war = WarGame(lighting)

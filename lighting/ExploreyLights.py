@@ -19,6 +19,10 @@ DAVE_START = 50
 DAVE_END = 100
 TYLER_START = 0
 TYLER_END = 50
+BEACON_START = 700
+BEACON_END = 1080
+STEM_START = 0
+STEM_END =700
 
 ALL_PIXELS = range(0, NUM_PIXELS)
 
@@ -27,8 +31,14 @@ DANIELLE_PIXELS = range(DANIELLE_START, DANIELLE_END)
 NAOMI_PIXELS = range(NAOMI_START, NAOMI_END)
 DAVE_PIXELS = range(DAVE_START, DAVE_END)
 TYLER_PIXELS = range(TYLER_START, TYLER_END)
+BEACON_PIXELS = range(BEACON_START, BEACON_END)
+STEM_PIXELS = range(STEM_START, STEM_END)
 
 WAR_ROUTINE_INDEX = 0
+
+MODE_PRINT = 0
+MODE_WAR = 1
+MODE_BEACON = 2
 
 class ExploreyLights(object):
     pixels = None
@@ -37,14 +47,15 @@ class ExploreyLights(object):
     delay = 0.01
     is_print_machine = None
 
-    def __init__(self, is_print_machine=True):
+    def __init__(self, mode=MODE_PRINT):
         self.is_print_machine = is_print_machine
+        self.mode = mode
         self.pixels = PixelControl(NUM_PIXELS)
         self.mode_object = None
         self.setup_mode()
 
     def setup_mode(self):
-        if self.is_print_machine:
+        if self.mode is MODE_PRINT:
             self.mode_object = MultiRoutine([
                 CyclingMultiRoutine([
                     [
@@ -76,12 +87,21 @@ class ExploreyLights(object):
                 WaveRoutine(self.pixels, LILI_PIXELS, [Colors.mixed_blue, Colors.light_green, Colors.mid_green, Colors.red]),
     #             WaveRoutine(self.pixels, ALL_PIXELS, [Colors.mid_green, Colors.mixed_blue, Colors.light_green, Colors.red], delay=1000),
             ])
-        else:
+        elif self.mode is MODE_WAR:
             self.mode_object = MultiRoutine([
                 FireRoutine(self.pixels, DAVE_PIXELS),
     #                 BleuRoutine(self.pixels, TYLER_PIXELS),
     #             WaveRoutine(self.pixels, ALL_PIXELS, [Colors.mid_green, Colors.mixed_blue, Colors.light_green, Colors.red], delay=1000),
             ])
+        else:
+            self.mode_object = MultiRoutine([
+                PulseRoutine(self.pixels, BEACON_PIXELS, Colors.mid_green),
+                WaveRoutine(self.pixels, STEM_PIXELS, [Colors.yellow]),
+#                 PulseRoutine(self.pixels, STEM_PIXELS, Colors.yellow),
+#                             FireRoutine(self.pixels, DAVE_PIXELS),
+#                                 BleuRoutine(self.pixels, TYLER_PIXELS),
+#                             WaveRoutine(self.pixels, ALL_PIXELS, [Colors.mid_green, Colors.mixed_blue, Colors.light_green, Colors.red], delay=1000),
+                        ])
 
     def update_war_routine(self, routine):
         if not self.is_print_machine:

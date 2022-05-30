@@ -1,6 +1,6 @@
 from printer.Explorey import Explorey
 from sound.MusicControlSystem import MusicControlSystem
-from lighting.ExploreyLights import ExploreyLights
+from lighting.ExploreyLights import *
 
 machine = Explorey()
 machine.start()
@@ -12,7 +12,7 @@ music = MusicControlSystem()
 music.play_cave_ambient()
 print("Starting Music")
 
-lighting = ExploreyLights()
+lighting = ExploreyLights(MODE_PRINT)
 lighting.start()
 
 while True:

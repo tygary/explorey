@@ -1,5 +1,5 @@
 # from sound.MusicControlSystem import MusicControlSystem
-from lighting.ExploreyLights import ExploreyLights
+from lighting.ExploreyLights import *
 from lighting.WarGame import WarGame
 
 # machine = Explorey()

@@ -1,4 +1,4 @@
-from lighting.ExploreyLights import ExploreyLights
+from lighting.ExploreyLights import *
 
 print("Machine started, enter 'machine.stop()' before exiting")
 

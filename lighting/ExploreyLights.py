@@ -9,16 +9,19 @@ import threading
 
 NUM_PIXELS = 200
 
+# Print
 LILI_START = 21
 LILI_END = 22
 DANIELLE_START = 0
 DANIELLE_END = 20
 NAOMI_START = 23
 NAOMI_END = 24
+# War
 DAVE_START = 50
 DAVE_END = 100
 TYLER_START = 0
 TYLER_END = 50
+# Beacon
 BEACON_START = 120
 BEACON_END = 200
 STEM_START = 0
@@ -45,10 +48,18 @@ class ExploreyLights(object):
     thread = None
     mode = 0
     delay = 0.01
+    num_pixels = 0
 
     def __init__(self, mode=MODE_PRINT):
         self.mode = mode
-        self.pixels = PixelControl(NUM_PIXELS)
+        if mode is MODE_PRINT:
+            self.num_pixels = 50
+        elif mode is MODE_PRINT:
+            self.num_pixels = 50
+        else:
+            self.num_pixels = 200
+
+        self.pixels = PixelControl(self.num_pixels)
         self.mode_object = None
         self.setup_mode()
 
@@ -88,18 +99,14 @@ class ExploreyLights(object):
         elif self.mode is MODE_WAR:
             self.mode_object = MultiRoutine([
                 FireRoutine(self.pixels, DAVE_PIXELS),
-    #                 BleuRoutine(self.pixels, TYLER_PIXELS),
+                BleuRoutine(self.pixels, TYLER_PIXELS),
     #             WaveRoutine(self.pixels, ALL_PIXELS, [Colors.mid_green, Colors.mixed_blue, Colors.light_green, Colors.red], delay=1000),
             ])
         else:
             self.mode_object = MultiRoutine([
                 PulseRoutine(self.pixels, BEACON_PIXELS, Colors.mid_green),
                 WaveRoutine(self.pixels, STEM_PIXELS, [Colors.yellow]),
-#                 PulseRoutine(self.pixels, STEM_PIXELS, Colors.yellow),
-#                             FireRoutine(self.pixels, DAVE_PIXELS),
-#                                 BleuRoutine(self.pixels, TYLER_PIXELS),
-#                             WaveRoutine(self.pixels, ALL_PIXELS, [Colors.mid_green, Colors.mixed_blue, Colors.light_green, Colors.red], delay=1000),
-                        ])
+            ])
 
     def update_war_routine(self, routine):
         if self.mode is MODE_WAR:

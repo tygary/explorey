@@ -45,10 +45,8 @@ class ExploreyLights(object):
     thread = None
     mode = 0
     delay = 0.01
-    is_print_machine = None
 
     def __init__(self, mode=MODE_PRINT):
-        self.is_print_machine = is_print_machine
         self.mode = mode
         self.pixels = PixelControl(NUM_PIXELS)
         self.mode_object = None
@@ -104,7 +102,7 @@ class ExploreyLights(object):
                         ])
 
     def update_war_routine(self, routine):
-        if not self.is_print_machine:
+        if self.mode is MODE_WAR:
             self.mode_object.routines[WAR_ROUTINE_INDEX] = routine
 
     def change_mode(self):

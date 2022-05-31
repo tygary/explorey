@@ -1,7 +1,7 @@
 from lighting.GenericButtonController import GenericButtonController
 from lighting.ExploreyLights import *
 
-MAX_POINTS = 100
+MAX_POINTS = 1000
 
 RED_BUTTON_PIN = 18
 BLUE_BUTTON_PIN = 22
@@ -36,16 +36,16 @@ class WarGame(object):
         self.buttons.add_event_detection(BLUE_BUTTON_PIN, self.on_blue_button)
 
     def on_red_button(self, pin):
-        if self.points < MAX_POINTS:
+        if (self.points > (MAX_POINTS * -1)):
             self.points += 1
             print("Red button: %s" % self.points)
         else:
-            print("YOU LOSE!")
+            print("YOU WIN!")
         self.render()
 
     def on_blue_button(self, pin):
         if (self.points > (MAX_POINTS * -1)):
-            self.points -= 1
+            self.points += 10
             print("Blue button: %s" % self.points)
         else:
             print("YOU WIN!")
@@ -55,7 +55,7 @@ class WarGame(object):
         while self.is_running:
             now = int(round(time.time() * 1000))
             if now > self.next_advance and self.points < MAX_POINTS:
-                self.points += 1
+                self.points += 30
                 print("Advancing...")
                 self.next_advance = now + self.advance_duration
                 self.render()
@@ -69,10 +69,10 @@ class WarGame(object):
 
         if (middle_pixel != self.prev_middle_pixel):
             routine = MultiRoutine([
-                WaveRoutine(self.explorey_lights.pixels, range(self.pixel_start, middle_pixel), [Colors.red]),
+                WaveRoutine(self.explorey_lights.pixels, range(self.pixel_start, middle_pixel), [Colors.red], wave_wait_time=2000),
     #             PulseRoutine(self.explorey_lights.pixels, range(self.pixel_start, middle_pixel), Colors.red),
                 RainbowRoutine(self.explorey_lights.pixels, [middle_pixel]),
-                WaveRoutine(self.explorey_lights.pixels, range(middle_pixel + 1, self.pixel_end), [Colors.mixed_blue, Colors.yellow]),
+                WaveRoutine(self.explorey_lights.pixels, range(middle_pixel + 1, self.pixel_end), [Colors.mixed_blue, Colors.yellow], wave_wait_time=2000),
     #             PulseRoutine(self.explorey_lights.pixels, range(middle_pixel + 1, self.pixel_end), Colors.mixed_blue),
             ])
             self.explorey_lights.update_war_routine(routine)

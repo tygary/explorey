@@ -1,6 +1,7 @@
 from printer.Explorey import Explorey
 from sound.MusicControlSystem import MusicControlSystem
 from lighting.ExploreyLights import *
+import time
 
 machine = Explorey()
 machine.start()
@@ -16,4 +17,5 @@ lighting = ExploreyLights(MODE_PRINT)
 lighting.start()
 
 while True:
+    time.sleep(0.05)
     continue

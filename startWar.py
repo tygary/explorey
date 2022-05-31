@@ -1,6 +1,7 @@
 from sound.MusicControlSystem import MusicControlSystem
 from lighting.ExploreyLights import *
 from lighting.WarGame import WarGame
+import time
 
 # machine = Explorey()
 # machine.start()
@@ -19,4 +20,5 @@ war = WarGame(lighting)
 war.start()
 
 while True:
+    time.sleep(0.05)
     continue

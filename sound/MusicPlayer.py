@@ -16,7 +16,7 @@ class MusicPlayer:
             pygame.mixer.music.load(self.current_song)
             pygame.mixer.music.set_volume(volume)
             #pygame.mixer.music.set_pos(pos)
-            pygame.mixer.music.play()
+            pygame.mixer.music.play(-1)
             #self.music_thread.start()
 
     def is_still_playing(self):

@@ -47,7 +47,7 @@ class ExploreyLights(object):
     pixels = None
     thread = None
     mode = 0
-    delay = 0.01
+    delay = 0.05
     num_pixels = 0
 
     def __init__(self, mode=MODE_PRINT):

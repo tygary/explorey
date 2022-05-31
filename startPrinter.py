@@ -9,7 +9,7 @@ machine.start()
 print("Machine started, enter 'machine.stop()' before exiting")
 
 music = MusicControlSystem()
-music.play_cave_ambient()
+music.play_bowling()
 print("Starting Music")
 
 lighting = ExploreyLights(MODE_PRINT)

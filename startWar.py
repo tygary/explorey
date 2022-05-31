@@ -8,9 +8,9 @@ from lighting.WarGame import WarGame
 
 print("Machine started, enter 'machine.stop()' before exiting")
 
-# music = MusicControlSystem()
-# music.play_cave_ambient()
-# print("Starting Music")
+music = MusicControlSystem()
+music.play_space()
+print("Starting Music")
 
 lighting = ExploreyLights(MODE_WAR)
 lighting.start()

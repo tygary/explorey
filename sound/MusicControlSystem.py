@@ -10,8 +10,14 @@ class MusicControlSystem(object):
     def __init__(self):
         self.player.set_volume(0.4)
 
+    def play_space(self):
+        self.player.play_song('/home/admin/explorey/sound/explorey-space-pasture.ogg', 1)
+
+    def play_bowling(self):
+        self.player.play_song('/home/admin/explorey/sound/exploreysounds-bowlung.ogg', 1)
+
     def play_cave_ambient(self):
-        self.player.play_song('/home/admin/explorey/sound/CaveAmbient.ogg', 0.25)
+        self.player.play_song('/home/admin/explorey/sound/CaveAmbient.ogg', 1)
 
 #     def handle_change(self, values):
 #         try:

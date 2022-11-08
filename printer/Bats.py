@@ -4,7 +4,7 @@ import threading
 import imp
 import random
 import textwrap
-from printer.printer import Printer
+from printer.BatsPrinter import BatsPrinter
 from printer.addeventdetection import *
 from logger.logger import Logger
 

@@ -7,7 +7,7 @@ from fpdf import FPDF
 ##-----------------------------------------------------------------------
 class BatsPrintout(FPDF):
     def header(self):
-        self.image("/home/admin/explorey/printer/resources/bats.jpg", 38, 0, 70, 30)
+        self.image("/home/admin/explorey/printer/resources/bats.jpg", 18, 0, 70, 30)
         self.ln(30)
     def footer(self):
         self.set_y(-15)

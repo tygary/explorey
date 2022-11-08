@@ -31,7 +31,7 @@ class Bats(object):
         GPIO.setmode(GPIO.BOARD)
         self.logger = Logger()
         self.__init_pins()
-        self.printer = Printer()
+        self.printer = BatsPrinter()
 
     # Private -------------------------------------------
 

@@ -56,7 +56,7 @@ class BatsPrinter(object):
         pdf.set_margins(left=18, top=0, right=0)
         pdf.set_auto_page_break(False)
 
-        pdf.add_page(orientation='P', format=(90,210))
+        pdf.add_page(orientation='P', format=(90,150))
         pdf.set_font('Arial', 'B', 16)
         pdf.multi_cell(0, 6, title, align='C')
         pdf.ln()

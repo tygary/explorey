@@ -19,6 +19,9 @@ class MusicControlSystem(object):
     def play_cave_ambient(self):
         self.player.play_song('/home/admin/explorey/sound/CaveAmbient.ogg', 1)
 
+    def play_bats_ambient(self):
+        self.player.play_song('/home/admin/explorey/sound/CaveBackground.ogg', 1)
+
 #     def handle_change(self, values):
 #         try:
 #             print 'Triggered currentValues={}'.format(values)

@@ -22,6 +22,9 @@ class MusicControlSystem(object):
     def play_bats_ambient(self):
         self.player.play_song('/home/admin/explorey/sound/CaveBackground.ogg', 1)
 
+    def play_bat_journey(self):
+        self.player.play_song('/home/admin/explorey/sound/BatAudioJourney.ogg', 1, loops=0)
+
 #     def handle_change(self, values):
 #         try:
 #             print 'Triggered currentValues={}'.format(values)

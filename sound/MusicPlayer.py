@@ -8,7 +8,7 @@ class MusicPlayer:
     def __init__(self):
         pygame.mixer.init(buffer=1024)
 
-    def play_song(self, song, volume, pos=0.0, loops = 0):
+    def play_song(self, song, volume, pos=0.0, loops=-1):
         if song != self.current_song or not self.is_still_playing():
             self.stop_music()
             self.current_song = song
@@ -16,7 +16,7 @@ class MusicPlayer:
             pygame.mixer.music.load(self.current_song)
             pygame.mixer.music.set_volume(volume)
             #pygame.mixer.music.set_pos(pos)
-            pygame.mixer.music.play(-1)
+            pygame.mixer.music.play(loops)
             #self.music_thread.start()
 
     def is_still_playing(self):

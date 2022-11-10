@@ -1,0 +1,25 @@
+#from printer.Bats import Bats
+from sound.BatJourney import BatJourney
+#from lighting.ExploreyLights import *
+import time
+
+#machine = Bats()
+#machine.start()
+# machine.dispense_badge()
+
+print("Machine started, enter 'machine.stop()' before exiting")
+
+journey = BatJourney()
+journey.start()
+print("initialized bat journey")
+
+#music = MusicControlSystem()
+#music.play_bowling()
+#print("Starting Music")
+
+#lighting = ExploreyLights(MODE_PRINT)
+#lighting.start()
+
+while True:
+    time.sleep(0.05)
+    continue

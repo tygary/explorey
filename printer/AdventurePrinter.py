@@ -89,7 +89,11 @@ class AdventurePrinter(object):
         pdf.add_page(orientation='P', format=(90,140))
 
         pdf.set_font('Arial', 'B', 16)
-        pdf.multi_cell(0, 6, f"Name: ", align='L')
+        pdf.multi_cell(0, 6, f"Name:_____________________", align='L')
+        pdf.ln()
+
+        pdf.cell(45, 6, "TEST", border=1, ln=0, align="R")
+        pdf.cell(45, 6, "TEST", border=1, ln=0, align="R")
         pdf.ln()
 
         pdf.set_font('Arial', '', 12)

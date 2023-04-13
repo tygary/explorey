@@ -6,9 +6,9 @@ from fpdf import FPDF
 #   Basic PDF format for making a quiz
 ##-----------------------------------------------------------------------
 class CharacterSheetPrintout(FPDF):
-    def header(self):
-        self.image("/home/admin/explorey/printer/resources/etLogo.jpg", 38, 0, 30, 30)
-        self.ln(30)
+    # def header(self):
+    #     self.image("/home/admin/explorey/printer/resources/etLogo.jpg", 38, 0, 30, 30)
+    #     self.ln(30)
     def footer(self):
         self.set_y(-15)
         self.set_font('Arial', 'I', 8)

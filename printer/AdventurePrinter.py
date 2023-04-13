@@ -84,16 +84,19 @@ class AdventurePrinter(object):
         desc = str(character)
 
         pdf = CharacterSheetPrintout()
-        pdf.set_margins(left=18, top=0, right=0)
+        pdf.set_margins(left=0, top=0, right=0)
         pdf.set_auto_page_break(False)
         pdf.add_page(orientation='P', format=(90,140))
+
+        pdf.image("/home/admin/explorey/printer/resources/etLogo.jpg", 38, 0, 30, 30)
+        pdf.cell(0, 6, "TESTING???", ln=1)
 
         pdf.set_font('Arial', 'B', 16)
         pdf.multi_cell(0, 6, f"Name:_____________________", align='L')
         pdf.ln()
 
-        pdf.cell(45, 6, "TEST", border=1, ln=0, align="R")
-        pdf.cell(45, 6, "TEST", border=1, ln=0, align="R")
+        pdf.cell(36, 6, "TEST", border=1, ln=0, align="R")
+        pdf.cell(36, 6, "TEST", border=1, ln=0, align="R")
         pdf.ln()
 
         pdf.set_font('Arial', '', 12)

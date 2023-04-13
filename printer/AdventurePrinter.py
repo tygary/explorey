@@ -17,7 +17,11 @@ from logger.logger import Logger
 class AdventurePrinter(object):
     conn = cups.Connection()
     printers = conn.getPrinters()
-    printer_name = list(printers.keys())[0]
+    printerList = list(printers.keys())
+    for printer in printerList:
+        if "TUP" in printer:
+            printer_name = printer
+
     tmpEncounterPath = "/home/admin/encounter.pdf"
     tmpCharacterPath = "/home/admin/character.pdf"
     ready_to_print = True

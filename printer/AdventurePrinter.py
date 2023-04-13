@@ -6,6 +6,7 @@ from printer.CharacterSheetPrintout import CharacterSheetPrintout
 from printer.EncounterPrintout import EncounterPrintout
 import threading
 from logger.logger import Logger
+from printer.CharacterSheet import CharacterSheet
 
 
 # -----------------------------------------------------------------------
@@ -71,7 +72,7 @@ class AdventurePrinter(object):
 
         pdf.output(self.tmpEncounterPath, 'F')
 
-    def __create_character(self, character):
+    def __create_character(self, character: CharacterSheet):
         self.logger.log("Printer: creating character pdf")
         try:
             os.remove(self.tmpCharacterPath)
@@ -85,14 +86,38 @@ class AdventurePrinter(object):
         pdf = CharacterSheetPrintout()
         pdf.set_margins(left=18, top=0, right=0)
         pdf.set_auto_page_break(False)
-
         pdf.add_page(orientation='P', format=(90,140))
+
         pdf.set_font('Arial', 'B', 16)
-        pdf.multi_cell(0, 6, title, align='C')
+        pdf.multi_cell(0, 6, f"Name: ", align='L')
         pdf.ln()
+
         pdf.set_font('Arial', '', 12)
-        pdf.multi_cell(0, 6, desc, align='C')
+        pdf.multi_cell(0, 6, f"A {character.species} {character.class_name}", align='L')
         pdf.ln()
+
+        pdf.set_font('Arial', '', 12)
+        pdf.multi_cell(0, 6, f"Sneakiness: {character.dex} Craftiness: {character.wis}\nScrappiness: {character.con} Fabulousness: {character.cha}", align='L')
+        pdf.ln()
+
+        pdf.set_font('Arial', '', 12)
+        pdf.multi_cell(0, 6,
+                       f"Abilities:\n{character.abilities}",
+                       align='L')
+        pdf.ln()
+
+        pdf.set_font('Arial', '', 12)
+        pdf.multi_cell(0, 6,
+                       f"Items:\n{character.items}",
+                       align='L')
+        pdf.ln()
+
+        pdf.set_font('Arial', '', 12)
+        pdf.multi_cell(0, 6,
+                       f"Quest: {character.quest}",
+                       align='L')
+        pdf.ln()
+
 
         pdf.output(self.tmpCharacterPath, 'F')
 

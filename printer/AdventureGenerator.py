@@ -71,7 +71,7 @@ class AdventureGenerator(object):
 
     # Public --------------------------------------------
     def dispense_character(self):
-        self.logger.log("Machine: preparing to dispense character with printing set to: %s" % self.print_facts)
+        self.logger.log("Machine: preparing to dispense character with printing set to: %s" % self.print)
         if self.print:
             character = CharacterSheet()
             self.logger.log(character)
@@ -79,7 +79,7 @@ class AdventureGenerator(object):
             self.printer.printCharacter(character)
 
     def dispense_encounter(self):
-        self.logger.log("Machine: preparing to dispense encounter with printing set to: %s" % self.print_facts)
+        self.logger.log("Machine: preparing to dispense encounter with printing set to: %s" % self.print)
         if self.print:
             encounter = Encounter()
             self.logger.log(encounter)

@@ -58,17 +58,23 @@ class AdventurePrinter(object):
         desc = str(encounter)
 
         pdf = EncounterPrintout()
-        pdf.set_margins(left=18, top=0, right=0)
+        pdf.set_margins(left=16, top=0, right=0)
         pdf.set_auto_page_break(False)
 
         pdf.add_page(orientation='P', format=(90,150))
         pdf.set_font('Arial', 'B', 16)
-        pdf.multi_cell(0, 6, title, align='C')
-        pdf.ln()
+        pdf.multi_cell(0, 10, f"{encounter.title}", align='C', ln=1)
 
-        pdf.set_font('Arial', '', 8)
-        pdf.multi_cell(0, 6, desc, align='C')
-        pdf.ln()
+        pdf.set_font('Arial', '', 12)
+        pdf.cell(90, 8)
+        pdf.multi_cell(0, 6, f"{encounter.prompt}", align='L', ln=1)
+        pdf.cell(0, 6, f"To win this encounter, your hero must either:", align='L', ln=1)
+        pdf.cell(6, 6, f"A: ", align='L')
+        pdf.multi_cell(0, 6, f"{encounter.option_a}", align='L', ln=1)
+        pdf.cell(6, 6, f"B: ", align='L')
+        pdf.multi_cell(0, 6, f"{encounter.option_b}", align='L', ln=1)
+        pdf.multi_cell(0, 6, f"{encounter.pos_result}", align='L', ln=1)
+        pdf.multi_cell(0, 6, f"{encounter.neg_result}", align='L', ln=1)
 
         pdf.output(self.tmpEncounterPath, 'F')
 

@@ -90,43 +90,33 @@ class AdventurePrinter(object):
         pdf.set_font('Arial', '', 12)
 
         pdf.image("/home/admin/explorey/printer/resources/charactersheet.jpg", 15, 0, 75, 200)
-        pdf.cell(0, 6, "TESTING???", ln=1)
-
-        pdf.set_font('Arial', 'B', 16)
-        pdf.multi_cell(0, 6, f"Name:_____________________", align='L')
-        pdf.ln()
-
-        pdf.cell(36, 6, "TEST", border=1, ln=0, align="R")
-        pdf.cell(36, 6, "TEST", border=1, ln=0, align="R")
-        pdf.ln()
 
         pdf.set_font('Arial', '', 12)
-        pdf.multi_cell(0, 6, f"A {character.species} {character.class_name}", align='L')
+        pdf.cell(6, 6, f"Name:_________________", align='L', ln=1)
+        pdf.cell(6, 6, f"Species: {character.species}", align='L', ln=1)
+        pdf.cell(6, 6, f"Profession: {character.class_name}", align='L', ln=1)
         pdf.ln()
-
-        pdf.set_font('Arial', '', 12)
-        pdf.multi_cell(0, 6, f"Sneakiness: {character.dex} Craftiness: {character.wis}\nScrappiness: {character.con} Fabulousness: {character.cha}", align='L')
         pdf.ln()
-
-        pdf.set_font('Arial', '', 12)
-        pdf.multi_cell(0, 6,
-                       f"Abilities:\n{character.abilities}",
-                       align='L')
+        pdf.cell(0, 6, f"Skills:", align='L', ln=1)
         pdf.ln()
-
-        pdf.set_font('Arial', '', 12)
-        pdf.multi_cell(0, 6,
-                       f"Items:\n{character.items}",
-                       align='L')
         pdf.ln()
-
-        pdf.set_font('Arial', '', 12)
-        pdf.multi_cell(0, 6,
-                       f"Quest: {character.quest}",
-                       align='L')
+        pdf.cell(6, 6, f"{character.abilities[0]}", align='L', ln=1)
+        pdf.cell(6, 6, f"{character.abilities[1]}", align='L', ln=1)
+        pdf.cell(6, 6, f"{character.abilities[2]}", align='L', ln=1)
         pdf.ln()
-
-
+        pdf.ln()
+        pdf.cell(0, 6, f"Items:", align='L', ln=1)
+        pdf.ln()
+        pdf.ln()
+        pdf.cell(6, 6, f"{character.items[0]}", align='L', ln=1)
+        pdf.cell(6, 6, f"{character.items[1]}", align='L', ln=1)
+        pdf.cell(6, 6, f"{character.items[2]}", align='L', ln=1)
+        pdf.ln()
+        pdf.ln()
+        pdf.cell(0, 6, f"Quest:", align='L', ln=1)
+        pdf.ln()
+        pdf.ln()
+        pdf.multi_cell(6, 6, f"{character.quest}", align='L', ln=1)
         pdf.output(self.tmpCharacterPath, 'F')
 
     def __get_a_for_grade(self, grade):

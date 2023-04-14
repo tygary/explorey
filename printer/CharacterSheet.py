@@ -11,10 +11,10 @@ class CharType(IntEnum):
 
 
 QUEST_BY_TYPE = [
-    "become the nimblest skee-ball player",
-    "study the interdimensional planes",
-    "become the goblin lord",
-    "capture the heart of the common participant"
+    "To become the nimblest skee-ball player",
+    "To study the interdimensional planes",
+    "To become the goblin lord",
+    "To capture the heart of the common participant"
 ]
 
 ALL_SPECIES = ["Bovine", "Lizard", "Human", "Goblin", "Aristo-cat", "Dragonborn", "Tabaxi", "Troll", "Fairy", "High-Elf", "Night-Elf", "Hobbit", "Duck", "Dog-Person", "Toad", "Gnome", "Tortoise", "Rabbit", "Fox-Librarian", "Owl", "Unicorn"]

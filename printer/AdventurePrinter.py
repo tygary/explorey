@@ -86,9 +86,9 @@ class AdventurePrinter(object):
         pdf = CharacterSheetPrintout()
         pdf.set_margins(left=16, top=0, right=0)
         pdf.set_auto_page_break(False)
-        pdf.add_page(orientation='P', format=(90,220))
-        pdf.set_font('Arial', '', 12)
-
+        pdf.add_page(orientation='P', format=(90,230))
+        pdf.set_font('Arial', 'B', 16)
+        pdf.cell(0, 10, f"Character Sheet", align='C', ln=1)
         pdf.image("/home/admin/explorey/printer/resources/charactersheet.jpg", 15, 0, 75, 200)
 
         pdf.set_font('Arial', '', 12)
@@ -134,7 +134,6 @@ class AdventurePrinter(object):
         pdf.cell(6, 8)
         pdf.cell(0, 8, f"{character.items[2]}", align='L', ln=1)
         pdf.cell(75, 4, ln=1)
-        pdf.cell(6, 8)
         pdf.cell(0, 8, f"Quest:", align='L', ln=1)
         pdf.cell(75, 4, ln=1)
         pdf.cell(6, 6)

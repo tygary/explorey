@@ -87,9 +87,9 @@ class AdventurePrinter(object):
         pdf.set_margins(left=16, top=0, right=0)
         pdf.set_auto_page_break(False)
         pdf.add_page(orientation='P', format=(90,230))
+        pdf.image("/home/admin/explorey/printer/resources/charactersheet.jpg", 15, 10, 75, 200)
         pdf.set_font('Arial', 'B', 16)
         pdf.cell(0, 10, f"Character Sheet", align='C', ln=1)
-        pdf.image("/home/admin/explorey/printer/resources/charactersheet.jpg", 15, 0, 75, 200)
 
         pdf.set_font('Arial', '', 12)
         pdf.cell(75, 4, ln=1)

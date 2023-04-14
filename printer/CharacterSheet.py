@@ -297,10 +297,10 @@ ALL_ITEMS = USEFUL_ITEMS + JOKE_ITEMS
 
 
 class CharacterSheet(object):
-    dex = -1
-    wis = -1
-    con = -1
-    cha = -1
+    dex = 10
+    wis = 10
+    con = 10
+    cha = 10
     char_type = -1
     class_name = ""
     species = ""
@@ -334,7 +334,7 @@ class CharacterSheet(object):
             self.wis = highest
             self.cha = scores[0]
             self.con = scores[1]
-            self.con = scores[2]
+            self.dex = scores[2]
         elif self.char_type == CharType.CON:
             self.con = highest
             self.wis = scores[0]

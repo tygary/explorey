@@ -64,9 +64,8 @@ class AdventurePrinter(object):
         pdf.add_page(orientation='P', format=(90,150))
         pdf.set_font('Arial', 'B', 16)
         pdf.multi_cell(0, 10, f"{encounter.title}", align='C')
-
         pdf.set_font('Arial', '', 12)
-        pdf.cell(90, 8)
+        pdf.cell(90, 8, ln=1)
         pdf.multi_cell(0, 6, f"{encounter.prompt}", align='L')
         pdf.cell(0, 6, f"To win this encounter, your hero must either:", align='L', ln=1)
         pdf.cell(6, 6, f"A: ", align='L')

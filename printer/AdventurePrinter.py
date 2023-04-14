@@ -84,12 +84,12 @@ class AdventurePrinter(object):
         desc = str(character)
 
         pdf = CharacterSheetPrintout()
-        pdf.set_margins(left=0, top=0, right=0)
+        pdf.set_margins(left=16, top=0, right=0)
         pdf.set_auto_page_break(False)
-        pdf.add_page(orientation='P', format=(90,140))
+        pdf.add_page(orientation='P', format=(90,200))
         pdf.set_font('Arial', '', 12)
 
-        pdf.image("/home/admin/explorey/printer/resources/etLogo.jpg", 38, 0, 30, 30)
+        pdf.image("/home/admin/explorey/printer/resources/charactersheet.jpg", 15, 0, 75, 200)
         pdf.cell(0, 6, "TESTING???", ln=1)
 
         pdf.set_font('Arial', 'B', 16)

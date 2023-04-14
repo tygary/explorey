@@ -73,7 +73,23 @@ class Encounter(object):
         self.monster = getRandomMonster()
 
     def __str__(self):
-        return f"An Encounter"
+        return "The Drunken Innkeeper: Your hero stops at an inn for the night and meets the rather drunken innkeeper.\
+To win this encounter, your hero must win the following scenarios:\
+The innkeeper starts making judgey comments about your heroes' outfit.  Either:\
+Have a FAB score higher than 13\
+Use an ability that can diffuse the situation without injuring the shopkeep.\
+If you succeed in one of those, then you are able to diffuse the situation and book your room for the night.\
+Otherwise, you get too upset at that innkeeper and punch them in the face.   The town sheriff sees this and arrests you.  You fail the encounter and spend the night in jail.\
+You proceed to book your room and then order dinner.  But the drinks are a lot stronger than you anticipated!  Either:\
+Have a SCRAPPY score higher than 9\
+Use an ability to prevent yourself from getting sick\
+If you succeed, then you are able to finish your dinner without getting sick to your stomach.\
+Otherwise, you get too drunk too quickly and throw up your dinner..  You fail the encounter and get kicked out of the inn.\
+You make it up to your room and go to sleep, but you wake up in the middle of the night hearing a scratching sound.  You open your eyes and there's a GIANT RACCOON LIZARD in your room.  Either:\
+Have a SCRAPPY score higher than 12\
+Use an ability to either defeat the monster or get it to leave your room.\
+If you succeed, you were able to get rid of the monster in your room and sleep the rest of the night.  You awaken the next morning refreshed and ready to continue your journey.\
+Otherwise, you get eaten by the giant raccoon lizard.  You fail the encounter and your character is no more."
 
 
 

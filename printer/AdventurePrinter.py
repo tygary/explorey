@@ -54,25 +54,25 @@ class AdventurePrinter(object):
             self.logger.log("  Failure")
             pass
 
-        title = "Encounter!!"
-        desc = str(encounter)
-
         pdf = EncounterPrintout()
         pdf.set_margins(left=16, top=0, right=0)
         pdf.set_auto_page_break(False)
 
-        pdf.add_page(orientation='P', format=(90,150))
+        pdf.add_page(orientation='P', format=(90,200))
         pdf.set_font('Arial', 'B', 16)
         pdf.multi_cell(0, 10, f"{encounter.title}", align='C')
         pdf.set_font('Arial', '', 12)
-        pdf.cell(90, 8, ln=1)
+        pdf.cell(90, 4, ln=1)
         pdf.multi_cell(0, 6, f"{encounter.prompt}", align='L')
-        pdf.cell(0, 6, f"To win this encounter, your hero must either:", align='L', ln=1)
+        pdf.cell(90, 4, ln=1)
+        pdf.multi_cell(0, 6, f"To win this encounter, your hero must either:", align='L')
         pdf.cell(6, 6, f"A: ", align='L')
         pdf.multi_cell(0, 6, f"{encounter.option_a}", align='L')
         pdf.cell(6, 6, f"B: ", align='L')
         pdf.multi_cell(0, 6, f"{encounter.option_b}", align='L')
+        pdf.cell(90, 4, ln=1)
         pdf.multi_cell(0, 6, f"{encounter.pos_result}", align='L')
+        pdf.cell(90, 4, ln=1)
         pdf.multi_cell(0, 6, f"{encounter.neg_result}", align='L')
 
         pdf.output(self.tmpEncounterPath, 'F')
@@ -139,7 +139,7 @@ class AdventurePrinter(object):
         pdf.cell(6, 8)
         pdf.cell(0, 8, f"{character.items[2]}", align='L', ln=1)
         pdf.cell(75, 4, ln=1)
-        pdf.cell(0, 8, f"Quest:", align='L', ln=1)
+        pdf.cell(0, 8, f"Life Goal:", align='L', ln=1)
         pdf.cell(75, 4, ln=1)
         pdf.cell(6, 6)
         pdf.multi_cell(0, 6, f"{character.quest}", align='L')

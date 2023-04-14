@@ -116,7 +116,7 @@ class AdventurePrinter(object):
         pdf.cell(0, 6, f"Quest:", align='L', ln=1)
         pdf.ln()
         pdf.ln()
-        pdf.multi_cell(6, 6, f"{character.quest}", align='L', ln=1)
+        pdf.multi_cell(6, 6, f"{character.quest}", align='L')
         pdf.output(self.tmpCharacterPath, 'F')
 
     def __get_a_for_grade(self, grade):

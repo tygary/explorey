@@ -66,7 +66,7 @@ class AdventurePrinter(object):
         pdf.multi_cell(0, 6, title, align='C')
         pdf.ln()
 
-        pdf.set_font('Arial', '', 12)
+        pdf.set_font('Arial', '', 8)
         pdf.multi_cell(0, 6, desc, align='C')
         pdf.ln()
 
@@ -139,19 +139,6 @@ class AdventurePrinter(object):
         pdf.cell(6, 6)
         pdf.multi_cell(0, 6, f"{character.quest}", align='L')
         pdf.output(self.tmpCharacterPath, 'F')
-
-    def __get_a_for_grade(self, grade):
-        if "A" in grade:
-            return "an"
-        else:
-            return "a"
-
-    def __get_random_grade(self):
-        grades = ["A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-"]
-        return random.choice(grades)
-
-    def __get_random_quote(self):
-        return random.choice(self.quotes)
 
     def __ready_to_print(self):
         self.logger.log("Printer: setting ready to print from %s to True" % self.ready_to_print)

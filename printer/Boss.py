@@ -21,7 +21,8 @@ BOSSES = [
         "The Queen Awakens: The Bat Queen stirs awake and starts opening her eyes.  You have one brief moment to use an ability or item to distract her before she fully awakens.  If you fail, she will attack your party with her powerful claws.",
         "Fight or Flight: Your only chance is to scare the Bat Queen into running back into the underworld.  Use an ability or item to convince her to leave.  If you succeed, she will flee.  If you fail, she stays to guard her treasure.",
         "If you fail two or more of these challenges, then your party is defeated and your characters lose a life.  If Bat Queen stayed, but you succeeded on the other two challenges, then you are able to escape with your life.  If you succeeded on all three, then you frolic gleefully in the mountains of riches.  Increase all of your skills by +1 and get a prize.",
-    ][
+    ],
+    [
         "The Labyrinthian Minotaur",
         "Deep within the labyrinthine maze, your party encounters the fearsome Minotaur, a formidable creature with immense strength and cunning. At the heart of the maze lies a hidden treasure, guarded fiercely by the beast.",
         "The Thunderous Charge: The Minotaur charges with lightning speed, attempting to trample anyone in its path. Only those with a Scrappiness score of 15 or higher can dodge the devastating charge and avoid being knocked unconscious.",

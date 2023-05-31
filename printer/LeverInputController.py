@@ -7,8 +7,10 @@ class LeverInputController(object):
     currentValues = [1, 1, 1, 1]
     callback = None
     thread = None
+    logger = None
 
-    def __init__(self, callback):
+    def __init__(self, callback, logger):
+        self.logger = logger
         for pin in self.pins:
             self.setup_pin(pin)
         self.callback = callback
@@ -40,6 +42,7 @@ class LeverInputController(object):
             newValues[i] = GPIO.input(self.pins[i])
             if newValues[i] != self.currentValues[i]:
                 changed = True
+                self.logger.info("Lever %d changed to %d" % (i, newValues[i]))
                 self.currentValues[i] = newValues[i]
 
         if changed:

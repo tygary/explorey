@@ -46,7 +46,7 @@ class AdventureGenerator(object):
         self.logger = Logger()
         self.__init_pins()
         self.printer = AdventurePrinter()
-        self.levers = LeverInputController(self.__levers_changed)
+        self.levers = LeverInputController(self.__levers_changed, self.logger)
 
     # Private -------------------------------------------
 

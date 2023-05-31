@@ -3,7 +3,7 @@ import threading
 
 
 class LeverInputController(object):
-    pins = [31, 33, 35, 37]
+    pins = [37, 35, 33, 31]
     currentValues = [1, 1, 1, 1]
     callback = None
     thread = None

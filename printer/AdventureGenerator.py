@@ -142,7 +142,7 @@ class AdventureGenerator(object):
             % self.print
         )
         if self.print:
-            character = CharacterSheet(levers=self.levers)
+            character = CharacterSheet(levers=self.levers.currentValues)
             self.logger.log(character)
             self.character_count = self.character_count + 1
             self.printer.printCharacter(character)

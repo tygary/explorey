@@ -15,10 +15,6 @@ class LeverInputController(object):
             self.setup_pin(pin)
         self.callback = callback
         # self.thread = threading.Thread(target=self.thread_fn, args=(1,))
-        self.add_event_detection(self.pins[0], self.callback, bothdirections=True)
-        self.add_event_detection(self.pins[1], self.callback, bothdirections=True)
-        self.add_event_detection(self.pins[2], self.callback, bothdirections=True)
-        self.add_event_detection(self.pins[3], self.callback, bothdirections=True)
 
     def setup_pin(self, pin):
         GPIO.setmode(GPIO.BOARD)
@@ -38,6 +34,10 @@ class LeverInputController(object):
                     GPIO.add_event_detect(pin, GPIO.RISING, callback=callback)
             except RuntimeError:
                 pass
+
+    def get_current_values(self):
+        self.check_for_new_switch_values()
+        return self.currentValues
 
     def check_for_new_switch_values(self):
         changed = False

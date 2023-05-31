@@ -25,7 +25,7 @@ class LeverInputController(object):
         GPIO.setup(pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.remove_event_detect(pin)
 
-    def add_event_detection(pin, callback, bothdirections=False):
+    def add_event_detection(pin, callback, bothdirections):
         try:
             GPIO.add_event_detect(pin, GPIO.FALLING, callback=callback)
             if bothdirections:

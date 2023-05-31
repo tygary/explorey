@@ -1,4 +1,5 @@
 import RPi.GPIO as GPIO
+import threading
 
 
 class LeverInputController(object):
@@ -11,7 +12,7 @@ class LeverInputController(object):
         for pin in self.pins:
             self.setup_pin(pin)
         self.callback = callback
-        # self.thread = threading.Thread(target=self.thread_fn, args=(1,))
+        self.thread = threading.Thread(target=self.thread_fn, args=(1,))
 
     def setup_pin(self, pin):
         GPIO.setmode(GPIO.BOARD)

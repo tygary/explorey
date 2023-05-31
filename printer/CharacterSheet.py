@@ -364,15 +364,15 @@ class CharacterSheet(object):
 
     def __init__(self, char_type=-1, levers=None):
         if levers is not None:
-            # levers[0] - 0 is magical, 1 is strong
-            # levers[1] - 0 is sly, 1 is showy
-            if levers[0] == 0 and levers[1] == 0:
+            # levers[0] - 1 is Bookish, 0 is Brawny
+            # levers[1] - 1 is Sly, 0 is Showy
+            if levers[0] == 1 and levers[1] == 1:
                 char_type = CharType.WIS
-            elif levers[0] is 0 and levers[1] is 1:
-                char_type = CharType.CHA
             elif levers[0] is 1 and levers[1] is 0:
+                char_type = CharType.CHA
+            elif levers[0] is 0 and levers[1] is 1:
                 char_type = CharType.DEX
-            elif levers[0] is 1 and levers[1] is 1:
+            elif levers[0] is 0 and levers[1] is 0:
                 char_type = CharType.CON
 
         if char_type < 0:
@@ -414,8 +414,8 @@ class CharacterSheet(object):
 
     def __set_species(self, levers=None):
         if levers is not None:
-            # levers[2] - 0 is Beauty, 1 is Beast
-            if levers[3] is 0:
+            # levers[2] - 1 is Beauty, 0 is Beast
+            if levers[3] is 1:
                 self.species = random.choice(BEAUTY_SPECIES)
             else:
                 self.species = random.choice(BEAST_SPECIES)
@@ -440,7 +440,7 @@ class CharacterSheet(object):
         self.items = random.choices(ALL_ITEMS, k=3)
 
     def __set_quest(self, levers=None):
-        # levers[3] - 0 is Chaotic, 1 is Virtuous
+        # levers[3] - 0 is Turbulent, 1 is Tidy
         if levers is not None:
             if levers[2] is 0:
                 self.quest = random.choice(TURBULENT_QUESTS_BY_TYPE)

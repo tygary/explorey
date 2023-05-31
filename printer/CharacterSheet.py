@@ -4,13 +4,53 @@ from enum import IntEnum
 
 
 class CharType(IntEnum):
-    DEX = 0
-    WIS = 1
-    CON = 2
-    CHA = 3
+    DEX = 0  # Sneakiness
+    WIS = 1  # Craftiness
+    CON = 2  # Scrappiness
+    CHA = 3  # Fabulousness
 
 
-QUEST_BY_TYPE = [
+TURBULENT_QUESTS_BY_TYPE = [
+    [
+        "Sneak into a high-security prison just to leave a cake with a file in it for no particular reason",
+        "Spend an entire day going unnoticed while wearing a bright yellow jumpsuit in a crowded city",
+        "Successfully steal the hat off the head of a statue without getting caught",
+        "Catch a fly with chopsticks",
+        "Become a master pickpocket and steal people's left shoes",
+        "Sneak into a movie theater dressed as a cardboard box",
+        "Make it through an entire day without anyone realizing that I'm actually a cardboard cutout",
+        "Sneak up on someone and give them a heart attack by yelling 'boo!'",
+        "Infiltrate a secret society of tea enthusiasts and replace all their tea leaves with confetti",
+        "Trick a group of knights into embarking on a quest to find the mythical 'Unicorn of Infinite Flatulence'",
+        "Uncover the hidden treasure of a long-lost gnome civilization, consisting entirely of eccentric socks",
+        "Steal a priceless artifact from a museum and replace it with a fake",
+        "Sneak into a castle and replace all the paintings with pictures of cats",
+        "Create a legendary treasure map that leads to a ridiculously mundane item",
+        "Open a portal to a dimension of darkness and unleash its horrors upon the world",
+    ],
+    [
+        "Write a novel about a sentient piece of toast",
+        "Develop a secret society for people who love puns",
+        "Perform a forbidden ritual to transform themself into an immortal being of pure darkness"
+        "Create a potion that turns hair into various vibrant and uncontrollable colors",
+        "Craft a magical amulet that attracts misplaced socks and causes them to reappear in inconvenient places",
+        "Conjure illusions of a mischievous imp to follows people around and play harmless pranks on them",
+    ],
+    [
+        "To become the goblin lord",
+        "Break a world record for the most number of times bitten by mosquitoes without itching",
+        "Enter and win a hot dog eating competition",
+        "Swim across a pool of Jell-O",
+        "Survive a game of Russian roulette",
+        "Out-drink a group of dwarves",
+    ],
+    [
+        "Convince a dragon to lend you its hoard for your fabulous fashion line",
+        "Seduce a powerful wizard or sorceress with your charm",
+        "Become the ruler of a kingdom solely through the power of your charisma and fabulousness",
+    ],
+]
+TIDY_QUESTS_BY_TYPE = [
     [
         "To become the nimblest skee-ball player",
         "Perform an incredibly complex heist",
@@ -18,16 +58,8 @@ QUEST_BY_TYPE = [
         "Join a traveling circus",
         "Create a new form of dance",
         "Become the world's greatest escape artist",
-        "Sneak into a high-security prison just to leave a cake with a file in it for no particular reason",
-        "Spend an entire day going unnoticed while wearing a bright yellow jumpsuit in a crowded city",
-        "Successfully steal the hat off the head of a statue without getting caught",
-        "Catch a fly with chopsticks",
         "Learn how to balance a spoon on my nose for 30 seconds",
-        "Become a master pickpocket and steal people's left shoes",
-        "Sneak into a movie theater dressed as a cardboard box",
         "Successfully juggle flaming torches while riding a unicycle",
-        "Make it through an entire day without anyone realizing that I'm actually a cardboard cutout",
-        "Sneak up on someone and give them a heart attack by yelling 'boo!'",
     ],
     [
         "To study the interdimensional planes",
@@ -35,25 +67,17 @@ QUEST_BY_TYPE = [
         "Design a hat that doubles as a birdhouse",
         "Invent a new language using only animal sounds",
         "Create a machine that can turn water into coffee",
-        "Write a novel about a sentient piece of toast",
-        "Develop a secret society for people who love puns",
         "Create a brand of potato chips that taste like pizza",
         "Build a robot that can knit sweaters",
         "Become the world's first professional rock, paper, scissors player",
         "Write a self-help book for talking to animals",
     ],
     [
-        "To become the goblin lord",
         "Become the world's greatest thumb wrestler",
         "Win an eating contest without getting sick",
         "Survive a round in a boxing match with a kangaroo",
         "Climb Mount Everest using only a paper clip and dental floss",
-        "Out-drink a group of dwarves",
-        "Break a world record for the most number of times bitten by mosquitoes without itching",
-        "Survive a game of Russian roulette",
         "Become a champion arm wrestler",
-        "Enter and win a hot dog eating competition",
-        "Swim across a pool of Jell-O",
     ],
     [
         "To capture the heart of the common participant",
@@ -63,36 +87,53 @@ QUEST_BY_TYPE = [
         "Become the face of a high-end beauty brand",
         "Host a legendary party that everyone talks about for years",
         "Star in a popular and critically acclaimed play",
-        "Convince a dragon to lend you its hoard for your fabulous fashion line",
-        "Seduce a powerful wizard or sorceress with your charm",
         "Write and perform a hit song that becomes a classic",
-        "Become the ruler of a kingdom solely through the power of your charisma and fabulousness",
     ],
 ]
+QUEST_BY_TYPE = [
+    TURBULENT_QUESTS_BY_TYPE[0] + TIDY_QUESTS_BY_TYPE[0],
+    TURBULENT_QUESTS_BY_TYPE[1] + TIDY_QUESTS_BY_TYPE[1],
+    TURBULENT_QUESTS_BY_TYPE[2] + TIDY_QUESTS_BY_TYPE[2],
+    TURBULENT_QUESTS_BY_TYPE[3] + TIDY_QUESTS_BY_TYPE[3],
+]
 
-ALL_SPECIES = [
-    "Bovine",
-    "Lizard",
+BEAUTY_SPECIES = [
     "Human",
     "Goblin",
-    "Aristo-cat",
-    "Dragonborn",
-    "Tabaxi",
-    "Troll",
     "Fairy",
+    "Dwarf",
+    "Pixie",
+    "Leprechaun",
     "High-Elf",
     "Night-Elf",
     "Hobbit",
+    "Gnome",
+    "Merfolk",
+    "Vampire",
+    "Fox-Librarian",
+    "Unicorn",
+    "Aristo-cat",
+]
+BEAST_SPECIES = [
+    "Poltergeist",
+    "Gargoyle",
+    "Imp",
+    "Goblin",
+    "Lizard",
+    "Bovine",
+    "Tabaxi",
     "Duck",
+    "Minotaur",
+    "Werewolf",
     "Dog-Person",
     "Toad",
-    "Gnome",
     "Tortoise",
     "Rabbit",
-    "Fox-Librarian",
     "Owl",
-    "Unicorn",
+    "Dragonborn",
 ]
+ALL_SPECIES = BEAUTY_SPECIES + BEAST_SPECIES
+
 CLASS_BY_TYPE = [
     # DEX
     [
@@ -296,6 +337,19 @@ JOKE_ITEMS = [
 ALL_ITEMS = USEFUL_ITEMS + JOKE_ITEMS
 
 
+# Classes:
+# Sneakiness - Brawny / Sly - Dex
+# Scrappiness - Brawny / Showy - Con
+# Craftiness - Bookish / Sly - Wis
+# Fabulousness - Bookish / Showy - Cha
+
+# Levers:
+# 0: Bookish / Brawny
+# 1: Sly / Showy
+# 2: Tidy / Turbulent
+# 3: Beauty / Beast
+
+
 class CharacterSheet(object):
     dex = 10
     wis = 10
@@ -308,7 +362,19 @@ class CharacterSheet(object):
     items = []
     quest = ""
 
-    def __init__(self, char_type=-1):
+    def __init__(self, char_type=-1, levers=None):
+        if levers is not None:
+            # levers[0] - 0 is magical, 1 is strong
+            # levers[1] - 0 is sly, 1 is showy
+            if levers[0] is 0 and levers[1] is 0:
+                char_type = CharType.Wis
+            elif levers[0] is 0 and levers[1] is 1:
+                char_type = CharType.Cha
+            elif levers[0] is 1 and levers[1] is 0:
+                char_type = CharType.Dex
+            elif levers[0] is 1 and levers[1] is 1:
+                char_type = CharType.Con
+
         if char_type < 0:
             char_type = random.randint(0, 3)
         self.char_type = char_type
@@ -346,8 +412,15 @@ class CharacterSheet(object):
             self.con = scores[1]
             self.dex = scores[2]
 
-    def __set_species(self):
-        self.species = random.choice(ALL_SPECIES)
+    def __set_species(self, levers=None):
+        if levers is not None:
+            # levers[2] - 0 is Beauty, 1 is Beast
+            if levers[3] is 0:
+                self.species = random.choice(BEAUTY_SPECIES)
+            else:
+                self.species = random.choice(BEAST_SPECIES)
+        else:
+            self.species = random.choice(ALL_SPECIES)
 
     def __set_class_name(self):
         self.class_name = random.choice(CLASS_BY_TYPE[self.char_type])
@@ -366,8 +439,15 @@ class CharacterSheet(object):
     def __set_items(self):
         self.items = random.choices(ALL_ITEMS, k=3)
 
-    def __set_quest(self):
-        self.quest = random.choice(QUEST_BY_TYPE[self.char_type])
+    def __set_quest(self, levers=None):
+        # levers[3] - 0 is Chaotic, 1 is Virtuous
+        if levers is not None:
+            if levers[2] is 0:
+                self.quest = random.choice(TURBULENT_QUESTS_BY_TYPE)
+            else:
+                self.quest = random.choice(TIDY_QUESTS_BY_TYPE)
+        else:
+            self.quest = random.choice(QUEST_BY_TYPE[self.char_type])
 
     def __str__(self):
         return f"A {self.species} {self.class_name} on a quest to {self.quest}.  Sneakiness={self.dex} Craftiness={self.wis} Scrappiness={self.con} Fabulousness={self.cha} Abilities: {self.abilities} Items: {self.items}"

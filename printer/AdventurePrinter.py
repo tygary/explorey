@@ -25,6 +25,9 @@ class AdventurePrinter(object):
 
     tmpEncounterPath = "/home/admin/encounter.pdf"
     tmpCharacterPath = "/home/admin/character.pdf"
+    tmpResultPath = "/home/admin/result.pdf"
+    tmpBossPath = "/home/admin/boss.pdf"
+    tmpDuelPath = "/home/admin/duel.pdf"
     ready_to_print = True
     quotes = []
 
@@ -45,6 +48,21 @@ class AdventurePrinter(object):
         self.conn.cancelAllJobs(self.printer_name)
         self.conn.printFile(self.printer_name, self.tmpCharacterPath, "character", {})
 
+    def __print_result(self):
+        self.logger.log("Printer: printing result using %s" % self.printer_name)
+        self.conn.cancelAllJobs(self.printer_name)
+        self.conn.printFile(self.printer_name, self.tmpResultPath, "result", {})
+
+    def __print_boss(self):
+        self.logger.log("Printer: printing boss using %s" % self.printer_name)
+        self.conn.cancelAllJobs(self.printer_name)
+        self.conn.printFile(self.printer_name, self.tmpBossPath, "boss", {})
+
+    def __print_duel(self):
+        self.logger.log("Printer: printing duel using %s" % self.printer_name)
+        self.conn.cancelAllJobs(self.printer_name)
+        self.conn.printFile(self.printer_name, self.tmpDuelPath, "duel", {})
+
     def __create_encounter(self, encounter):
         self.logger.log("Printer: creating encounter pdf")
         try:
@@ -58,24 +76,26 @@ class AdventurePrinter(object):
         pdf.set_margins(left=16, top=0, right=0)
         pdf.set_auto_page_break(False)
 
-        pdf.add_page(orientation='P', format=(90,200))
-        pdf.set_font('Arial', 'B', 16)
-        pdf.multi_cell(0, 10, f"{encounter.title}", align='C')
-        pdf.set_font('Arial', '', 12)
+        pdf.add_page(orientation="P", format=(90, 200))
+        pdf.set_font("Arial", "B", 16)
+        pdf.multi_cell(0, 10, f"{encounter.title}", align="C")
+        pdf.set_font("Arial", "", 12)
         pdf.cell(90, 4, ln=1)
-        pdf.multi_cell(0, 6, f"{encounter.prompt}", align='L')
+        pdf.multi_cell(0, 6, f"{encounter.prompt}", align="L")
         pdf.cell(90, 4, ln=1)
-        pdf.multi_cell(0, 6, f"To win this encounter, your hero must either:", align='L')
-        pdf.cell(6, 6, f"A: ", align='L')
-        pdf.multi_cell(0, 6, f"{encounter.option_a}", align='L')
-        pdf.cell(6, 6, f"B: ", align='L')
-        pdf.multi_cell(0, 6, f"{encounter.option_b}", align='L')
+        pdf.multi_cell(
+            0, 6, f"To win this encounter, your hero must either:", align="L"
+        )
+        pdf.cell(6, 6, f"A: ", align="L")
+        pdf.multi_cell(0, 6, f"{encounter.option_a}", align="L")
+        pdf.cell(6, 6, f"B: ", align="L")
+        pdf.multi_cell(0, 6, f"{encounter.option_b}", align="L")
         pdf.cell(90, 4, ln=1)
-        pdf.multi_cell(0, 6, f"{encounter.pos_result}", align='L')
+        pdf.multi_cell(0, 6, f"{encounter.pos_result}", align="L")
         pdf.cell(90, 4, ln=1)
-        pdf.multi_cell(0, 6, f"{encounter.neg_result}", align='L')
+        pdf.multi_cell(0, 6, f"{encounter.neg_result}", align="L")
 
-        pdf.output(self.tmpEncounterPath, 'F')
+        pdf.output(self.tmpEncounterPath, "F")
 
     def __create_character(self, character: CharacterSheet):
         self.logger.log("Printer: creating character pdf")
@@ -91,66 +111,163 @@ class AdventurePrinter(object):
         pdf = CharacterSheetPrintout()
         pdf.set_margins(left=16, top=0, right=0)
         pdf.set_auto_page_break(False)
-        pdf.add_page(orientation='P', format=(90,230))
-        pdf.image("/home/admin/explorey/printer/resources/charactersheet.jpg", 15, 10, 75, 200)
-        pdf.set_font('Arial', 'B', 16)
-        pdf.cell(0, 10, f"Character Sheet", align='C', ln=1)
+        pdf.add_page(orientation="P", format=(90, 230))
+        pdf.image(
+            "/home/admin/explorey/printer/resources/charactersheet.jpg", 15, 10, 75, 200
+        )
+        pdf.set_font("Arial", "B", 16)
+        pdf.cell(0, 10, f"Character Sheet", align="C", ln=1)
 
-        pdf.set_font('Arial', '', 12)
+        pdf.set_font("Arial", "", 12)
         pdf.cell(75, 4, ln=1)
         pdf.cell(6, 8)
-        pdf.cell(0, 8, f"Name: __________________", align='L', ln=1)
+        pdf.cell(0, 8, f"Name: __________________", align="L", ln=1)
         pdf.cell(6, 8)
-        pdf.cell(0, 8, f"Species: {character.species}", align='L', ln=1)
+        pdf.cell(0, 8, f"Species: {character.species}", align="L", ln=1)
         pdf.cell(6, 8)
-        pdf.cell(0, 8, f"Profession: {character.class_name}", align='L', ln=1)
+        pdf.cell(0, 8, f"Profession: {character.class_name}", align="L", ln=1)
         pdf.cell(75, 4, ln=1)
-        pdf.cell(0, 6, f"Skills:", align='L', ln=1)
+        pdf.cell(0, 6, f"Skills:", align="L", ln=1)
         pdf.cell(75, 4, ln=1)
-        pdf.set_font('Arial', 'B', 14)
-        pdf.cell(33, 8, f"{character.dex}", align='C')
-        pdf.cell(48, 8, f"{character.wis}", align='C', ln=1)
-        pdf.set_font('Arial', '', 12)
-        pdf.cell(33, 6, f"Sneakiness", align='C')
-        pdf.cell(48, 6, f"Craftiness", align='C', ln=1)
+        pdf.set_font("Arial", "B", 14)
+        pdf.cell(33, 8, f"{character.dex}", align="C")
+        pdf.cell(48, 8, f"{character.wis}", align="C", ln=1)
+        pdf.set_font("Arial", "", 12)
+        pdf.cell(33, 6, f"Sneakiness", align="C")
+        pdf.cell(48, 6, f"Craftiness", align="C", ln=1)
         pdf.cell(75, 10, ln=1)
-        pdf.set_font('Arial', 'B', 14)
-        pdf.cell(33, 8, f"{character.con}", align='C')
-        pdf.cell(48, 8, f"{character.cha}", align='C', ln=1)
-        pdf.set_font('Arial', '', 12)
-        pdf.cell(33, 6, f"Scrappiness", align='C')
-        pdf.cell(48, 6, f"Fabulousness", align='C', ln=1)
+        pdf.set_font("Arial", "B", 14)
+        pdf.cell(33, 8, f"{character.con}", align="C")
+        pdf.cell(48, 8, f"{character.cha}", align="C", ln=1)
+        pdf.set_font("Arial", "", 12)
+        pdf.cell(33, 6, f"Scrappiness", align="C")
+        pdf.cell(48, 6, f"Fabulousness", align="C", ln=1)
         pdf.cell(75, 6, ln=1)
-        pdf.cell(0, 6, f"Abilities:", align='L', ln=1)
+        pdf.cell(0, 6, f"Abilities:", align="L", ln=1)
         pdf.cell(75, 4, ln=1)
         pdf.cell(6, 8)
-        pdf.cell(6, 8, f"{character.abilities[0]}", align='L', ln=1)
+        pdf.cell(6, 8, f"{character.abilities[0]}", align="L", ln=1)
         pdf.cell(6, 8)
-        pdf.cell(6, 8, f"{character.abilities[1]}", align='L', ln=1)
+        pdf.cell(6, 8, f"{character.abilities[1]}", align="L", ln=1)
         pdf.cell(6, 8)
-        pdf.cell(6, 8, f"{character.abilities[2]}", align='L', ln=1)
+        pdf.cell(6, 8, f"{character.abilities[2]}", align="L", ln=1)
         pdf.cell(75, 4, ln=1)
-        pdf.cell(0, 6, f"Items:", align='L', ln=1)
+        pdf.cell(0, 6, f"Items:", align="L", ln=1)
         pdf.cell(75, 4, ln=1)
         pdf.cell(6, 8)
-        pdf.cell(0, 8, f"{character.items[0]}", align='L', ln=1)
+        pdf.cell(0, 8, f"{character.items[0]}", align="L", ln=1)
         pdf.cell(6, 8)
-        pdf.cell(0, 8, f"{character.items[1]}", align='L', ln=1)
+        pdf.cell(0, 8, f"{character.items[1]}", align="L", ln=1)
         pdf.cell(6, 8)
-        pdf.cell(0, 8, f"{character.items[2]}", align='L', ln=1)
+        pdf.cell(0, 8, f"{character.items[2]}", align="L", ln=1)
         pdf.cell(75, 4, ln=1)
-        pdf.cell(0, 8, f"Life Goal:", align='L', ln=1)
+        pdf.cell(0, 8, f"Life Goal:", align="L", ln=1)
         pdf.cell(75, 4, ln=1)
         pdf.cell(6, 6)
-        pdf.multi_cell(0, 6, f"{character.quest}", align='L')
-        pdf.output(self.tmpCharacterPath, 'F')
+        pdf.multi_cell(0, 6, f"{character.quest}", align="L")
+        pdf.output(self.tmpCharacterPath, "F")
+
+    def __create_result(self, result):
+        self.logger.log("Printer: creating result pdf")
+        try:
+            os.remove(self.tmpResultPath)
+            self.logger.log("  Success")
+        except OSError:
+            self.logger.log("  Failure")
+            pass
+
+        pdf = EncounterPrintout()
+        pdf.set_margins(left=16, top=0, right=0)
+        pdf.set_auto_page_break(False)
+        pdf.add_page(orientation="P", format=(90, 230))
+
+        pdf.set_font("Arial", "B", 16)
+        pdf.cell(0, 10, f"{result.title}", align="C", ln=1)
+
+        pdf.set_font("Arial", "", 12)
+        pdf.cell(75, 4, ln=1)
+        pdf.cell(0, 8, f"{result.title}", align="L", ln=1)
+        pdf.cell(75, 4, ln=1)
+        pdf.cell(0, 6, f"{result.description}", align="L", ln=1)
+        pdf.cell(75, 4, ln=1)
+        pdf.cell(0, 6, f"{result.effect}", align="L", ln=1)
+        pdf.output(self.tmpResultPath, "F")
+
+    def __create_boss(self, boss):
+        self.logger.log("Printer: creating boss pdf")
+        try:
+            os.remove(self.tmpBossPath)
+            self.logger.log("  Success")
+        except OSError:
+            self.logger.log("  Failure")
+            pass
+
+        pdf = EncounterPrintout()
+        pdf.set_margins(left=16, top=0, right=0)
+        pdf.set_auto_page_break(False)
+        pdf.add_page(orientation="P", format=(90, 230))
+
+        pdf.set_font("Arial", "B", 16)
+        pdf.cell(0, 10, f"{boss.title}", align="C", ln=1)
+
+        pdf.set_font("Arial", "", 12)
+        pdf.cell(75, 4, ln=1)
+        pdf.cell(0, 8, f"{boss.title}", align="L", ln=1)
+        pdf.cell(75, 4, ln=1)
+        pdf.cell(0, 6, f"{boss.desc}", align="L", ln=1)
+        pdf.cell(75, 4, ln=1)
+        pdf.cell(0, 6, f"{boss.challenge_1}", align="L", ln=1)
+        pdf.cell(75, 4, ln=1)
+        pdf.cell(0, 6, f"{boss.challenge_2}", align="L", ln=1)
+        pdf.cell(75, 4, ln=1)
+        pdf.cell(0, 6, f"{boss.challenge_3}", align="L", ln=1)
+        pdf.cell(75, 4, ln=1)
+        pdf.cell(0, 6, f"{boss.result}", align="L", ln=1)
+        pdf.output(self.tmpBossPath, "F")
+
+    def __create_duel(self, duel):
+        self.logger.log("Printer: creating duel pdf")
+        try:
+            os.remove(self.tmpDuelPath)
+            self.logger.log("  Success")
+        except OSError:
+            self.logger.log("  Failure")
+            pass
+
+        pdf = EncounterPrintout()
+        pdf.set_margins(left=16, top=0, right=0)
+        pdf.set_auto_page_break(False)
+        pdf.add_page(orientation="P", format=(90, 230))
+
+        pdf.set_font("Arial", "B", 16)
+        pdf.cell(0, 10, f"{duel.title}", align="C", ln=1)
+
+        pdf.set_font("Arial", "", 12)
+        pdf.cell(75, 4, ln=1)
+        pdf.cell(0, 8, f"{duel.title}", align="L", ln=1)
+        pdf.cell(75, 4, ln=1)
+        pdf.cell(0, 6, f"{duel.desc}", align="L", ln=1)
+        pdf.cell(75, 4, ln=1)
+        pdf.cell(0, 6, f"{duel.challenge_1}", align="L", ln=1)
+        pdf.cell(75, 4, ln=1)
+        pdf.cell(0, 6, f"{duel.challenge_2}", align="L", ln=1)
+        pdf.cell(75, 4, ln=1)
+        pdf.cell(0, 6, f"{duel.challenge_3}", align="L", ln=1)
+        pdf.cell(75, 4, ln=1)
+        pdf.cell(0, 6, f"{duel.result}", align="L", ln=1)
+        pdf.output(self.tmpDuelPath, "F")
 
     def __ready_to_print(self):
-        self.logger.log("Printer: setting ready to print from %s to True" % self.ready_to_print)
+        self.logger.log(
+            "Printer: setting ready to print from %s to True" % self.ready_to_print
+        )
         self.ready_to_print = True
 
     def printEncounter(self, encounter):
-        self.logger.log("Printer: trying to print encounter with ready status %s" % (self.ready_to_print))
+        self.logger.log(
+            "Printer: trying to print encounter with ready status %s"
+            % (self.ready_to_print)
+        )
         if self.ready_to_print:
             self.__create_encounter(encounter)
             self.__print_encounter()
@@ -159,10 +276,47 @@ class AdventurePrinter(object):
             t.start()
 
     def printCharacter(self, character):
-        self.logger.log("Printer: trying to print character with ready status %s" % (self.ready_to_print))
+        self.logger.log(
+            "Printer: trying to print character with ready status %s"
+            % (self.ready_to_print)
+        )
         if self.ready_to_print:
             self.__create_character(character)
             self.__print_character()
+            self.ready_to_print = False
+            t = threading.Timer(1.0, self.__ready_to_print)
+            t.start()
+
+    def printResult(self, result):
+        self.logger.log(
+            "Printer: trying to print result with ready status %s"
+            % (self.ready_to_print)
+        )
+        if self.ready_to_print:
+            self.__create_result(result)
+            self.__print_result()
+            self.ready_to_print = False
+            t = threading.Timer(1.0, self.__ready_to_print)
+            t.start()
+
+    def printBoss(self, boss):
+        self.logger.log(
+            "Printer: trying to print boss with ready status %s" % (self.ready_to_print)
+        )
+        if self.ready_to_print:
+            self.__create_boss(boss)
+            self.__print_boss()
+            self.ready_to_print = False
+            t = threading.Timer(1.0, self.__ready_to_print)
+            t.start()
+
+    def printDuel(self, duel):
+        self.logger.log(
+            "Printer: trying to print duel with ready status %s" % (self.ready_to_print)
+        )
+        if self.ready_to_print:
+            self.__create_duel(duel)
+            self.__print_duel()
             self.ready_to_print = False
             t = threading.Timer(1.0, self.__ready_to_print)
             t.start()

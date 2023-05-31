@@ -366,14 +366,14 @@ class CharacterSheet(object):
         if levers is not None:
             # levers[0] - 0 is magical, 1 is strong
             # levers[1] - 0 is sly, 1 is showy
-            if levers[0] is 0 and levers[1] is 0:
-                char_type = CharType.Wis
+            if levers[0] == 0 and levers[1] == 0:
+                char_type = CharType.WIS
             elif levers[0] is 0 and levers[1] is 1:
-                char_type = CharType.Cha
+                char_type = CharType.CHA
             elif levers[0] is 1 and levers[1] is 0:
-                char_type = CharType.Dex
+                char_type = CharType.DEX
             elif levers[0] is 1 and levers[1] is 1:
-                char_type = CharType.Con
+                char_type = CharType.CON
 
         if char_type < 0:
             char_type = random.randint(0, 3)

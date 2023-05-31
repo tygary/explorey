@@ -42,7 +42,7 @@ class LeverInputController(object):
             newValues[i] = GPIO.input(self.pins[i])
             if newValues[i] != self.currentValues[i]:
                 changed = True
-                self.logger.info("Lever %d changed to %d" % (i, newValues[i]))
+                self.logger.log("Lever %d changed to %d" % (i, newValues[i]))
                 self.currentValues[i] = newValues[i]
 
         if changed:

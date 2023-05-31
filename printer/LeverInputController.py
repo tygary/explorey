@@ -15,17 +15,17 @@ class LeverInputController(object):
             self.setup_pin(pin)
         self.callback = callback
         # self.thread = threading.Thread(target=self.thread_fn, args=(1,))
-        self.add_event_detection(self.pins[0], self.callback, True)
-        self.add_event_detection(self.pins[1], self.callback, True)
-        self.add_event_detection(self.pins[2], self.callback, True)
-        self.add_event_detection(self.pins[3], self.callback, True)
+        self.add_event_detection(self.pins[0], self.callback, bothdirections=True)
+        self.add_event_detection(self.pins[1], self.callback, bothdirections=True)
+        self.add_event_detection(self.pins[2], self.callback, bothdirections=True)
+        self.add_event_detection(self.pins[3], self.callback, bothdirections=True)
 
     def setup_pin(self, pin):
         GPIO.setmode(GPIO.BOARD)
         GPIO.setup(pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.remove_event_detect(pin)
 
-    def add_event_detection(pin, callback, bothdirections):
+    def add_event_detection(self, pin, callback, bothdirections=False):
         try:
             GPIO.add_event_detect(pin, GPIO.FALLING, callback=callback)
             if bothdirections:

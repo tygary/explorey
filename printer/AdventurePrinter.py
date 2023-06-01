@@ -169,7 +169,7 @@ class AdventurePrinter(object):
         pdf.cell(75, 6, ln=1)
         pdf.cell(0, 10, f"Quest Stamps:", align="L", ln=1)
         pdf.set_font("Arial", "", 9)
-        left_side = 36
+        left_side = 35
         right_side = 100
         pdf.cell(left_side, 4, f"Blessing of Onions", align="L")
         pdf.cell(right_side, 4, f"Blessing of Potatoes", align="L", ln=1)
@@ -177,7 +177,7 @@ class AdventurePrinter(object):
         pdf.cell(right_side, 4, f"+3 Craftiness", align="L", ln=1)
         pdf.cell(left_side, 4, f"+1 Life", align="L")
         pdf.cell(right_side, 4, f"+1 Life", align="L", ln=1)
-        pdf.cell(75, 14, ln=1)
+        pdf.cell(75, 12, ln=1)
         pdf.cell(left_side, 4, f"Blessing of Rutabaga", align="L")
         pdf.cell(right_side, 4, f"Blessing of Carrots", align="L", ln=1)
         pdf.cell(left_side, 4, f"+3 Scrappiness", align="L")

@@ -262,21 +262,19 @@ class AdventurePrinter(object):
         pdf.set_margins(left=16, top=0, right=0)
         pdf.set_auto_page_break(False)
         pdf.add_page(orientation="P", format=(90, 380))
-
         pdf.set_font("Arial", "B", 16)
-        pdf.cell(0, 10, f"{duel.title}", align="C", ln=1)
-
+        pdf.multi_cell(0, 10, f"{duel.title}", align="C")
         pdf.set_font("Arial", "", 12)
         pdf.cell(75, 4, ln=1)
-        pdf.cell(0, 6, f"{duel.prompt}", align="L", ln=1)
+        pdf.multi_cell(0, 6, f"{duel.prompt}", align="L")
         pdf.cell(75, 4, ln=1)
-        pdf.cell(0, 6, f"{duel.challenge_1}", align="L", ln=1)
+        pdf.multi_cell(0, 6, f"1 - {duel.challenge_1}", align="L")
         pdf.cell(75, 4, ln=1)
-        pdf.cell(0, 6, f"{duel.challenge_2}", align="L", ln=1)
+        pdf.multi_cell(0, 6, f"2 - {duel.challenge_2}", align="L")
         pdf.cell(75, 4, ln=1)
-        pdf.cell(0, 6, f"{duel.challenge_3}", align="L", ln=1)
+        pdf.multi_cell(0, 6, f"3 - {duel.challenge_3}", align="L")
         pdf.cell(75, 4, ln=1)
-        pdf.cell(0, 6, f"{duel.result}", align="L", ln=1)
+        pdf.multi_cell(0, 6, f"{duel.result}", align="L")
         pdf.output(self.tmpDuelPath, "F")
 
     def __ready_to_print(self):

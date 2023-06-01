@@ -67,8 +67,12 @@ class AdventureGenerator(object):
             % self.waiting_to_print
         )
         if self.waiting_to_print:
-            self.logger.log("  Dispensing encounter")
-            self.dispense_encounter()
+            if GPIO.input(self.boss_button_pin) is GPIO.HIGH:
+                self.logger.log("  Dispensing boss")
+                self.dispense_boss()
+            else:
+                self.logger.log("  Dispensing encounter")
+                self.dispense_encounter()
             self.waiting_to_print = False
             t = threading.Timer(1.0, self.__allow_printing)
             t.start()
@@ -93,12 +97,12 @@ class AdventureGenerator(object):
 
     def __boss_button_cb(self, pin):
         self.logger.log("Machine: boss button pressed")
-        if self.waiting_to_print:
-            self.logger.log("  Dispensing boss")
-            self.dispense_boss()
-            self.waiting_to_print = False
-            t = threading.Timer(1.0, self.__allow_printing)
-            t.start()
+        # if self.waiting_to_print:
+        #     self.logger.log("  Dispensing boss")
+        #     self.dispense_boss()
+        #     self.waiting_to_print = False
+        #     t = threading.Timer(1.0, self.__allow_printing)
+        #     t.start()
 
     def __duel_button_cb(self, pin):
         self.logger.log("Machine: duel button pressed")

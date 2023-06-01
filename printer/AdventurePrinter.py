@@ -112,20 +112,20 @@ class AdventurePrinter(object):
         pdf.set_auto_page_break(False)
         pdf.add_page(orientation="P", format=(90, 300))
         pdf.image(
-            "/home/admin/explorey/printer/resources/charactersheet.png", 15, 10, 75, 300
+            "/home/admin/explorey/printer/resources/charactersheet.png", 15, 10, 75, 280
         )
         pdf.set_font("Arial", "B", 16)
         pdf.cell(0, 10, f"Character Sheet", align="C", ln=1)
 
         pdf.set_font("Arial", "", 12)
-        pdf.cell(75, 4, ln=1)
+        pdf.cell(75, 2, ln=1)
         pdf.cell(6, 6)
         pdf.cell(0, 6, f"Name: __________________", align="L", ln=1)
         pdf.cell(6, 6)
         pdf.cell(0, 6, f"Species: {character.species}", align="L", ln=1)
         pdf.cell(6, 6)
         pdf.cell(0, 6, f"Profession: {character.class_name}", align="L", ln=1)
-        pdf.cell(75, 4, ln=1)
+        pdf.cell(75, 6, ln=1)
         pdf.cell(0, 6, f"Skills:", align="L", ln=1)
         pdf.cell(75, 4, ln=1)
         pdf.set_font("Arial", "B", 14)

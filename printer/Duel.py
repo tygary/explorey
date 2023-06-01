@@ -36,7 +36,7 @@ DUELS_BY_TYPE = [
 ]
 
 
-class Encounter(object):
+class Duel(object):
     title = ""
     prompt = ""
     challenge_1 = ""

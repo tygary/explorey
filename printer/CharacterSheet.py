@@ -356,6 +356,9 @@ ALL_ITEMS = USEFUL_ITEMS + JOKE_ITEMS
 # 2: Tidy / Turbulent
 # 3: Beauty / Beast
 
+CHARS_PER_ROW = 38
+CHARS_PER_SECTION = CHARS_PER_ROW * 4
+
 
 class CharacterSheet(object):
     dex = 10
@@ -386,8 +389,8 @@ class CharacterSheet(object):
         if char_type < 0:
             char_type = random.randint(0, 3)
         self.main_quest = MAIN_QUESTS_BY_TYPE[char_type]
-        if len(self.main_quest) < 105:
-            additional_chars = 105 - len(self.main_quest)
+        if len(self.main_quest) < CHARS_PER_SECTION:
+            additional_chars = CHARS_PER_SECTION - len(self.main_quest)
             self.main_quest += " " * additional_chars + "|"
 
         self.char_type = char_type
@@ -461,8 +464,8 @@ class CharacterSheet(object):
                 self.quest = random.choice(TIDY_QUESTS_BY_TYPE)
         else:
             self.quest = random.choice(QUEST_BY_TYPE[self.char_type])
-        if len(self.quest) < 105:
-            additional_chars = 105 - len(self.quest)
+        if len(self.quest) < CHARS_PER_SECTION:
+            additional_chars = CHARS_PER_SECTION - len(self.quest)
             self.quest += " " * additional_chars + "|"
 
     def __str__(self):

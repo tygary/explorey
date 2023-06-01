@@ -117,7 +117,7 @@ class AdventurePrinter(object):
         pdf.set_font("Arial", "B", 16)
         pdf.cell(0, 10, f"Character Sheet", align="C", ln=1)
 
-        left_align = 4
+        left_align = 2
         pdf.set_font("Arial", "", 12)
         pdf.cell(75, 2, ln=1)
         pdf.cell(left_align, 6)
@@ -170,7 +170,7 @@ class AdventurePrinter(object):
         pdf.cell(0, 6, f"Quest Stamps:", align="L", ln=1)
         pdf.cell(75, 4, ln=1)
         pdf.set_font("Arial", "", 9)
-        left_side = 31
+        left_side = 40
         right_side = 100
         pdf.cell(left_side, 4, f"Blessing of Onions", align="L")
         pdf.cell(right_side, 4, f"Blessing of Potatoes", align="L", ln=1)

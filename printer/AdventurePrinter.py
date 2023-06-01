@@ -73,7 +73,7 @@ class AdventurePrinter(object):
             pass
 
         pdf = EncounterPrintout()
-        pdf.set_margins(left=16, top=10, right=0)
+        pdf.set_margins(left=16, top=20, right=0)
         pdf.set_auto_page_break(False)
 
         pdf.add_page(orientation="P", format=(90, 200))
@@ -175,18 +175,18 @@ class AdventurePrinter(object):
             pass
 
         pdf = EncounterPrintout()
-        pdf.set_margins(left=16, top=10, right=0)
-        pdf.set_auto_page_break(True)
-        pdf.add_page(orientation="P", format=(90, 230))
+        pdf.set_margins(left=16, top=20, right=0)
+        pdf.set_auto_page_break(False)
+        pdf.add_page(orientation="P", format=(90, 130))
 
         pdf.set_font("Arial", "B", 16)
         pdf.cell(0, 10, f"{result.title}", align="C", ln=1)
 
         pdf.set_font("Arial", "", 12)
         pdf.cell(75, 4, ln=1)
-        pdf.cell(0, 6, f"{result.description}", align="L", ln=1)
+        pdf.multi_cell(0, 6, f"{result.description}", align="L")
         pdf.cell(75, 4, ln=1)
-        pdf.cell(0, 6, f"{result.effect}", align="C", ln=1)
+        pdf.multi_cell(0, 6, f"{result.effect}", align="C")
         pdf.output(self.tmpResultPath, "F")
 
     def __create_boss(self, boss):
@@ -199,8 +199,8 @@ class AdventurePrinter(object):
             pass
 
         pdf = EncounterPrintout()
-        pdf.set_margins(left=16, top=10, right=0)
-        pdf.set_auto_page_break(True)
+        pdf.set_margins(left=16, top=20, right=0)
+        pdf.set_auto_page_break(False)
         pdf.add_page(orientation="P", format=(90, 230))
 
         pdf.set_font("Arial", "B", 16)
@@ -208,15 +208,15 @@ class AdventurePrinter(object):
 
         pdf.set_font("Arial", "", 12)
         pdf.cell(75, 4, ln=1)
-        pdf.cell(0, 6, f"{boss.desc}", align="L", ln=1)
+        pdf.multi_cell(0, 6, f"{boss.desc}", align="L")
         pdf.cell(75, 4, ln=1)
-        pdf.cell(0, 6, f"{boss.challenge_1}", align="L", ln=1)
+        pdf.multi_cell(0, 6, f"{boss.challenge_1}", align="L")
         pdf.cell(75, 4, ln=1)
-        pdf.cell(0, 6, f"{boss.challenge_2}", align="L", ln=1)
+        pdf.multi_cell(0, 6, f"{boss.challenge_2}", align="L")
         pdf.cell(75, 4, ln=1)
-        pdf.cell(0, 6, f"{boss.challenge_3}", align="L", ln=1)
+        pdf.multi_cell(0, 6, f"{boss.challenge_3}", align="L")
         pdf.cell(75, 4, ln=1)
-        pdf.cell(0, 6, f"{boss.result}", align="L", ln=1)
+        pdf.multi_cell(0, 6, f"{boss.result}", align="L")
         pdf.output(self.tmpBossPath, "F")
 
     def __create_duel(self, duel):

@@ -180,7 +180,7 @@ class AdventurePrinter(object):
         pdf.add_page(orientation="P", format=(90, 100))
 
         pdf.set_font("Arial", "B", 16)
-        pdf.cell(0, 10, f"{result.title}", align="C", ln=1)
+        pdf.multi_cell(0, 10, f"{result.title}", align="C")
 
         pdf.set_font("Arial", "", 12)
         pdf.cell(75, 4, ln=1)

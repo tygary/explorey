@@ -8,16 +8,14 @@ from fpdf import FPDF
 ##-----------------------------------------------------------------------
 class EncounterPrintout(FPDF):
     def header(self):
-        # self.image(
-        #     "/home/admin/explorey/printer/resources/onionheader.png", 20, 0, 70, 20
-        # )
-        # self.ln(20)
+        self.image("/home/admin/explorey/printer/resources/onion.png", 38, 0, 20, 20)
+        self.ln(20)
         return
 
     def footer(self):
         self.set_y(-15)
         self.set_font("Arial", "I", 8)
-        self.image("/home/admin/explorey/printer/resources/onion.png", 18, 0, 70, 30)
+
         self.multi_cell(
             0,
             5,

@@ -11,7 +11,7 @@ class EncounterPrintout(FPDF):
         self.image(
             "/home/admin/explorey/printer/resources/onionheader.png", 20, 0, 70, 20
         )
-        self.ln(30)
+        self.ln(20)
 
     def footer(self):
         self.set_y(-15)

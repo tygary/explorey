@@ -73,7 +73,7 @@ class AdventurePrinter(object):
             pass
 
         pdf = EncounterPrintout()
-        pdf.set_margins(left=16, top=20, right=0)
+        pdf.set_margins(left=16, top=0, right=0)
         pdf.set_auto_page_break(False)
 
         pdf.add_page(orientation="P", format=(90, 200))
@@ -175,9 +175,9 @@ class AdventurePrinter(object):
             pass
 
         pdf = EncounterPrintout()
-        pdf.set_margins(left=16, top=20, right=0)
+        pdf.set_margins(left=16, top=0, right=0)
         pdf.set_auto_page_break(False)
-        pdf.add_page(orientation="P", format=(90, 130))
+        pdf.add_page(orientation="P", format=(90, 100))
 
         pdf.set_font("Arial", "B", 16)
         pdf.cell(0, 10, f"{result.title}", align="C", ln=1)
@@ -199,7 +199,7 @@ class AdventurePrinter(object):
             pass
 
         pdf = EncounterPrintout()
-        pdf.set_margins(left=16, top=20, right=0)
+        pdf.set_margins(left=16, top=0, right=0)
         pdf.set_auto_page_break(False)
         pdf.add_page(orientation="P", format=(90, 230))
 

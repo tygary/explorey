@@ -293,7 +293,7 @@ SILLY_ABILITIES = [
     "Sneeze on Command",
     "Play the Kazoo Like a Virtuoso",
     "Wishful Thinking",
-    "Make a Perfect Omelette","
+    "Make a Perfect Omelette",
 ]
 ALL_ABILITIES = MAGIC_ABILITIES + PHYSICAL_ABILITIES + SILLY_ABILITIES
 

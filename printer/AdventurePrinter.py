@@ -177,17 +177,17 @@ class AdventurePrinter(object):
         pdf = EncounterPrintout()
         pdf.set_margins(left=16, top=0, right=0)
         pdf.set_auto_page_break(False)
-        pdf.add_page(orientation="P", format=(90, 100))
+        pdf.add_page(orientation="P", format=(90, 130))
 
         pdf.set_font("Arial", "B", 16)
         pdf.multi_cell(0, 10, f"{result.title}", align="C")
 
         pdf.set_font("Arial", "", 12)
         pdf.cell(75, 4, ln=1)
-        pdf.multi_cell(0, 6, f"{result.description}", align="L")
+        pdf.multi_cell(0, 6, f"{result.description}", align="C")
         pdf.cell(75, 4, ln=1)
         pdf.set_font("Arial", "B", 12)
-        pdf.multi_cell(0, 6, f"{result.effect}", align="L")
+        pdf.multi_cell(0, 6, f"{result.effect}", align="C")
         pdf.output(self.tmpResultPath, "F")
 
     def __create_boss(self, boss):

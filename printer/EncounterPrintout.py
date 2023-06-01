@@ -8,7 +8,7 @@ from fpdf import FPDF
 ##-----------------------------------------------------------------------
 class EncounterPrintout(FPDF):
     def header(self):
-        self.image("/home/admin/explorey/printer/resources/onion.png", 38, 0, 20, 20)
+        self.image("/home/admin/explorey/printer/resources/onion.png", 43, 0, 20, 20)
         self.ln(20)
         return
 

@@ -203,10 +203,10 @@ class AdventurePrinter(object):
         pdf = EncounterPrintout()
         pdf.set_margins(left=16, top=0, right=0)
         pdf.set_auto_page_break(False)
-        pdf.add_page(orientation="P", format=(90, 280))
+        pdf.add_page(orientation="P", format=(90, 320))
 
         pdf.set_font("Arial", "B", 16)
-        pdf.cell(0, 10, f"{boss.title}", align="C", ln=1)
+        pdf.multi_cell(0, 10, f"{boss.title}", align="C")
 
         pdf.set_font("Arial", "", 12)
         pdf.cell(75, 4, ln=1)

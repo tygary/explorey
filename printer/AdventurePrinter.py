@@ -84,9 +84,7 @@ class AdventurePrinter(object):
         pdf.cell(90, 4, ln=1)
         pdf.multi_cell(0, 6, f"{encounter.prompt}", align="L")
         pdf.cell(90, 4, ln=1)
-        pdf.multi_cell(
-            0, 6, f"To win this encounter, your hero must either:", align="L"
-        )
+        pdf.multi_cell(0, 6, f"{encounter.connecting_phrase}", align="L")
         pdf.cell(6, 6, f"A: ", align="L")
         pdf.multi_cell(0, 6, f"{encounter.option_a}", align="L")
         pdf.cell(6, 6, f"B: ", align="L")

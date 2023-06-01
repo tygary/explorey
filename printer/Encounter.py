@@ -10,6 +10,7 @@ ENCOUNTERS = [
         "Use an ability or item that can diffuse the situation without injuring the innkeeper.",
         "If you succeed in one of those, then you are able to diffuse the situation and book your room for the night.",
         "Otherwise, you get too upset at that innkeeper and punch them in the face. The town sheriff sees this and arrests you. You fail the encounter and spend the night in jail.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Slippery Bridge",
@@ -18,6 +19,7 @@ ENCOUNTERS = [
         "Use an ability or item to help you maintain balance while crossing the bridge.",
         "If you succeed, you make it across the bridge without incident and continue on your journey.",
         "Otherwise, you lose your footing and fall into the ravine below. You take significant damage and your party must use healing resources to revive you before continuing on your journey.  If you have no healing resources then you die.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Mischievous Imp",
@@ -26,6 +28,7 @@ ENCOUNTERS = [
         "Use an ability to outsmart the imp and catch it.",
         "If you succeed, you catch the imp and are able to continue on your journey without further incident.",
         "Otherwise, the imp continues to play pranks on your party, distracting and delaying you. Your party loses valuable time and resources as a result.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Bridge Troll",
@@ -34,6 +37,7 @@ ENCOUNTERS = [
         "Use an ability or item to trick or distract the troll.",
         "If you succeed in one of those, then you are able to cross the bridge.",
         "Otherwise, the troll attacks your party. You fail the encounter and must fight the troll.  The troll eats your pet salamander.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Enchanted Forest",
@@ -42,6 +46,7 @@ ENCOUNTERS = [
         "Use an ability or item to navigate the enchanted forest.",
         "If you succeed in one of those, then you are able to safely navigate the forest.",
         "Otherwise, your party becomes lost and disoriented in the forest. You fail the encounter and must find your way out before nightfall.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Locked Chest",
@@ -50,6 +55,7 @@ ENCOUNTERS = [
         "Use an ability or item to pick the lock.",
         "If you succeed, the chest opens revealing some treasure.",
         "Otherwise, you can't pick the lock and must move on.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Haunted House",
@@ -58,6 +64,7 @@ ENCOUNTERS = [
         "Use an ability or item to break down the door.",
         "If you succeed, you enter the house and can investigate.",
         "Otherwise, you can't break down the door and must move on.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Lost Key",
@@ -66,6 +73,7 @@ ENCOUNTERS = [
         "Use an ability or item to pick the lock",
         "If you succeed, you find the key and unlock the door to continue your adventure.",
         "Otherwise, you are unable to find the key and must turn back. You fail the encounter and lose valuable time.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Poisoned Water",
@@ -74,6 +82,7 @@ ENCOUNTERS = [
         "Use an ability or item to purify the water",
         "If you succeed, you successfully purify the water and can cross without taking damage.",
         "Otherwise, you take damage from the poisonous water and lose valuable time. You fail the encounter and must find another way around.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Trapped Chest",
@@ -82,6 +91,7 @@ ENCOUNTERS = [
         "Use an ability or item to disarm the trap",
         "If you succeed, you safely disarm the trap and open the chest to discover its treasures.",
         "Otherwise, you trigger the trap and take damage from the explosion. You fail the encounter and lose valuable time.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Charlatan",
@@ -90,6 +100,7 @@ ENCOUNTERS = [
         "Use an ability or item to identify the authenticity of the potions",
         "If you succeed, you realize the potions are fake and avoid wasting your gold.",
         "Otherwise, you purchase the fake potions and suffer negative effects. You fail the encounter and lose valuable gold.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Haunted Mansion",
@@ -98,6 +109,7 @@ ENCOUNTERS = [
         "Use an ability or item to dispel the ghosts haunting the mansion",
         "If you succeed, you dispel the ghosts and can continue exploring the mansion.",
         "Otherwise, the ghosts attack your party and you must flee the mansion. You fail the encounter and lose valuable time.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Bridge Troll",
@@ -106,6 +118,7 @@ ENCOUNTERS = [
         "Use an ability or item to persuade the troll to let you pass for free",
         "If you succeed, the troll is convinced and you can cross the bridge without paying the toll.",
         "Otherwise, you must pay the toll or fight the troll. You fail the encounter and lose your gold.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Labyrinth",
@@ -114,6 +127,7 @@ ENCOUNTERS = [
         "Use an ability or item to navigate the labyrinth without getting lost",
         "If you succeed, you successfully navigate the labyrinth and find the exit.",
         "Otherwise, you get lost in the labyrinth and waste valuable time. You fail the encounter and must try again.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Sneaky Thief",
@@ -122,6 +136,7 @@ ENCOUNTERS = [
         "Use an ability or item to track down the thief and retrieve your stolen valuables.",
         "If you succeed, you catch the thief and retrieve your stolen valuables. You can continue your journey with all your belongings intact.",
         "If you fail, the thief escapes with your valuables and you are left empty-handed. Lose all your items.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Tricky Puzzle",
@@ -130,6 +145,7 @@ ENCOUNTERS = [
         "Use an ability or item to decipher the clues and solve the puzzle.",
         "If you succeed, you solve the puzzle and the door unlocks, allowing you to continue your journey.",
         "If you fail, you are unable to solve the puzzle and are stuck in the room.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Intimidating Opponent",
@@ -138,6 +154,7 @@ ENCOUNTERS = [
         "Use an ability or item to gain an advantage in the fight against the bandit leader.",
         "If you succeed, you defeat the bandit leader and the rest of the bandits flee. You can continue on your journey without further interruption.",
         "If you fail, the bandit leader defeats you and takes all your belongings. You wake up later, battered and bruised, with nothing but the clothes on your back.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Guarded Door",
@@ -146,6 +163,7 @@ ENCOUNTERS = [
         "Use an ability or item to persuade the guards to let your hero through.",
         "If you succeed in one of those, then you are able to enter through the door.",
         "Otherwise, the guards deny your hero entry, and your hero must find another way around.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Raging River",
@@ -154,6 +172,7 @@ ENCOUNTERS = [
         "Use an ability or item to swim across the river safely.",
         "If you succeed in one of those, then you are able to cross the river.",
         "Otherwise, your hero will be swept away by the river dies.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Locked Chest",
@@ -162,6 +181,7 @@ ENCOUNTERS = [
         "Use an ability or item to break the lock and open the chest.",
         "If you succeed in one of those, then you are able to open the chest and see what's inside.",
         "Otherwise, your hero is unable to open the chest, and the valuable contents remain a mystery.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Intimidating Thug",
@@ -170,6 +190,7 @@ ENCOUNTERS = [
         "Use an ability or item to intimidate the thug and scare them away.",
         "If you succeed in one of those, then your hero can pass through the area without further trouble.",
         "Otherwise, the thug will demand payment or even attack your hero, leading to a difficult fight or a loss of valuable items.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Locked Chest",
@@ -178,6 +199,7 @@ ENCOUNTERS = [
         "Use an ability or item to pick the lock or break it open",
         "If you succeed in opening the chest, you find a valuable item inside.",
         "If you fail, the chest explodes and deals damage to your hero.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Dark Forest",
@@ -186,6 +208,7 @@ ENCOUNTERS = [
         "Use an ability or item to sneak past the creatures",
         "If you succeed in sneaking past, you make it out of the forest unscathed.",
         "If you fail, the creatures attack and kill your hero.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Cliffside",
@@ -194,6 +217,7 @@ ENCOUNTERS = [
         "Use an ability or item to cross the bridge",
         "If you succeed in crossing the bridge, you make it safely to the other side.",
         "If you fail, you fall into the gap and die.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Royal Ball",
@@ -202,6 +226,7 @@ ENCOUNTERS = [
         "Use an ability or item to sabotage the other candidates",
         "If you succeed in impressing the king, you are chosen as the new advisor and gain a powerful ally.",
         "If you fail, the other candidates are chosen, and you lose favor with the king.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Goblin Lair",
@@ -210,6 +235,7 @@ ENCOUNTERS = [
         "Use an ability or item to fight the goblins",
         "If you succeed in negotiating, the goblins part with the treasure, and your hero gains a valuable item.",
         "If you fail, the goblins attack, and your hero takes damage.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Scam Artist",
@@ -218,6 +244,7 @@ ENCOUNTERS = [
         "Use an ability or item to convince the vendor to sell the item at a lower price.",
         "If you succeed in one of those, then you obtain the item at a reasonable price.",
         "Otherwise, you end up paying too much for the fake item and the vendor laughs all the way to the bank.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Persuasive Politician",
@@ -226,6 +253,7 @@ ENCOUNTERS = [
         "Use an ability or item to distract the crowd from the politician's speech.",
         "If you succeed in one of those, then you successfully sway the crowd to your side.",
         "Otherwise, the politician's charm wins out and you are drowned out by the cheers of their supporters.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Secret Society",
@@ -234,6 +262,7 @@ ENCOUNTERS = [
         "Use an ability or item to bribe one of the society's members to vouch for you.",
         "If you succeed in one of those, then you are able to join the society and gain access to their resources.",
         "Otherwise, you are seen as unworthy and are kicked out of the society without any further information.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Sleeping Dragon",
@@ -242,6 +271,7 @@ ENCOUNTERS = [
         "Use an ability or item to distract the dragon and create a path to walk through.",
         "If you succeed in one of those, then you are able to get past the dragon without any trouble.",
         "Otherwise, the dragon wakes up and attacks you, causing a catastrophic failure.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Locked Chest",
@@ -250,6 +280,7 @@ ENCOUNTERS = [
         "Use an ability or item to break the lock.",
         "If you succeed, you open the chest and find some valuable treasure inside.",
         "Otherwise, you fail to open the chest and attract some unwanted attention. You will have to fight off the guards to escape.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Puzzling Riddle",
@@ -258,6 +289,7 @@ ENCOUNTERS = [
         "Use an ability or item to ask for help.",
         "If you succeed, the sage rewards you with a powerful item.",
         "Otherwise, the sage mocks you for your lack of intelligence and you lose some self-esteem.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Angry Beast",
@@ -266,6 +298,7 @@ ENCOUNTERS = [
         "Use an ability or item to distract or pacify the beast.",
         "If you succeed, the beast calms down and you can continue on your journey.",
         "Otherwise, the beast attacks and injures you, forcing you to rest and recover before continuing.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Devious Trap",
@@ -274,6 +307,7 @@ ENCOUNTERS = [
         "Use an ability or item to disable the trap.",
         "If you succeed, you avoid the trap and continue on your journey safely.",
         "Otherwise, the trap triggers and you suffer some injuries, delaying your journey.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Persuasive Merchant",
@@ -282,6 +316,7 @@ ENCOUNTERS = [
         "Use an ability or item to charm or distract the merchant.",
         "If you succeed, you get a good deal on some valuable items.",
         "Otherwise, you end up paying too much and feel like you got ripped off.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Lost Key",
@@ -290,6 +325,7 @@ ENCOUNTERS = [
         "Use an ability or item to pick the lock.",
         "If you succeed in one of those, you are able to unlock the door and proceed. Otherwise, you are unable to unlock the door and must find another way around.",
         "If you try to force the door open, the noise alerts nearby guards and they catch you. You fail the encounter and are captured.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Angry Shopkeeper",
@@ -298,6 +334,7 @@ ENCOUNTERS = [
         "Use an ability or item to calm the shopkeeper down.",
         "If you succeed in one of those, you are able to make your purchase and leave. Otherwise, the shopkeeper refuses to sell you anything and you have to leave the store empty-handed.",
         "If you try to steal the item, the shopkeeper catches you and alerts the authorities. You fail the encounter and are arrested.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Tightrope",
@@ -306,6 +343,7 @@ ENCOUNTERS = [
         "Use an ability or item to stabilize the tightrope.",
         "If you succeed in one of those, you are able to cross the tightrope and reach the other side. Otherwise, you lose your balance and fall into the ravine, taking damage and having to find another way around.",
         "If you try to cross the tightrope without repairing or stabilizing it, the tightrope breaks and you fall into the ravine, taking severe damage. You fail the encounter and have to find another way around.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Persuasive Bandit",
@@ -314,6 +352,7 @@ ENCOUNTERS = [
         "Use an ability or item to intimidate the bandit into letting you pass.",
         "If you succeed in one of those, you are able to pass through the bandit's territory unscathed. Otherwise, the bandit takes all of your gold and you have to find another way around.",
         "If you try to fight the bandit, they are more skilled than you expected and you are defeated. You fail the encounter and are left beaten and robbed.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Over-Enthusiastic Salesperson",
@@ -322,6 +361,7 @@ ENCOUNTERS = [
         "Use an ability or item to distract the salesperson and slip away.",
         "If you succeed in one of those, then you are able to get away from the salesperson and continue on your journey.",
         "Otherwise, the salesperson talks your ear off and you waste valuable time. You fail the encounter and lose 1 hour.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Dancing Bear",
@@ -330,6 +370,7 @@ ENCOUNTERS = [
         "Use an ability or item to calm the bear down and avoid any confrontation.",
         "If you succeed in one of those, then you are able to continue on your journey without any harm.",
         "Otherwise, the bear becomes angry and attacks you. You fail the encounter and the bear eats you.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Disappearing Stairs",
@@ -338,6 +379,7 @@ ENCOUNTERS = [
         "Use an ability or item to create a bridge across the gap and avoid the staircase altogether.",
         "If you succeed in one of those, then you are able to continue on your journey without any harm.",
         "Otherwise, you fall into the gap and die.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Talking Tree",
@@ -346,6 +388,7 @@ ENCOUNTERS = [
         "Use an ability or item to make the tree fall asleep and continue on your journey.",
         "If you succeed in one of those, then you are able to continue on your journey with some new knowledge.",
         "Otherwise, the tree talks your ear off and you waste valuable time. You fail the encounter and regret talking to a tree.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Punny Jester",
@@ -354,6 +397,7 @@ ENCOUNTERS = [
         "Use an ability or item to distract the jester and slip away.",
         "If you succeed in one of those, then you are able to continue on your journey without any harm.",
         "Otherwise, the jester tells more and more puns until you can't take it anymore. You fail the encounter and lose an hour of your life.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Spilled Soup",
@@ -362,6 +406,7 @@ ENCOUNTERS = [
         "Use an ability or item to distract the waiter and slip away without being noticed.",
         "If you succeed in either of those, then you can enjoy the rest of your meal without any further interruptions.",
         "Otherwise, the waiter continues to apologize profusely and your hero is forced to leave the restaurant with a stained outfit and ego.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Hairy Beast",
@@ -370,6 +415,7 @@ ENCOUNTERS = [
         "Use an ability or item to distract the creature and sneak past it.",
         "If you succeed in either of those, then you can continue on your way.",
         "Otherwise, the creature sheds even more fur on your hero and you have to spend the rest of the day picking hair off your clothes.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Endless Staircase",
@@ -378,6 +424,7 @@ ENCOUNTERS = [
         "Use an ability or item to conjure a magical bridge that spans the distance.",
         "If you succeed in either of those, then you can safely reach the bottom and continue on your journey.",
         "Otherwise, your hero tumbles down the stairs and lands at the bottom with a bruised bottom and ego.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Haunted Mansion",
@@ -386,6 +433,7 @@ ENCOUNTERS = [
         "Use an ability or item to cast a spell of invisibility and bypass the guards undetected.",
         "If you succeed in either of those, then you can explore the mansion and uncover its secrets.",
         "Otherwise, the ghostly guardians catch your hero and make them spend the night in the mansion's haunted dungeon.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Cheesy Salesman",
@@ -394,6 +442,7 @@ ENCOUNTERS = [
         "Use an ability or item to distract the salesman and sneak away without being noticed.",
         "If you succeed in either of those, then you can escape the cheesy salesman's clutches.",
         "Otherwise, your hero is force-fed so much cheese that they have to spend the rest of the day lactose intolerant and in pain.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Fashion Disaster",
@@ -402,6 +451,7 @@ ENCOUNTERS = [
         "Use an ability or item to create a distraction and escape the fashion police.",
         "If you succeed in one of those, you manage to get away without getting arrested for fashion crimes.",
         "Otherwise, the fashion police catch up to you and fine you for being a fashion disaster.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Singing Bard",
@@ -410,6 +460,7 @@ ENCOUNTERS = [
         "Use an ability or item to silence the bard and spare everyone from the terrible singing.",
         "If you succeed in one of those, the patrons are impressed with your hero's actions.",
         "Otherwise, the bard continues to sing, and the patrons start throwing things at your hero for not doing anything about it.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Hungry Hobbit",
@@ -418,6 +469,7 @@ ENCOUNTERS = [
         "Use an ability or item to persuade the hobbit to share the information without needing a meal.",
         "If you succeed in one of those, the hobbit is satisfied and gives you the information.",
         "Otherwise, the hobbit gets angry and starts attacking your hero for not providing a meal.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Giant Chicken",
@@ -426,6 +478,7 @@ ENCOUNTERS = [
         "Use an ability or item to distract the giant chicken and run away before it can attack.",
         "If you succeed in one of those, your hero manages to escape unharmed.",
         "Otherwise, the giant chicken pecks your hero and runs off with your backpack.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Clumsy Assassin",
@@ -434,6 +487,7 @@ ENCOUNTERS = [
         "Use an ability or item to trip the assassin and knock them out.",
         "If you succeed in one of those, your hero manages to escape the assassin's grasp.",
         "Otherwise, the assassin catches your hero off guard and delivers a fatal blow.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Stampeding Herd",
@@ -442,6 +496,7 @@ ENCOUNTERS = [
         "Use an ability or item to distract the cows and prevent them from stampeding.",
         "If you succeed in one of those, then you are able to avoid getting trampled and move on.",
         "Otherwise, your hero gets caught up in the stampede and is trampled by the cows. They are left bruised and battered.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Cow Tipping",
@@ -450,6 +505,7 @@ ENCOUNTERS = [
         "Use an ability or item to persuade the cow to lie down without tipping it over.",
         "If you succeed in one of those, then you are able to tip over the cow (or not) and move on.",
         "Otherwise, your hero falls over and is covered in cow manure. The locals laugh and your hero is left humiliated.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Dairy Farm",
@@ -458,6 +514,7 @@ ENCOUNTERS = [
         "Use an ability or item to communicate with the cows and convince them to give up their milk.",
         "If you succeed in one of those, then you are able to milk the cows and move on.",
         "Otherwise, your hero is unable to milk the cows and is left with empty buckets.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Cow Auction",
@@ -466,6 +523,7 @@ ENCOUNTERS = [
         "Use an ability or item to hypnotize the cows and make them dance to sell them at a higher price.",
         "If you succeed in one of those, then you are able to auction off the cows and move on.",
         "Otherwise, your hero fails miserably and is left with unsold cows and a disappointed auctioneer.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "The Cow Whisperer",
@@ -474,6 +532,7 @@ ENCOUNTERS = [
         "Use an ability or item to sing a lullaby to the cow and put it to sleep.",
         "If you succeed in one of those, then you are able to help the cow and move on.",
         "Otherwise, your hero is unable to help the cow and is left feeling bad for it.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "Cow Stampede",
@@ -482,6 +541,7 @@ ENCOUNTERS = [
         "Use an ability or item to scare the cows away.",
         "If you succeed in one of those, then you avoid being trampled and can continue on your way.",
         "Otherwise, you get run over by a cow and are knocked unconscious. When you wake up, you find yourself in a cow pasture.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "Milkmaid in Distress",
@@ -490,6 +550,7 @@ ENCOUNTERS = [
         "Use an ability or item to distract the bandits.",
         "If you succeed in one of those, then you save the milkmaid and her cow and she rewards you with a bucket of fresh milk.",
         "Otherwise, the bandits attack you and you have to fight them off. The milkmaid gets away, but her cow is stolen.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "Cow Tipping",
@@ -498,6 +559,7 @@ ENCOUNTERS = [
         "Use an ability or item to distract the cow.",
         "If you succeed in one of those, then you escape without being trampled or caught by the farmer.",
         "Otherwise, you get caught by the farmer and have to spend the night in jail.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "Cow Poop",
@@ -506,6 +568,7 @@ ENCOUNTERS = [
         "Use an ability or item to magically clean your boots.",
         "If you succeed in one of those, then you clean your boots off and continue on your way without any further mishaps.",
         "Otherwise, you slip and fall in more cow poop, ruining your outfit and dignity.",
+        "To win this encounter, your hero must either:",
     ],
     [
         "Cow Costume",
@@ -514,6 +577,232 @@ ENCOUNTERS = [
         "Use an ability or item to magically transform into a cow.",
         "If you succeed in one of those, then you are able to join the party and have a great time with your new cow friends.",
         "Otherwise, the cows realize you are not a cow and they moo-stake you for a predator. They chase you out of the pasture and you end up covered in cow poop.",
+        "To win this encounter, your hero must either:",
+    ],
+    [
+        "The Slippery Bridge",
+        "Your party comes across a rickety old bridge over a deep ravine. The bridge looks dangerous to cross.",
+        "Use an ability or item to help you maintain balance while crossing the bridge.",
+        "On the other side, you see a group of bandits waiting to ambush you. Use an ability or item to fight them off or escape past them.",
+        "If you succeed, you make it across the bridge without incident and continue on your journey.",
+        "Otherwise, you lose your footing and fall into the ravine below. You take significant damage and your party must use healing resources to revive you before continuing on your journey.  If you have no healing resources then you die.",
+        "To win this encounter, your hero must survive both of the following:",
+    ],
+    [
+        "The Locked Vault",
+        "Your hero discovers a heavily secured vault rumored to contain great treasures. The vault's door is sturdy and protected by intricate mechanisms.",
+        "Use an ability or item to pick the complex lock and gain access to the vault's riches.",
+        "Inside the vault, a magical barrier blocks your path. Use an ability or item to dispel or bypass the barrier and claim the treasures within.",
+        "If you succeed, the vault yields its secrets, and you acquire valuable treasures beyond your wildest dreams.",
+        "However, if you fail, the lock resists your attempts, and the magical barrier repels your efforts. The vault remains sealed, denying you its treasures.",
+        "To win this encounter, your hero must survive both of the following:",
+    ],
+    [
+        "The Charmed Audience",
+        "Your hero finds themselves in front of a crowd eagerly awaiting a captivating performance in a talent show. The audience's expectations are high, and their attention hangs on your every word and action.",
+        "Use an ability or item to charm and entertain the audience, leaving them spellbound by your charisma and stage presence.",
+        "As your performance reaches its peak, a competitor attempts to sabotage you by dumping a giant container of lubricant all over the stage floor. Use an ability or item to overcome the slipperiness while maintaining the crowd's unwavering attention.",
+        "If you succeed, the audience erupts in applause and showers you with adoration, granting you fame, admiration, and the rewards that come with it.",
+        "However, if you fail, your performance falls flat, and the audience grows bored or even hostile. You leave the stage dejected, but with a valuable lesson in the fickleness of fame.",
+        "To win this encounter, your hero must survive both of the following:",
+    ],
+    [
+        "The Mystic Portal",
+        "Your hero encounters a mystical portal shimmering with otherworldly energy. Its purpose and destination remain unknown.",
+        "The portal requires power.  Use an ability or item to power up the portal and activate it, revealing its intended destination.",
+        "Upon stepping through the portal, you find yourself falling towards a castle far below. Use an ability or item to survive the fall and land safely.",
+        "If you succeed, you find yourself in a hidden castle of ancient treasures or profound knowledge.",
+        "However, if you fail, the portal's secrets elude you, and you find yourself back at the entrance, bewildered and empty-handed.",
+        "To win this encounter, your hero must survive both of the following:",
+    ],
+    [
+        "The Enchanted Forest",
+        "Your hero enters an enchanting forest filled with magical creatures and mystical energies. The air crackles with an otherworldly ambiance.",
+        "Use an ability or item to communicate with the forest's magical inhabitants and gain their trust and guidance.",
+        "As you delve deeper into the forest, you encounter a dense thicket blocking your path. Use an ability or item to navigate through the tangled foliage and reach your destination.",
+        "If you succeed, the forest reveals its hidden secrets, granting you access to ancient knowledge or granting you a boon of magical power.",
+        "However, if you fail, the forest's enchantments bewilder and disorient you, leaving you lost and vulnerable to its whims. You escape, but without the rewards you sought.",
+        "To win this encounter, your hero must survive both of the following:",
+    ],
+    [
+        "The Cursed Relic",
+        "Your hero comes across a mysterious relic shrouded in an aura of dark magic. Its malevolent energy pulses with an unsettling presence.",
+        "Use an ability or item to dispel or contain the relic's cursed magic, freeing it from its evil influence.",
+        "As you attempt to handle the relic, it unleashes a wave of dark energy, summoning spectral guardians to protect itself. Use an ability or item to vanquish these otherworldly sentinels and claim the relic.",
+        "If you succeed, you neutralize the relic's curse and gain control over its potent power, enabling you to wield it for your own purposes.",
+        "However, if you fail, the relic's curse overwhelms you, binding you to its malevolence. You discard the relic, your mind tainted by its dark magic.",
+        "To win this encounter, your hero must survive both of the following:",
+    ],
+    [
+        "The Haunted Manor",
+        "Your hero arrives at an eerie, dilapidated manor said to be haunted by vengeful spirits. The air is heavy with a sense of dread and despair.",
+        "Use an ability or item to communicate with the restless spirits and uncover the truth behind their suffering, offering them solace and closure.",
+        "As you delve deeper into the manor, the spirits manifest their rage, launching ethereal attacks to repel intruders. Use an ability or item to fend off these spectral assaults and progress further.",
+        "If you succeed, you lay the spirits to rest, bringing peace to the haunted manor and uncovering hidden treasures or forgotten secrets.",
+        "However, if you fail, the spirits' anger overwhelms you, forcing you to flee the manor, shaken and empty-handed.",
+        "To win this encounter, your hero must survive both of the following:",
+    ],
+    [
+        "The Forbidden Library",
+        "Your hero stumbles upon a hidden library of forbidden knowledge, its shelves lined with ancient tomes and arcane manuscripts.",
+        "Use an ability or item to unravel the complex magical wards guarding the library's entrance, granting you access to its forbidden wisdom.",
+        "Inside the library, a spirit Fox-Librarian manifests, demanding a payment for usage of the library. Use an ability or item to bribe the librarian.",
+        "If you succeed, the library opens its vast trove of esoteric knowledge to you, allowing you to learn powerful spells or gain profound insights.",
+        "However, if you fail, the library's wards repel your intrusion, sealing its secrets from your grasp. You leave empty-handed, but with a lingering curiosity for the forbidden knowledge within.",
+        "To win this encounter, your hero must survive both of the following:",
+    ],
+    [
+        "The Crystal Cavern",
+        "Your hero discovers a hidden cavern sparkling with mesmerizing crystals of various colors and sizes. The air is filled with a gentle hum of energy.",
+        "Use an ability or item to attune yourself to the crystals' vibrations and harness their magical properties for your benefit.",
+        "As you explore deeper into the cavern, you encounter a network of treacherous crystal formations. Use an ability or item to navigate through the hazardous terrain and reach the heart of the cavern.",
+        "If you succeed, the crystals bestow upon you their gifts, enhancing your abilities or granting you a newfound affinity for magic.",
+        "However, if you fail, the crystals' energies overwhelm you, disorienting your senses and leaving you lost in the labyrinthine depths of the cavern. You emerge, unharmed but empty-handed.",
+        "To win this encounter, your hero must survive both of the following:",
+    ],
+    [
+        "The Fey Crossing",
+        "Your hero discovers a hidden pathway leading to the realm of the fey, a place of whimsical enchantment and unpredictable magic.",
+        "Use an ability or item to charm and befriend the mischievous fey creatures, gaining their trust and unlocking their hidden knowledge or favors.",
+        "As you traverse the fey realm, you encounter a captivating fey guardian who challenges you to a race across a forest. Use an ability or item to outwit the guardian and emerge victorious.",
+        "If you succeed, the fey realm reveals its secrets, offering you magical artifacts or granting you the ability to summon the aid of the fey in times of need.",
+        "However, if you fail, the fey guardian's riddles confound you, and you are politely escorted back to the mortal realm, empty-handed but enchanted by the encounter.",
+        "To win this encounter, your hero must survive both of the following:",
+    ],
+    [
+        "The Trials of the Elements",
+        "In the realm of magical spirit journeys, you encounter a series of elemental trials that test your connection to the forces of nature.",
+        "The first trial is the Trial of Fire, where you must use an ability or item to withstand scorching flames and prove your resilience.",
+        "Next, you face the Trial of Water, where you must use an ability or item to breathe underwater and swim through a turbulent current.",
+        "If you succeed in both elemental trials, the spirits reveal the location of the sacred grove, where ancient knowledge awaits your discovery.",
+        "However, if you fail to withstand the flames or swim through the currents, the elemental spirits deem you unworthy, and the secrets of the sacred grove remain hidden.",
+        "To win this encounter, your hero must survive both of the following:",
+    ],
+    [
+        "The Spirit Guardian",
+        "Your hero embarks on a magical spirit journey to seek the wisdom of ancient spirits. As you traverse through the ethereal realm, you encounter a powerful spirit guardian who demands a worthy offering.",
+        "Use an ability or item to present a valuable gift that appeases the guardian and earns their guidance and knowledge.",
+        "To prove yourself, you must cross a treacherous chasm bridged by floating platforms. Use an ability or item to navigate the platforms and reach the other side safely.",
+        "If you succeed in both challenges, the spirit guardian shares their profound wisdom, providing insights and revelations beyond mortal comprehension.",
+        "However, if you fail to satisfy the guardian's demands or fall into the chasm, the guardian deems you unworthy of their wisdom, and your spirit journey comes to an end.",
+        "To win this encounter, your hero must survive both of the following:",
+    ],
+    [
+        "The Shadow Behemoth",
+        "Your hero ventures into the depths of the underworld and comes face to face with the terrifying Shadow Behemoth, a colossal creature of darkness and despair.",
+        "Use an ability or item to evade the Behemoth's relentless pursuit and escape its clutches.",
+        "As you navigate deeper into the underworld, you encounter a labyrinth of twisted passages. Use an ability or item to find the correct path and avoid the traps set by the Behemoth.",
+        "If you succeed in both challenges, you manage to outwit and elude the Shadow Behemoth, escaping its wrath and continuing your journey.",
+        "However, if you fail to escape its pursuit or fall into the Behemoth's traps, you become trapped in its darkness, consumed by its malevolent presence.",
+        "To win this encounter, your hero must survive both of the following:",
+    ],
+    [
+        "The Stygian Serpent",
+        "Within the depths of the underworld, you encounter the monstrous Stygian Serpent, a legendary creature of venom and cunning.",
+        "Use an ability or item to resist the Serpent's venomous attacks and prevent its deadly poison from overtaking your body.",
+        "As the battle with the Serpent intensifies, it summons a swirling vortex of darkness. Use an ability or item to maintain your footing and resist being pulled into the abyss.",
+        "If you succeed in both challenges, you emerge victorious over the Stygian Serpent, vanquishing its threat and claiming a fragment of its power.",
+        "However, if you succumb to the Serpent's venom or get consumed by the vortex of darkness, your spirit is lost in the underworld, forever trapped in its depths.",
+        "To win this encounter, your hero must survive both of the following:",
+    ],
+    [
+        "The Infernal Golem",
+        "As you delve into the underworld, you confront the hulking Infernal Golem, a formidable construct fueled by the fiery essence of the underworld.",
+        "Use an ability or item to withstand the Golem's relentless onslaught of flames and resist being incinerated by its blazing attacks.",
+        "Within the fiery chamber where the Golem resides, you encounter a series of molten lava streams. Use an ability or item to navigate the treacherous terrain and cross to the other side.",
+        "If you succeed in both challenges, you emerge triumphant over the Infernal Golem, harnessing its fiery energy and unlocking newfound power.",
+        "However, if you cannot withstand the Golem's flames or succumb to the molten lava, your body is consumed by the inferno, leaving nothing but ashes behind.",
+        "To win this encounter, your hero must survive both of the following:",
+    ],
+    [
+        "The Venomous Depths",
+        "Your party ventures into the treacherous Venomous Depths, a network of caves infested with deadly creatures and poisonous flora.",
+        "Use an ability or item to detect and evade the venomous creatures lurking in the shadows, avoiding their deadly strikes.",
+        "As you progress through the caves, you stumble upon a venomous plant with valuable medicinal properties. Use an ability or item to extract its antidote while avoiding its toxic defenses.",
+        "If you succeed in both challenges, you harness the healing properties of the venomous plant and emerge from the Venomous Depths with newfound resilience and antidotes.",
+        "However, if you fall victim to the venomous creatures or fail to extract the antidote, the Venomous Depths claim their victims, leaving your party weakened and vulnerable to the dangers that lie ahead.",
+        "To win this encounter, your hero must survive both of the following:",
+    ],
+    [
+        "The Goblin Heist",
+        "Your party learns of a goblin heist taking place in the heart of the town. The goblins plan to steal a precious artifact from a heavily guarded building.",
+        "Use an ability or item to infiltrate the guarded building, bypassing traps and security measures set up by the goblins.",
+        "Inside the building, you confront the goblin leader who holds the artifact. Use an ability or item to defeat the goblin leader and retrieve the stolen artifact.",
+        "If you succeed in both challenges, you thwart the goblin heist, recover the artifact, and restore peace to the town.",
+        "However, if you trigger the traps or fail to defeat the goblin leader, the heist succeeds, and the town suffers the consequences of the goblins' actions.",
+        "To win this encounter, your hero must survive both of the following:",
+    ],
+    [
+        "The Underground Concert",
+        "Your party stumbles upon an underground concert organized by a group of crust-punks. The venue is filled with pulsating music, rebellious energy, and an atmosphere of freedom.",
+        "Use an ability or item to immerse yourself in the concert, dancing and connecting with the crust-punks on a deep level.",
+        "As the concert reaches its climax, a rival gang storms the venue, seeking to cause mayhem and assert dominance. Use an ability or item to protect the band and the crowd from harm.",
+        "If you succeed in both challenges, you gain the respect and admiration of the crust-punks, forming bonds and potentially unraveling secrets within their underground network.",
+        "However, if you fail to embrace the concert's spirit or cannot fend off the rival gang, your party may be seen as outsiders or even face retaliation from the crust-punks.",
+        "To win this encounter, your hero must survive both of the following:",
+    ],
+    [
+        "The Crust-Punk Hideout",
+        "Your party stumbles upon a hidden den inhabited by a group of unruly crust-punks. They are known for their rowdy behavior, anarchist ideologies, and disregard for authority.",
+        "Use an ability or item to navigate through the chaotic hideout, avoiding confrontations and staying off the crust-punks' radar.",
+        "As you explore further into the den, you come across the crust-punk leader who challenges your party to a test of strength. Use an ability or item to defeat the leader in a physical contest.",
+        "If you succeed in both challenges, you earn the respect of the crust-punks and potentially gain valuable information or assistance from their network.",
+        "However, if you get caught up in conflicts within the hideout or fail to defeat the leader, your party may face hostility or be expelled from the den.",
+        "To win this encounter, your hero must survive both of the following:",
+    ],
+    [
+        "The Crust-Punk Challenge",
+        "Your party is challenged by a group of crust-punks to prove your worth and dedication to their lifestyle and beliefs.",
+        "Use an ability or item to showcase your survival skills and resourcefulness in an urban environment, impressing the crust-punks with your grit and adaptability.",
+        "As you gain their initial acceptance, the crust-punks propose a graffiti competition to test your artistic prowess. Use an ability or item to create a striking graffiti piece that reflects their ideals.",
+        "If you succeed in both challenges, you earn the trust and acceptance of the crust-punks, potentially gaining access to their community and valuable information.",
+        "However, if you struggle to demonstrate your survival skills or fail to create an impactful graffiti piece, your party may be seen as outsiders or even face disdain from the crust-punks.",
+        "To win this encounter, your hero must survive both of the following:",
+    ],
+    [
+        "The Snowy Pass",
+        "Your party ventures into a treacherous mountain pass blanketed in deep snow. The area is known for its ferocious beasts that lurk in the icy wilderness.",
+        "Use an ability or item to navigate through the snow-covered terrain, avoiding treacherous slopes and hidden dangers.",
+        "As you ascend further, a pack of territorial snow wolves emerges from the shadows, ready to defend their territory. Use an ability or item to either calm the wolves or defeat them in combat.",
+        "If you succeed in both challenges, you safely traverse the snowy pass and may even acquire valuable resources or knowledge about the mountain range.",
+        "However, if you struggle with the treacherous terrain or fail to overcome the snow wolves, your party may face harsh weather conditions or become targets for other dangerous creatures lurking in the mountains.",
+        "To win this encounter, your hero must survive both of the following:",
+    ],
+    [
+        "The Frozen Cavern",
+        "Your party stumbles upon a frozen cavern hidden deep within the icy mountains. The cavern is rumored to house rare treasures, but it is also home to formidable creatures.",
+        "Use an ability or item to navigate through the frigid tunnels, avoiding frozen pitfalls and deadly stalactites.",
+        "As you delve deeper into the cavern, a massive ice elemental awakens, determined to protect its domain. Use an ability or item to weaken the elemental's icy defenses and defeat it.",
+        "If you succeed in both challenges, you uncover the hidden treasures within the cavern, securing valuable artifacts or magical items.",
+        "However, if you struggle with the hazardous environment or fail to overcome the ice elemental, your party may become trapped in the frozen depths or suffer from frostbite and exhaustion.",
+        "To win this encounter, your hero must survive both of the following:",
+    ],
+    [
+        "The Avalanche Threat",
+        "Your party must traverse a narrow mountain path prone to frequent avalanches. The snow-covered slopes are home to powerful yet territorial creatures that guard their territory.",
+        "Use an ability or item to carefully navigate the unstable path, avoiding triggering an avalanche or falling into hidden crevasses.",
+        "As you progress, a massive yeti blocks your way, bellowing with territorial rage. Use an ability or item to either appease the yeti or defeat it in a battle of strength.",
+        "If you succeed in both challenges, you overcome the avalanche threat and the yeti encounter, allowing your party to continue their journey through the mountains.",
+        "However, if you struggle to maintain your footing on the treacherous path or fail to pacify the yeti, your party may be swept away by an avalanche or forced to retreat from the mountains.",
+        "To win this encounter, your hero must survive both of the following:",
+    ],
+    [
+        "The Blizzard's Wrath",
+        "Your party finds themselves caught in the midst of a fierce blizzard, with howling winds and blinding snow reducing visibility to a mere few feet.",
+        "Use an ability or item to navigate through the blizzard, staying together and avoiding dangerous cliffs or falling into hidden ravines.",
+        "As the blizzard rages on, a group of territorial snow trolls appears, seeking shelter from the storm. Use an ability or item to negotiate with the trolls or defeat them in combat.",
+        "If you succeed in both challenges, you survive the blizzard's wrath and potentially gain the trolls' aid or knowledge about navigating the treacherous mountain peaks.",
+        "However, if you struggle to endure the blizzard's harsh conditions or fail to overcome the snow trolls, your party may suffer from frostbite, hypothermia, or become disoriented in the storm.",
+        "To win this encounter, your hero must survive both of the following:",
+    ],
+    [
+        "The Enchanted Oasis",
+        "Your party ventures into a barren desert, seeking refuge from the scorching sun. In the distance, you spot an oasis surrounded by peculiar cacti known for their hallucinogenic properties.",
+        "Use an ability or item to navigate the treacherous desert sands, avoiding dangerous sinkholes and scorching hot patches.",
+        "As you approach the oasis, the air becomes thick with hallucinogenic pollen released by the enchanted cacti. Use an ability or item to resist the hallucinatory effects and maintain your focus.",
+        "If you succeed in both challenges, you find solace within the oasis, quenching your thirst and potentially discovering hidden treasures or secrets.",
+        "However, if you struggle with the harsh desert conditions or fail to resist the hallucinations, your party may wander aimlessly, succumb to dehydration, or experience vivid and unpredictable hallucinatory episodes.",
+        "To win this encounter, your hero must survive both of the following:",
     ],
 ]
 
@@ -525,6 +814,7 @@ class Encounter(object):
     option_b = ""
     pos_result = ""
     neg_result = ""
+    connecting_phrase = ""
 
     def __init__(self):
         encounter = random.choice(ENCOUNTERS)
@@ -534,6 +824,7 @@ class Encounter(object):
         self.option_b = encounter[3]
         self.pos_result = encounter[4]
         self.neg_result = encounter[5]
+        self.connecting_phrase = encounter[6]
 
     def __str__(self):
         return f"{self.title}: {self.prompt}  Either: {self.option_a} OR {self.option_b} {self.pos_result} {self.neg_result}"

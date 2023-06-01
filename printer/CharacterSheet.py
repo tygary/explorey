@@ -356,6 +356,7 @@ CHARS_PER_SECTION = CHARS_PER_ROW * 4
 
 
 def buffer_str(str):
+    return str
     length = len(str)
     if length < CHARS_PER_SECTION:
         additional_spaces = math.ceil(

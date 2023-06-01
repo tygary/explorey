@@ -10,6 +10,13 @@ class CharType(IntEnum):
     CHA = 3  # Fabulousness
 
 
+MAIN_QUESTS_BY_TYPE = [
+    "Sneakiness Quest",
+    "Craftiness Quest",
+    "Scrappiness Quest",
+    "Fabulousness Quest",
+]
+
 TURBULENT_QUESTS_BY_TYPE = [
     [
         "Sneak into a high-security prison just to leave a cake with a file in it for no particular reason",
@@ -361,6 +368,7 @@ class CharacterSheet(object):
     abilities = []
     items = []
     quest = ""
+    main_quest = ""
 
     def __init__(self, char_type=-1, levers=None):
         if levers is not None:
@@ -377,6 +385,7 @@ class CharacterSheet(object):
 
         if char_type < 0:
             char_type = random.randint(0, 3)
+        self.main_quest = MAIN_QUESTS_BY_TYPE[char_type]
         self.char_type = char_type
         self.__set_scores()
         self.__set_species()

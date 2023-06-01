@@ -356,7 +356,9 @@ ALL_ITEMS = USEFUL_ITEMS + JOKE_ITEMS
 # 2: Tidy / Turbulent
 # 3: Beauty / Beast
 
-CHARS_PER_ROW = 50
+CHARS_PER_ROW = 34
+SPACES_PER_ROW = 54
+CHAR_TO_SPACE_RATIO = SPACES_PER_ROW / CHARS_PER_ROW
 CHARS_PER_SECTION = CHARS_PER_ROW * 4
 
 
@@ -390,8 +392,10 @@ class CharacterSheet(object):
             char_type = random.randint(0, 3)
         self.main_quest = MAIN_QUESTS_BY_TYPE[char_type]
         if len(self.main_quest) < CHARS_PER_SECTION:
-            additional_chars = CHARS_PER_SECTION - len(self.main_quest)
-            self.main_quest += " " * additional_chars + "|"
+            additional_spaces = (
+                CHARS_PER_SECTION - len(self.main_quest)
+            ) * CHAR_TO_SPACE_RATIO
+            self.main_quest += " " * additional_spaces + "."
 
         self.char_type = char_type
         self.__set_scores()
@@ -465,8 +469,10 @@ class CharacterSheet(object):
         else:
             self.quest = random.choice(QUEST_BY_TYPE[self.char_type])
         if len(self.quest) < CHARS_PER_SECTION:
-            additional_chars = CHARS_PER_SECTION - len(self.quest)
-            self.quest += " " * additional_chars + "|"
+            additional_spaces = (
+                CHARS_PER_SECTION - len(self.quest)
+            ) * CHAR_TO_SPACE_RATIO
+            self.quest += " " * additional_spaces + "."
 
     def __str__(self):
         return f"A {self.species} {self.class_name} on a quest to {self.quest}.  Sneakiness={self.dex} Craftiness={self.wis} Scrappiness={self.con} Fabulousness={self.cha} Abilities: {self.abilities} Items: {self.items}"

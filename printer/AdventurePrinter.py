@@ -166,7 +166,7 @@ class AdventurePrinter(object):
         pdf.cell(0, 10, f"Main Quest:", align="L", ln=1)
         pdf.cell(left_align, 6)
         pdf.multi_cell(0, 6, f"{character.main_quest}", align="L")
-        pdf.cell(75, 4, ln=1)
+        pdf.cell(75, 8, ln=1)
         pdf.cell(0, 6, f"Quest Stamps:", align="L", ln=1)
         pdf.cell(75, 4, ln=1)
         pdf.set_font("Arial", "", 9)

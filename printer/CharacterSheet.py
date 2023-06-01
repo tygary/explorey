@@ -386,8 +386,8 @@ class CharacterSheet(object):
         if char_type < 0:
             char_type = random.randint(0, 3)
         self.main_quest = MAIN_QUESTS_BY_TYPE[char_type]
-        if len(self.main_quest) < 30:
-            additional_chars = 30 - len(self.main_quest)
+        if len(self.main_quest) < 105:
+            additional_chars = 105 - len(self.main_quest)
             self.main_quest += " " * additional_chars + "|"
 
         self.char_type = char_type
@@ -461,8 +461,8 @@ class CharacterSheet(object):
                 self.quest = random.choice(TIDY_QUESTS_BY_TYPE)
         else:
             self.quest = random.choice(QUEST_BY_TYPE[self.char_type])
-        if len(self.quest) < 30:
-            additional_chars = 30 - len(self.quest)
+        if len(self.quest) < 105:
+            additional_chars = 105 - len(self.quest)
             self.quest += " " * additional_chars + "|"
 
     def __str__(self):

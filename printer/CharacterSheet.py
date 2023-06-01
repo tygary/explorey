@@ -11,10 +11,10 @@ class CharType(IntEnum):
 
 
 MAIN_QUESTS_BY_TYPE = [
-    "Sneakiness Quest",
-    "Craftiness Quest",
-    "Scrappiness Quest",
-    "Fabulousness Quest",
+    "Sneakiness Quest.  This is actually much longer.  Enough to wrap to at least three full lines to make space for everything.",
+    "Craftiness Quest.  This is actually much longer.  Enough to wrap to at least three full lines to make space for everything.",
+    "Scrappiness Quest. This is actually much longer.  Enough to wrap to at least three full lines to make space for everything.",
+    "Fabulousness Quest. This is actually much longer.  Enough to wrap to at least three full lines to make space for everything.",
 ]
 
 TURBULENT_QUESTS_BY_TYPE = [
@@ -457,6 +457,9 @@ class CharacterSheet(object):
                 self.quest = random.choice(TIDY_QUESTS_BY_TYPE)
         else:
             self.quest = random.choice(QUEST_BY_TYPE[self.char_type])
+        if len(self.quest) < 30:
+            additional_chars = 30 - len(self.quest)
+            self.quest += " " * additional_chars
 
     def __str__(self):
         return f"A {self.species} {self.class_name} on a quest to {self.quest}.  Sneakiness={self.dex} Craftiness={self.wis} Scrappiness={self.con} Fabulousness={self.cha} Abilities: {self.abilities} Items: {self.items}"

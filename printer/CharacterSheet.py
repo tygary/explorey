@@ -106,13 +106,17 @@ BEAUTY_SPECIES = [
     "Leprechaun",
     "High-Elf",
     "Night-Elf",
+    "Wood-Elf",
     "Hobbit",
+    "Halfling",
     "Gnome",
     "Merfolk",
     "Vampire",
     "Fox-Librarian",
     "Unicorn",
+    "Pegasus",
     "Aristo-cat",
+    "Giant",
 ]
 BEAST_SPECIES = [
     "Poltergeist",
@@ -131,6 +135,12 @@ BEAST_SPECIES = [
     "Rabbit",
     "Owl",
     "Dragonborn",
+    "Centaur",
+    "Frog-Person",
+    "Goat-Person",
+    "Yeti",
+    "Sasquatch",
+    "Manticore",
 ]
 ALL_SPECIES = BEAUTY_SPECIES + BEAST_SPECIES
 
@@ -146,6 +156,10 @@ CLASS_BY_TYPE = [
         "Rock Stacker",
         "Vegetable Pruner",
         "Swindler",
+        "Pickpocket",
+        "Acrobat",
+        "Tightrope Walker",
+        "Sword Swallower",
     ],
     # WIS
     [
@@ -159,6 +173,10 @@ CLASS_BY_TYPE = [
         "Tinkerer",
         "Bog witch",
         "Garlic witch",
+        "Herbalist",
+        "Beekeeper",
+        "Baker",
+        "Candlemaker",
         "Illusionist",
     ],
     # CON
@@ -171,9 +189,35 @@ CLASS_BY_TYPE = [
         "Onion-Cutter",
         "Garlic-Smasher",
         "Wood-Gnawer",
+        "Boulder-Lifter",
+        "Gate Guardian",
+        "Black-Ops",
+        "Carpenter",
+        "Mason",
+        "Lumberjack",
+        "Survivalist",
     ],
     # CHA
-    ["Aristocrat", "Oracle", "Charlatan", "Frog Charmer", "Diva", "Jester", "Clown"],
+    [
+        "Aristocrat",
+        "Oracle",
+        "Charlatan",
+        "Frog Charmer",
+        "Diva",
+        "Jester",
+        "Clown",
+        "Performance Artist",
+        "Musical Prodigy",
+        "Chef",
+        "Sparkle Pony",
+        "Lyft Driver",
+        "Cultural Icon",
+        "Influencer",
+        "Food Critic",
+        "Comedian",
+        "Stage Manager",
+        "School Teacher",
+    ],
 ]
 
 MAGIC_ABILITIES = [
@@ -192,18 +236,24 @@ MAGIC_ABILITIES = [
     "Turn Invisible",
     "Fly",
     "Levitation",
+    "Turn into Chicken",
     "Invisibility",
+    "Create Fire",
     "Teleportation",
     "Mind reading",
     "Create Visual Illusion",
     "Create Ice",
     "Cow Summoning",
     "Shape shifting",
+    "Summon Ghosts",
     "Telekinesis",
     "Instantaneously Grow Plants",
     "Talk to Animals",
+    "Summon Fog",
     "Summon Rainstorm",
+    "Summon Lightning",
     "Telepathy",
+    "Create Earthquake",
     "Clairvoyance",
     "Pyrokinesis",
     "Hydrokinesis",
@@ -220,6 +270,10 @@ PHYSICAL_ABILITIES = [
     "Cut Onions",
     "Mash Potatoes",
     "Milk Cows",
+    "Brew Beer",
+    "Brew Kombucha",
+    "Brew Coffee",
+    "Throw Net",
 ]
 SILLY_ABILITIES = [
     "Apply Lubricant",
@@ -238,6 +292,8 @@ SILLY_ABILITIES = [
     "Bend Spoons with Mind",
     "Sneeze on Command",
     "Play the Kazoo Like a Virtuoso",
+    "Wishful Thinking",
+    "Make a Perfect Omelette","
 ]
 ALL_ABILITIES = MAGIC_ABILITIES + PHYSICAL_ABILITIES + SILLY_ABILITIES
 

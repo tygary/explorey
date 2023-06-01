@@ -6,6 +6,7 @@ from printer.CharacterSheet import CharacterSheet
 from printer.Encounter import Encounter
 from printer.Result import Result
 from printer.Boss import Boss
+from printer.Duel import Duel
 from printer.LeverInputController import LeverInputController
 from logger.logger import Logger
 
@@ -70,6 +71,9 @@ class AdventureGenerator(object):
             if GPIO.input(self.boss_button_pin) is GPIO.HIGH:
                 self.logger.log("  Dispensing boss")
                 self.dispense_boss()
+            elif GPIO.input(self.duel_button_pin) is GPIO.HIGH:
+                self.logger.log("  Dispensing duel")
+                self.dispense_duel()
             else:
                 self.logger.log("  Dispensing encounter")
                 self.dispense_encounter()
@@ -106,12 +110,12 @@ class AdventureGenerator(object):
 
     def __duel_button_cb(self, pin):
         self.logger.log("Machine: duel button pressed")
-        if self.waiting_to_print:
-            self.logger.log("  Dispensing duel")
-            self.dispense_duel()
-            self.waiting_to_print = False
-            t = threading.Timer(1.0, self.__allow_printing)
-            t.start()
+        # if self.waiting_to_print:
+        #     self.logger.log("  Dispensing duel")
+        #     self.dispense_duel()
+        #     self.waiting_to_print = False
+        #     t = threading.Timer(1.0, self.__allow_printing)
+        #     t.start()
 
     def __allow_printing(self):
         self.waiting_to_print = True
@@ -188,8 +192,9 @@ class AdventureGenerator(object):
             "Machine: preparing to dispense duel with printing set to: %s" % self.print
         )
         if self.print:
+            duel = Duel()
             self.logger.log("  Dispensing duel")
-            # self.printer.printResult(result)
+            self.printer.printDuel(duel)
 
     def start(self):
         self.logger.log("Machine: starting")

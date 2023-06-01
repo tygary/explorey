@@ -261,16 +261,14 @@ class AdventurePrinter(object):
         pdf = EncounterPrintout()
         pdf.set_margins(left=16, top=0, right=0)
         pdf.set_auto_page_break(False)
-        pdf.add_page(orientation="P", format=(90, 230))
+        pdf.add_page(orientation="P", format=(90, 380))
 
         pdf.set_font("Arial", "B", 16)
         pdf.cell(0, 10, f"{duel.title}", align="C", ln=1)
 
         pdf.set_font("Arial", "", 12)
         pdf.cell(75, 4, ln=1)
-        pdf.cell(0, 8, f"{duel.title}", align="L", ln=1)
-        pdf.cell(75, 4, ln=1)
-        pdf.cell(0, 6, f"{duel.desc}", align="L", ln=1)
+        pdf.cell(0, 6, f"{duel.prompt}", align="L", ln=1)
         pdf.cell(75, 4, ln=1)
         pdf.cell(0, 6, f"{duel.challenge_1}", align="L", ln=1)
         pdf.cell(75, 4, ln=1)

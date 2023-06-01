@@ -6,7 +6,7 @@ ENCOUNTERS = [
     [
         "The Drunken Innkeeper",
         "Your hero stops at an inn for the night and meets the rather drunken innkeeper. The innkeeper starts making judgey comments about your heroes' outfit.",
-        "Have a Fabulousness score higher than 13",
+        "Have a Fabulousness score higher than 15",
         "Use an ability or item that can diffuse the situation without injuring the innkeeper.",
         "If you succeed in one of those, then you are able to diffuse the situation and book your room for the night.",
         "Otherwise, you get too upset at that innkeeper and punch them in the face. The town sheriff sees this and arrests you. You fail the encounter and spend the night in jail.",
@@ -14,7 +14,7 @@ ENCOUNTERS = [
     [
         "The Slippery Bridge",
         "Your party comes across a rickety old bridge over a deep ravine. The bridge looks dangerous to cross.",
-        "Have a Sneakiness score higher than 11",
+        "Have a Sneakiness score higher than 13",
         "Use an ability or item to help you maintain balance while crossing the bridge.",
         "If you succeed, you make it across the bridge without incident and continue on your journey.",
         "Otherwise, you lose your footing and fall into the ravine below. You take significant damage and your party must use healing resources to revive you before continuing on your journey.  If you have no healing resources then you die.",
@@ -22,7 +22,7 @@ ENCOUNTERS = [
     [
         "The Mischievous Imp",
         "Your party enters a dark and creepy cave. Suddenly, you hear giggling and the sound of something running away. An imp appears and begins playing pranks on your party.",
-        "Have a Craftiness score higher than 8",
+        "Have a Craftiness score higher than 11",
         "Use an ability to outsmart the imp and catch it.",
         "If you succeed, you catch the imp and are able to continue on your journey without further incident.",
         "Otherwise, the imp continues to play pranks on your party, distracting and delaying you. Your party loses valuable time and resources as a result.",
@@ -30,7 +30,7 @@ ENCOUNTERS = [
     [
         "The Bridge Troll",
         "Your party comes upon a rickety bridge guarded by a troll. The troll demands a toll to cross.",
-        "Pay the toll or have a Fabulousness score higher than 10 to talk your way across.",
+        "Pay the toll or have a Fabulousness score higher than 13 to talk your way across.",
         "Use an ability or item to trick or distract the troll.",
         "If you succeed in one of those, then you are able to cross the bridge.",
         "Otherwise, the troll attacks your party. You fail the encounter and must fight the troll.  The troll eats your pet salamander.",
@@ -38,7 +38,7 @@ ENCOUNTERS = [
     [
         "The Enchanted Forest",
         "Your party enters a beautiful and lush forest, but you quickly realize something is amiss. The trees seem to be moving and shifting around you, and you hear whispers in the wind.",
-        "Have a Fabulousness score higher than 14 to understand the magical nature of the forest.",
+        "Have a Fabulousness score higher than 16 to understand the magical nature of the forest.",
         "Use an ability or item to navigate the enchanted forest.",
         "If you succeed in one of those, then you are able to safely navigate the forest.",
         "Otherwise, your party becomes lost and disoriented in the forest. You fail the encounter and must find your way out before nightfall.",
@@ -46,7 +46,7 @@ ENCOUNTERS = [
     [
         "The Locked Chest",
         "Your party comes across a locked chest on the side of the road. There is no sign of the owner.",
-        "Have a Scrappiness score higher than 12 to break it open.",
+        "Have a Scrappiness score higher than 14 to break it open.",
         "Use an ability or item to pick the lock.",
         "If you succeed, the chest opens revealing some treasure.",
         "Otherwise, you can't pick the lock and must move on.",
@@ -54,7 +54,7 @@ ENCOUNTERS = [
     [
         "The Haunted House",
         "Your party comes across a seemingly abandoned house with strange noises coming from inside.",
-        "Have a Scrappiness score higher than 14 to force the door open.",
+        "Have a Scrappiness score higher than 16 to force the door open.",
         "Use an ability or item to break down the door.",
         "If you succeed, you enter the house and can investigate.",
         "Otherwise, you can't break down the door and must move on.",
@@ -62,7 +62,7 @@ ENCOUNTERS = [
     [
         "The Lost Key",
         "Your party arrives at a mysterious dungeon and finds the door locked. A nearby note says 'The key is lost in the nearby woods'.",
-        "Have a Fabulousness score higher than 10 to find the key.",
+        "Have a Fabulousness score higher than 13 to find the key.",
         "Use an ability or item to pick the lock",
         "If you succeed, you find the key and unlock the door to continue your adventure.",
         "Otherwise, you are unable to find the key and must turn back. You fail the encounter and lose valuable time.",
@@ -70,7 +70,7 @@ ENCOUNTERS = [
     [
         "The Poisoned Water",
         "Your party reaches a river blocking your path. The water is poisonous and will damage anyone who tries to cross.",
-        "Have a Scrappiness score higher than 7",
+        "Have a Scrappiness score higher than 11",
         "Use an ability or item to purify the water",
         "If you succeed, you successfully purify the water and can cross without taking damage.",
         "Otherwise, you take damage from the poisonous water and lose valuable time. You fail the encounter and must find another way around.",
@@ -78,7 +78,7 @@ ENCOUNTERS = [
     [
         "The Trapped Chest",
         "Your party discovers a treasure chest sitting alone in a room. But as you approach it, you notice a tripwire on the ground.",
-        "Have a Scrappiness score higher than 12",
+        "Have a Scrappiness score higher than 14",
         "Use an ability or item to disarm the trap",
         "If you succeed, you safely disarm the trap and open the chest to discover its treasures.",
         "Otherwise, you trigger the trap and take damage from the explosion. You fail the encounter and lose valuable time.",
@@ -86,7 +86,7 @@ ENCOUNTERS = [
     [
         "The Charlatan",
         "Your party comes across a charismatic salesman who is selling potions that promise incredible results.",
-        "Have a Fabulousness score higher than 11",
+        "Have a Fabulousness score higher than 13",
         "Use an ability or item to identify the authenticity of the potions",
         "If you succeed, you realize the potions are fake and avoid wasting your gold.",
         "Otherwise, you purchase the fake potions and suffer negative effects. You fail the encounter and lose valuable gold.",
@@ -94,7 +94,7 @@ ENCOUNTERS = [
     [
         "The Haunted Mansion",
         "Your party stumbles upon an abandoned mansion with a dark history. As you enter, the doors shut behind you and the lights flicker.",
-        "Have a Craftiness score higher than 9",
+        "Have a Craftiness score higher than 12",
         "Use an ability or item to dispel the ghosts haunting the mansion",
         "If you succeed, you dispel the ghosts and can continue exploring the mansion.",
         "Otherwise, the ghosts attack your party and you must flee the mansion. You fail the encounter and lose valuable time.",
@@ -102,7 +102,7 @@ ENCOUNTERS = [
     [
         "The Bridge Troll",
         "Your party reaches a bridge guarded by a troll who demands a toll for crossing.",
-        "Have a Fabulousness score higher than 8",
+        "Have a Fabulousness score higher than 11",
         "Use an ability or item to persuade the troll to let you pass for free",
         "If you succeed, the troll is convinced and you can cross the bridge without paying the toll.",
         "Otherwise, you must pay the toll or fight the troll. You fail the encounter and lose your gold.",
@@ -110,7 +110,7 @@ ENCOUNTERS = [
     [
         "The Labyrinth",
         "Your party enters a labyrinth with confusing twists and turns. The walls look the same and it's easy to get lost.",
-        "Have a Craftiness score higher than 14",
+        "Have a Craftiness score higher than 16",
         "Use an ability or item to navigate the labyrinth without getting lost",
         "If you succeed, you successfully navigate the labyrinth and find the exit.",
         "Otherwise, you get lost in the labyrinth and waste valuable time. You fail the encounter and must try again.",
@@ -118,7 +118,7 @@ ENCOUNTERS = [
     [
         "The Sneaky Thief",
         "As your party makes their way through a crowded market, you suddenly feel a hand in your pocket. A pickpocket is trying to steal your valuables.",
-        "Have a Sneakiness higher than 14 to catch the thief in the act and retrieve your valuables.",
+        "Have a Sneakiness higher than 16 to catch the thief in the act and retrieve your valuables.",
         "Use an ability or item to track down the thief and retrieve your stolen valuables.",
         "If you succeed, you catch the thief and retrieve your stolen valuables. You can continue your journey with all your belongings intact.",
         "If you fail, the thief escapes with your valuables and you are left empty-handed. Lose all your items.",
@@ -126,7 +126,7 @@ ENCOUNTERS = [
     [
         "The Tricky Puzzle",
         "Your party enters a room with a large locked door. To proceed, you must solve a complex puzzle.",
-        "Have a Craftiness higher than 12 to solve the puzzle.",
+        "Have a Craftiness higher than 14 to solve the puzzle.",
         "Use an ability or item to decipher the clues and solve the puzzle.",
         "If you succeed, you solve the puzzle and the door unlocks, allowing you to continue your journey.",
         "If you fail, you are unable to solve the puzzle and are stuck in the room.",
@@ -150,7 +150,7 @@ ENCOUNTERS = [
     [
         "The Raging River",
         "Your hero comes across a raging river that is too wide and deep to cross on foot. There are no bridges or boats in sight.",
-        "Have a Scrappiness higher than 12 to build a raft from nearby materials.",
+        "Have a Scrappiness higher than 14 to build a raft from nearby materials.",
         "Use an ability or item to swim across the river safely.",
         "If you succeed in one of those, then you are able to cross the river.",
         "Otherwise, your hero will be swept away by the river dies.",
@@ -158,7 +158,7 @@ ENCOUNTERS = [
     [
         "The Locked Chest",
         "Your hero comes across a locked chest that appears to be of great value. The lock on the chest is quite complex.",
-        "Have a Sneakiness higher than 14 to pick the lock.",
+        "Have a Sneakiness higher than 16 to pick the lock.",
         "Use an ability or item to break the lock and open the chest.",
         "If you succeed in one of those, then you are able to open the chest and see what's inside.",
         "Otherwise, your hero is unable to open the chest, and the valuable contents remain a mystery.",
@@ -166,7 +166,7 @@ ENCOUNTERS = [
     [
         "The Intimidating Thug",
         "Your hero encounters a tough-looking thug who demands payment for passage through the area.",
-        "Have a Fabulousness higher than 10 to dazzle the thug with your hero's wealth and status.",
+        "Have a Fabulousness higher than 13 to dazzle the thug with your hero's wealth and status.",
         "Use an ability or item to intimidate the thug and scare them away.",
         "If you succeed in one of those, then your hero can pass through the area without further trouble.",
         "Otherwise, the thug will demand payment or even attack your hero, leading to a difficult fight or a loss of valuable items.",
@@ -174,7 +174,7 @@ ENCOUNTERS = [
     [
         "The Locked Chest",
         "Your hero comes across a locked chest on their journey. It seems to be protected by a magical barrier. Your hero can either try to force it open or attempt to dispel the magic.",
-        "Have a Craftiness score higher than 14 to dispel the magic",
+        "Have a Craftiness score higher than 16 to dispel the magic",
         "Use an ability or item to pick the lock or break it open",
         "If you succeed in opening the chest, you find a valuable item inside.",
         "If you fail, the chest explodes and deals damage to your hero.",
@@ -182,7 +182,7 @@ ENCOUNTERS = [
     [
         "The Dark Forest",
         "Your hero finds themselves lost in a dark forest. They hear the sound of growling and rustling in the bushes. Your hero must either sneak past the creatures or fight them head-on.",
-        "Have a Sneakiness score higher than 12 to sneak past the creatures",
+        "Have a Sneakiness score higher than 14 to sneak past the creatures",
         "Use an ability or item to sneak past the creatures",
         "If you succeed in sneaking past, you make it out of the forest unscathed.",
         "If you fail, the creatures attack and kill your hero.",
@@ -206,7 +206,7 @@ ENCOUNTERS = [
     [
         "The Goblin Lair",
         "Your hero stumbles upon a goblin lair. The goblins are hoarding a valuable treasure, but they won't part with it easily. Your hero can either try to negotiate with the goblins or fight them for the treasure.",
-        "Have a Craftiness score higher than 12 to negotiate with the goblins",
+        "Have a Craftiness score higher than 14 to negotiate with the goblins",
         "Use an ability or item to fight the goblins",
         "If you succeed in negotiating, the goblins part with the treasure, and your hero gains a valuable item.",
         "If you fail, the goblins attack, and your hero takes damage.",
@@ -214,7 +214,7 @@ ENCOUNTERS = [
     [
         "The Scam Artist",
         "Your hero gets approached by a street vendor selling a seemingly rare and valuable item. However, upon closer inspection, the item is clearly a fake.",
-        "Have a Scrappiness score higher than 13 to see through the vendor's scam and haggle them down to a fair price.",
+        "Have a Scrappiness score higher than 15 to see through the vendor's scam and haggle them down to a fair price.",
         "Use an ability or item to convince the vendor to sell the item at a lower price.",
         "If you succeed in one of those, then you obtain the item at a reasonable price.",
         "Otherwise, you end up paying too much for the fake item and the vendor laughs all the way to the bank.",
@@ -222,7 +222,7 @@ ENCOUNTERS = [
     [
         "The Persuasive Politician",
         "Your hero attends a political rally where they are approached by a charismatic politician who is trying to win over voters. The politician's speech is full of logical fallacies, but many in the crowd are convinced by their charm.",
-        "Have a Fabulousness score higher than 10 to deliver a counter-argument that wins over the crowd.",
+        "Have a Fabulousness score higher than 13 to deliver a counter-argument that wins over the crowd.",
         "Use an ability or item to distract the crowd from the politician's speech.",
         "If you succeed in one of those, then you successfully sway the crowd to your side.",
         "Otherwise, the politician's charm wins out and you are drowned out by the cheers of their supporters.",
@@ -230,7 +230,7 @@ ENCOUNTERS = [
     [
         "The Secret Society",
         "Your hero stumbles upon a secret society that is known for their exclusive membership and their strict initiation process. They are suspicious of outsiders and only allow those who can prove their worth to join.",
-        "Have a Craftiness score higher than 13 to solve the society's initiation challenge.",
+        "Have a Craftiness score higher than 15 to solve the society's initiation challenge.",
         "Use an ability or item to bribe one of the society's members to vouch for you.",
         "If you succeed in one of those, then you are able to join the society and gain access to their resources.",
         "Otherwise, you are seen as unworthy and are kicked out of the society without any further information.",
@@ -254,7 +254,7 @@ ENCOUNTERS = [
     [
         "The Puzzling Riddle",
         "Your hero encounters a wise old sage who challenges them to solve a riddle.",
-        "Have a Craftiness score higher than 10 to solve the riddle.",
+        "Have a Craftiness score higher than 13 to solve the riddle.",
         "Use an ability or item to ask for help.",
         "If you succeed, the sage rewards you with a powerful item.",
         "Otherwise, the sage mocks you for your lack of intelligence and you lose some self-esteem.",
@@ -278,7 +278,7 @@ ENCOUNTERS = [
     [
         "The Persuasive Merchant",
         "Your hero encounters a persuasive merchant who is trying to sell them some overpriced goods.",
-        "Have a Fabulousness score higher than 10 to haggle and get a better price.",
+        "Have a Fabulousness score higher than 13 to haggle and get a better price.",
         "Use an ability or item to charm or distract the merchant.",
         "If you succeed, you get a good deal on some valuable items.",
         "Otherwise, you end up paying too much and feel like you got ripped off.",
@@ -286,7 +286,7 @@ ENCOUNTERS = [
     [
         "The Lost Key",
         "Your hero needs to unlock a door to proceed, but the key has been lost. You see a small hole in the wall next to the door.",
-        "Have a Craftiness score higher than 9 to fashion a makeshift key out of nearby materials.",
+        "Have a Craftiness score higher than 12 to fashion a makeshift key out of nearby materials.",
         "Use an ability or item to pick the lock.",
         "If you succeed in one of those, you are able to unlock the door and proceed. Otherwise, you are unable to unlock the door and must find another way around.",
         "If you try to force the door open, the noise alerts nearby guards and they catch you. You fail the encounter and are captured.",
@@ -294,7 +294,7 @@ ENCOUNTERS = [
     [
         "The Angry Shopkeeper",
         "Your hero enters a store to purchase an item, but the shopkeeper is extremely angry about something and is not willing to sell anything.",
-        "Have a Fabulousness score higher than 9 to convince the shopkeeper that you have something they want to trade.",
+        "Have a Fabulousness score higher than 12 to convince the shopkeeper that you have something they want to trade.",
         "Use an ability or item to calm the shopkeeper down.",
         "If you succeed in one of those, you are able to make your purchase and leave. Otherwise, the shopkeeper refuses to sell you anything and you have to leave the store empty-handed.",
         "If you try to steal the item, the shopkeeper catches you and alerts the authorities. You fail the encounter and are arrested.",
@@ -302,7 +302,7 @@ ENCOUNTERS = [
     [
         "The Tightrope",
         "Your hero needs to cross a wide ravine to reach the other side. There is a tightrope stretched across the ravine, but it is old and unstable.",
-        "Have a Scrappiness score higher than 13 to repair the tightrope enough to safely cross.",
+        "Have a Scrappiness score higher than 15 to repair the tightrope enough to safely cross.",
         "Use an ability or item to stabilize the tightrope.",
         "If you succeed in one of those, you are able to cross the tightrope and reach the other side. Otherwise, you lose your balance and fall into the ravine, taking damage and having to find another way around.",
         "If you try to cross the tightrope without repairing or stabilizing it, the tightrope breaks and you fall into the ravine, taking severe damage. You fail the encounter and have to find another way around.",
@@ -310,7 +310,7 @@ ENCOUNTERS = [
     [
         "The Persuasive Bandit",
         "Your hero is stopped by a bandit who demands all of your gold in exchange for passage through their territory.",
-        "Have a Fabulousness score higher than 12 to convince the bandit that you are a powerful figure and not worth robbing.",
+        "Have a Fabulousness score higher than 14 to convince the bandit that you are a powerful figure and not worth robbing.",
         "Use an ability or item to intimidate the bandit into letting you pass.",
         "If you succeed in one of those, you are able to pass through the bandit's territory unscathed. Otherwise, the bandit takes all of your gold and you have to find another way around.",
         "If you try to fight the bandit, they are more skilled than you expected and you are defeated. You fail the encounter and are left beaten and robbed.",
@@ -318,7 +318,7 @@ ENCOUNTERS = [
     [
         "The Over-Enthusiastic Salesperson",
         "Your hero encounters an over-enthusiastic salesperson trying to sell a ridiculous item. The salesperson won't take no for an answer and keeps talking and talking.",
-        "Have a Scrappiness score higher than 7 to intimidate the salesperson into leaving.",
+        "Have a Scrappiness score higher than 11 to intimidate the salesperson into leaving.",
         "Use an ability or item to distract the salesperson and slip away.",
         "If you succeed in one of those, then you are able to get away from the salesperson and continue on your journey.",
         "Otherwise, the salesperson talks your ear off and you waste valuable time. You fail the encounter and lose 1 hour.",
@@ -326,7 +326,7 @@ ENCOUNTERS = [
     [
         "The Dancing Bear",
         "Your hero comes across a dancing bear in the forest. The bear is dancing to music and doesn't seem to be aggressive.",
-        "Have a Fabulousness score higher than 10 to join in on the dancing and impress the bear.",
+        "Have a Fabulousness score higher than 13 to join in on the dancing and impress the bear.",
         "Use an ability or item to calm the bear down and avoid any confrontation.",
         "If you succeed in one of those, then you are able to continue on your journey without any harm.",
         "Otherwise, the bear becomes angry and attacks you. You fail the encounter and the bear eats you.",
@@ -334,7 +334,7 @@ ENCOUNTERS = [
     [
         "The Disappearing Stairs",
         "Your hero comes across a staircase across a gap that seems to disappear as soon as you step on it. The staircase reappears as soon as you step off of it.",
-        "Have a Sneakiness score higher than 12 to navigate the staircase and make it to the other side.",
+        "Have a Sneakiness score higher than 14 to navigate the staircase and make it to the other side.",
         "Use an ability or item to create a bridge across the gap and avoid the staircase altogether.",
         "If you succeed in one of those, then you are able to continue on your journey without any harm.",
         "Otherwise, you fall into the gap and die.",
@@ -342,7 +342,7 @@ ENCOUNTERS = [
     [
         "The Talking Tree",
         "Your hero encounters a talking tree in the forest. The tree is quite chatty and has a lot of stories to tell.",
-        "Have a Craftiness score higher than 8 to keep the conversation going and gain valuable information.",
+        "Have a Craftiness score higher than 11 to keep the conversation going and gain valuable information.",
         "Use an ability or item to make the tree fall asleep and continue on your journey.",
         "If you succeed in one of those, then you are able to continue on your journey with some new knowledge.",
         "Otherwise, the tree talks your ear off and you waste valuable time. You fail the encounter and regret talking to a tree.",
@@ -350,7 +350,7 @@ ENCOUNTERS = [
     [
         "The Punny Jester",
         "Your hero comes across a jester who tells terrible puns. The jester won't stop telling puns and seems to be enjoying themself.",
-        "Have a Fabulousness score higher than 11 to appreciate the puns and make the jester happy.",
+        "Have a Fabulousness score higher than 13 to appreciate the puns and make the jester happy.",
         "Use an ability or item to distract the jester and slip away.",
         "If you succeed in one of those, then you are able to continue on your journey without any harm.",
         "Otherwise, the jester tells more and more puns until you can't take it anymore. You fail the encounter and lose an hour of your life.",
@@ -358,7 +358,7 @@ ENCOUNTERS = [
     [
         "The Spilled Soup",
         "Your hero is in a fancy restaurant and the waiter accidentally spills hot soup all over their lap. The waiter is mortified and doesn't know what to do.",
-        "Have a Scrappiness score higher than 8 to quickly clean up the mess and gain the waiter's admiration.",
+        "Have a Scrappiness score higher than 11 to quickly clean up the mess and gain the waiter's admiration.",
         "Use an ability or item to distract the waiter and slip away without being noticed.",
         "If you succeed in either of those, then you can enjoy the rest of your meal without any further interruptions.",
         "Otherwise, the waiter continues to apologize profusely and your hero is forced to leave the restaurant with a stained outfit and ego.",
@@ -366,7 +366,7 @@ ENCOUNTERS = [
     [
         "The Hairy Beast",
         "Your hero stumbles upon a creature with long shaggy fur blocking their path. It seems friendly but it's shedding hair all over the place.",
-        "Have a Fabulousness score higher than 11 to groom the creature and make it presentable.",
+        "Have a Fabulousness score higher than 13 to groom the creature and make it presentable.",
         "Use an ability or item to distract the creature and sneak past it.",
         "If you succeed in either of those, then you can continue on your way.",
         "Otherwise, the creature sheds even more fur on your hero and you have to spend the rest of the day picking hair off your clothes.",
@@ -374,7 +374,7 @@ ENCOUNTERS = [
     [
         "The Endless Staircase",
         "Your hero comes across a seemingly endless staircase that stretches into the clouds. There's no way to tell where it leads.",
-        "Have a Craftiness score higher than 13 to fashion a parachute out of available materials and safely glide down to the bottom.",
+        "Have a Craftiness score higher than 15 to fashion a parachute out of available materials and safely glide down to the bottom.",
         "Use an ability or item to conjure a magical bridge that spans the distance.",
         "If you succeed in either of those, then you can safely reach the bottom and continue on your journey.",
         "Otherwise, your hero tumbles down the stairs and lands at the bottom with a bruised bottom and ego.",
@@ -382,7 +382,7 @@ ENCOUNTERS = [
     [
         "The Haunted Mansion",
         "Your hero comes across a spooky old mansion that seems abandoned. But upon closer inspection, there are signs of life inside.",
-        "Have a Sneakiness score higher than 10 to sneak past the ghostly guardians and find a way inside.",
+        "Have a Sneakiness score higher than 13 to sneak past the ghostly guardians and find a way inside.",
         "Use an ability or item to cast a spell of invisibility and bypass the guards undetected.",
         "If you succeed in either of those, then you can explore the mansion and uncover its secrets.",
         "Otherwise, the ghostly guardians catch your hero and make them spend the night in the mansion's haunted dungeon.",
@@ -390,7 +390,7 @@ ENCOUNTERS = [
     [
         "The Cheesy Salesman",
         "Your hero is browsing the market when they come across a cheese salesman who insists on offering them samples of every type of cheese imaginable.",
-        "Have a Scrappiness score higher than 7 to politely decline the cheese and make a quick getaway.",
+        "Have a Scrappiness score higher than 16 to politely decline the cheese and make a quick getaway.",
         "Use an ability or item to distract the salesman and sneak away without being noticed.",
         "If you succeed in either of those, then you can escape the cheesy salesman's clutches.",
         "Otherwise, your hero is force-fed so much cheese that they have to spend the rest of the day lactose intolerant and in pain.",
@@ -398,7 +398,7 @@ ENCOUNTERS = [
     [
         "The Fashion Disaster",
         "Your hero comes across a fashion show where everyone is dressed in the latest trend. Unfortunately, your hero is still wearing their pajamas. The fashion police are now after your hero!",
-        "Have a Fabulousness score higher than 12 to convince the fashion police that your pajamas are the new trend.",
+        "Have a Fabulousness score higher than 14 to convince the fashion police that your pajamas are the new trend.",
         "Use an ability or item to create a distraction and escape the fashion police.",
         "If you succeed in one of those, you manage to get away without getting arrested for fashion crimes.",
         "Otherwise, the fashion police catch up to you and fine you for being a fashion disaster.",
@@ -406,7 +406,7 @@ ENCOUNTERS = [
     [
         "The Singing Bard",
         "Your hero walks into a tavern and sees a bard singing a terrible song. The patrons are not amused, but the bard keeps singing anyway.",
-        "Have a Fabulousness score higher than 10 to charm the patrons and convince them that the bard is actually talented.",
+        "Have a Fabulousness score higher than 13 to charm the patrons and convince them that the bard is actually talented.",
         "Use an ability or item to silence the bard and spare everyone from the terrible singing.",
         "If you succeed in one of those, the patrons are impressed with your hero's actions.",
         "Otherwise, the bard continues to sing, and the patrons start throwing things at your hero for not doing anything about it.",
@@ -414,7 +414,7 @@ ENCOUNTERS = [
     [
         "The Hungry Hobbit",
         "Your hero meets a hungry hobbit on the road who offers to trade some valuable information for a meal.",
-        "Have a Scrappiness score higher than 8 to scavenge enough food for the hobbit.",
+        "Have a Scrappiness score higher than 13 to scavenge enough food for the hobbit.",
         "Use an ability or item to persuade the hobbit to share the information without needing a meal.",
         "If you succeed in one of those, the hobbit is satisfied and gives you the information.",
         "Otherwise, the hobbit gets angry and starts attacking your hero for not providing a meal.",
@@ -422,7 +422,7 @@ ENCOUNTERS = [
     [
         "The Giant Chicken",
         "Your hero comes across a giant chicken blocking the path. It looks hungry and ready to attack.",
-        "Have a Craftiness score higher than 14 to create a chicken costume and trick the giant chicken into thinking you are one of its own.",
+        "Have a Craftiness score higher than 16 to create a chicken costume and trick the giant chicken into thinking you are one of its own.",
         "Use an ability or item to distract the giant chicken and run away before it can attack.",
         "If you succeed in one of those, your hero manages to escape unharmed.",
         "Otherwise, the giant chicken pecks your hero and runs off with your backpack.",
@@ -430,7 +430,7 @@ ENCOUNTERS = [
     [
         "The Clumsy Assassin",
         "Your hero is targeted by an assassin who is trying to take them out.",
-        "Have a Scrappiness score higher than 9 to disarm the assassin using improvised weapons.",
+        "Have a Scrappiness score higher than 15 to disarm the assassin using improvised weapons.",
         "Use an ability or item to trip the assassin and knock them out.",
         "If you succeed in one of those, your hero manages to escape the assassin's grasp.",
         "Otherwise, the assassin catches your hero off guard and delivers a fatal blow.",
@@ -438,7 +438,7 @@ ENCOUNTERS = [
     [
         "The Stampeding Herd",
         "Your hero encounters a large herd of cows stampeding towards them!",
-        "Have a Scrappiness score higher than 10 to dodge the stampede and avoid getting trampled by the cows.",
+        "Have a Scrappiness score higher than 13 to dodge the stampede and avoid getting trampled by the cows.",
         "Use an ability or item to distract the cows and prevent them from stampeding.",
         "If you succeed in one of those, then you are able to avoid getting trampled and move on.",
         "Otherwise, your hero gets caught up in the stampede and is trampled by the cows. They are left bruised and battered.",
@@ -446,7 +446,7 @@ ENCOUNTERS = [
     [
         "The Cow Tipping",
         "Your hero sees a group of locals attempting to tip over a cow. They ask your hero to help!",
-        "Have a Scrappiness score higher than 7 to successfully tip over the cow with the group.",
+        "Have a Scrappiness score higher than 11 to successfully tip over the cow with the group.",
         "Use an ability or item to persuade the cow to lie down without tipping it over.",
         "If you succeed in one of those, then you are able to tip over the cow (or not) and move on.",
         "Otherwise, your hero falls over and is covered in cow manure. The locals laugh and your hero is left humiliated.",
@@ -454,7 +454,7 @@ ENCOUNTERS = [
     [
         "The Dairy Farm",
         "Your hero finds themselves on a dairy farm with cows everywhere. The farmer needs your hero's help to milk the cows!",
-        "Have a Craftiness score higher than 12 to successfully milk the cows.",
+        "Have a Craftiness score higher than 14 to successfully milk the cows.",
         "Use an ability or item to communicate with the cows and convince them to give up their milk.",
         "If you succeed in one of those, then you are able to milk the cows and move on.",
         "Otherwise, your hero is unable to milk the cows and is left with empty buckets.",
@@ -462,7 +462,7 @@ ENCOUNTERS = [
     [
         "The Cow Auction",
         "Your hero comes across a cow auction and is asked to help auction off the cows.",
-        "Have a Fabulousness score higher than 8 to successfully auction off the cows.",
+        "Have a Fabulousness score higher than 11 to successfully auction off the cows.",
         "Use an ability or item to hypnotize the cows and make them dance to sell them at a higher price.",
         "If you succeed in one of those, then you are able to auction off the cows and move on.",
         "Otherwise, your hero fails miserably and is left with unsold cows and a disappointed auctioneer.",
@@ -470,7 +470,7 @@ ENCOUNTERS = [
     [
         "The Cow Whisperer",
         "Your hero comes across a cow that seems to be in distress. Can your hero help the cow?",
-        "Have a Craftiness score higher than 10 to understand what the cow is saying and help it.",
+        "Have a Craftiness score higher than 13 to understand what the cow is saying and help it.",
         "Use an ability or item to sing a lullaby to the cow and put it to sleep.",
         "If you succeed in one of those, then you are able to help the cow and move on.",
         "Otherwise, your hero is unable to help the cow and is left feeling bad for it.",
@@ -478,7 +478,7 @@ ENCOUNTERS = [
     [
         "Cow Stampede",
         "Your hero sees a herd of cows running towards them. The cows are heading straight for your hero and they must act quickly to avoid being trampled.",
-        "Have a Scrappiness score higher than 8 to jump out of the way.",
+        "Have a Scrappiness score higher than 11 to jump out of the way.",
         "Use an ability or item to scare the cows away.",
         "If you succeed in one of those, then you avoid being trampled and can continue on your way.",
         "Otherwise, you get run over by a cow and are knocked unconscious. When you wake up, you find yourself in a cow pasture.",
@@ -486,7 +486,7 @@ ENCOUNTERS = [
     [
         "Milkmaid in Distress",
         "Your hero sees a milkmaid being harassed by a group of bandits. They are trying to steal her cow and milk.",
-        "Have a Fabulousness score higher than 10 to talk the bandits out of it.",
+        "Have a Fabulousness score higher than 13 to talk the bandits out of it.",
         "Use an ability or item to distract the bandits.",
         "If you succeed in one of those, then you save the milkmaid and her cow and she rewards you with a bucket of fresh milk.",
         "Otherwise, the bandits attack you and you have to fight them off. The milkmaid gets away, but her cow is stolen.",
@@ -494,7 +494,7 @@ ENCOUNTERS = [
     [
         "Cow Tipping",
         "Your hero and their friends decide to go cow tipping in the middle of the night. As you approach the sleeping cow, it suddenly wakes up and starts charging at you.",
-        "Have a Sneakiness score higher than 7 to escape without being seen.",
+        "Have a Sneakiness score higher than 11 to escape without being seen.",
         "Use an ability or item to distract the cow.",
         "If you succeed in one of those, then you escape without being trampled or caught by the farmer.",
         "Otherwise, you get caught by the farmer and have to spend the night in jail.",
@@ -502,7 +502,7 @@ ENCOUNTERS = [
     [
         "Cow Poop",
         "Your hero is walking down a dirt path and steps in a large pile of cow poop. It's all over your boots!",
-        "Have a Craftiness score higher than 12 to clean your boots off quickly and without making a mess.",
+        "Have a Craftiness score higher than 14 to clean your boots off quickly and without making a mess.",
         "Use an ability or item to magically clean your boots.",
         "If you succeed in one of those, then you clean your boots off and continue on your way without any further mishaps.",
         "Otherwise, you slip and fall in more cow poop, ruining your outfit and dignity.",
@@ -510,7 +510,7 @@ ENCOUNTERS = [
     [
         "Cow Costume",
         "Your hero comes across a group of cows who are having a party. They invite you to join, but you need to blend in.",
-        "Have a Fabulousness score higher than 10 to create a convincing cow costume from materials on hand.",
+        "Have a Fabulousness score higher than 13 to create a convincing cow costume from materials on hand.",
         "Use an ability or item to magically transform into a cow.",
         "If you succeed in one of those, then you are able to join the party and have a great time with your new cow friends.",
         "Otherwise, the cows realize you are not a cow and they moo-stake you for a predator. They chase you out of the pasture and you end up covered in cow poop.",

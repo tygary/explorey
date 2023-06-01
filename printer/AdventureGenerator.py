@@ -1,9 +1,5 @@
 import RPi.GPIO as GPIO
-import time
 import threading
-import imp
-import random
-import textwrap
 from printer.AdventurePrinter import AdventurePrinter
 from printer.addeventdetection import *
 from printer.CharacterSheet import CharacterSheet

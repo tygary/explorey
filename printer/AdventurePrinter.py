@@ -126,7 +126,7 @@ class AdventurePrinter(object):
         pdf.cell(0, 6, f"Species: {character.species}", align="L", ln=1)
         pdf.cell(left_align, 6)
         pdf.cell(0, 6, f"Profession: {character.class_name}", align="L", ln=1)
-        pdf.cell(75, 2, ln=1)
+        pdf.cell(75, 4, ln=1)
         pdf.cell(0, 6, f"Skills:", align="L", ln=1)
         pdf.cell(75, 4, ln=1)
         pdf.set_font("Arial", "B", 14)

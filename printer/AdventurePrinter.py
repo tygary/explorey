@@ -4,6 +4,7 @@ import random
 import json
 from printer.CharacterSheetPrintout import CharacterSheetPrintout
 from printer.EncounterPrintout import EncounterPrintout
+from printer.ItemPrintout import ItemPrintout
 import threading
 from logger.logger import Logger
 from printer.CharacterSheet import CharacterSheet
@@ -174,7 +175,7 @@ class AdventurePrinter(object):
             self.logger.log("  Failure")
             pass
 
-        pdf = EncounterPrintout()
+        pdf = ItemPrintout()
         pdf.set_margins(left=16, top=0, right=0)
         pdf.set_auto_page_break(False)
         pdf.add_page(orientation="P", format=(90, 130))
@@ -211,11 +212,18 @@ class AdventurePrinter(object):
         pdf.cell(75, 4, ln=1)
         pdf.multi_cell(0, 6, f"{boss.desc}", align="L")
         pdf.cell(75, 4, ln=1)
-        pdf.multi_cell(0, 6, f"{boss.challenge_1}", align="L")
+        pdf.multi_cell(
+            0,
+            6,
+            f"To emerge victorious from this boss battle, your party must navigate through the following challenges and suceed on at least two out of three:",
+            align="L",
+        )
         pdf.cell(75, 4, ln=1)
-        pdf.multi_cell(0, 6, f"{boss.challenge_2}", align="L")
+        pdf.multi_cell(0, 6, f"1 - {boss.challenge_1}", align="L")
         pdf.cell(75, 4, ln=1)
-        pdf.multi_cell(0, 6, f"{boss.challenge_3}", align="L")
+        pdf.multi_cell(0, 6, f"2 - {boss.challenge_2}", align="L")
+        pdf.cell(75, 4, ln=1)
+        pdf.multi_cell(0, 6, f"3 - {boss.challenge_3}", align="L")
         pdf.cell(75, 4, ln=1)
         pdf.multi_cell(0, 6, f"{boss.result}", align="L")
         pdf.output(self.tmpBossPath, "F")

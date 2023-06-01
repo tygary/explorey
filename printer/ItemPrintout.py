@@ -2,14 +2,14 @@ from fpdf import FPDF
 
 
 ##-----------------------------------------------------------------------
-#   EncounterPrintout
+#   ItemPrintout
 #
-#   Basic PDF format for making a quiz
+#   Basic PDF format for making an Item
 ##-----------------------------------------------------------------------
-class EncounterPrintout(FPDF):
+class ItemPrintout(FPDF):
     def header(self):
-        # self.image("/home/admin/explorey/printer/resources/onion.png", 43, 0, 20, 20)
-        # self.ln(20)
+        self.image("/home/admin/explorey/printer/resources/onion.png", 43, 0, 20, 20)
+        self.ln(20)
         return
 
     def footer(self):
@@ -19,7 +19,7 @@ class EncounterPrintout(FPDF):
         self.multi_cell(
             0,
             5,
-            "Goblin Encounters LTD 2023\nWe're totally not the ones who burned down your village...",
+            "Goblin Encounters LTD 2023\nGoblin Encounters LTD is not responsible for any loss of life, limb, or sanity due to cursed items.",
             0,
             "C",
         )

@@ -1,4 +1,5 @@
 import time
+import math
 from printer.DiceRoller import *
 from enum import IntEnum
 
@@ -362,6 +363,17 @@ CHAR_TO_SPACE_RATIO = SPACES_PER_ROW / CHARS_PER_ROW
 CHARS_PER_SECTION = CHARS_PER_ROW * 4
 
 
+def buffer_str(str):
+    length = len(str)
+    if length < CHARS_PER_SECTION:
+        additional_spaces = math.ceil(
+            (CHARS_PER_SECTION - length) * CHAR_TO_SPACE_RATIO
+        )
+        return str + " " * additional_spaces + "."
+    else:
+        return str
+
+
 class CharacterSheet(object):
     dex = 10
     wis = 10
@@ -390,12 +402,7 @@ class CharacterSheet(object):
 
         if char_type < 0:
             char_type = random.randint(0, 3)
-        self.main_quest = MAIN_QUESTS_BY_TYPE[char_type]
-        if len(self.main_quest) < CHARS_PER_SECTION:
-            additional_spaces = (
-                CHARS_PER_SECTION - len(self.main_quest)
-            ) * CHAR_TO_SPACE_RATIO
-            self.main_quest += " " * additional_spaces + "."
+        self.main_quest = buffer_str(MAIN_QUESTS_BY_TYPE[char_type])
 
         self.char_type = char_type
         self.__set_scores()
@@ -468,11 +475,7 @@ class CharacterSheet(object):
                 self.quest = random.choice(TIDY_QUESTS_BY_TYPE)
         else:
             self.quest = random.choice(QUEST_BY_TYPE[self.char_type])
-        if len(self.quest) < CHARS_PER_SECTION:
-            additional_spaces = (
-                CHARS_PER_SECTION - len(self.quest)
-            ) * CHAR_TO_SPACE_RATIO
-            self.quest += " " * additional_spaces + "."
+        self.quest = buffer_str(self.quest)
 
     def __str__(self):
         return f"A {self.species} {self.class_name} on a quest to {self.quest}.  Sneakiness={self.dex} Craftiness={self.wis} Scrappiness={self.con} Fabulousness={self.cha} Abilities: {self.abilities} Items: {self.items}"

@@ -110,7 +110,7 @@ class AdventurePrinter(object):
         pdf = CharacterSheetPrintout()
         pdf.set_margins(left=16, top=0, right=0)
         pdf.set_auto_page_break(False)
-        pdf.add_page(orientation="P", format=(90, 300))
+        pdf.add_page(orientation="P", format=(90, 310))
         pdf.image(
             "/home/admin/explorey/printer/resources/charactersheet.png", 15, 10, 75, 280
         )
@@ -166,11 +166,10 @@ class AdventurePrinter(object):
         pdf.cell(0, 10, f"Main Quest:", align="L", ln=1)
         pdf.cell(left_align, 6)
         pdf.multi_cell(0, 6, f"{character.main_quest}", align="L")
-        pdf.cell(75, 8, ln=1)
-        pdf.cell(0, 6, f"Quest Stamps:", align="L", ln=1)
-        pdf.cell(75, 4, ln=1)
+        pdf.cell(75, 6, ln=1)
+        pdf.cell(0, 10, f"Quest Stamps:", align="L", ln=1)
         pdf.set_font("Arial", "", 9)
-        left_side = 40
+        left_side = 36
         right_side = 100
         pdf.cell(left_side, 4, f"Blessing of Onions", align="L")
         pdf.cell(right_side, 4, f"Blessing of Potatoes", align="L", ln=1)

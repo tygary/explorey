@@ -499,7 +499,7 @@ class MushroomRoutine(Routine):
                 if light.wait and self.now > (light.timestamp + light.waitDuration):
                     light.wait = False
                     self.pickNewLightMode(light)
-            if light.mode == LIGHT_FADE:
+            elif light.mode == LIGHT_FADE:
                 if light.wait:
                     if self.now > (light.timestamp + light.waitDuration):
                         light.wait = False
@@ -541,7 +541,11 @@ class MushroomRoutine(Routine):
         if rand < 90:
             light.mode = LIGHT_UNSET
             light.wait = True
+            light.timestamp = self.now
+            light.currentValue = [0, 0, 0]
+            light.intendedColor = [0, 0, 0]
             light.waitDuration = random.randrange(1000, 10000)
+            light.nextActionTime = light.timestamp + light.waitDuration
         elif rand > 99:
             light.mode = LIGHT_BLINK
         else:

@@ -496,8 +496,11 @@ class MushroomRoutine(Routine):
             light = self.cave_panel_lights[i]
             if light.mode == LIGHT_UNSET:
                 light.currentValue = [0, 0, 0]
-                if light.wait and self.now > (light.timestamp + light.waitDuration):
-                    light.wait = False
+                if light.wait:
+                    if self.now > (light.timestamp + light.waitDuration):
+                        light.wait = False
+                        self.pickNewLightMode(light)
+                else:
                     self.pickNewLightMode(light)
             elif light.mode == LIGHT_FADE:
                 if light.wait:
@@ -538,7 +541,7 @@ class MushroomRoutine(Routine):
 
     def pickNewLightMode(self, light):
         rand = random.randrange(0, 100)
-        if rand < 10:
+        if rand < 50:
             light.mode = LIGHT_UNSET
             light.wait = True
             light.timestamp = self.now
@@ -549,7 +552,6 @@ class MushroomRoutine(Routine):
         else:
             light.mode = LIGHT_FADE
 
-        light.timestamp = self.now
         if light.mode == LIGHT_FADE:
             colorBias = random.randrange(0, 1000)
             colorIndex = 0

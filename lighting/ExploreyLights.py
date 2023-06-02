@@ -50,7 +50,7 @@ class ExploreyLights(object):
     thread = None
     dmx = DmxControl()
     mode = 0
-    delay = 0.02
+    delay = 0.01
     num_pixels = 0
     dmxBlackLights = [17, 10]
     now = 0

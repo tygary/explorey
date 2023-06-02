@@ -566,7 +566,7 @@ class MushroomRoutine(Routine):
                 colorIndex = ACCENT_COLOR_2
             light.currentValue = [0, 0, 0]
             light.intendedColor = self.getNewLightColor(colorIndex)
-            light.duration = random.randrange(3000, 14000)
+            light.duration = random.randrange(3000, 7000)
             light.iterations = random.randrange(1, 3)
             light.up = True
             light.timestamp = self.now
@@ -586,14 +586,14 @@ class MushroomRoutine(Routine):
                 print("Finished Transitioning Color Scheme")
                 self.cavePanelColorTransitioning = False
                 self.cavePanelColorSchemeIndex = self.cavePanelColorSchemeIndexNew
-                self.cavePanelColorDuration = random.randrange(16000, 60000)
+                self.cavePanelColorDuration = random.randrange(8000, 30000)
                 self.cavePanelColorTimestamp = self.now
             else:
                 self.cavePanelColorTransitioning = True
                 self.cavePanelColorSchemeIndexNew = random.randrange(
                     0, len(self.cavePanelColorSchemes)
                 )
-                self.cavePanelColorDuration = random.randrange(3000, 16000)
+                self.cavePanelColorDuration = random.randrange(3000, 8000)
                 self.cavePanelColorTimestamp = self.now
                 print(
                     "Switching to color scheme {}".format(

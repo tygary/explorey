@@ -507,6 +507,7 @@ class MushroomRoutine(Routine):
                     if self.now > (light.timestamp + light.waitDuration):
                         light.wait = False
                         light.timestamp = self.now
+                        light.nextActionTime = light.timestamp + light.duration
                 elif light.up:
 
                     def onFinishIncrement():
@@ -547,7 +548,7 @@ class MushroomRoutine(Routine):
             light.timestamp = self.now
             # light.currentValue = [0, 0, 0]
             light.waitDuration = random.randrange(1000, 10000)
-        elif rand > 98:
+        elif rand > 100:
             light.mode = LIGHT_BLINK
         else:
             light.mode = LIGHT_FADE
@@ -565,7 +566,7 @@ class MushroomRoutine(Routine):
                 colorIndex = ACCENT_COLOR_2
             light.currentValue = [0, 0, 0]
             light.intendedColor = self.getNewLightColor(colorIndex)
-            light.duration = random.randrange(1000, 7000)
+            light.duration = random.randrange(3000, 14000)
             light.iterations = random.randrange(1, 3)
             light.up = True
             light.timestamp = self.now
@@ -585,14 +586,14 @@ class MushroomRoutine(Routine):
                 print("Finished Transitioning Color Scheme")
                 self.cavePanelColorTransitioning = False
                 self.cavePanelColorSchemeIndex = self.cavePanelColorSchemeIndexNew
-                self.cavePanelColorDuration = random.randrange(8000, 30000)
+                self.cavePanelColorDuration = random.randrange(16000, 60000)
                 self.cavePanelColorTimestamp = self.now
             else:
                 self.cavePanelColorTransitioning = True
                 self.cavePanelColorSchemeIndexNew = random.randrange(
                     0, len(self.cavePanelColorSchemes)
                 )
-                self.cavePanelColorDuration = random.randrange(3000, 8000)
+                self.cavePanelColorDuration = random.randrange(3000, 16000)
                 self.cavePanelColorTimestamp = self.now
                 print(
                     "Switching to color scheme {}".format(
@@ -623,4 +624,8 @@ class MushroomRoutine(Routine):
                     self.cavePanelColorSchemeIndexNew
                 ]
 
-        return colorScheme[colorIndex]
+        return [
+            colorScheme[colorIndex][0] / 2,
+            colorScheme[colorIndex][1] / 2,
+            colorScheme[colorIndex][2] / 2,
+        ]

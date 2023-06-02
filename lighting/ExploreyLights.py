@@ -304,7 +304,7 @@ class ExploreyLights(object):
 
     def __run_thread(self):
         while self.is_running:
-            self.now = time.time() * 1000
+            self.now = int(round(time.time() * 1000))
             self.mode_object.tick()
             self.pixels.render()
             self.processBlackLights()

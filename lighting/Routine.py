@@ -540,6 +540,8 @@ class MushroomRoutine(Routine):
         rand = random.randrange(0, 100)
         if rand < 40:
             light.mode = LIGHT_UNSET
+            light.wait = True
+            light.waitDuration = random.randrange(1000, 10000)
         elif rand > 90:
             light.mode = LIGHT_BLINK
         else:

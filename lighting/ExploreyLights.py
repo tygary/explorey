@@ -91,7 +91,8 @@ class ExploreyLights(object):
             amount_left = 1.0 - (
                 (float(finish_time) - float(self.now)) / float(self.blackLightDuration)
             )
-            self.blackLightValue = int(round(amount_left * 200.0)) + 55
+            self.blackLightValue = int(round(amount_left * 200.0))
+            print(self.blackLightValue)
             self.dmx.setBlackLight(self.dmxBlackLights[0], self.blackLightValue)
             self.dmx.setBlackLight(self.dmxBlackLights[1], self.blackLightValue)
         else:
@@ -100,7 +101,8 @@ class ExploreyLights(object):
             amount_left = (float(finish_time) - float(self.now)) / float(
                 self.blackLightDuration
             )
-            self.blackLightValue = int(round(amount_left * 200.0)) + 55
+            self.blackLightValue = int(round(amount_left * 200.0))
+            print(self.blackLightValue)
             self.dmx.setBlackLight(self.dmxBlackLights[0], self.blackLightValue)
             self.dmx.setBlackLight(self.dmxBlackLights[1], self.blackLightValue)
 
@@ -299,6 +301,7 @@ class ExploreyLights(object):
             self.mode_object.tick()
             self.pixels.render()
             self.processBlackLights()
+            self.dmx.render()
             self.dmx.render()
             time.sleep(self.delay)
 

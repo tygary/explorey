@@ -150,7 +150,7 @@ class AdventurePrinter(object):
         pdf.cell(6, 6, f"{character.abilities[1]}", align="L", ln=1)
         pdf.cell(left_align, 6)
         pdf.cell(6, 6, f"{character.abilities[2]}", align="L", ln=1)
-        pdf.cell(75, 4, ln=1)
+        pdf.cell(75, 6, ln=1)
         pdf.cell(0, 10, f"Items:", align="L", ln=1)
         pdf.cell(left_align, 6)
         pdf.cell(0, 6, f"{character.items[0]}", align="L", ln=1)

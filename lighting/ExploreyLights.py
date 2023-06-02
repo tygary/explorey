@@ -173,7 +173,7 @@ class ExploreyLights(object):
                     #         ],
                     #     ]
                     # ),
-                    BleuRoutine(self.pixels, DANIELLE_PIXELS),
+                    MushroomRoutine(self.pixels, DANIELLE_PIXELS),
                     # WaveRoutine(
                     #     self.pixels,
                     #     LILI_PIXELS,

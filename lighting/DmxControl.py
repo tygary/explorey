@@ -6,7 +6,7 @@ class DmxControl(object):
     dmx = None
 
     def __init__(self):
-        self.dmx = DmxPy("/dev/ttyUSB0")
+        self.dmx = DmxPy.DmxPy("/dev/ttyUSB0")
 
     def setLight(self, channelStart, color):
         self.dmx.setChannel(channelStart, color[0])

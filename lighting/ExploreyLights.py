@@ -72,6 +72,7 @@ class ExploreyLights(object):
 
     blackLightValue = 0
     blackLightUp = True
+    blackLightWait = False
     blackLightDuration = 2000
     blackLightTimestamp = 0
     blackLightRunning = False
@@ -83,26 +84,32 @@ class ExploreyLights(object):
             self.blackLightTimestamp = self.now
             self.blackLightDuration = random.randrange(500, 2000)
         finish_time = self.blackLightTimestamp + self.blackLightDuration
-        if self.blackLightUp:
+        if self.blackLightWait:
             if self.now > finish_time:
-                self.blackLightUp = False
+                self.blackLightWait = False
+                self.blackLightTimestamp = self.now
+                self.blackLightUp = not self.blackLightUp
+                self.blackLightDuration = random.randrange(500, 2000)
+        elif self.blackLightUp:
+            if self.now > finish_time:
+                self.blackLightWait = True
+                self.blackLightDuration = random.randrange(500, 2000)
                 self.blackLightTimestamp = self.now
 
             amount_left = 1.0 - (
                 (float(finish_time) - float(self.now)) / float(self.blackLightDuration)
             )
             self.blackLightValue = int(round(amount_left * 200.0))
-            print(self.blackLightValue)
             self.dmx.setBlackLight(self.dmxBlackLights[0], self.blackLightValue)
             self.dmx.setBlackLight(self.dmxBlackLights[1], self.blackLightValue)
         else:
             if self.now > finish_time:
-                self.blackLightRunning = False
+                self.blackLightWait = True
+                self.blackLightDuration = random.randrange(500, 2000)
             amount_left = (float(finish_time) - float(self.now)) / float(
                 self.blackLightDuration
             )
             self.blackLightValue = int(round(amount_left * 200.0))
-            print(self.blackLightValue)
             self.dmx.setBlackLight(self.dmxBlackLights[0], self.blackLightValue)
             self.dmx.setBlackLight(self.dmxBlackLights[1], self.blackLightValue)
 

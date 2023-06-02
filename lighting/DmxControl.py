@@ -1,4 +1,4 @@
-from lighting.lib.DmxPy import DmxPy
+from dmxpy import DmxPy
 import time
 
 

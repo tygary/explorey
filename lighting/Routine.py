@@ -538,11 +538,11 @@ class MushroomRoutine(Routine):
 
     def pickNewLightMode(self, light):
         rand = random.randrange(0, 100)
-        if rand < 50:
+        if rand < 10:
             light.mode = LIGHT_UNSET
             light.wait = True
             light.timestamp = self.now
-            light.currentValue = [0, 0, 0]
+            # light.currentValue = [0, 0, 0]
             light.waitDuration = random.randrange(1000, 10000)
         elif rand > 90:
             light.mode = LIGHT_BLINK

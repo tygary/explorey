@@ -17,12 +17,15 @@ class DmxPy:
             sys.exit(0)
         b = bytearray()
         b.extend((DMXOPEN + DMXINIT1 + DMXCLOSE).encode())
+        b.extend(serial.encode())
+        b.extend(data)
+        b.extend()
         self.serial.write(b)
         b = bytearray()
         b.extend((DMXOPEN + DMXINIT2 + DMXCLOSE).encode())
         self.serial.write(b)
 
-        self.dmxData = [chr(0)] * 513  # 128 plus "spacer".
+        self.dmxData = [chr(0).encode()] * 513  # 128 plus "spacer".
 
     def setChannel(self, chan, intensity):
         if chan > 512:
@@ -33,15 +36,20 @@ class DmxPy:
             intensity = 255
         if intensity < 0:
             intensity = 0
-        self.dmxData[chan] = chr(intensity)
+        self.dmxData[chan] = intensity.to_bytes(1, byteorder="big")
 
     def blackout(self):
         for i in range(1, 512, 1):
             self.dmxData[i] = chr(0)
 
     def render(self):
-        sdata = "".join(self.dmxData)
+        data = bytearray()
+        for value in self.dmxData:
+            data.extend(value)
         b = bytearray()
-        b.extend((DMXOPEN + DMXINTENSITY + sdata + DMXCLOSE).encode())
+        b.extend(DMXOPEN.encode())
+        b.extend(DMXINTENSITY.encode())
+        b.extend(data)
+        b.extend(DMXCLOSE.encode())
         print(b)
         self.serial.write(b)

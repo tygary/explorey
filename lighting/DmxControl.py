@@ -47,3 +47,4 @@ class DmxControl(object):
         self.dmx.setChannel(channelStart + 4, 255)
         self.dmx.setChannel(channelStart + 5, 255)
         self.dmx.setChannel(channelStart + 6, 255)
+        print("set blacklight {} to brightness {}".format(channelStart, brightness))

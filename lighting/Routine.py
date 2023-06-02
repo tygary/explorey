@@ -566,7 +566,7 @@ class MushroomRoutine(Routine):
                 colorIndex = ACCENT_COLOR_2
             light.currentValue = [0, 0, 0]
             light.intendedColor = self.getNewLightColor(colorIndex)
-            light.duration = random.randrange(3000, 7000)
+            light.duration = random.randrange(1000, 7000)
             light.iterations = random.randrange(1, 3)
             light.up = True
             light.timestamp = self.now

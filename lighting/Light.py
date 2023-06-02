@@ -47,7 +47,6 @@ class Light(object):
 
     @staticmethod
     def increment_color(light, now):
-
         def get_new_color(intended_color, index, amount_left):
             return int(round(float(intended_color[index]) * amount_left / 2))
 
@@ -56,12 +55,19 @@ class Light(object):
             light.timestamp = now
             light.nextActionTime = light.timestamp + light.duration
         else:
-            # amount_left = 1 - ((light.nextActionTime - now) / light.duration)
-            amount_left = 1.0 - (math.cos((math.pi / 2) - ((math.pi / 2) * ((float(light.nextActionTime) - float(now)) / float(light.duration)))))
-            light.currentValue[RED] = get_new_color(light.intendedColor, RED, amount_left)
-            light.currentValue[GREEN] = get_new_color(light.intendedColor, GREEN, amount_left)
-            light.currentValue[BLUE] = get_new_color(light.intendedColor, BLUE, amount_left)
-#             light.currentValue[WHITE] = get_new_color(light.intendedColor, WHITE, amount_left)
+            amount_left = 1 - ((light.nextActionTime - now) / light.duration)
+            # amount_left = 1.0 - (math.cos((math.pi / 2) - ((math.pi / 2) * ((float(light.nextActionTime) - float(now)) / float(light.duration)))))
+            light.currentValue[RED] = get_new_color(
+                light.intendedColor, RED, amount_left
+            )
+            light.currentValue[GREEN] = get_new_color(
+                light.intendedColor, GREEN, amount_left
+            )
+            light.currentValue[BLUE] = get_new_color(
+                light.intendedColor, BLUE, amount_left
+            )
+
+    #             light.currentValue[WHITE] = get_new_color(light.intendedColor, WHITE, amount_left)
 
     @staticmethod
     def decrement_color(light, now):
@@ -80,10 +86,27 @@ class Light(object):
                 # light.waitDuration = random.randrange(0, 5000)
             light.currentValue = [0, 0, 0, 0]
         else:
-            # amount_left = ((light.nextActionTime - now) / light.duration)
-            amount_left = math.cos((math.pi / 2) - ((math.pi / 2) * ((float(light.nextActionTime) - float(now)) / float(light.duration))))
+            amount_left = (light.nextActionTime - now) / light.duration
+            # amount_left = math.cos(
+            #     (math.pi / 2)
+            #     - (
+            #         (math.pi / 2)
+            #         * (
+            #             (float(light.nextActionTime) - float(now))
+            #             / float(light.duration)
+            #         )
+            #     )
+            # )
             # print "amount left {} {} {} {} ".format(amount_left, light.nextActionTime, self.now, light.duration)
-            light.currentValue[RED] = int(round(light.intendedColor[RED] * amount_left / 2))
-            light.currentValue[GREEN] = int(round(light.intendedColor[GREEN] * amount_left / 2))
-            light.currentValue[BLUE] = int(round(light.intendedColor[BLUE] * amount_left / 2))
+            light.currentValue[RED] = int(
+                round(light.intendedColor[RED] * amount_left / 2)
+            )
+            light.currentValue[GREEN] = int(
+                round(light.intendedColor[GREEN] * amount_left / 2)
+            )
+            light.currentValue[BLUE] = int(
+                round(light.intendedColor[BLUE] * amount_left / 2)
+            )
+
+
 #             light.currentValue[WHITE] = int(round(light.intendedColor[WHITE] * amount_left / 2))

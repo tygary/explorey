@@ -105,7 +105,7 @@ class ExploreyLights(object):
         else:
             if self.now > finish_time:
                 self.blackLightWait = True
-                self.blackLightDuration = random.randrange(5000, 20000)
+                self.blackLightDuration = random.randrange(10000, 60000)
             amount_left = (float(finish_time) - float(self.now)) / float(
                 self.blackLightDuration
             )

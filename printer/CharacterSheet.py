@@ -126,6 +126,7 @@ BEAST_SPECIES = [
     "Lizard",
     "Bovine",
     "Tabaxi",
+    "House Cat",
     "Duck",
     "Minotaur",
     "Werewolf",
@@ -434,6 +435,7 @@ class CharacterSheet(object):
     items = []
     quest = ""
     main_quest = ""
+    lives = 1
 
     def __init__(self, char_type=-1, levers=None):
         if levers is not None:
@@ -496,6 +498,9 @@ class CharacterSheet(object):
                 self.species = random.choice(BEAST_SPECIES)
         else:
             self.species = random.choice(ALL_SPECIES)
+
+        if self.species in ["House Cat", "Tabaxi", "Aristo-cat"]:
+            self.lives = 9
 
     def __set_class_name(self):
         self.class_name = random.choice(CLASS_BY_TYPE[self.char_type])

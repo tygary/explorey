@@ -4,6 +4,7 @@ from lighting.PixelControl import PixelControl
 from lighting.GenericButtonController import GenericButtonController
 from lighting.Routine import *
 from lighting.Colors import Colors
+from lighting.DmxControl import DmxControl
 import threading
 
 
@@ -43,12 +44,16 @@ MODE_PRINT = 0
 MODE_WAR = 1
 MODE_BEACON = 2
 
+
 class ExploreyLights(object):
     pixels = None
     thread = None
+    dmx = DmxControl()
     mode = 0
     delay = 0.05
     num_pixels = 0
+    dmxBlackLights = [17, 10]
+    now = time.now()
 
     def __init__(self, mode=MODE_PRINT):
         self.mode = mode
@@ -63,50 +68,131 @@ class ExploreyLights(object):
         self.mode_object = None
         self.setup_mode()
 
+    # ------------------------------ Cave Black lights ----------------------------------------
+
+    blackLightValue = 0
+    blackLightUp = True
+    blackLightDuration = 2000
+    blackLightTimestamp = 0
+    blackLightRunning = False
+
+    def processBlackLights(self):
+        if not self.blackLightRunning:
+            self.blackLightRunning = True
+            self.blackLightUp = True
+            self.blackLightTimestamp = self.now
+            self.blackLightDuration = random.randrange(500, 2000)
+        finish_time = self.blackLightTimestamp + self.blackLightDuration
+        if self.blackLightUp:
+            if self.now > finish_time:
+                self.blackLightUp = False
+                self.blackLightTimestamp = self.now
+
+            amount_left = 1.0 - (
+                (float(finish_time) - float(self.now)) / float(self.blackLightDuration)
+            )
+            self.blackLightValue = int(round(amount_left * 200.0)) + 55
+            self.dmx.setBlackLight(self.dmxBlackLights[0], self.blackLightValue)
+            self.dmx.setBlackLight(self.dmxBlackLights[1], self.blackLightValue)
+        else:
+            if self.now > finish_time:
+                self.blackLightRunning = False
+            amount_left = (float(finish_time) - float(self.now)) / float(
+                self.blackLightDuration
+            )
+            self.blackLightValue = int(round(amount_left * 200.0)) + 55
+            self.dmx.setBlackLight(self.dmxBlackLights[0], self.blackLightValue)
+            self.dmx.setBlackLight(self.dmxBlackLights[1], self.blackLightValue)
+
+    # ------------------------------ END Cave Black Light -------------------------------------
+
     def setup_mode(self):
         if self.mode is MODE_PRINT:
-            self.mode_object = MultiRoutine([
-                CyclingMultiRoutine([
-                    [
-                        WaveRoutine(self.pixels, NAOMI_PIXELS, [Colors.mid_green, Colors.mixed_blue, Colors.light_green, Colors.red], wave_wait_time=5000),
-                        30000
-                    ],
-                    [
-                        RainbowRoutine(self.pixels, NAOMI_PIXELS),
-                        5000
-                    ],
-                    [
-                        WaveRoutine(self.pixels, NAOMI_PIXELS, [Colors.mixed_blue, Colors.light_green, Colors.mid_green, Colors.red], wave_wait_time=3000),
-                        30000
-                    ],
-                    [
-                        WaveRoutine(self.pixels, NAOMI_PIXELS, [Colors.mid_green, Colors.mixed_blue, Colors.light_green, Colors.red], wave_wait_time=5000),
-                        30000
-                    ],
-                    [
-                        FireRoutine(self.pixels, NAOMI_PIXELS),
-                        20000
-                    ],
-                    [
-                        PulseRoutine(self.pixels, NAOMI_PIXELS, Colors.mid_green),
-                        5000
-                    ],
-                ]),
-                BleuRoutine(self.pixels, DANIELLE_PIXELS),
-                WaveRoutine(self.pixels, LILI_PIXELS, [Colors.mixed_blue, Colors.light_green, Colors.mid_green, Colors.red]),
-    #             WaveRoutine(self.pixels, ALL_PIXELS, [Colors.mid_green, Colors.mixed_blue, Colors.light_green, Colors.red], delay=1000),
-            ])
+            self.mode_object = MultiRoutine(
+                [
+                    CyclingMultiRoutine(
+                        [
+                            [
+                                WaveRoutine(
+                                    self.pixels,
+                                    NAOMI_PIXELS,
+                                    [
+                                        Colors.mid_green,
+                                        Colors.mixed_blue,
+                                        Colors.light_green,
+                                        Colors.red,
+                                    ],
+                                    wave_wait_time=5000,
+                                ),
+                                30000,
+                            ],
+                            [RainbowRoutine(self.pixels, NAOMI_PIXELS), 5000],
+                            [
+                                WaveRoutine(
+                                    self.pixels,
+                                    NAOMI_PIXELS,
+                                    [
+                                        Colors.mixed_blue,
+                                        Colors.light_green,
+                                        Colors.mid_green,
+                                        Colors.red,
+                                    ],
+                                    wave_wait_time=3000,
+                                ),
+                                30000,
+                            ],
+                            [
+                                WaveRoutine(
+                                    self.pixels,
+                                    NAOMI_PIXELS,
+                                    [
+                                        Colors.mid_green,
+                                        Colors.mixed_blue,
+                                        Colors.light_green,
+                                        Colors.red,
+                                    ],
+                                    wave_wait_time=5000,
+                                ),
+                                30000,
+                            ],
+                            [FireRoutine(self.pixels, NAOMI_PIXELS), 20000],
+                            [
+                                PulseRoutine(
+                                    self.pixels, NAOMI_PIXELS, Colors.mid_green
+                                ),
+                                5000,
+                            ],
+                        ]
+                    ),
+                    BleuRoutine(self.pixels, DANIELLE_PIXELS),
+                    WaveRoutine(
+                        self.pixels,
+                        LILI_PIXELS,
+                        [
+                            Colors.mixed_blue,
+                            Colors.light_green,
+                            Colors.mid_green,
+                            Colors.red,
+                        ],
+                    ),
+                    #             WaveRoutine(self.pixels, ALL_PIXELS, [Colors.mid_green, Colors.mixed_blue, Colors.light_green, Colors.red], delay=1000),
+                ]
+            )
         elif self.mode is MODE_WAR:
-            self.mode_object = MultiRoutine([
-                FireRoutine(self.pixels, DAVE_PIXELS),
-                BleuRoutine(self.pixels, TYLER_PIXELS),
-    #             WaveRoutine(self.pixels, ALL_PIXELS, [Colors.mid_green, Colors.mixed_blue, Colors.light_green, Colors.red], delay=1000),
-            ])
+            self.mode_object = MultiRoutine(
+                [
+                    FireRoutine(self.pixels, DAVE_PIXELS),
+                    BleuRoutine(self.pixels, TYLER_PIXELS),
+                    #             WaveRoutine(self.pixels, ALL_PIXELS, [Colors.mid_green, Colors.mixed_blue, Colors.light_green, Colors.red], delay=1000),
+                ]
+            )
         else:
-            self.mode_object = MultiRoutine([
-                PulseRoutine(self.pixels, BEACON_PIXELS, Colors.mid_green),
-                WaveRoutine(self.pixels, STEM_PIXELS, [Colors.yellow]),
-            ])
+            self.mode_object = MultiRoutine(
+                [
+                    PulseRoutine(self.pixels, BEACON_PIXELS, Colors.mid_green),
+                    WaveRoutine(self.pixels, STEM_PIXELS, [Colors.yellow]),
+                ]
+            )
 
     def update_war_routine(self, routine):
         if self.mode is MODE_WAR:
@@ -122,23 +208,83 @@ class ExploreyLights(object):
         elif self.mode is MODE_FIRE:
             self.mode_object = FireRoutine(self.pixels, ALL_PIXELS)
         elif self.mode is MODE_WAVE:
-            middle_index = len(FRONT_MID)//2
+            middle_index = len(FRONT_MID) // 2
             reverse_FRONT_LEFT = FRONT_LEFT[:]
             reverse_FRONT_LEFT.reverse()
             reverse_FRONT_LEFT_MID = FRONT_LEFT_MID[:]
             reverse_FRONT_LEFT_MID.reverse()
             reverse_left_FRONT_MID = FRONT_MID[middle_index:]
             reverse_left_FRONT_MID.reverse()
-            self.mode_object = MultiRoutine([
-                RainbowRoutine(self.pixels, BAR_TOP_PIXELS),
-                RainbowRoutine(self.pixels, BAR_BOTTOM_PIXELS),
-                WaveRoutine(self.pixels, reverse_FRONT_LEFT, [Colors.mid_green, Colors.mixed_blue, Colors.light_green, Colors.red], delay=1000),
-                WaveRoutine(self.pixels, reverse_FRONT_LEFT_MID, [Colors.light_green, Colors.mid_green, Colors.mixed_blue, Colors.red], delay=4000),
-                WaveRoutine(self.pixels, reverse_left_FRONT_MID, [Colors.mixed_blue, Colors.light_green, Colors.mid_green, Colors.red]),
-                WaveRoutine(self.pixels, FRONT_MID[:middle_index], [Colors.mixed_blue, Colors.mid_green, Colors.light_green, Colors.red]),
-                WaveRoutine(self.pixels, FRONT_RIGHT_MID, [Colors.light_green, Colors.mid_green, Colors.mixed_blue, Colors.red], delay=4000),
-                WaveRoutine(self.pixels, FRONT_RIGHT, [Colors.mid_green, Colors.mixed_blue, Colors.light_green, Colors.red], delay=1000)
-            ])
+            self.mode_object = MultiRoutine(
+                [
+                    RainbowRoutine(self.pixels, BAR_TOP_PIXELS),
+                    RainbowRoutine(self.pixels, BAR_BOTTOM_PIXELS),
+                    WaveRoutine(
+                        self.pixels,
+                        reverse_FRONT_LEFT,
+                        [
+                            Colors.mid_green,
+                            Colors.mixed_blue,
+                            Colors.light_green,
+                            Colors.red,
+                        ],
+                        delay=1000,
+                    ),
+                    WaveRoutine(
+                        self.pixels,
+                        reverse_FRONT_LEFT_MID,
+                        [
+                            Colors.light_green,
+                            Colors.mid_green,
+                            Colors.mixed_blue,
+                            Colors.red,
+                        ],
+                        delay=4000,
+                    ),
+                    WaveRoutine(
+                        self.pixels,
+                        reverse_left_FRONT_MID,
+                        [
+                            Colors.mixed_blue,
+                            Colors.light_green,
+                            Colors.mid_green,
+                            Colors.red,
+                        ],
+                    ),
+                    WaveRoutine(
+                        self.pixels,
+                        FRONT_MID[:middle_index],
+                        [
+                            Colors.mixed_blue,
+                            Colors.mid_green,
+                            Colors.light_green,
+                            Colors.red,
+                        ],
+                    ),
+                    WaveRoutine(
+                        self.pixels,
+                        FRONT_RIGHT_MID,
+                        [
+                            Colors.light_green,
+                            Colors.mid_green,
+                            Colors.mixed_blue,
+                            Colors.red,
+                        ],
+                        delay=4000,
+                    ),
+                    WaveRoutine(
+                        self.pixels,
+                        FRONT_RIGHT,
+                        [
+                            Colors.mid_green,
+                            Colors.mixed_blue,
+                            Colors.light_green,
+                            Colors.red,
+                        ],
+                        delay=1000,
+                    ),
+                ]
+            )
         else:
             self.mode_object = None
 
@@ -149,8 +295,10 @@ class ExploreyLights(object):
 
     def __run_thread(self):
         while self.is_running:
+            self.now = time.now()
             self.mode_object.tick()
             self.pixels.render()
+            self.processBlackLights()
             time.sleep(self.delay)
 
     def start(self):
@@ -165,4 +313,3 @@ class ExploreyLights(object):
             self.thread = None
             self.pixels.blackout()
             self.pixels.render()
-

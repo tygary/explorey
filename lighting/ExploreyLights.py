@@ -14,7 +14,7 @@ NUM_PIXELS = 200
 LILI_START = 21
 LILI_END = 22
 DANIELLE_START = 0
-DANIELLE_END = 20
+DANIELLE_END = 100
 NAOMI_START = 23
 NAOMI_END = 24
 # War
@@ -110,71 +110,71 @@ class ExploreyLights(object):
         if self.mode is MODE_PRINT:
             self.mode_object = MultiRoutine(
                 [
-                    CyclingMultiRoutine(
-                        [
-                            [
-                                WaveRoutine(
-                                    self.pixels,
-                                    NAOMI_PIXELS,
-                                    [
-                                        Colors.mid_green,
-                                        Colors.mixed_blue,
-                                        Colors.light_green,
-                                        Colors.red,
-                                    ],
-                                    wave_wait_time=5000,
-                                ),
-                                30000,
-                            ],
-                            [RainbowRoutine(self.pixels, NAOMI_PIXELS), 5000],
-                            [
-                                WaveRoutine(
-                                    self.pixels,
-                                    NAOMI_PIXELS,
-                                    [
-                                        Colors.mixed_blue,
-                                        Colors.light_green,
-                                        Colors.mid_green,
-                                        Colors.red,
-                                    ],
-                                    wave_wait_time=3000,
-                                ),
-                                30000,
-                            ],
-                            [
-                                WaveRoutine(
-                                    self.pixels,
-                                    NAOMI_PIXELS,
-                                    [
-                                        Colors.mid_green,
-                                        Colors.mixed_blue,
-                                        Colors.light_green,
-                                        Colors.red,
-                                    ],
-                                    wave_wait_time=5000,
-                                ),
-                                30000,
-                            ],
-                            [FireRoutine(self.pixels, NAOMI_PIXELS), 20000],
-                            [
-                                PulseRoutine(
-                                    self.pixels, NAOMI_PIXELS, Colors.mid_green
-                                ),
-                                5000,
-                            ],
-                        ]
-                    ),
+                    # CyclingMultiRoutine(
+                    #     [
+                    #         [
+                    #             WaveRoutine(
+                    #                 self.pixels,
+                    #                 NAOMI_PIXELS,
+                    #                 [
+                    #                     Colors.mid_green,
+                    #                     Colors.mixed_blue,
+                    #                     Colors.light_green,
+                    #                     Colors.red,
+                    #                 ],
+                    #                 wave_wait_time=5000,
+                    #             ),
+                    #             30000,
+                    #         ],
+                    #         [RainbowRoutine(self.pixels, NAOMI_PIXELS), 5000],
+                    #         [
+                    #             WaveRoutine(
+                    #                 self.pixels,
+                    #                 NAOMI_PIXELS,
+                    #                 [
+                    #                     Colors.mixed_blue,
+                    #                     Colors.light_green,
+                    #                     Colors.mid_green,
+                    #                     Colors.red,
+                    #                 ],
+                    #                 wave_wait_time=3000,
+                    #             ),
+                    #             30000,
+                    #         ],
+                    #         [
+                    #             WaveRoutine(
+                    #                 self.pixels,
+                    #                 NAOMI_PIXELS,
+                    #                 [
+                    #                     Colors.mid_green,
+                    #                     Colors.mixed_blue,
+                    #                     Colors.light_green,
+                    #                     Colors.red,
+                    #                 ],
+                    #                 wave_wait_time=5000,
+                    #             ),
+                    #             30000,
+                    #         ],
+                    #         [FireRoutine(self.pixels, NAOMI_PIXELS), 20000],
+                    #         [
+                    #             PulseRoutine(
+                    #                 self.pixels, NAOMI_PIXELS, Colors.mid_green
+                    #             ),
+                    #             5000,
+                    #         ],
+                    #     ]
+                    # ),
                     BleuRoutine(self.pixels, DANIELLE_PIXELS),
-                    WaveRoutine(
-                        self.pixels,
-                        LILI_PIXELS,
-                        [
-                            Colors.mixed_blue,
-                            Colors.light_green,
-                            Colors.mid_green,
-                            Colors.red,
-                        ],
-                    ),
+                    # WaveRoutine(
+                    #     self.pixels,
+                    #     LILI_PIXELS,
+                    #     [
+                    #         Colors.mixed_blue,
+                    #         Colors.light_green,
+                    #         Colors.mid_green,
+                    #         Colors.red,
+                    #     ],
+                    # ),
                     #             WaveRoutine(self.pixels, ALL_PIXELS, [Colors.mid_green, Colors.mixed_blue, Colors.light_green, Colors.red], delay=1000),
                 ]
             )

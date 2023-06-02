@@ -495,6 +495,7 @@ class MushroomRoutine(Routine):
         for i in range(len(self.cave_panel_lights)):
             light = self.cave_panel_lights[i]
             if light.mode == LIGHT_UNSET:
+                print("Waiting! " + str(light.address))
                 light.currentValue = [0, 0, 0]
                 if light.wait and self.now > (light.timestamp + light.waitDuration):
                     light.wait = False

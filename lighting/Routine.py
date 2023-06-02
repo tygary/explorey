@@ -625,7 +625,7 @@ class MushroomRoutine(Routine):
                 ]
 
         return [
-            colorScheme[colorIndex][0] / 2,
-            colorScheme[colorIndex][1] / 2,
-            colorScheme[colorIndex][2] / 2,
+            colorScheme[colorIndex][0],
+            colorScheme[colorIndex][1],
+            colorScheme[colorIndex][2],
         ]

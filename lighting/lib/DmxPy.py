@@ -43,4 +43,5 @@ class DmxPy:
         sdata = "".join(self.dmxData)
         b = bytearray()
         b.extend((DMXOPEN + DMXINTENSITY + sdata + DMXCLOSE).encode())
+        print(b)
         self.serial.write(b)

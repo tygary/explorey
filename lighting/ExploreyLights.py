@@ -53,7 +53,7 @@ class ExploreyLights(object):
     delay = 0.05
     num_pixels = 0
     dmxBlackLights = [17, 10]
-    now = time.now()
+    now = time.time()
 
     def __init__(self, mode=MODE_PRINT):
         self.mode = mode
@@ -295,7 +295,7 @@ class ExploreyLights(object):
 
     def __run_thread(self):
         while self.is_running:
-            self.now = time.now()
+            self.now = time.time()
             self.mode_object.tick()
             self.pixels.render()
             self.processBlackLights()

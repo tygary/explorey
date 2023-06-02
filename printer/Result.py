@@ -286,6 +286,11 @@ ITEMS = [
         "You found an item!  A mask that permanently freezes the wearer's face into a mischievous goblin grin, making it difficult to be taken seriously in serious situations",
         "Fabulousness +1, Scrappiness -1",
     ],
+    [
+        "Fairy in a Bottle",
+        "You found an item!  A bottle that contains a fairy that can save you from death!",
+        "Add one extra life to your character.",
+    ],
 ]
 
 

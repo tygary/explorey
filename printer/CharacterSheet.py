@@ -48,10 +48,21 @@ TURBULENT_QUESTS_BY_TYPE = [
         "To become the goblin lord",
         "Break a world record for the most number of times bitten by mosquitoes without itching",
         "Out-drink a group of dwarves and win their respect",
+        "Set the world record for most onions punched in an 5 minutes",
+        "Build a castle in the woods and become the king of the squirrels",
+        "Build a castle in the sand and act like a crab for the rest of your days",
+        "Become an onion pirate and sail the seas in search of the legendary 'Onion of Golden Wonder'",
+        "Get so good at Shibari that you can unravel string theory",
     ],
     [
         "Seduce a powerful wizard or sorceress with your charm",
         "Become the ruler of a kingdom solely through the power of your charisma and fabulousness",
+        "Become a world renowned DJ that only plays the Top 100 hits",
+        "Become so incredibly impressive that everyone grovels at your feet",
+        "Capture the heart of a dragon and become the first person to marry a dragon",
+        "Befriend a unicorn and train it to be your personal steed",
+        "Grow a polycule so large that you can throw a festival with only your metamores",
+        "Taste every flavor in the world and decide once and for all which flavor is the best",
     ],
 ]
 TIDY_QUESTS_BY_TYPE = [
@@ -82,12 +93,20 @@ TIDY_QUESTS_BY_TYPE = [
         "Survive a round in a boxing match with a kangaroo without getting knocked out",
         "Climb Mount Everest using only a paper clip and dental floss to prove that you can",
         "Become a champion arm wrestler and win the title of 'Arm Wrestling King'",
+        "Prove your high school bully wrong by conquering the world and becoming the supreme ruler of all",
+        "Live a simple life of cutting onions and crushing your enemies",
+        "Save the world from a giant meteor by punching it into a million pieces",
+        "Save a princess from a dragon by seducing the dragon with your charm, then living happily ever after with the dragon",
     ],
     [
         "To capture the heart of the common participant with lasers and bass music",
         "Become the most famous and beloved bard in the land, known for my epic tales of adventure and heroism",
         "Host a legendary party that everyone talks about for years, but no one can remember what exactly happened",
         "Write and perform a hit song that becomes a classic and is played at every tavern in the land",
+        "To find the magical spell that will transform you into a unicorn",
+        "Become the world's greatest DJ and win the title of 'DJ Supreme'",
+        "Boof a magical potion and become the world's greatest wizard",
+        "Summon a demon to become your new best friend",
     ],
 ]
 QUEST_BY_TYPE = [

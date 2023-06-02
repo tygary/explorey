@@ -568,12 +568,14 @@ class MushroomRoutine(Routine):
             light.duration = random.randrange(1000, 7000)
             light.iterations = random.randrange(1, 3)
             light.up = True
+            light.timestamp = self.now
             light.nextActionTime = light.timestamp + light.duration
         elif light.mode == LIGHT_BLINK:
             light.intendedColor = self.getNewLightColor(MAIN_COLOR)
             light.previousColor = self.getNewLightColor(ACCENT_COLOR_3)
             light.currentValue = light.previousColor
             light.on = False
+            light.timestamp = self.now
             light.iterations = random.randrange(5, 10)
             light.duration = random.randrange(100, 700)
 

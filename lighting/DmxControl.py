@@ -12,7 +12,7 @@ class DmxControl(object):
         self.dmx.setChannel(channelStart, color[0])
         self.dmx.setChannel(channelStart + 1, color[1])
         self.dmx.setChannel(channelStart + 2, color[2])
-        # print "set light {} to color {}".format(channelStart, color)
+        print("set light {} to color {}".format(channelStart, color))
 
     def setParCan(self, channelStart, color):
         self.dmx.setChannel(channelStart, color[0])

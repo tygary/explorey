@@ -299,6 +299,7 @@ class ExploreyLights(object):
             self.mode_object.tick()
             self.pixels.render()
             self.processBlackLights()
+            self.dmx.render()
             time.sleep(self.delay)
 
     def start(self):

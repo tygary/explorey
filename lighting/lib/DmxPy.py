@@ -15,8 +15,12 @@ class DmxPy:
         except:
             print("Error: could not open Serial Port")
             sys.exit(0)
-        self.serial.write(DMXOPEN + DMXINIT1 + DMXCLOSE)
-        self.serial.write(DMXOPEN + DMXINIT2 + DMXCLOSE)
+        b = bytearray()
+        b.extend((DMXOPEN + DMXINIT1 + DMXCLOSE).encode())
+        self.serial.write(b)
+        b = bytearray()
+        b.extend((DMXOPEN + DMXINIT2 + DMXCLOSE).encode())
+        self.serial.write(b)
 
         self.dmxData = [chr(0)] * 513  # 128 plus "spacer".
 
@@ -37,4 +41,6 @@ class DmxPy:
 
     def render(self):
         sdata = "".join(self.dmxData)
-        self.serial.write(DMXOPEN + DMXINTENSITY + sdata + DMXCLOSE)
+        b = bytearray()
+        b.extend((DMXOPEN + DMXINTENSITY + sdata + DMXCLOSE).encode())
+        self.serial.write(b)

@@ -307,8 +307,8 @@ class ExploreyLights(object):
             self.now = int(round(time.time() * 1000))
             self.mode_object.tick()
             self.pixels.render()
-            # self.processBlackLights()
-            # self.dmx.render()
+            self.processBlackLights()
+            self.dmx.render()
             # self.dmx.render()
             time.sleep(self.delay)
 

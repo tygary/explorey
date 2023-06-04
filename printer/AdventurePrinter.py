@@ -77,7 +77,7 @@ class AdventurePrinter(object):
         pdf.set_margins(left=16, top=0, right=0)
         pdf.set_auto_page_break(False)
 
-        pdf.add_page(orientation="P", format=(90, 200))
+        pdf.add_page(orientation="P", format=(90, 220))
         pdf.set_font("Arial", "B", 16)
         pdf.multi_cell(0, 10, f"{encounter.title}", align="C")
         pdf.set_font("Arial", "", 12)

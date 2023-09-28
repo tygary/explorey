@@ -4,7 +4,7 @@ import time
 MAX_YEAR = 2999
 MIN_YEAR = 1900
 # 10 years every second at full speed
-SPEED_MULTIPLIER = -100/1000
+SPEED_MULTIPLIER = -1000/1000
 ZERO_TOLERANCE = 0.1
 MIN_UPDATE_TIME = 0.250
 
@@ -23,6 +23,7 @@ class TimeMachine(object):
         print(f"Got lever {id} change to {value}")
         if abs(value) < ZERO_TOLERANCE:
             self.speed = 0
+            print(f"Time has stopped!!!")
         else:
             self.speed = value
 
@@ -37,6 +38,10 @@ class TimeMachine(object):
             if time_delta > MIN_UPDATE_TIME:
                 change = self.speed * SPEED_MULTIPLIER * time_delta
                 new_year = round(self.year + change)
+                if new_year > MAX_YEAR:
+                    new_year = MAX_YEAR
+                if new_year < MIN_YEAR:
+                    new_year = MIN_YEAR
                 if new_year != self.year:
                     print(f"Year changed to {new_year}")
                     self.year = new_year

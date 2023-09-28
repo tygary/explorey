@@ -58,8 +58,8 @@ class TimeMachine(object):
                     new_date = END
                 if new_date < START:
                     new_date = START
-                if new_date != self.year:
-                    print(f"Year changed to {print_datetime(new_date)}")
+                if new_date != self.date:
+                    print(f"Date changed to {print_datetime(new_date)}")
                     self.date = new_date
 
 

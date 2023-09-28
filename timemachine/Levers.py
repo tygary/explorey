@@ -50,7 +50,7 @@ class Levers(object):
 
             for axis_id in range(self.joystick.get_numaxes()):
                 value = self.joystick.get_axis(axis_id)
-                if value != self.levers[axis_id] and abs(self.levers[axis_id] - value > self.lever_tolerance):
+                if value != self.levers[axis_id] and abs(self.levers[axis_id] - value) > self.lever_tolerance:
                     print(f"Lever {axis_id} change from {self.levers[axis_id]} to {value}")
                     self.levers[axis_id] = value
                     if self.on_lever_change:

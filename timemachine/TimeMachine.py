@@ -6,7 +6,7 @@ MIN_YEAR = 1900
 # 10 years every second at full speed
 SPEED_MULTIPLIER = -10/1000
 ZERO_TOLERANCE = 0.1
-MIN_UPDATE_TIME = 250
+MIN_UPDATE_TIME = 0.250
 
 
 class TimeMachine(object):
@@ -15,7 +15,6 @@ class TimeMachine(object):
     speed = 0
     active = True
     last_event = time.time()
-
 
     def __init__(self):
         self.levers = Levers(self.__on_lever_change, self.__on_button_change)
@@ -29,7 +28,6 @@ class TimeMachine(object):
 
     def __on_button_change(self, id, value):
         print(f"Got button {id} change to {value}")
-
 
     def update(self):
         self.levers.update()

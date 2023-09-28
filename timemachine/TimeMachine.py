@@ -4,7 +4,7 @@ import time
 import math
 
 
-ZERO = datetime.datetime.fromtimestamp(0)
+ZERO = datetime.fromtimestamp(0)
 END = datetime(2999, 12, 31, 23, 59, 59)
 START = datetime(1000, 1, 1, 0, 0, 0)
 # 10 years every second at full speed

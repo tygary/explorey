@@ -51,7 +51,7 @@ class TimeMachine(object):
             time_delta = now - self.last_event
             if time_delta > MIN_UPDATE_TIME:
                 change = self.speed * SPEED_MULTIPLIER * time_delta
-                date_ts = datetime.timestamp(self.date)
+                date_ts = (self.date - ZERO).total_seconds()
                 new_date_ts = round(date_ts + change)
                 new_date = datetime.fromtimestamp(new_date_ts)
                 if new_date > END:

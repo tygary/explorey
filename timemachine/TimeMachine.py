@@ -28,9 +28,9 @@ class TimeMachine(object):
         print(f"Got button {id} change to {value}")
 
     def __scale_speed(self, speed):
-        if abs(speed) < ZERO_TOLERANCE:
-            print(f"Time has stopped!!!")
-            return 0
+        # if abs(speed) < ZERO_TOLERANCE:
+        #     print(f"Time has stopped!!!")
+        #     return 0
         is_negative = speed < 0
         log_value = math.log10(abs(speed * 10))
         if is_negative:

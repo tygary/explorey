@@ -1,5 +1,6 @@
 from timemachine.Levers import *
 import time
+import math
 
 MAX_YEAR = 2999
 MIN_YEAR = 1900
@@ -21,14 +22,20 @@ class TimeMachine(object):
 
     def __on_lever_change(self, id, value):
         # print(f"Got lever {id} change to {value}")
-        if abs(value) < ZERO_TOLERANCE:
-            self.speed = 0
-            print(f"Time has stopped!!!")
-        else:
-            self.speed = value
+        self.speed = self.__scale_speed(value)
 
     def __on_button_change(self, id, value):
         print(f"Got button {id} change to {value}")
+
+    def __scale_speed(self, speed):
+        if abs(speed) < ZERO_TOLERANCE:
+            print(f"Time has stopped!!!")
+            return 0
+        is_negative = speed < 0
+        log_value = math.log10(speed * 10)
+        return log_value
+
+
 
     def update(self):
         self.levers.update()

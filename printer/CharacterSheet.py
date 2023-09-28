@@ -12,10 +12,14 @@ class CharType(IntEnum):
 
 
 MAIN_QUESTS_BY_TYPE = [
-    "Sneakiness Quest.",
-    "Craftiness Quest.",
-    "Scrappiness Quest.",
-    "Fabulousness Quest.",
+        "Go pick as many blackberries as you can.  Prove to everyone that you are the ultimate scavenger. Hiss at anyone else picking blackberries.",
+        "Float your way to the bar.  Order a specialty cocktail from the secret menu.  Tell them it's your birthday.  ",
+        "Find the fastest vessel on the lake.  Commandeer it, and then challenge the ducks to a race.  Winner gets the worm.",
+        "Go to the DJ and ask if you can sing a karaoke song.  When they tell you no (because you know they will) do it anyways."
+   #  "First Digit: I fly through the night with leathery wings.  What am I? Next Location: While journeying east, with music behind.  In a fork with a bust, near BIFF you will find.",
+   # "First Clue:  Meow! Is it a cat?  How many lives does a cat have?  Next Location: Where fortunes get told and veggies grow old, a garden fence will lead to just what you need.",
+   # "Next Location: When searching for food, a story you hear. If you see the brick wall your next clue is near.  First Clue: First line count to 3 or 8.  Second line count to 4 or 7.  Third line count to 3 or 4.  Fourth line count to 13 or 16",
+   # "First Clue: What does a goblin call an onion? _ _ _ _ _  Next Location: A sextuple of sides, near a labryinth reside, the worshipers of hex will hold what's next.",
 ]
 
 TURBULENT_QUESTS_BY_TYPE = [
@@ -426,16 +430,16 @@ ALL_ITEMS = USEFUL_ITEMS + JOKE_ITEMS
 # 3: Beauty / Beast
 
 CHARS_PER_ROW = 30
-SPACES_PER_ROW = 54
+SPACES_PER_ROW = 72
 CHAR_TO_SPACE_RATIO = SPACES_PER_ROW / CHARS_PER_ROW
-CHARS_PER_SECTION = CHARS_PER_ROW * 4
+CHARS_PER_SECTION = CHARS_PER_ROW * 7
+CHARS_SHORTER = CHARS_PER_ROW * 3
 
-
-def buffer_str(str):
+def buffer_str(str, des_length=CHARS_PER_SECTION):
     length = len(str)
-    if length < CHARS_PER_SECTION:
+    if length < des_length:
         additional_spaces = math.ceil(
-            (CHARS_PER_SECTION - length) * CHAR_TO_SPACE_RATIO
+            (des_length - length) * CHAR_TO_SPACE_RATIO
         )
         return str + " " * additional_spaces + "."
     else:
@@ -547,7 +551,7 @@ class CharacterSheet(object):
                 self.quest = random.choice(TIDY_QUESTS_BY_TYPE)
         else:
             self.quest = random.choice(QUEST_BY_TYPE[self.char_type])
-        self.quest = buffer_str(self.quest)
+        self.quest = buffer_str(self.quest, CHARS_SHORTER)
 
     def __str__(self):
         return f"A {self.species} {self.class_name} on a quest to {self.quest}.  Sneakiness={self.dex} Craftiness={self.wis} Scrappiness={self.con} Fabulousness={self.cha} Abilities: {self.abilities} Items: {self.items}"

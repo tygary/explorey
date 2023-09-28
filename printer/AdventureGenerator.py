@@ -101,21 +101,21 @@ class AdventureGenerator(object):
 
     def __boss_button_cb(self, pin):
         self.logger.log("Machine: boss button pressed")
-        # if self.waiting_to_print:
-        #     self.logger.log("  Dispensing boss")
-        #     self.dispense_boss()
-        #     self.waiting_to_print = False
-        #     t = threading.Timer(1.0, self.__allow_printing)
-        #     t.start()
+        if self.waiting_to_print:
+            self.logger.log("  Dispensing boss")
+            self.dispense_boss()
+            self.waiting_to_print = False
+            t = threading.Timer(1.0, self.__allow_printing)
+            t.start()
 
     def __duel_button_cb(self, pin):
         self.logger.log("Machine: duel button pressed")
-        # if self.waiting_to_print:
-        #     self.logger.log("  Dispensing duel")
-        #     self.dispense_duel()
-        #     self.waiting_to_print = False
-        #     t = threading.Timer(1.0, self.__allow_printing)
-        #     t.start()
+        if self.waiting_to_print:
+            self.logger.log("  Dispensing duel")
+            self.dispense_duel()
+            self.waiting_to_print = False
+            t = threading.Timer(1.0, self.__allow_printing)
+            t.start()
 
     def __allow_printing(self):
         self.waiting_to_print = True

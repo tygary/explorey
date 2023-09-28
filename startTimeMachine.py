@@ -21,7 +21,7 @@ def on_lever_change(id, value):
     print(f"Got lever {id} change to {value}")
 
 def on_button_change(id, value):
-    print(f"Got lever {id} change to {value}")
+    print(f"Got button {id} change to {value}")
 
 
 levers = Levers(on_lever_change, on_button_change)

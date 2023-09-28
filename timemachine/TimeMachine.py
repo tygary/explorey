@@ -1,4 +1,4 @@
-from Levers import *
+from timemachine.Levers import *
 import time
 
 MAX_YEAR = 2999

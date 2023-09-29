@@ -39,7 +39,7 @@ class TimeMachine(object):
         #     print(f"Time has stopped!!!")
         #     return 0
         is_negative = speed < 0
-        log_value = math.log10(abs(speed * 1000)) / 3
+        log_value = math.log10(abs(speed * 100000000)) / 8
         if is_negative:
             log_value = log_value * -1
         return log_value

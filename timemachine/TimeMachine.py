@@ -41,7 +41,7 @@ class TimeMachine(object):
         is_negative = speed < 0
         value = 10 ** (abs(speed) * 8)
         if is_negative and value is not 0:
-            log_value = value * -1
+            value = value * -1
         return value
 
     def update(self):

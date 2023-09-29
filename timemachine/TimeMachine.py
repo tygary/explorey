@@ -51,7 +51,7 @@ class TimeMachine(object):
             time_delta = now - self.last_event
             if time_delta > MIN_UPDATE_TIME:
                 change = round(self.speed * time_delta)
-                delta = timedelta(hours=change)
+                delta = timedelta(minutes=change)
                 new_date = self.date + delta
                 if new_date > END:
                     new_date = END

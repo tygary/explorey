@@ -50,17 +50,15 @@ class TimeMachine(object):
             now = time.time()
             time_delta = now - self.last_event
             if time_delta > MIN_UPDATE_TIME:
-                print(f"time delta {time_delta} - speed {self.speed}")
                 change = round(self.speed * time_delta)
-                delta = timedelta(minutes=change)
+                delta = timedelta(hours=change)
                 new_date = self.date + delta
-                print(f"new date ts = {new_date}")
                 if new_date > END:
                     new_date = END
                 if new_date < START:
                     new_date = START
                 if new_date != self.date:
-                    print(f"Date changed to {print_datetime(new_date)}")
+                    print(f"Date changed to {print_datetime(new_date)} - speed {round(self.speed)}")
                     self.date = new_date
                 self.last_event = now
 

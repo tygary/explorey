@@ -39,12 +39,10 @@ class TimeMachine(object):
         #     print(f"Time has stopped!!!")
         #     return 0
         is_negative = speed < 0
-        log_value = math.log10(abs(speed / 10))
-        if log_value < 0:
-            log_value = 0
-        if is_negative and log_value is not 0:
-            log_value = log_value * -1
-        return log_value
+        value = 10 ** (speed * 8)
+        if is_negative and value is not 0:
+            log_value = value * -1
+        return value
 
     def update(self):
         self.levers.update()
@@ -52,8 +50,8 @@ class TimeMachine(object):
             now = time.time()
             time_delta = now - self.last_event
             if time_delta > MIN_UPDATE_TIME:
-                print(f"time delta {time_delta} - speed {self.speed} - multiplier {SPEED_MULTIPLIER}")
-                change = round(self.speed * SPEED_MULTIPLIER * time_delta)
+                print(f"time delta {time_delta} - speed {self.speed}")
+                change = round(self.speed * time_delta)
                 delta = timedelta(seconds=change)
                 new_date = self.date + delta
                 print(f"new date ts = {new_date}")

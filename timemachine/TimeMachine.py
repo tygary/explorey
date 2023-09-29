@@ -38,7 +38,7 @@ class TimeMachine(object):
         # if abs(speed) < ZERO_TOLERANCE:
         #     print(f"Time has stopped!!!")
         #     return 0
-        is_negative = speed < 0
+        is_negative = speed > 0
         value = 10 ** (abs(speed) * 9)
         if is_negative and value is not 0:
             value = value * -1

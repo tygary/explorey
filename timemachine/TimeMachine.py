@@ -62,5 +62,6 @@ class TimeMachine(object):
                 if new_date != self.date:
                     print(f"Date changed to {print_datetime(new_date)}")
                     self.date = new_date
+                self.last_event = now
 
 

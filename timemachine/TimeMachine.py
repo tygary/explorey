@@ -52,7 +52,7 @@ class TimeMachine(object):
             if time_delta > MIN_UPDATE_TIME:
                 print(f"time delta {time_delta} - speed {self.speed} - multiplier {SPEED_MULTIPLIER}")
                 change = round(self.speed * SPEED_MULTIPLIER * time_delta)
-                delta = timedelta.seconds(change)
+                delta = timedelta(seconds=change)
                 new_date = self.date + delta
                 print(f"new date ts = {new_date}")
                 if new_date > END:

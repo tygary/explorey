@@ -7,7 +7,7 @@ from datetime import timedelta
 END = arrow.get('2999-12-31 23:59:59', 'YYYY-MM-DD HH:mm:ss')
 START = arrow.get('1000-01-01 00:00:00', 'YYYY-MM-DD HH:mm:ss')
 # 10 years every second at full speed
-SPEED_MULTIPLIER = -100/1000 * 60 * 60 * 24 * 365
+SPEED_MULTIPLIER = -(60 * 60 * 24 * 365) * 10
 ZERO_TOLERANCE = 0.1
 MIN_UPDATE_TIME = timedelta(milliseconds=250)
 

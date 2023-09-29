@@ -1,19 +1,20 @@
 from timemachine.Levers import *
-import arrow
 import math
-from datetime import timedelta
+from datetime import datetime, timedelta
+import time
 
 
-END = arrow.get('2999-12-31 23:59:59', 'YYYY-MM-DD HH:mm:ss')
-START = arrow.get('1000-01-01 00:00:00', 'YYYY-MM-DD HH:mm:ss')
+ZERO = datetime.fromtimestamp(0)
+END = datetime(2999, 12, 31, 23, 59, 59)
+START = datetime(1000, 1, 1, 0, 0, 0)
 # 10 years every second at full speed
 SPEED_MULTIPLIER = -(60 * 60 * 24 * 365) * 10
 ZERO_TOLERANCE = 0.1
-MIN_UPDATE_TIME = timedelta(milliseconds=250)
+MIN_UPDATE_TIME = 0.250
 
 
 def print_datetime(date):
-    return date.ctime()
+    return date.strftime('%a, %d %b %Y %H:%M:%S')
 
 
 class TimeMachine(object):
@@ -21,7 +22,7 @@ class TimeMachine(object):
     date = END
     speed = 0
     active = True
-    last_event = arrow.now()
+    last_event = time.time()
 
     def __init__(self):
         self.levers = Levers(self.__on_lever_change, self.__on_button_change)
@@ -46,16 +47,14 @@ class TimeMachine(object):
     def update(self):
         self.levers.update()
         if self.active:
-            now = arrow.now()
+            now = time.time()
             time_delta = now - self.last_event
             if time_delta > MIN_UPDATE_TIME:
                 print(f"time delta {time_delta.total_seconds()} - speed {self.speed} - multiplier {SPEED_MULTIPLIER}")
-                change = self.speed * SPEED_MULTIPLIER * time_delta.total_seconds()
-                date_ts = self.date.float_timestamp
-                print(f"current date ts {date_ts} with change {change}")
-                new_date_ts = date_ts + change
-                print(f"new date ts = {new_date_ts}")
-                new_date = arrow.get(new_date_ts)
+                change = round(self.speed * SPEED_MULTIPLIER * time_delta.total_seconds())
+                delta = timedelta.seconds(change)
+                new_date = self.date + delta
+                print(f"new date ts = {new_date}")
                 if new_date > END:
                     new_date = END
                 if new_date < START:

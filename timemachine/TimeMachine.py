@@ -49,7 +49,7 @@ class TimeMachine(object):
             now = arrow.now()
             time_delta = now - self.last_event
             if time_delta > MIN_UPDATE_TIME:
-                change = self.speed * SPEED_MULTIPLIER * time_delta
+                change = self.speed * SPEED_MULTIPLIER * time_delta.total_seconds()
                 date_ts = self.date.float_timestamp
                 new_date_ts = round(date_ts + change)
                 new_date = arrow.get(new_date_ts)

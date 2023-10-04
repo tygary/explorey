@@ -1,7 +1,9 @@
 from timemachine.Levers import *
+from mqtt.MqttClient import *
 import math
 from datetime import datetime, timedelta
 import time
+import json
 
 
 ZERO = datetime.fromtimestamp(0)
@@ -23,6 +25,7 @@ class TimeMachine(object):
     speed = 0
     active = True
     last_event = time.time()
+    mqtt = MqttClient()
 
     def __init__(self):
         self.levers = Levers(self.__on_lever_change, self.__on_button_change)
@@ -44,6 +47,15 @@ class TimeMachine(object):
             value = value * -1
         return value
 
+    def __on_change_date(self, new_date):
+        self.date = new_date
+        data = {
+            "event": "timechange",
+            "date": new_date
+        }
+        self.mqtt.publish(json.dumps(data))
+
+
     def update(self):
         self.levers.update()
         if self.active:
@@ -59,7 +71,7 @@ class TimeMachine(object):
                     new_date = START
                 if new_date != self.date:
                     print(f"Date changed to {print_datetime(new_date)} - speed {round(self.speed)}")
-                    self.date = new_date
+                    self.__on_change_date(new_date)
                 self.last_event = now
 
 

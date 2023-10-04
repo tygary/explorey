@@ -10,7 +10,7 @@ def get_hostname():
     s.connect(("8.8.8.8", 80))
     current_ip = s.getsockname()[0]
     s.close()
-    if current_ip is HOSTNAME:
+    if current_ip == HOSTNAME:
         return "127.0.0.1"
     else:
         return HOSTNAME

@@ -7,13 +7,43 @@ import numpy as np
 
 from lighting.lib import colors
 from PIL import ImageEnhance, Image, ImageDraw, ImageFont
-from lib import colors
 
 CUSTOM_CONFIG = exists('config.json')
 CONFIG = 'default_config.json' if not CUSTOM_CONFIG else 'config.json'
 
 with open(CONFIG, mode='r',  encoding='utf8') as j_object:
     cfg = json.load(j_object)
+
+if not cfg:
+    cfg = {
+        "pixel_width": 64,
+        "pixel_height": 16,
+        "brightness": 0.2,
+        "contrast": 2,
+        "color": 1.5,
+        "virtual_framerate": 75,
+        "playlist_delay": 30,
+        "playlist": [
+            {"effect": "hallway", "argv": []},
+            {"effect": "snow", "argv": []},
+            {"effect": "broadway", "argv": []},
+            {"effect": "eye", "argv": []},
+            {"effect": "hallway", "argv": []},
+            {"effect": "futbol", "argv": []},
+            {"effect": "jewels", "argv": []},
+            {"effect": "matrix", "argv": []},
+            {"effect": "pollock", "argv": []},
+            {"effect": "multiball", "argv": []},
+            {"effect": "pacman", "argv": []},
+            {"effect": "pong", "argv": []},
+            {"effect": "snow_flakes", "argv": []},
+            {"effect": "space_invaders", "argv": []},
+            {"effect": "sparkler", "argv": []},
+            {"effect": "tictactoe", "argv": []},
+            {"effect": "warp", "argv": []},
+            {"effect": "water_ripple", "argv":[]}
+        ]
+    }
 
 # size of matrix
 pixel_width = cfg['pixel_width']

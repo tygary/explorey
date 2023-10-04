@@ -71,8 +71,8 @@ class TimeMachine(object):
                     new_date = END
                 if new_date < START:
                     new_date = START
-                if new_date != self.date or (self.speed == 0 and not self.is_stopped):
-                    self.is_stopped = self.speed == 0
+                if new_date != self.date or (change == 0 and not self.is_stopped):
+                    self.is_stopped = change == 0
                     print(f"Date changed to {print_datetime(new_date)} - speed {round(self.speed)}")
                     self.__on_change_date(new_date)
                 self.last_event = now

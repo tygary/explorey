@@ -48,12 +48,12 @@ class TimeMachine(object):
             value = value * -1
         return value
 
-    def __on_change_date(self, new_date):
+    def __on_change_date(self, new_date, speed):
         self.date = new_date
         data = {
             "event": "timechange",
             "date": print_datetime(new_date),
-            "speed": round(self.speed)
+            "speed": speed
         }
         self.mqtt.publish(json.dumps(data))
 
@@ -74,7 +74,7 @@ class TimeMachine(object):
                 if new_date != self.date or (change == 0 and not self.is_stopped):
                     self.is_stopped = change == 0
                     print(f"Date changed to {print_datetime(new_date)} - speed {round(self.speed)}")
-                    self.__on_change_date(new_date)
+                    self.__on_change_date(new_date, change)
                 self.last_event = now
 
 

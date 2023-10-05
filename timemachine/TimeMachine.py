@@ -12,7 +12,7 @@ START = datetime(1000, 1, 1, 0, 0, 0)
 # 10 years every second at full speed
 SPEED_MULTIPLIER = -(60 * 60 * 24 * 365) * 10
 ZERO_TOLERANCE = 0.1
-MIN_UPDATE_TIME = 0.250
+MIN_UPDATE_TIME = 0
 
 
 def print_datetime(date):
@@ -69,8 +69,10 @@ class TimeMachine(object):
                 new_date = self.date + delta
                 if new_date > END:
                     new_date = END
+                    change = 0
                 if new_date < START:
                     new_date = START
+                    change = 0
                 if new_date != self.date or (change == 0 and not self.is_stopped):
                     self.is_stopped = change == 0
                     print(f"Date changed to {print_datetime(new_date)} - speed {round(self.speed)}")

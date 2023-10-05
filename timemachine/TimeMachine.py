@@ -16,7 +16,7 @@ MIN_UPDATE_TIME = 0
 
 
 def print_datetime(date):
-    return date.strftime('%Y %b %d, %a %H:%M:%S')
+    return date.strftime('%Y %b %d, %a %H:%M:%S.%f')[:-3]
 
 
 class TimeMachine(object):
@@ -43,7 +43,7 @@ class TimeMachine(object):
         #     print(f"Time has stopped!!!")
         #     return 0
         is_negative = speed > 0
-        value = 10 ** (abs(speed) * 9.3)
+        value = 10 ** (abs(speed) * 12.3)
         if is_negative and value is not 0:
             value = value * -1
         return value
@@ -65,7 +65,7 @@ class TimeMachine(object):
             time_delta = now - self.last_event
             if time_delta > MIN_UPDATE_TIME:
                 change = round(self.speed * time_delta)
-                delta = timedelta(seconds=change)
+                delta = timedelta(milliseconds=change)
                 new_date = self.date + delta
                 if new_date > END:
                     new_date = END

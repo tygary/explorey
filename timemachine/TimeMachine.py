@@ -16,7 +16,7 @@ MIN_UPDATE_TIME = 0
 
 
 def print_datetime(date):
-    return date.strftime('%a, %d %b %Y %H:%M:%S')
+    return date.strftime('%Y %d %b, %b %H:%M:%S')
 
 
 class TimeMachine(object):

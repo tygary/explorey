@@ -80,7 +80,7 @@ VIRTUAL_SIZE_MULTIPLIER = 10
 
 
 import board
-import neopixel
+import neopixel import *
 from adafruit_pixel_framebuf import PixelFramebuffer, VERTICAL
 
 pixel_pin = board.D21 if not VIRTUAL_ENV else 0
@@ -181,7 +181,7 @@ class VirtualMatrix():
 
 def pixels():
     if not VIRTUAL_ENV:
-        return neopixel.NeoPixel(
+        return NeoPixel(
             pixel_pin,
             pixel_width * pixel_height,
             brightness=brightness,

@@ -78,14 +78,10 @@ VIRTUAL_ENV = False
 
 VIRTUAL_SIZE_MULTIPLIER = 10
 
-try:
-    # live env
-    import board
-    import neopixel
-    from adafruit_pixel_framebuf import PixelFramebuffer, VERTICAL
-except ImportError:
-    # virtual env
-    VIRTUAL_ENV = True
+
+import board
+import neopixel
+from adafruit_pixel_framebuf import PixelFramebuffer, VERTICAL
 
 pixel_pin = board.D21 if not VIRTUAL_ENV else 0
 RGB = 'RGB'

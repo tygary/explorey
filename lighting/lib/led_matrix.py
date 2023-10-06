@@ -249,6 +249,4 @@ class LiveMatrix():
 
 # return the class for your env
 def Matrix(): # pylint: disable=invalid-name
-    if not VIRTUAL_ENV:
-        return LiveMatrix()
-    return VirtualMatrix()
+    return LiveMatrix()

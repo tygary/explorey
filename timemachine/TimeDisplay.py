@@ -14,6 +14,6 @@ class TimeDisplay(object):
     def __on_event(self, event):
         print(f"Got Event: {event}")
         if event:
-            data = json.load(event)
+            data = json.loads(event)
             if data:
                 self.display.draw_text(data.date)

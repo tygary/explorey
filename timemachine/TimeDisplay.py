@@ -9,7 +9,7 @@ class TimeDisplay(object):
     mqtt = MqttClient()
 
     def __init__(self):
-        self.mqtt.listener(self.__on_event)
+        self.mqtt.listen(self.__on_event)
 
     def __on_event(self, event):
         print(f"Got Event: {event}")

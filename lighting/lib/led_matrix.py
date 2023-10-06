@@ -8,12 +8,12 @@ import numpy as np
 from lighting.lib import colors
 from PIL import ImageEnhance, Image, ImageDraw, ImageFont
 
-CUSTOM_CONFIG = exists('config.json')
-CONFIG = 'default_config.json' if not CUSTOM_CONFIG else 'config.json'
+# CUSTOM_CONFIG = exists('config.json')
+# CONFIG = 'default_config.json' if not CUSTOM_CONFIG else 'config.json'
 
-with open(CONFIG, mode='r',  encoding='utf8') as j_object:
-    cfg = json.load(j_object)
-
+# with open(CONFIG, mode='r',  encoding='utf8') as j_object:
+#    cfg = json.load(j_object)
+cfg = None
 if not cfg:
     cfg = {
         "pixel_width": 64,

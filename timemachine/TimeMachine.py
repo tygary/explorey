@@ -16,7 +16,7 @@ MIN_UPDATE_TIME = 0
 
 
 def print_datetime(date):
-    return date.strftime('%Y %m %d  %H:%M:%S')
+    return date.strftime('%Y/%m/%d  %H:%M:%S')
 
 
 class TimeMachine(object):
@@ -43,7 +43,7 @@ class TimeMachine(object):
         #     print(f"Time has stopped!!!")
         #     return 0
         is_negative = speed > 0
-        value = 10 ** (abs(speed) * 12.3)
+        value = 10 ** (abs(speed) * 12.6)
         if is_negative and value is not 0:
             value = value * -1
         return value

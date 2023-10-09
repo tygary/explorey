@@ -18,6 +18,7 @@ class TimeDisplay(object):
 
     def __on_event(self, event):
         print(f"Got Event: {event}")
+        print(self.serial.read())
         if event:
             data = json.loads(event)
             if data and data["date"]:

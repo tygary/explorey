@@ -21,7 +21,7 @@ class UsbSerial(object):
             return self.serial.readLine()
 
     def write(self, message):
-        if self.is_connected:
+        if not self.is_connected:
             try:
                 self.serial = serial.Serial(self.port, 9600, timeout=5)
                 self.is_connected = True

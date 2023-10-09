@@ -21,5 +21,5 @@ class TimeDisplay(object):
             data = json.loads(event)
             if data and data["date"]:
                 self.display.draw_text(data["date"])
-                output = f"{data['magnitude']}|{0x00}"
+                output = bytes(f"{round(data['magnitude'] * 1000000000)}|{0x00}", 'utf-8')
                 self.serial.write(output)

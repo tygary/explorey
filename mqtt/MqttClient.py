@@ -32,7 +32,7 @@ class MqttClient(object):
         client.subscribe(TOPIC)
 
     def __on_message(self, client, userdata, message):
-        print("Message received: " + message.payload.decode())
+        # print("Message received: " + message.payload.decode())
         if self.listener is not None:
             self.listener(message.payload.decode())
 

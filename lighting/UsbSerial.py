@@ -12,7 +12,7 @@ class UsbSerial(object):
 
     def read(self):
         self.__check_connection()
-        if self.is_connected:
+        if self.is_connected and self.serial.in_waiting > 0:
             return self.serial.read_until()
 
     def __check_connection(self):

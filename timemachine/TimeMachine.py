@@ -53,7 +53,8 @@ class TimeMachine(object):
         data = {
             "event": "timechange",
             "date": print_datetime(new_date),
-            "speed": speed
+            "speed": speed,
+            "magnitude": self.speed
         }
         self.mqtt.publish(json.dumps(data))
 

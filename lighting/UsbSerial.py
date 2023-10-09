@@ -20,6 +20,13 @@ class UsbSerial(object):
         if self.is_connected:
             return self.serial.readLine()
 
+    def __check_connection(self):
+        try:
+            self.serial.inWaiting()
+        except:
+            print("Lost connection!")
+            self.is_connected = False
+
     def write(self, message):
         if not self.is_connected:
             try:

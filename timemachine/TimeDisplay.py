@@ -10,7 +10,7 @@ from lighting.UsbSerial import UsbSerial
 class TimeDisplay(object):
     display = PixelDisplay()
     mqtt = MqttClient()
-    serial = UsbSerial("/dev/ttyUSB1")
+    serial = UsbSerial("/dev/ttyACM0")
 
     def __init__(self):
         self.mqtt.listen(self.__on_event)

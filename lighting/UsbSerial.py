@@ -28,6 +28,7 @@ class UsbSerial(object):
                 print("Connected!")
                 self.is_connected = True
             except:
+                print("Failed to Connect")
                 self.is_connected = False
 
     def write(self, message):

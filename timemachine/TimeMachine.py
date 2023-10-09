@@ -33,6 +33,7 @@ class TimeMachine(object):
 
     def __on_lever_change(self, id, value):
         # print(f"Got lever {id} change to {value}")
+        self.magnitude = value
         self.speed = self.__scale_speed(value)
 
     def __on_button_change(self, id, value):
@@ -54,10 +55,9 @@ class TimeMachine(object):
             "event": "timechange",
             "date": print_datetime(new_date),
             "speed": speed,
-            "magnitude": self.speed
+            "magnitude": self.magnitude if speed != 0 else 0
         }
         self.mqtt.publish(json.dumps(data))
-
 
     def update(self):
         self.levers.update()

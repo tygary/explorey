@@ -13,7 +13,7 @@ class UsbSerial(object):
     def read(self):
         self.__check_connection()
         if self.is_connected:
-            return self.serial.readLine()
+            return self.serial.read_until()
 
     def __check_connection(self):
         if self.is_connected:

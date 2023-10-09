@@ -6,7 +6,7 @@ class UsbSerial(object):
 
     def __init__(self, port="/dev/ttyACM0"):
         self.serial = serial.Serial(port, 9600)
-        self.serial.open()
+        # self.serial.open()
 
     def read(self):
         return self.serial.readLine()

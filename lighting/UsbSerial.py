@@ -25,6 +25,7 @@ class UsbSerial(object):
         else:
             try:
                 self.serial = serial.Serial(self.port, 9600, timeout=5)
+                print("Connected!")
                 self.is_connected = True
             except:
                 self.is_connected = False

@@ -6,6 +6,7 @@ class UsbSerial(object):
     is_connected = False
 
     def __init__(self, port="/dev/ttyACM0"):
+        self.port = port
         try:
             self.serial = serial.Serial(port, 9600, timeout=5)
             self.is_connected = True
@@ -20,6 +21,13 @@ class UsbSerial(object):
             return self.serial.readLine()
 
     def write(self, message):
+        if self.is_connected:
+            try:
+                self.serial = serial.Serial(self.port, 9600, timeout=5)
+                self.is_connected = True
+            except:
+                self.is_connected = False
+
         if self.is_connected:
             if self.serial.out_waiting > 100:
                 self.serial.reset_output_buffer()

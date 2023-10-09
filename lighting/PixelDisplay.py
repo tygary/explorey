@@ -19,7 +19,7 @@ class PixelDisplay(object):
     )
     def draw_text(self, text):
         self.buffer.fill(0x000000)
-        self.buffer.text(text, 2, 0, 0xFF000000)
+        self.buffer.text(text, 2, 0, 0xFF0000)
         self.buffer.display()
         #self.matrix.reset()
         #self.matrix.text(text, (0, 0), 8, (255, 0, 0))

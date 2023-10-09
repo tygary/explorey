@@ -35,7 +35,6 @@ class TimeMachine(object):
         # print(f"Got lever {id} change to {value}")
         self.magnitude = round(value * 1000) * -1
         self.speed = self.__scale_speed(value)
-        print(f"Lever Magnitude: {self.magnitude}")
 
     def __on_button_change(self, id, value):
         print(f"Got button {id} change to {value}")

@@ -25,7 +25,7 @@ class UsbSerial(object):
                 self.is_connected = False
         else:
             try:
-                ports = glob.glob('/dev/tty.*')
+                ports = glob.glob('/dev/ttyACM*')
                 if len(ports) > 0:
                     print(ports)
                     self.port = ports[0]

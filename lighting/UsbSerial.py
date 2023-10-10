@@ -1,4 +1,5 @@
 import serial
+import glob
 
 
 class UsbSerial(object):
@@ -24,6 +25,9 @@ class UsbSerial(object):
                 self.is_connected = False
         else:
             try:
+                ports = glob.glob('/dev/tty.*')
+                if len(ports) > 0:
+                    self.port = ports[0]
                 self.serial = serial.Serial(self.port, 9600, timeout=5)
                 print("Connected!")
                 self.is_connected = True

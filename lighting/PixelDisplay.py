@@ -3,7 +3,6 @@ import neopixel
 from adafruit_pixel_framebuf import PixelFramebuffer, VERTICAL
 
 class PixelDisplay(object):
-    matrix = Matrix()
     pixels = neopixel.NeoPixel(
         board.D21,
         8 * 128,
@@ -20,7 +19,4 @@ class PixelDisplay(object):
         self.buffer.fill(0x000000)
         self.buffer.text(text, 2, 0, 0xFF0000)
         self.buffer.display()
-        #self.matrix.reset()
-        #self.matrix.text(text, (0, 0), 8, (255, 0, 0))
-        #self.matrix.show()
 

@@ -1,4 +1,3 @@
-from lighting.lib.led_matrix import Matrix
 import board
 import neopixel
 from adafruit_pixel_framebuf import PixelFramebuffer, VERTICAL

@@ -69,10 +69,10 @@ class TimeMachine(object):
                 delta = timedelta(milliseconds=change)
                 new_date = self.date + delta
                 if new_date > END:
-                    new_date = END
+                    new_date = START
                     change = 0
                 if new_date < START:
-                    new_date = START
+                    new_date = END
                     change = 0
                 if new_date != self.date or (change == 0 and not self.is_stopped):
                     self.is_stopped = change == 0

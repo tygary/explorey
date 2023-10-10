@@ -27,6 +27,7 @@ class UsbSerial(object):
             try:
                 ports = glob.glob('/dev/tty.*')
                 if len(ports) > 0:
+                    print(ports)
                     self.port = ports[0]
                 self.serial = serial.Serial(self.port, 9600, timeout=5)
                 print("Connected!")

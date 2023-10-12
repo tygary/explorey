@@ -9,9 +9,9 @@ from logger.logger import Logger
 # Coin Machine
 # -----------------------------------------------------------------------
 class CoinMachine(object):
-    coin_input_pin = 27
-    coin_counter_input_pin = 18
-    #coin_counter_pins = [29, 31]
+    coin_input_pin = 13 #27
+    coin_counter_input_pin = 12 #18
+    # coin_counter_pins = [29, 31]
 
     waiting_for_coin = False
     accepted_a_coin = False

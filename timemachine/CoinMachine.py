@@ -30,6 +30,8 @@ class CoinMachine(object):
     def __init__(self, demo_mode=False):
         self.logger = Logger()
         self.demo_mode = demo_mode
+        GPIO.cleanup()
+        GPIO.setmode(GPIO.BOARD)
         #GPIO.setup(self.coin_counter_pins, GPIO.OUT)
         GPIO.setup(self.coin_input_pin, GPIO.IN)
         GPIO.setup(self.coin_counter_input_pin, GPIO.IN)

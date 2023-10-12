@@ -1,4 +1,4 @@
-from printer.AdventureGenerator import AdventureGenerator
+#from printer.AdventureGenerator import AdventureGenerator
 #from sound.MusicControlSystem import MusicControlSystem
 #from lighting.ExploreyLights import *
 from timemachine.TimeMachine import *

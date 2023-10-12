@@ -14,7 +14,7 @@ START = datetime(1000, 1, 1, 0, 0, 0)
 SPEED_MULTIPLIER = -(60 * 60 * 24 * 365) * 10
 ZERO_TOLERANCE = 0.1
 MIN_UPDATE_TIME = 0
-RUN_DURATION = 10 * 60
+RUN_DURATION_S = 10
 
 
 def print_datetime(date):
@@ -81,7 +81,7 @@ class TimeMachine(object):
         self.levers.update()
         if self.active:
             now = time.time()
-            if now > self.start_time + RUN_DURATION:
+            if now > self.start_time + RUN_DURATION_S:
                 print("Machine has ran out of power!  Shutting down...")
                 self.is_charged = True
                 self.active = False

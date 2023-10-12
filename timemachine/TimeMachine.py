@@ -85,6 +85,8 @@ class TimeMachine(object):
                 print("Machine has ran out of power!  Shutting down...")
                 self.is_charged = True
                 self.active = False
+                self.speed = 0
+                self.__on_change_date(END, 0)
                 return
 
             time_delta = now - self.last_event

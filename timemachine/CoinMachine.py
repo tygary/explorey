@@ -34,7 +34,6 @@ class CoinMachine(object):
         GPIO.setup(self.coin_input_pin, GPIO.IN)
         GPIO.setup(self.coin_counter_input_pin, GPIO.IN)
         self.__set_coin_count(0)
-        self.start_waiting_for_coin()
 
     # Public --------------------------------------------
 

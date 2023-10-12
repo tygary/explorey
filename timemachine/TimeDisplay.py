@@ -4,7 +4,7 @@ import numpy
 
 from lighting.PixelDisplay import PixelDisplay
 from mqtt.MqttClient import MqttClient
-from lighting.UsbSerial import UsbSerial
+from timemachine.UsbSerial import UsbSerial
 
 
 class TimeDisplay(object):

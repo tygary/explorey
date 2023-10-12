@@ -1,5 +1,6 @@
 from timemachine.Levers import *
 from mqtt.MqttClient import *
+from timemachine.CoinMachine import CoinMachine
 import math
 from datetime import datetime, timedelta
 import time
@@ -27,9 +28,11 @@ class TimeMachine(object):
     active = True
     last_event = time.time()
     mqtt = MqttClient()
+    coin = CoinMachine()
 
     def __init__(self):
         self.levers = Levers(self.__on_lever_change, self.__on_button_change)
+        self.coin.start_waiting_for_coin(self.__on_coin_accepted)
 
     def __on_lever_change(self, id, value):
         # print(f"Got lever {id} change to {value}")
@@ -38,6 +41,9 @@ class TimeMachine(object):
 
     def __on_button_change(self, id, value):
         print(f"Got button {id} change to {value}")
+
+    def __on_coin_accepted(self):
+        print("Time Machine has a coin!")
 
     def __scale_speed(self, speed):
         # if abs(speed) < ZERO_TOLERANCE:

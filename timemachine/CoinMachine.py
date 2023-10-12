@@ -81,7 +81,7 @@ class CoinMachine(object):
         self.coin_detected = True
         #Fake the coin detection for now, it's broken
         if self.coin_detected is True: # and self.coin_counted is True:
-            self.logger.log("  Got a coin, pick a box")
+            # self.logger.log("  Got a coin, pick a box")
             self.__set_accepted_coin(True)
         else:
             self.logger.log("  Not accepted")

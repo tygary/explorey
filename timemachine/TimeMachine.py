@@ -14,6 +14,7 @@ START = datetime(1000, 1, 1, 0, 0, 0)
 SPEED_MULTIPLIER = -(60 * 60 * 24 * 365) * 10
 ZERO_TOLERANCE = 0.1
 MIN_UPDATE_TIME = 0
+RUN_DURATION = 10 * 60
 
 
 def print_datetime(date):
@@ -25,10 +26,14 @@ class TimeMachine(object):
     date = END
     speed = 0
     is_stopped = False
-    active = True
+    active = False
     last_event = time.time()
     mqtt = MqttClient()
     coin = CoinMachine()
+    is_charged = False
+    start_time = 0
+
+
 
     def __init__(self):
         self.levers = Levers(self.__on_lever_change, self.__on_button_change)
@@ -44,6 +49,13 @@ class TimeMachine(object):
 
     def __on_coin_accepted(self):
         print("Time Machine has a coin!")
+        self.is_charged = True
+        self.__start_machine()
+
+    def __start_machine(self):
+        if self.is_charged:
+            self.active = True
+            self.start_time = time.time()
 
     def __scale_speed(self, speed):
         # if abs(speed) < ZERO_TOLERANCE:
@@ -69,6 +81,12 @@ class TimeMachine(object):
         self.levers.update()
         if self.active:
             now = time.time()
+            if now > self.start_time + RUN_DURATION:
+                print("Machine has ran out of power!  Shutting down...")
+                self.is_charged = True
+                self.active = False
+                return
+
             time_delta = now - self.last_event
             if time_delta > MIN_UPDATE_TIME:
                 change = round(self.speed * time_delta)

@@ -1,5 +1,3 @@
-import RPi.GPIO as GPIO
-import board
 import threading
 from printer.addeventdetection import *
 from logger.logger import Logger
@@ -39,8 +37,8 @@ class CoinMachine(object):
         if callback:
             self.callback = callback
         self.logger.log("Coin: waiting for coin at pin %s" % self.coin_input_pin)
-        add_event_detection(self.coin_input_pin, callback=self.__coin_cb)
-        add_event_detection(self.coin_counter_input_pin, callback=self.__coin_counter_cb)
+        add_event_detection(self.coin_input_pin, callback=self.__coin_cb, pullup=True)
+        add_event_detection(self.coin_counter_input_pin, callback=self.__coin_counter_cb, pullup=True)
         self.waiting_for_coin = True
 
     def clear_coins(self):

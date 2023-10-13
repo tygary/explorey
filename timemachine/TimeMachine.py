@@ -58,6 +58,7 @@ class TimeMachine(object):
         if self.is_charged:
             self.active = True
             self.start_time = time.time()
+            self.coin.clear_coins()
 
     def __scale_speed(self, speed):
         # if abs(speed) < ZERO_TOLERANCE:
@@ -85,7 +86,7 @@ class TimeMachine(object):
             now = time.time()
             if now > self.start_time + RUN_DURATION_S:
                 print("Machine has ran out of power!  Shutting down...")
-                self.is_charged = True
+                self.is_charged = False
                 self.active = False
                 self.speed = 0
                 self.__on_change_date(END, 0)

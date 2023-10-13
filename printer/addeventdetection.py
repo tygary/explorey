@@ -1,5 +1,6 @@
 import RPi.GPIO as GPIO
 
+
 def add_event_detection(pin, callback, bothdirections=False):
     try:
         GPIO.setup(pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
@@ -15,3 +16,4 @@ def add_event_detection(pin, callback, bothdirections=False):
                 GPIO.add_event_detect(pin, GPIO.FALLING, callback=callback)
         except RuntimeError:
             pass
+            print("Error during Event Detection")

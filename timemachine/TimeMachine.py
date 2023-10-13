@@ -1,10 +1,12 @@
-from timemachine.Levers import *
-from mqtt.MqttClient import *
-from timemachine.CoinMachine import CoinMachine
+import RPi.GPIO as GPIO
 import math
 from datetime import datetime, timedelta
 import time
 import json
+
+from timemachine.Levers import *
+from mqtt.MqttClient import *
+from timemachine.CoinMachine import CoinMachine
 
 
 ZERO = datetime.fromtimestamp(0)
@@ -36,6 +38,8 @@ class TimeMachine(object):
 
 
     def __init__(self):
+        GPIO.cleanup()
+        GPIO.setmode(GPIO.BOARD)
         self.levers = Levers(self.__on_lever_change, self.__on_button_change)
         self.coin.start_waiting_for_coin(self.__on_coin_accepted)
         self.speed = 0

@@ -39,7 +39,7 @@ class TimeMachine(object):
 
     def __init__(self):
         GPIO.cleanup()
-        GPIO.setmode(GPIO.BOARD)
+        GPIO.setmode(GPIO.BCM)
         self.levers = Levers(self.__on_lever_change, self.__on_button_change)
         self.coin.start_waiting_for_coin(self.__on_coin_accepted)
         self.speed = 0

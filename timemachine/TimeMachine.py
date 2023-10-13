@@ -38,6 +38,8 @@ class TimeMachine(object):
     def __init__(self):
         self.levers = Levers(self.__on_lever_change, self.__on_button_change)
         self.coin.start_waiting_for_coin(self.__on_coin_accepted)
+        self.speed = 0
+        self.__on_change_date(END, 0)
 
     def __on_lever_change(self, id, value):
         # print(f"Got lever {id} change to {value}")

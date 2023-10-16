@@ -31,10 +31,7 @@ class OscilloscopeSoundSystem(object):
         self.is_running = True
 
     def update_sounds(self, active):
-        if not self.is_running and not active:
-            return
-
-        if not self.is_running and active:
+        if active:
             self.__play_time_traveling()
 
         if self.is_running and not active:

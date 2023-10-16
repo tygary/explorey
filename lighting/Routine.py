@@ -86,7 +86,7 @@ class SpeedGaugeRoutine(TimeRoutine):
             on_pixels = [3, 4, 5, 6]
         elif self.magnitude >= 300:
             on_pixels = [3, 4, 5]
-        elif self.magnitude >= 0:
+        elif self.magnitude > 0:
             on_pixels = [3, 4]
         elif self.magnitude == 0:
             on_pixels = [3]

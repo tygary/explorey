@@ -81,28 +81,37 @@ class SpeedGaugeRoutine(TimeRoutine):
                 self.pixels.setColor(addr, [0, 0, 0])
                 return
 
+        abs_mag = abs(self.magnitude)
+        num_pixels = len(self.addresses)
 
-        if self.magnitude >= 500:
-            on_pixels = [3, 4, 5, 6]
-        elif self.magnitude >= 300:
-            on_pixels = [3, 4, 5]
-        elif self.magnitude > 0:
-            on_pixels = [3, 4]
-        elif self.magnitude == 0:
-            on_pixels = [3]
-        elif self.magnitude >= -300:
-            on_pixels = [3, 2]
-        elif self.magnitude >= -500:
-            on_pixels = [3, 2, 1]
-        else:
-            on_pixels = [3, 2, 1, 0]
-        print(f"Light Magnitude {self.magnitude} - Pixels {on_pixels}")
+        pixel_breakpoint = math.ceil((self.magnitude / 1000) * (num_pixels - 1))
+        for i in range(0, pixel_breakpoint):
+            self.pixels.setColor(self.addresses[i], [255, 0, 0])
+        if pixel_breakpoint + 1 < num_pixels:
+            for i in range(pixel_breakpoint + 1, num_pixels):
+                self.pixels.setColor(self.addresses[i], [0, 0, 0])
 
-        for addr in self.addresses:
-            if addr in on_pixels:
-                self.pixels.setColor(addr, [255, 0, 0])
-            else:
-                self.pixels.setColor(addr, [0, 0, 0])
+        # if self.magnitude >= 500:
+        #     on_pixels = [3, 4, 5, 6]
+        # elif self.magnitude >= 300:
+        #     on_pixels = [3, 4, 5]
+        # elif self.magnitude > 0:
+        #     on_pixels = [3, 4]
+        # elif self.magnitude == 0:
+        #     on_pixels = [3]
+        # elif self.magnitude >= -300:
+        #     on_pixels = [3, 2]
+        # elif self.magnitude >= -500:
+        #     on_pixels = [3, 2, 1]
+        # else:
+        #     on_pixels = [3, 2, 1, 0]
+        # print(f"Light Magnitude {self.magnitude} - Pixels {on_pixels}")
+        #
+        # for addr in self.addresses:
+        #     if addr in on_pixels:
+        #         self.pixels.setColor(addr, [255, 0, 0])
+        #     else:
+        #         self.pixels.setColor(addr, [0, 0, 0])
 
 
 class RandomPulseRoutine(TimeRoutine):

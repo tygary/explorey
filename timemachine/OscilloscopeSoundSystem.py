@@ -19,7 +19,8 @@ class OscilloscopeSoundSystem(object):
         self.__play_ambient()
 
     def __play_ambient(self):
-        self.player.play_song(MUSIC[0], 1)
+        # self.player.play_song(MUSIC[0], 1)
+        self.player.stop_music()
 
     def __play_time_frozen(self):
         self.player.play_song('/home/admin/explorey/sound/TimeFrozen.ogg', 1)

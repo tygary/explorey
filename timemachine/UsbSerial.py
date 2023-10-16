@@ -5,18 +5,26 @@ import glob
 class UsbSerial(object):
     serial = None
     is_connected = False
+    enabled = True
 
     def __init__(self, port="/dev/ttyACM0"):
         self.port = port
         self.__check_connection()
         # self.serial.open()
 
+    def disable(self):
+        self.enabled = False
+
     def read(self):
+        if not self.enabled:
+            return
         self.__check_connection()
         if self.is_connected and self.serial.in_waiting > 0:
             return self.serial.read_until()
 
     def __check_connection(self):
+        if not self.enabled:
+            return
         if self.is_connected:
             try:
                 self.serial.inWaiting()
@@ -37,6 +45,8 @@ class UsbSerial(object):
                 self.is_connected = False
 
     def write(self, message):
+        if not self.enabled:
+            return
         self.__check_connection()
         if self.is_connected:
             if self.serial.out_waiting > 100:
@@ -44,5 +54,7 @@ class UsbSerial(object):
             return self.serial.write(message)
 
     def close(self):
+        if not self.enabled:
+            return
         if self.is_connected:
             self.serial.close()

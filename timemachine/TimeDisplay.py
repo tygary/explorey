@@ -17,6 +17,7 @@ class TimeDisplay(object):
 
     def __init__(self):
         self.mqtt.listen(self.__on_event)
+        self.serial.disable()
 
     def __on_event(self, event):
         print(f"Got Event: {event}")

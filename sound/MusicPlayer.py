@@ -15,8 +15,8 @@ class MusicPlayer:
             #self.music_thread = multiprocessing.Process(target=self.__music_loop)
             pygame.mixer.music.load(self.current_song)
             pygame.mixer.music.set_volume(volume)
-            pygame.mixer.music.set_pos(pos)
-            pygame.mixer.music.play(loops)
+            #pygame.mixer.music.set_pos(pos)
+            pygame.mixer.music.play(loops=loops, start=pos)
             #self.music_thread.start()
 
     def is_still_playing(self):

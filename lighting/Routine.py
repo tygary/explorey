@@ -73,26 +73,27 @@ class SpeedGaugeRoutine(TimeRoutine):
 
     def tick(self, is_stopped=False):
         num_pixels = len(self.addresses)
-        if self.magnitude >= 0.9:
-            on_index = 6
-        elif self.magnitude >= 0.5:
-            on_index = 5
-        elif self.magnitude >= 0:
-            on_index = 4
-        elif self.magnitude == 0:
-            on_index = 3
-        elif self.magnitude >= -0.3:
-            on_index = 2
-        elif self.magnitude >= -0.5:
-            on_index = 1
-        else:
-            on_index = 0
 
-        for i in range(0, on_index + 1):
-            self.pixels.setColor(self.addresses[i], [255, 0, 0])
-        if on_index + 1 < num_pixels:
-            for i in range(on_index + 1, num_pixels):
-                self.pixels.setColor(self.addresses[i], [0, 0, 0])
+        if self.magnitude >= 0.9:
+            on_pixels = [3, 4, 5, 6]
+        elif self.magnitude >= 0.5:
+            on_pixels = [3, 4, 5]
+        elif self.magnitude >= 0:
+            on_pixels = [3, 4]
+        elif self.magnitude == 0:
+            on_pixels = [3]
+        elif self.magnitude >= -0.3:
+            on_pixels = [3, 2]
+        elif self.magnitude >= -0.5:
+            on_pixels = [3, 2, 1]
+        else:
+            on_pixels = [3, 2, 1, 0]
+
+        for addr in self.addresses:
+            if addr in on_pixels:
+                self.pixels.setColor(addr, [255, 0, 0])
+            else:
+                self.pixels.setColor(addr, [0, 0, 0])
 
 
 class RandomPulseRoutine(TimeRoutine):

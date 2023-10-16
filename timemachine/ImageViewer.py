@@ -1,8 +1,8 @@
 import pygame
 from datetime import datetime
 
-SCREEN_WIDTH = 600
-SCREEN_HEIGHT = 600
+SCREEN_WIDTH = 1024
+SCREEN_HEIGHT = 768
 
 IMAGES_BY_YEAR = [
     {
@@ -34,7 +34,7 @@ class ImageViewer(object):
 
     def __init__(self):
         pygame.init()
-        self.screen = pygame.display.set_mode(SCREEN_WIDTH, SCREEN_HEIGHT)
+        self.screen = pygame.display.set_mode(size=(SCREEN_WIDTH, SCREEN_HEIGHT))
         pygame.display.set_caption('Time Viewer')
         self.font = pygame.font.SysFont('arial', 48)
 

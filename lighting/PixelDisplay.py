@@ -4,7 +4,7 @@ from adafruit_pixel_framebuf import PixelFramebuffer, VERTICAL
 
 class PixelDisplay(object):
     pixels = neopixel.NeoPixel(
-        board.D21,
+        board.D12,
         8 * 128,
         brightness=0.2,
         auto_write=False,

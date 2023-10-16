@@ -37,8 +37,8 @@ class CoinMachine(object):
         if callback:
             self.callback = callback
         self.logger.log("Coin: waiting for coin at pin %s" % self.coin_input_pin)
-        add_event_detection(self.coin_input_pin, callback=self.__coin_cb, pullup=False)
-        add_event_detection(self.coin_counter_input_pin, callback=self.__coin_counter_cb, pullup=False)
+        add_event_detection(self.coin_input_pin, callback=self.__coin_cb, pullup=False, bothdirections=True)
+        add_event_detection(self.coin_counter_input_pin, callback=self.__coin_counter_cb, pullup=False, bothdirections=True)
         self.waiting_for_coin = True
 
     def clear_coins(self):

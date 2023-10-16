@@ -36,7 +36,7 @@ class PowerGaugeRoutine(TimeRoutine):
     pulse_routine = None
 
     def __init__(self, pixels, addresses, color=[255, 0, 0]):
-        TimeRoutine.__init__(pixels, addresses)
+        TimeRoutine.__init__(self, pixels, addresses)
         self.color = color
 
     def update_percentage(self, percentage):
@@ -65,7 +65,7 @@ class SpeedGaugeRoutine(TimeRoutine):
     magnitude = 0
 
     def __init__(self, pixels, addresses, color=[255, 0, 0]):
-        TimeRoutine.__init__(pixels, addresses)
+        TimeRoutine.__init__(self, pixels, addresses)
         self.color = color
 
     def update_magnitude(self, magnitude):

@@ -54,12 +54,10 @@ class PowerGaugeRoutine(TimeRoutine):
             if pixel_breakpoint + 1 < num_pixels:
                 for i in range(pixel_breakpoint + 1, num_pixels):
                     self.pixels.setColor(self.addresses[i], [0, 0, 0])
-            if pixel_breakpoint < 8:
+            if pixel_breakpoint < 3:
                 if not self.pulse_routine:
-                    print("New Pulse")
-                    self.pulse_routine = PulseRoutine(self.pixels, [self.addresses[0]], self.color, rate=0.005)
+                    self.pulse_routine = PulseRoutine(self.pixels, self.addresses[:pixel_breakpoint], self.color, rate=0.005)
                 self.pulse_routine.tick()
-                print(f"Pulsing - {self.pulse_routine.values}")
 
 
 class SpeedGaugeRoutine(TimeRoutine):

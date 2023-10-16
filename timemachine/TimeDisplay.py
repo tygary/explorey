@@ -24,8 +24,7 @@ class TimeDisplay(object):
         print(self.serial.read())
         if event:
             data = json.loads(event)
-            if data["active"]:
-                self.osounds.update_sounds(data["active"] is True)
+            self.osounds.update_sounds(data["active"] is True)
             if data["date"]:
                 self.display.draw_text(data["date"])
                 magnitude = data["magnitude"]

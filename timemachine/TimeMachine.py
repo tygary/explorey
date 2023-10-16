@@ -127,5 +127,6 @@ class TimeMachine(object):
                     self.__on_change_date(new_date, change)
                 self.last_event = now
         self.light_routines.tick()
+        self.pixels.render()
 
 

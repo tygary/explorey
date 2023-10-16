@@ -48,8 +48,8 @@ class PowerGaugeRoutine(TimeRoutine):
             for addr in self.addresses:
                 self.pixels.setColor(addr, [0, 0, 0])
         else:
-            pixel_breakpoint = math.ceil(self.percentage * num_pixels)
-            for i in range(0, pixel_breakpoint):
+            pixel_breakpoint = math.ceil(self.percentage * (num_pixels - 1))
+            for i in range(0, pixel_breakpoint + 1):
                 self.pixels.setColor(self.addresses[i], [255, 0, 0])
             if pixel_breakpoint + 1 < num_pixels:
                 for i in range(pixel_breakpoint + 1, num_pixels):

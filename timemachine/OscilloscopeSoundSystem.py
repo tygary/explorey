@@ -3,7 +3,7 @@ import time
 
 
 MUSIC = [
-    '/home/admin/explorey/sound/osc_spirals'
+    '/home/admin/explorey/sound/osc_spirals.wav'
 ]
 
 
@@ -27,7 +27,7 @@ class OscilloscopeSoundSystem(object):
     def __play_time_traveling(self):
         self.player.play_song(MUSIC[0], 1)
 
-    def update_sounds(self, active, time_speed):
+    def update_sounds(self, active):
         if not self.is_running and not active:
             return
 

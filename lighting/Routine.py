@@ -16,7 +16,6 @@ class Routine(object):
     def tick(self):
         print("tick")
 
-
 class TimeRoutine(Routine):
     now = 0
 
@@ -29,6 +28,71 @@ class TimeRoutine(Routine):
 
     def update_now(self):
         self.now = int(round(time.time() * 1000))
+
+
+class PowerGaugeRoutine(TimeRoutine):
+    color = [255, 0, 0]
+    percentage = 0
+    pulse_routine = None
+
+    def __init__(self, pixels, addresses, color=[255, 0, 0]):
+        TimeRoutine.__init__(pixels, addresses)
+        self.color = color
+
+    def update_percentage(self, percentage):
+        self.percentage = percentage
+
+    def tick(self):
+        num_pixels = len(self.pixels)
+        if self.percentage is 0:
+            for addr in self.addresses:
+                self.pixels.setColor(addr, [0, 0, 0])
+        else:
+            pixel_breakpoint = math.ceil(self.percentage * num_pixels)
+            for i in range(0, pixel_breakpoint + 1):
+                self.pixels.setColor(self.pixels[i], [255, 0, 0])
+            if pixel_breakpoint + 1 < num_pixels:
+                for i in range(pixel_breakpoint + 1, num_pixels):
+                    self.pixels.setColor(self.pixels[i], [0, 0, 0])
+            if pixel_breakpoint is 0:
+                if not self.pulse_routine:
+                    self.pulse_routine = PulseRoutine(self.pixels, [self.addresses[0]], self.color, rate=0.01)
+                self.pulse_routine.tick()
+
+
+class SpeedGaugeRoutine(TimeRoutine):
+    color = [255, 0, 0]
+    magnitude = 0
+
+    def __init__(self, pixels, addresses, color=[255, 0, 0]):
+        TimeRoutine.__init__(pixels, addresses)
+        self.color = color
+
+    def update_magnitude(self, magnitude):
+        self.magnitude = magnitude
+
+    def tick(self, is_stopped=False):
+        num_pixels = len(self.addresses)
+        if self.magnitude >= 0.9:
+            on_index = 6
+        elif self.magnitude >= 0.5:
+            on_index = 5
+        elif self.magnitude >= 0:
+            on_index = 4
+        elif self.magnitude == 0:
+            on_index = 3
+        elif self.magnitude >= -0.3:
+            on_index = 2
+        elif self.magnitude >= -0.5:
+            on_index = 1
+        else:
+            on_index = 0
+
+        for i in range(0, on_index + 1):
+            self.pixels.setColor(self.addresses[i], [255, 0, 0])
+        if on_index + 1 < num_pixels:
+            for i in range(on_index + 1, num_pixels):
+                self.pixels.setColor(self.addresses[i], [0, 0, 0])
 
 
 class RandomPulseRoutine(TimeRoutine):

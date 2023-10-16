@@ -29,6 +29,7 @@ class MusicPlayer:
         #if self.music_thread is not None:
         #    self.music_thread.terminate()
         pygame.mixer.music.stop()
+        pygame.mixer.music.rewind()
 
     def get_pos(self):
         return pygame.mixer.music.get_pos()

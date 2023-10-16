@@ -50,10 +50,10 @@ class PowerGaugeRoutine(TimeRoutine):
         else:
             pixel_breakpoint = math.ceil(self.percentage * num_pixels)
             for i in range(0, pixel_breakpoint + 1):
-                self.pixels.setColor(self.pixels[i], [255, 0, 0])
+                self.pixels.setColor(self.addresses[i], [255, 0, 0])
             if pixel_breakpoint + 1 < num_pixels:
                 for i in range(pixel_breakpoint + 1, num_pixels):
-                    self.pixels.setColor(self.pixels[i], [0, 0, 0])
+                    self.pixels.setColor(self.addresses[i], [0, 0, 0])
             if pixel_breakpoint is 0:
                 if not self.pulse_routine:
                     self.pulse_routine = PulseRoutine(self.pixels, [self.addresses[0]], self.color, rate=0.01)

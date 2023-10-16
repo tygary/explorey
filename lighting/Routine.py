@@ -81,17 +81,17 @@ class SpeedGaugeRoutine(TimeRoutine):
                 self.pixels.setColor(addr, [0, 0, 0])
                 return
 
-        if self.magnitude >= 0.9:
+        if self.magnitude >= 500:
             on_pixels = [3, 4, 5, 6]
-        elif self.magnitude >= 0.5:
+        elif self.magnitude >= 300:
             on_pixels = [3, 4, 5]
         elif self.magnitude >= 0:
             on_pixels = [3, 4]
         elif self.magnitude == 0:
             on_pixels = [3]
-        elif self.magnitude >= -0.3:
+        elif self.magnitude >= -300:
             on_pixels = [3, 2]
-        elif self.magnitude >= -0.5:
+        elif self.magnitude >= -500:
             on_pixels = [3, 2, 1]
         else:
             on_pixels = [3, 2, 1, 0]

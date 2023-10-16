@@ -84,7 +84,7 @@ class SpeedGaugeRoutine(TimeRoutine):
         abs_mag = abs(self.magnitude)
         num_pixels = len(self.addresses)
 
-        pixel_breakpoint = math.ceil((self.magnitude / 1000) * (num_pixels - 1))
+        pixel_breakpoint = math.ceil((abs_mag / 1000) * (num_pixels - 1))
         for i in range(0, pixel_breakpoint):
             self.pixels.setColor(self.addresses[i], [255, 0, 0])
         if pixel_breakpoint + 1 < num_pixels:

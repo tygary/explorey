@@ -56,7 +56,7 @@ class PowerGaugeRoutine(TimeRoutine):
                     self.pixels.setColor(self.addresses[i], [0, 0, 0])
             if pixel_breakpoint < 3:
                 if not self.pulse_routine:
-                    self.pulse_routine = PulseRoutine(self.pixels, self.addresses[:pixel_breakpoint], self.color, rate=0.005)
+                    self.pulse_routine = PulseRoutine(self.pixels, self.addresses[:pixel_breakpoint], self.color, rate=0.5)
                 self.pulse_routine.tick()
 
 

@@ -81,6 +81,7 @@ class SpeedGaugeRoutine(TimeRoutine):
                 self.pixels.setColor(addr, [0, 0, 0])
                 return
 
+
         if self.magnitude >= 500:
             on_pixels = [3, 4, 5, 6]
         elif self.magnitude >= 300:
@@ -95,6 +96,7 @@ class SpeedGaugeRoutine(TimeRoutine):
             on_pixels = [3, 2, 1]
         else:
             on_pixels = [3, 2, 1, 0]
+        print(f"Light Magnitude {self.magnitude} - Pixels {on_pixels}")
 
         for addr in self.addresses:
             if addr in on_pixels:

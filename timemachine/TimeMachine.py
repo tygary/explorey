@@ -99,14 +99,16 @@ class TimeMachine(object):
         self.levers.update()
         if self.active:
             now = time.time()
-            percent_done = (now - self.start_time) / RUN_DURATION_S
-            self.power_routine.update_percentage(percent_done)
+            percent_power = 1 - ((now - self.start_time) / RUN_DURATION_S)
+            self.power_routine.update_percentage(percent_power)
 
-            if percent_done >= 1:
+            if percent_power <= 0:
                 print("Machine has ran out of power!  Shutting down...")
                 self.is_charged = False
                 self.active = False
                 self.__on_change_date(END, 0)
+                self.speed_routine.update_magnitude(0)
+                self.power_routine.update_percentage(0)
                 return
 
             time_delta = now - self.last_event

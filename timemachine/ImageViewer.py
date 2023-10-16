@@ -7,19 +7,19 @@ SCREEN_HEIGHT = 600
 IMAGES_BY_YEAR = [
     {
         "date": datetime(1000, 1, 1, 0, 0, 0),
-        "path": "~/explorey/images/test.png"
+        "path": "~/explorey/images/1970.jpeg"
     },
     {
         "date": datetime(1980, 1, 1, 0, 0, 0),
-        "path": "~/explorey/images/test.png"
+        "path": "~/explorey/images/1970.jpeg"
     },
     {
         "date": datetime(1990, 1, 1, 0, 0, 0),
-        "path": "~/explorey/images/test.png"
+        "path": "~/explorey/images/1970.jpeg"
     },
     {
         "date": datetime(2000, 1, 1, 0, 0, 0),
-        "path": "~/explorey/images/test.png"
+        "path": "~/explorey/images/1970.jpeg"
     },
 
 ]

@@ -43,7 +43,7 @@ class PowerGaugeRoutine(TimeRoutine):
         self.percentage = percentage
 
     def tick(self):
-        num_pixels = len(self.pixels)
+        num_pixels = len(self.addresses)
         if self.percentage is 0:
             for addr in self.addresses:
                 self.pixels.setColor(addr, [0, 0, 0])

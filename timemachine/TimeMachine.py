@@ -108,6 +108,7 @@ class TimeMachine(object):
                 self.active = False
                 self.__on_change_date(END, 0)
                 self.speed_routine.update_magnitude(0)
+                self.speed_routine.update_active(False)
                 self.power_routine.update_percentage(0)
                 return
 
@@ -124,7 +125,9 @@ class TimeMachine(object):
                     change = 0
                 if new_date != self.date or (change == 0 and not self.is_stopped):
                     self.is_stopped = change == 0
+                    self.speed_routine.update_active(True)
                     self.speed_routine.update_magnitude(self.magnitude if change != 0 else 0)
+
                     print(f"Date changed to {print_datetime(new_date)} - speed {round(self.speed)}")
                     self.__on_change_date(new_date, change)
                 self.last_event = now

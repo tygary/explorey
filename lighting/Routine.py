@@ -63,16 +63,23 @@ class PowerGaugeRoutine(TimeRoutine):
 class SpeedGaugeRoutine(TimeRoutine):
     color = [255, 0, 0]
     magnitude = 0
+    active = False
 
     def __init__(self, pixels, addresses, color=[255, 0, 0]):
         TimeRoutine.__init__(self, pixels, addresses)
         self.color = color
 
+    def update_active(self, active):
+        self.active = active
+
     def update_magnitude(self, magnitude):
         self.magnitude = magnitude
 
-    def tick(self, is_stopped=False):
-        num_pixels = len(self.addresses)
+    def tick(self):
+        if not self.active:
+            for addr in self.addresses:
+                self.pixels.setColor(addr, [0, 0, 0])
+                return
 
         if self.magnitude >= 0.9:
             on_pixels = [3, 4, 5, 6]

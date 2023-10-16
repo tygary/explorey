@@ -21,12 +21,14 @@ class OscilloscopeSoundSystem(object):
     def __play_ambient(self):
         # self.player.play_song(MUSIC[0], 1)
         self.player.stop_music()
+        self.is_running = False
 
     def __play_time_frozen(self):
         self.player.play_song('/home/admin/explorey/sound/TimeFrozen.ogg', 1)
 
     def __play_time_traveling(self):
         self.player.play_song(MUSIC[0], 1)
+        self.is_running = True
 
     def update_sounds(self, active):
         if not self.is_running and not active:

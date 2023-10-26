@@ -14,6 +14,7 @@ class TimeDisplay(object):
     mqtt = MqttClient()
     osounds = OscilloscopeSoundSystem()
     serial = UsbSerial("/dev/ttyACM0")
+    viewer = ImageViewer()
     last_magnitude = 0
 
     def __init__(self):
@@ -27,6 +28,7 @@ class TimeDisplay(object):
             data = json.loads(event)
             self.osounds.update_sounds(data["active"] is True)
             if data["date"]:
+                self.viewer.update(datetime.datetime(1970, 1, 1), data["date"])
                 self.display.draw_text(data["date"])
                 magnitude = data["magnitude"]
                 if self.last_magnitude != magnitude:

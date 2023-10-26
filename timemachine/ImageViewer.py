@@ -1,8 +1,8 @@
 import pygame
 from datetime import datetime
 
-SCREEN_WIDTH = 1024
-SCREEN_HEIGHT = 768
+SCREEN_WIDTH = 1280
+SCREEN_HEIGHT = 1024
 
 IMAGES_BY_YEAR = [
     {
@@ -62,7 +62,7 @@ class ImageViewer(object):
                         closest_year_index = index
                 current_year = IMAGES_BY_YEAR[closest_year_index]
                 self.current_date = date
-                if current_year != IMAGES_BY_YEAR[self.current_image_index]:
+                if current_year != IMAGES_BY_YEAR[self.current_image_index] or not self.image:
                     self.__update_image(current_year['path'])
                 self.render(datestring)
             # iterate over the list of Event objects

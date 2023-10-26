@@ -90,6 +90,7 @@ class TimeMachine(object):
             "active": self.active,
             "event": "timechange",
             "date": print_datetime(new_date),
+            "timestamp": (new_date - START).total_seconds(),
             "speed": speed,
             "magnitude": self.magnitude if speed != 0 else 0
         }

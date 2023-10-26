@@ -1,12 +1,14 @@
 import json
-import datetime
 import numpy
+from datetime import datetime, timedelta
 
 from lighting.PixelDisplay import PixelDisplay
 from mqtt.MqttClient import MqttClient
 from timemachine.UsbSerial import UsbSerial
 from timemachine.OscilloscopeSoundSystem import OscilloscopeSoundSystem
 from timemachine.ImageViewer import ImageViewer
+
+START = datetime(1000, 1, 1, 0, 0, 0)
 
 
 class TimeDisplay(object):
@@ -28,7 +30,8 @@ class TimeDisplay(object):
             data = json.loads(event)
             self.osounds.update_sounds(data["active"] is True)
             if data["date"]:
-                self.viewer.update(datetime.datetime(1970, 1, 1), data["date"])
+                date = START + timedelta(seconds=data["timestamp"])
+                self.viewer.update(date, data["date"])
                 self.display.draw_text(data["date"])
                 magnitude = data["magnitude"]
                 if self.last_magnitude != magnitude:

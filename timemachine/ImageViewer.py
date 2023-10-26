@@ -45,10 +45,10 @@ class ImageViewer(object):
     def render(self, datestring):
         # Using blit to copy content from one surface to other
         self.screen.blit(self.image, (0, 0))
-        text = self.font.render(datestring, True, (0, 0, 0))
-        text_rect = text.get_rect()
-        text_rect.topleft = (20, 20)
-        self.screen.blit(text, text_rect)
+        # text = self.font.render(datestring, True, (0, 0, 0))
+        # text_rect = text.get_rect()
+        # text_rect.topleft = (20, 20)
+        # self.screen.blit(text, text_rect)
         # paint screen one time
         pygame.display.flip()
 
@@ -64,7 +64,7 @@ class ImageViewer(object):
                 self.current_date = date
                 if current_year != IMAGES_BY_YEAR[self.current_image_index] or not self.image:
                     self.__update_image(current_year['path'])
-                self.render(datestring)
+                    self.render(datestring)
             # iterate over the list of Event objects
             # that was returned by pygame.event.get() method.
             for i in pygame.event.get():

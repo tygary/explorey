@@ -82,6 +82,7 @@ class SpeedGaugeRoutine(TimeRoutine):
                 return
         if self.magnitude is 0:
             color = [255, 255, 255]
+            self.pixels.setColor(self.addresses[0], color)
         elif self.magnitude > 0:
             color = [255, 0, 0]
         else:
@@ -90,6 +91,7 @@ class SpeedGaugeRoutine(TimeRoutine):
 
         abs_mag = abs(self.magnitude)
         num_pixels = len(self.addresses)
+
 
         pixel_breakpoint = math.ceil((abs_mag / 1000) * (num_pixels - 1))
         for i in range(0, pixel_breakpoint):

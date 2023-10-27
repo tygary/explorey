@@ -90,6 +90,7 @@ class TimeMachine(object):
         print(f"Got button {id} change to {value}")
 
     def __on_activate(self):
+        print("Activate Pressed")
         if not self.active and self.is_charged:
             self.__start_machine()
             self.activate_button.set_light(False)
@@ -102,6 +103,7 @@ class TimeMachine(object):
 
     def __start_machine(self):
         if self.is_charged:
+            print("Starting Machine")
             self.active = True
             now = time.time()
             self.last_event = now

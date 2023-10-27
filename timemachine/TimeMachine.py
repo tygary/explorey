@@ -9,6 +9,7 @@ from mqtt.MqttClient import *
 from timemachine.CoinMachine import CoinMachine
 from lighting.PixelControl import PixelControl
 from lighting.Routine import *
+from timemachine.Button import Button
 
 
 ZERO = datetime.fromtimestamp(0)
@@ -25,8 +26,16 @@ PIXEL_SPEED_START = 0
 PIXEL_SPEED_END = 8
 PIXEL_POWER_START = 13
 PIXEL_POWER_END = 22
+PIXEL_MODE_START = 26
+PIXEL_MODE_END = 29
 PIXELS_SPEED = range(PIXEL_SPEED_START, PIXEL_SPEED_END + 1)
 PIXELS_POWER = range(PIXEL_POWER_START, PIXEL_POWER_END + 1)
+PIXELS_MODE = range(PIXEL_MODE_START, PIXEL_MODE_END + 1)
+
+ACTIVATE_BUTTON = 22
+ACTIVATE_BUTTON_LIGHT = 23
+MODE_BUTTON = 25
+MODE_BUTTON_LIGHT = 26
 
 
 def print_datetime(date):
@@ -45,11 +54,15 @@ class TimeMachine(object):
     last_event = time.time()
     is_charged = False
     start_time = 0
+    mode = 1
 
     pixels = PixelControl(NUM_LEDS)
     power_routine = PowerGaugeRoutine(pixels, PIXELS_POWER)
     speed_routine = SpeedGaugeRoutine(pixels, PIXELS_SPEED)
     light_routines = MultiRoutine([power_routine, speed_routine])
+
+    activate_button = None
+    mode_button = None
 
     def __init__(self):
         # GPIO.cleanup()
@@ -58,18 +71,34 @@ class TimeMachine(object):
         self.coin.start_waiting_for_coin(self.__on_coin_accepted)
         self.__on_change_date(END, 0)
 
+        self.activate_button = Button(ACTIVATE_BUTTON, ACTIVATE_BUTTON_LIGHT, self.__on_activate)
+        self.mode_button = Button(MODE_BUTTON, MODE_BUTTON_LIGHT, self.__on_mode_button)
+        self.mode_button.set_light(True)
+
     def __on_lever_change(self, id, value):
         # print(f"Got lever {id} change to {value}")
         self.magnitude = round(value * 1000) * -1
         self.speed = self.__scale_speed(value)
 
+    def __on_mode_button(self):
+        self.mode = self.mode + 1
+        if self.mode > 4:
+            self.mode = 1
+        print(f"Mode set to {self.mode}")
+
     def __on_button_change(self, id, value):
         print(f"Got button {id} change to {value}")
+
+    def __on_activate(self):
+        if not self.active and self.is_charged:
+            self.__start_machine()
+            self.activate_button.set_light(False)
+
 
     def __on_coin_accepted(self):
         print("Time Machine has a coin!")
         self.is_charged = True
-        self.__start_machine()
+        self.activate_button.flash_light()
 
     def __start_machine(self):
         if self.is_charged:
@@ -134,5 +163,6 @@ class TimeMachine(object):
                 self.last_event = now
         self.light_routines.tick()
         self.pixels.render()
+        self.activate_button.tick()
 
 

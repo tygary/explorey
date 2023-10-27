@@ -103,7 +103,9 @@ class TimeMachine(object):
     def __start_machine(self):
         if self.is_charged:
             self.active = True
-            self.start_time = time.time()
+            now = time.time()
+            self.last_event = now
+            self.start_time = now
             self.coin.clear_coins()
 
     def __scale_speed(self, speed):

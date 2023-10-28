@@ -32,8 +32,10 @@ class TimeDisplayWall(object):
         self.mqtt.listen(self.__on_event)
         # self.serial.disable()
         self.print_button = Button(PRINT_BUTTON, PRINT_BUTTON_LIGHT, self.__on_print_button)
+        self.print_button.set_light(True)
 
     def __on_print_button(self):
+        print("Print button")
         self.printer.printTimeRecord(self.date, self.date_string)
 
     def __on_event(self, event):

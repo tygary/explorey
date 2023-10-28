@@ -37,7 +37,7 @@ class TimeRecordPrinter(object):
         self.conn.cancelAllJobs(self.printer_name)
         self.conn.printFile(self.printer_name, self.tmpPath, "timerecord", {})
 
-    def __create_timerecord(self, date, text):
+    def __create_timerecord(self, date_string, text):
         self.logger.log("Printer: creating timerecord pdf")
         try:
             os.remove(self.tmpPath)
@@ -50,9 +50,9 @@ class TimeRecordPrinter(object):
         pdf.set_margins(left=16, top=0, right=0)
         pdf.set_auto_page_break(False)
 
-        pdf.add_page(orientation="P", format=(90, 220))
+        pdf.add_page(orientation="P", format=(90, 90))
         pdf.set_font("Arial", "B", 16)
-        pdf.multi_cell(0, 10, f"{date}", align="C")
+        pdf.multi_cell(0, 10, f"{date_string}", align="C")
         pdf.set_font("Arial", "", 12)
         pdf.cell(90, 4, ln=1)
         pdf.multi_cell(0, 6, f"{text}", align="L")

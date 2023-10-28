@@ -6,7 +6,6 @@ from lighting.PixelDisplay import PixelDisplay
 from mqtt.MqttClient import MqttClient
 from timemachine.UsbSerial import UsbSerial
 from timemachine.OscilloscopeSoundSystem import OscilloscopeSoundSystem
-from timemachine.ImageViewer import ImageViewer
 from timemachine.Button import Button
 from timemachine.TimePrinter import TimeRecordPrinter
 
@@ -21,7 +20,6 @@ class TimeDisplayWall(object):
     mqtt = MqttClient()
     osounds = OscilloscopeSoundSystem()
     serial = UsbSerial("/dev/ttyACM0")
-    viewer = ImageViewer()
     last_magnitude = 0
     print_button = None
     printer = TimeRecordPrinter()
@@ -48,7 +46,6 @@ class TimeDisplayWall(object):
                 date = START + timedelta(seconds=data["timestamp"])
                 self.date = date
                 self.date_string = data["date"]
-                self.viewer.update(date, data["date"])
                 self.display.draw_text(data["date"])
                 magnitude = data["magnitude"]
                 if self.last_magnitude != magnitude:

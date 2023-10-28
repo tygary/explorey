@@ -59,7 +59,8 @@ class TimeMachineControls(object):
     pixels = PixelControl(NUM_LEDS)
     power_routine = PowerGaugeRoutine(pixels, PIXELS_POWER)
     speed_routine = SpeedGaugeRoutine(pixels, PIXELS_SPEED)
-    light_routines = MultiRoutine([power_routine, speed_routine])
+    mode_routine = ModeRoutine(pixels, PIXELS_MODE)
+    light_routines = MultiRoutine([power_routine, speed_routine, mode_routine])
 
     activate_button = None
     mode_button = None
@@ -125,6 +126,7 @@ class TimeMachineControls(object):
             "date": print_datetime(new_date),
             "timestamp": (new_date - START).total_seconds(),
             "speed": speed,
+            "mode": self.mode,
             "magnitude": self.magnitude if speed != 0 else 0
         }
         self.mqtt.publish(json.dumps(data))

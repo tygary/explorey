@@ -123,6 +123,29 @@ class SpeedGaugeRoutine(TimeRoutine):
         #         self.pixels.setColor(addr, [0, 0, 0])
 
 
+class ModeRoutine(TimeRoutine):
+    mode = 1
+    routines = []
+
+    def __init__(self, pixels, addresses):
+        TimeRoutine.__init__(self, pixels, addresses)
+        self.routines = [
+            RainbowRoutine(pixels, [addresses[0]]),
+            PulseRoutine(pixels, [addresses[1]], color=[255, 0, 0]),
+            PulseRoutine(pixels, [addresses[2]], color=[0, 255, 0]),
+            PulseRoutine(pixels, [addresses[3]], color=[255, 255, 0]),
+        ]
+
+    def update_mode(self, mode):
+        self.mode = mode
+
+    def tick(self):
+        for index in range(0, 4):
+            if index is not self.mode - 1:
+                self.pixels.setColor(self.addresses[index], [0, 0, 0])
+        self.routines[self.mode - 1].tick()
+
+
 class RandomPulseRoutine(TimeRoutine):
     lights = []
 

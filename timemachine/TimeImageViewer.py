@@ -7,7 +7,7 @@ from timemachine.ImageViewer import ImageViewer
 START = datetime(1000, 1, 1, 0, 0, 0)
 
 
-class TImeImageViewer(object):
+class TimeImageViewer(object):
     mqtt = MqttClient()
     viewer = ImageViewer()
     date = START

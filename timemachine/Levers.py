@@ -9,7 +9,7 @@ class Levers(object):
     on_button_press = None
     done = False
     levers = [0, 0, 0]
-    lever_tolerance = 0.05
+    lever_tolerance = 0.00
 
     def __init__(self, on_lever_change=None, on_button_press=None):
         pygame.init()
@@ -47,12 +47,13 @@ class Levers(object):
             if event.type == pygame.JOYDEVICEREMOVED:
                 print(f"Joystick {event.instance_id} disconnected")
 
-            for axis_id in range(self.joystick.get_numaxes()):
-                value = self.joystick.get_axis(axis_id)
-                if value != self.levers[axis_id] and abs(self.levers[axis_id] - value) > self.lever_tolerance:
-                    # print(f"Lever {axis_id} change from {self.levers[axis_id]} to {value}")
-                    self.levers[axis_id] = value
-                    if self.on_lever_change:
-                        self.on_lever_change(axis_id, value)
+            if self.joystick:
+                for axis_id in range(self.joystick.get_numaxes()):
+                    value = self.joystick.get_axis(axis_id)
+                    if value != self.levers[axis_id] and abs(self.levers[axis_id] - value) > self.lever_tolerance:
+                        # print(f"Lever {axis_id} change from {self.levers[axis_id]} to {value}")
+                        self.levers[axis_id] = value
+                        if self.on_lever_change:
+                            self.on_lever_change(axis_id, value)
 
 

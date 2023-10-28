@@ -37,6 +37,7 @@ class Button(object):
     def set_light(self, on):
         GPIO.output(self.button_light_pin, on)
         self.light_on = on
+        self.is_flashing = False
 
     def flash_light(self, flash_length=0.5):
         self.flash_length = flash_length

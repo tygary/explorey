@@ -42,7 +42,7 @@ def print_datetime(date):
     return date.strftime('%Y/%m/%d  %H:%M:%S')
 
 
-class TimeMachine(object):
+class TimeMachineControls(object):
     levers = None
     mqtt = MqttClient()
     coin = CoinMachine()
@@ -162,7 +162,7 @@ class TimeMachine(object):
                     self.speed_routine.update_active(True)
                     self.speed_routine.update_magnitude(self.magnitude if change != 0 else 0)
 
-                    print(f"Date changed to {print_datetime(new_date)} - speed {round(self.speed)}")
+                    # print(f"Date changed to {print_datetime(new_date)} - speed {round(self.speed)}")
                     self.__on_change_date(new_date, change)
                 self.last_event = now
         self.light_routines.tick()

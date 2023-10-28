@@ -1,5 +1,6 @@
 import paho.mqtt.client as mqtt
 import socket
+import time
 
 HOSTNAME = "10.0.2.7"
 BROKER_PORT = 1883
@@ -19,13 +20,24 @@ def get_hostname():
 class MqttClient(object):
     client = None
     listener = None
+    connected = False
 
     def __init__(self):
         self.client = mqtt.Client()
         self.client.on_connect = self.__on_connect
         self.client.on_message = self.__on_message
+
+        while not self.connected:
+            try:
+                self.connect()
+            except:
+                print("Could not connect to mqtt.  Waiting...")
+                time.sleep(2)
+
+    def connect(self):
         self.client.connect(get_hostname(), BROKER_PORT, 60)
         self.client.loop_start()
+        self.connected = True
 
     def __on_connect(self, client, userdata, flags, rc):
         print("Connected to MQTT broker with result code: " + str(rc))

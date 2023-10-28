@@ -1,9 +1,9 @@
-from timemachine.TimeMachine import *
+from timemachine.TimeMachineControls import *
 import time
 
 print("Machine started, enter 'machine.stop()' before exiting")
 
-timemachine = TimeMachine()
+timemachine = TimeMachineControls()
 
 while True:
     timemachine.update()

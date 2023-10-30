@@ -144,7 +144,7 @@ class ModeRoutine(TimeRoutine):
         self.mode = mode
 
     def tick(self):
-        for index in range(0, 4):
+        for index in range(0, 8):
             if index is not self.mode - 1:
                 self.pixels.setColor(self.addresses[index], [0, 0, 0])
         self.routines[self.mode - 1].tick()

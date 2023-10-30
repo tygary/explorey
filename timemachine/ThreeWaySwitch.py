@@ -1,4 +1,5 @@
 import RPi.GPIO as GPIO
+import time
 
 from printer.addeventdetection import add_event_detection
 
@@ -18,6 +19,7 @@ class ThreeWaySwitch(object):
         self.__on_toggle(-1)
 
     def __on_toggle(self, value):
+        time.sleep(1)
         a = GPIO.input(self.pin_a)
         b = GPIO.input(self.pin_b)
         print(f"Switch toggled a:{a}, b:{b}")

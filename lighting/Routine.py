@@ -93,23 +93,23 @@ class SpeedGaugeRoutine(TimeRoutine):
 
         print(abs_mag)
 
-        if abs_mag >= 900:
+        if abs_mag >= 900: # Decades
             pixel_breakpoint = 8
-        elif abs_mag >= 800:
+        elif abs_mag >= 800: # Years
             pixel_breakpoint = 7
-        elif abs_mag >= 700:
+        elif abs_mag >= 700: # Months
             pixel_breakpoint = 6
-        elif abs_mag >= 600:
+        elif abs_mag >= 600: # Days
             pixel_breakpoint = 5
-        elif abs_mag >= 500:
+        elif abs_mag >= 500: # Hours
             pixel_breakpoint = 4
-        elif abs_mag >= 400:
+        elif abs_mag >= 350: # Minutes
             pixel_breakpoint = 3
-        elif abs_mag >= 300:
+        elif abs_mag >= 100: # Seconds
             pixel_breakpoint = 2
-        elif abs_mag > 0:
+        elif abs_mag > 0: # Milliseconds
             pixel_breakpoint = 1
-        else:
+        else: # Frozen
             pixel_breakpoint = 0
         # print(f"Light Magnitude {self.magnitude} - Pixels {on_pixels}")
 

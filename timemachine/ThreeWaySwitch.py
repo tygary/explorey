@@ -19,14 +19,13 @@ class ThreeWaySwitch(object):
         self.__on_toggle(-1)
 
     def __on_toggle(self, value):
-        time.sleep(1)
         a = GPIO.input(self.pin_a)
         b = GPIO.input(self.pin_b)
         print(f"Switch toggled a:{a}, b:{b}")
         mode = 2
-        if a is False:
+        if a is 0:
             mode = 1
-        elif b is False:
+        elif b is 0:
             mode = 3
 
         if self.callback:

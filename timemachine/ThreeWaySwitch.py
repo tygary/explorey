@@ -22,9 +22,9 @@ class ThreeWaySwitch(object):
         b = GPIO.input(self.pin_b)
         print(f"Switch toggled a:{a}, b:{b}")
         mode = 2
-        if a is True:
+        if a is False:
             mode = 1
-        elif b is True:
+        elif b is False:
             mode = 3
 
         if self.callback:

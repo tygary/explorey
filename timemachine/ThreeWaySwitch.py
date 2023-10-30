@@ -13,13 +13,14 @@ class ThreeWaySwitch(object):
         self.pin_b = pin_b
         self.callback = callback
 
-        add_event_detection(self.pin_a, bothdirections=True, callback=self.__on_toggle, pullup=True)
-        add_event_detection(self.pin_b, bothdirections=True, callback=self.__on_toggle, pullup=True)
+        add_event_detection(self.pin_a, bothdirections=True, callback=self.__on_toggle)
+        add_event_detection(self.pin_b, bothdirections=True, callback=self.__on_toggle)
         self.__on_toggle(-1)
 
     def __on_toggle(self, value):
         a = GPIO.input(self.pin_a)
         b = GPIO.input(self.pin_b)
+        print(f"Switch toggled a:{a}, b:{b}")
         mode = 2
         if a is True:
             mode = 1

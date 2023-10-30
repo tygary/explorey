@@ -4,7 +4,7 @@ import time
 from printer.addeventdetection import add_event_detection
 
 
-WAIT_TIME = 0.1
+WAIT_TIME = 0.2
 class Button(object):
     button_pin = -1
     button_light_pin = -1
@@ -14,7 +14,7 @@ class Button(object):
     flash_length = 0.5
     next_flash = 0
 
-    waiting = 0.2
+    waiting = 0
 
     def __init__(self, button_pin, button_light_pin=-1, callback=None):
         self.button_pin = button_pin

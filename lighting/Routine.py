@@ -133,7 +133,32 @@ class ModeRoutine(TimeRoutine):
             RainbowRoutine(pixels, [addresses[0]]),
             PulseRoutine(pixels, [addresses[1]], color=[255, 0, 0]),
             PulseRoutine(pixels, [addresses[2]], color=[0, 255, 0]),
-            PulseRoutine(pixels, [addresses[3]], color=[255, 255, 0]),
+            PulseRoutine(pixels, [addresses[3]], color=[0, 0, 255]),
+            PulseRoutine(pixels, [addresses[4]], color=[255, 255, 0]),
+            PulseRoutine(pixels, [addresses[5]], color=[255, 0, 255]),
+            PulseRoutine(pixels, [addresses[6]], color=[0, 255, 255]),
+            PulseRoutine(pixels, [addresses[7]], color=[255, 255, 255]),
+        ]
+
+    def update_mode(self, mode):
+        self.mode = mode
+
+    def tick(self):
+        for index in range(0, 4):
+            if index is not self.mode - 1:
+                self.pixels.setColor(self.addresses[index], [0, 0, 0])
+        self.routines[self.mode - 1].tick()
+
+class ModeSwitchRoutine(TimeRoutine):
+    mode = 1
+    routines = []
+
+    def __init__(self, pixels, addresses):
+        TimeRoutine.__init__(self, pixels, addresses)
+        self.routines = [
+            RainbowRoutine(pixels, [addresses[0]]),
+            PulseRoutine(pixels, [addresses[1]], color=[255, 0, 0]),
+            PulseRoutine(pixels, [addresses[2]], color=[0, 255, 0]),
         ]
 
     def update_mode(self, mode):

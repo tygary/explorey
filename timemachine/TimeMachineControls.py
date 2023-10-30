@@ -10,6 +10,7 @@ from timemachine.CoinMachine import CoinMachine
 from lighting.PixelControl import PixelControl
 from lighting.Routine import *
 from timemachine.Button import Button
+from timemachine.ThreeWaySwitch import ThreeWaySwitch
 
 
 ZERO = datetime.fromtimestamp(0)
@@ -24,14 +25,19 @@ RUN_DURATION_S = 60
 NUM_LEDS = 50
 PIXEL_SPEED_START = 0
 PIXEL_SPEED_END = 8
-PIXEL_POWER_START = 13
-PIXEL_POWER_END = 22
-PIXEL_MODE_START = 26
-PIXEL_MODE_END = 29
+PIXEL_POWER_START = 28
+PIXEL_POWER_END = 36
+PIXEL_MODE_START = 11
+PIXEL_MODE_END = 18
+PIXEL_SWITCH_START = 22
+PIXEL_SWITCH_END = 24
 PIXELS_SPEED = range(PIXEL_SPEED_START, PIXEL_SPEED_END + 1)
 PIXELS_POWER = range(PIXEL_POWER_START, PIXEL_POWER_END + 1)
 PIXELS_MODE = range(PIXEL_MODE_START, PIXEL_MODE_END + 1)
+PIXELS_SWITCH = range(PIXEL_SWITCH_START, PIXEL_SWITCH_END + 1)
 
+MODE_TOGGLE_UP = 16
+MODE_TOGGLE_DOWN = 13
 ACTIVATE_BUTTON = 22
 ACTIVATE_BUTTON_LIGHT = 23
 MODE_BUTTON = 25
@@ -55,12 +61,14 @@ class TimeMachineControls(object):
     is_charged = False
     start_time = 0
     mode = 1
+    color_mode = 1
 
     pixels = PixelControl(NUM_LEDS)
     power_routine = PowerGaugeRoutine(pixels, PIXELS_POWER)
     speed_routine = SpeedGaugeRoutine(pixels, PIXELS_SPEED)
     mode_routine = ModeRoutine(pixels, PIXELS_MODE)
-    light_routines = MultiRoutine([power_routine, speed_routine, mode_routine])
+    mode_switch_routine = ModeSwitchRoutine(pixels, PIXELS_SWITCH)
+    light_routines = MultiRoutine([power_routine, speed_routine, mode_routine, mode_switch_routine])
 
     activate_button = None
     mode_button = None
@@ -75,6 +83,7 @@ class TimeMachineControls(object):
         self.activate_button = Button(ACTIVATE_BUTTON, ACTIVATE_BUTTON_LIGHT, self.__on_activate)
         self.mode_button = Button(MODE_BUTTON, MODE_BUTTON_LIGHT, self.__on_mode_button)
         self.mode_button.set_light(True)
+        self.mode_switch = ThreeWaySwitch(MODE_TOGGLE_UP, MODE_TOGGLE_DOWN, self.__on_mode_switch)
 
     def __on_lever_change(self, id, value):
         # print(f"Got lever {id} change to {value}")
@@ -87,6 +96,11 @@ class TimeMachineControls(object):
             self.mode = 1
         self.mode_routine.update_mode(self.mode)
         print(f"Mode set to {self.mode}")
+
+    def __on_mode_switch(self, mode):
+        self.color_mode = mode
+        self.mode_switch_routine.update_mode(mode)
+
 
     def __on_button_change(self, id, value):
         print(f"Got button {id} change to {value}")

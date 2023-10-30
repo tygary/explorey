@@ -90,28 +90,37 @@ class SpeedGaugeRoutine(TimeRoutine):
 
         abs_mag = abs(self.magnitude)
         num_pixels = len(self.addresses)
-        pixel_breakpoint = math.ceil((abs_mag / 1000) * (num_pixels - 1))
+
+        print(abs_mag)
+
+        if abs_mag >= 900:
+            pixel_breakpoint = 8
+        elif abs_mag >= 800:
+            pixel_breakpoint = 7
+        elif abs_mag >= 700:
+            pixel_breakpoint = 6
+        elif abs_mag >= 600:
+            pixel_breakpoint = 5
+        elif abs_mag >= 500:
+            pixel_breakpoint = 4
+        elif abs_mag >= 400:
+            pixel_breakpoint = 3
+        elif abs_mag >= 300:
+            pixel_breakpoint = 2
+        elif abs_mag > 0:
+            pixel_breakpoint = 1
+        else:
+            pixel_breakpoint = 0
+        # print(f"Light Magnitude {self.magnitude} - Pixels {on_pixels}")
+
+        # pixel_breakpoint = math.ceil((abs_mag / 1000) * (num_pixels - 1))
         for i in range(0, pixel_breakpoint + 1):
             self.pixels.setColor(self.addresses[i], color)
         if pixel_breakpoint + 1 < num_pixels:
             for i in range(pixel_breakpoint + 1, num_pixels):
                 self.pixels.setColor(self.addresses[i], [0, 0, 0])
 
-        # if self.magnitude >= 500:
-        #     on_pixels = [3, 4, 5, 6]
-        # elif self.magnitude >= 300:
-        #     on_pixels = [3, 4, 5]
-        # elif self.magnitude > 0:
-        #     on_pixels = [3, 4]
-        # elif self.magnitude == 0:
-        #     on_pixels = [3]
-        # elif self.magnitude >= -300:
-        #     on_pixels = [3, 2]
-        # elif self.magnitude >= -500:
-        #     on_pixels = [3, 2, 1]
-        # else:
-        #     on_pixels = [3, 2, 1, 0]
-        # print(f"Light Magnitude {self.magnitude} - Pixels {on_pixels}")
+
         #
         # for addr in self.addresses:
         #     if addr in on_pixels:

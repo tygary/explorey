@@ -14,7 +14,7 @@ class Button(object):
     flash_length = 0.5
     next_flash = 0
 
-    waiting = 0
+    waiting = 0.2
 
     def __init__(self, button_pin, button_light_pin=-1, callback=None):
         self.button_pin = button_pin

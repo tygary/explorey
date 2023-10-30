@@ -92,7 +92,7 @@ class TimeMachineControls(object):
 
     def __on_mode_button(self):
         self.mode = self.mode + 1
-        if self.mode > 4:
+        if self.mode > 8:
             self.mode = 1
         self.mode_routine.update_mode(self.mode)
         print(f"Mode set to {self.mode}")

@@ -9,11 +9,19 @@ ON = 2
 TIME_STOP = 3
 ENDING = 4
 
-STARTUP_TIME = 13
+STARTUP_TIME = 16
+
+songs = [
+    '/home/admin/explorey/sound/TimeMachine-Frozen.ogg',
+    '/home/admin/explorey/sound/TimeMachine-Startup.ogg',
+    '/home/admin/explorey/sound/TimeMachine-Running.ogg',
+    '/home/admin/explorey/sound/TimeMachine-Frozen.ogg',
+    '/home/admin/explorey/sound/TimeMachine-Shutdown.ogg'
+]
 
 
 class TimeMachineSoundSystem(object):
-    player = MultiTrackMusicPlayer()
+    player = MultiTrackMusicPlayer(songs)
     wasPlaying = False
     time_speed = 0
     is_running = False
@@ -25,19 +33,19 @@ class TimeMachineSoundSystem(object):
 
     def __play_ambient(self):
         print("Playing ambient")
-        # self.player.play_song('/home/admin/explorey/sound/TimeMachineAmbient.ogg', 1, channel=AMBIENT)
+        # self.player.play_song(AMBIENT, 1, channel=AMBIENT)
 
     def __play_time_startup(self):
-        self.player.play_song('/home/admin/explorey/sound/TimeMachine-Startup.ogg', 1, channel=STARTUP, loops=0)
+        self.player.play_song(STARTUP, 1, channel=STARTUP, loops=0)
 
     def __play_time_traveling(self):
-        self.player.play_song('/home/admin/explorey/sound/TimeMachine-Running.ogg', 1, channel=ON)
+        self.player.play_song(ON, 1, channel=ON)
 
     def __play_time_frozen(self):
-        self.player.play_song('/home/admin/explorey/sound/TimeMachine-Frozen.ogg', 1, channel=TIME_STOP)
+        self.player.play_song(TIME_STOP, 1, channel=TIME_STOP)
 
     def __play_time_ending(self):
-        self.player.play_song('/home/admin/explorey/sound/TimeMachine-Shutdown.ogg', 1, channel=ENDING, loops=0)
+        self.player.play_song(ENDING, 1, channel=ENDING, loops=0)
 
     def update_sounds(self, is_running, time_speed):
         if not is_running and self.current_mode != OFF:

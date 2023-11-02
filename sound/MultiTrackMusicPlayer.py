@@ -3,17 +3,21 @@ import multiprocessing
 
 
 class MultiTrackMusicPlayer:
+    songs = []
 
-    def __init__(self):
+    def __init__(self, songs):
         pygame.mixer.init(buffer=1024)
 
-    def play_song(self, song, volume, pos=0.0, loops=-1, channel=0):
-        print(f"Playing - {song} - channel {channel}")
+        for index in range(0, len(songs)):
+            self.songs[index] = pygame.mixer.Sound(songs[index])
+
+    def play_song(self, song_index, volume, pos=0.0, loops=-1, channel=0):
+        print(f"Playing - {song_index} - channel {channel}")
         self.stop_music(channel=channel)
 
         music = pygame.mixer.Channel(channel)
 
-        music.play(pygame.mixer.Sound(song), loops=loops)
+        music.play(self.songs[song_index], loops=loops)
         music.set_volume(volume)
 
     def is_still_playing(self):

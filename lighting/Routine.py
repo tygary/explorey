@@ -64,7 +64,6 @@ class SpeedGaugeRoutine(TimeRoutine):
     color = [255, 0, 0]
     magnitude = 0
     active = False
-    routines = [WaveRoutine(), WaveRoutine()]
 
     def __init__(self, pixels, addresses, color=[255, 0, 0]):
         TimeRoutine.__init__(self, pixels, addresses)

@@ -79,7 +79,7 @@ class SpeedGaugeRoutine(TimeRoutine):
         if self.active is False:
             for addr in self.addresses:
                 self.pixels.setColor(addr, [0, 0, 0])
-                return
+            return
         if self.magnitude is 0:
             color = [255, 255, 255]
             self.pixels.setColor(self.addresses[0], color)
@@ -93,21 +93,21 @@ class SpeedGaugeRoutine(TimeRoutine):
 
         print(abs_mag)
 
-        if abs_mag >= 900: # Decades
+        if abs_mag >= 950: # MAX
             pixel_breakpoint = 8
-        elif abs_mag >= 800: # Years
+        elif abs_mag >= 900: # Decades
             pixel_breakpoint = 7
-        elif abs_mag >= 700: # Months
+        elif abs_mag >= 800: # Years
             pixel_breakpoint = 6
-        elif abs_mag >= 600: # Days
+        elif abs_mag >= 700: # Months
             pixel_breakpoint = 5
-        elif abs_mag >= 500: # Hours
+        elif abs_mag >= 600: # Days
             pixel_breakpoint = 4
-        elif abs_mag >= 350: # Minutes
+        elif abs_mag >= 500: # Hours
             pixel_breakpoint = 3
-        elif abs_mag >= 100: # Seconds
+        elif abs_mag >= 350: # Minutes
             pixel_breakpoint = 2
-        elif abs_mag > 0: # Milliseconds
+        elif abs_mag > 100: # Seconds
             pixel_breakpoint = 1
         else: # Frozen
             pixel_breakpoint = 0

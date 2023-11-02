@@ -22,7 +22,7 @@ class TimeImageViewer(object):
 
     def tick(self):
         if self.data:
-            self.music.update_sounds(self.data["active"], self.data[""])
+            self.music.update_sounds(self.data["active"], self.data["magnitude"])
 
     def __on_event(self, event):
         # print(f"Got Event: {event}")

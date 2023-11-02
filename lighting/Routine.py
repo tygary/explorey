@@ -76,7 +76,7 @@ class SpeedGaugeRoutine(TimeRoutine):
         self.magnitude = magnitude
 
     def tick(self):
-        if not self.active:
+        if self.active is False:
             for addr in self.addresses:
                 self.pixels.setColor(addr, [0, 0, 0])
                 return

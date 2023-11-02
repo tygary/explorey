@@ -81,6 +81,7 @@ class TimeMachineControls(object):
         self.__on_change_date(END, 0)
 
         self.activate_button = Button(ACTIVATE_BUTTON, ACTIVATE_BUTTON_LIGHT, self.__on_activate)
+        self.activate_button.set_light(False)
         self.mode_button = Button(MODE_BUTTON, MODE_BUTTON_LIGHT, self.__on_mode_button)
         self.mode_button.set_light(True)
         self.mode_switch = ThreeWaySwitch(MODE_TOGGLE_UP, MODE_TOGGLE_DOWN, self.__on_mode_switch)
@@ -107,15 +108,16 @@ class TimeMachineControls(object):
 
     def __on_activate(self):
         print("Activate Pressed")
-        if not self.active and self.is_charged:
+        if self.is_charged:
             self.__start_machine()
             self.activate_button.set_light(False)
-
 
     def __on_coin_accepted(self):
         print("Time Machine has a coin!")
         self.is_charged = True
         self.activate_button.flash_light()
+        if self.active:
+            self.__start_machine()
 
     def __start_machine(self):
         if self.is_charged:

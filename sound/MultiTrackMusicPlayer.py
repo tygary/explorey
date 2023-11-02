@@ -8,6 +8,7 @@ class MultiTrackMusicPlayer:
         pygame.mixer.init(buffer=1024)
 
     def play_song(self, song, volume, pos=0.0, loops=-1, channel=0):
+        print(f"Playing - {song} - channel {channel}")
         self.stop_music(channel=channel)
 
         music = pygame.mixer.Channel(channel)
@@ -22,7 +23,9 @@ class MultiTrackMusicPlayer:
             return False
 
     def stop_music(self, channel=0):
+        print(f"Stopping -  channel {channel}")
         pygame.mixer.Channel(channel).stop()
 
     def set_volume(self, channel, amount):
+        print(f"Set Vol - {amount} - channel {channel}")
         pygame.mixer.Channel(channel).set_volume(amount)

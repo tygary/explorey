@@ -56,7 +56,7 @@ class PowerGaugeRoutine(TimeRoutine):
             if pixel_breakpoint < num_pixels:
                 for i in range(pixel_breakpoint, num_pixels):
                     self.pixels.setColor(self.addresses[i], [0, 0, 0])
-            rate = (1 - self.percentage) * 0.8 + 0.05
+            rate = round(((1 - self.percentage) * 0.8 + 0.05) * 100) / 100
             if pixel_breakpoint != self.prev_breakpoint:
                 print(f"Updating pulse - {pixel_breakpoint} - Prev: {self.prev_breakpoint}")
                 self.prev_breakpoint = pixel_breakpoint
@@ -358,8 +358,12 @@ class PulseRoutine(Routine):
             self.going_up = True
         if self.going_up:
             self.ratio += self.rate
+            if self.ratio > 1:
+                self.ratio = 1
         else:
             self.ratio -= self.rate
+            if self.ratio < 0:
+                self.ratio = 0
 
         for i in self.addresses:
             self.values[i][0] = int(self.ratio * self.color[0])

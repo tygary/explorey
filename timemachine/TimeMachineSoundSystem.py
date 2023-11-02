@@ -21,7 +21,6 @@ class TimeMachineSoundSystem(object):
     startup_time = 0
 
     def __init__(self):
-        self.player.set_volume(0.4)
         self.__play_ambient()
 
     def __play_ambient(self):

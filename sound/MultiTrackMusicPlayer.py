@@ -8,8 +8,8 @@ class MultiTrackMusicPlayer:
     def __init__(self, songs):
         pygame.mixer.init(buffer=1024)
 
-        for index in range(0, len(songs)):
-            self.songs[index] = pygame.mixer.Sound(songs[index])
+        for song in songs:
+            self.songs.append(pygame.mixer.Sound(song))
 
     def play_song(self, song_index, volume, pos=0.0, loops=-1, channel=0):
         print(f"Playing - {song_index} - channel {channel}")

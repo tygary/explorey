@@ -34,6 +34,7 @@ class PowerGaugeRoutine(TimeRoutine):
     color = [255, 0, 0]
     percentage = 0
     pulse_routine = None
+    prev_breakpoint = 0
 
     def __init__(self, pixels, addresses, color=[255, 0, 0]):
         TimeRoutine.__init__(self, pixels, addresses)
@@ -55,8 +56,9 @@ class PowerGaugeRoutine(TimeRoutine):
                 for i in range(pixel_breakpoint + 1, num_pixels):
                     self.pixels.setColor(self.addresses[i], [0, 0, 0])
             if pixel_breakpoint is 1:
-                if not self.pulse_routine:
-                    self.pulse_routine = PulseRoutine(self.pixels, [self.addresses[0]], self.color, rate=0.5)
+                if pixel_breakpoint is not self.prev_breakpoint:
+                    self.prev_breakpoint = pixel_breakpoint
+                    self.pulse_routine = PulseRoutine(self.pixels, [self.addresses[pixel_breakpoint]], self.color, rate=0.5)
                 self.pulse_routine.tick()
 
 

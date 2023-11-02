@@ -13,7 +13,7 @@ class MultiTrackMusicPlayer:
 
         music = pygame.mixer.Channel(channel)
 
-        music.play(pygame.mixer.sound(song), loops=loops, start=pos)
+        music.play(pygame.mixer.Sound(song), loops=loops, start=pos)
         music.set_volume(volume)
 
     def is_still_playing(self):

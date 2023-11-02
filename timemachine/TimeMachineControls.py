@@ -163,6 +163,7 @@ class TimeMachineControls(object):
             if now > self.start_time + STARTUP_TIME:
                 self.active = True
                 self.start_time = now
+                self.is_starting_up = False
         if self.active:
             percent_power = 1 - ((now - self.start_time) / RUN_DURATION_S)
             self.power_routine.update_percentage(percent_power)
@@ -197,7 +198,7 @@ class TimeMachineControls(object):
                         # print(f"Date changed to {print_datetime(new_date)} - speed {round(self.speed)}")
                         self.__on_change_date(new_date, change)
                     self.last_event = now
-        self.music.update_sounds(self.active, self.magnitude)
+        self.music.update_sounds(self.active or self.is_starting_up, self.magnitude)
         self.light_routines.tick()
         self.pixels.render()
         self.activate_button.tick()

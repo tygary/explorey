@@ -116,7 +116,7 @@ class SpeedGaugeRoutine(TimeRoutine):
         # pixel_breakpoint = math.ceil((abs_mag / 1000) * (num_pixels - 1))
         for i in range(0, pixel_breakpoint + 1):
             strength = random.random()
-            self.pixels.setColor(self.addresses[i], [color[0] * strength, color[1] * strength, color[2] * strength])
+            self.pixels.setColor(self.addresses[i], [int(color[0] * strength), int(color[1] * strength), int(color[2] * strength)])
         if pixel_breakpoint + 1 < num_pixels:
             for i in range(pixel_breakpoint + 1, num_pixels):
                 self.pixels.setColor(self.addresses[i], [0, 0, 0])

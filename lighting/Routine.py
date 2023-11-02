@@ -95,8 +95,6 @@ class SpeedGaugeRoutine(TimeRoutine):
         abs_mag = abs(self.magnitude)
         num_pixels = len(self.addresses)
 
-        print(abs_mag)
-
         if abs_mag >= 950: # MAX
             pixel_breakpoint = 8
         elif abs_mag >= 900: # Decades

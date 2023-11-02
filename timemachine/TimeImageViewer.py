@@ -11,7 +11,7 @@ START = datetime(1000, 1, 1, 0, 0, 0)
 class TimeImageViewer(object):
     mqtt = MqttClient()
     viewer = ImageViewer()
-    music = TimeMachineSoundSystem()
+    # music = TimeMachineSoundSystem()
     date = START
     date_string = ""
     magnitude = 0
@@ -22,7 +22,8 @@ class TimeImageViewer(object):
 
     def tick(self):
         if self.data:
-            self.music.update_sounds(self.data["active"], self.data["magnitude"])
+            print("doing nothing")
+            # self.music.update_sounds(self.data["active"], self.data["magnitude"])
 
     def __on_event(self, event):
         # print(f"Got Event: {event}")

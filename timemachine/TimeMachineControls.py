@@ -11,6 +11,7 @@ from lighting.PixelControl import PixelControl
 from lighting.Routine import *
 from timemachine.Button import Button
 from timemachine.ThreeWaySwitch import ThreeWaySwitch
+from timemachine.TimeMachineSoundSystem import TimeMachineSoundSystem
 
 
 ZERO = datetime.fromtimestamp(0)
@@ -52,6 +53,7 @@ class TimeMachineControls(object):
     levers = None
     mqtt = MqttClient()
     coin = CoinMachine()
+    music = TimeMachineSoundSystem()
 
     date = END
     speed = 0
@@ -62,6 +64,7 @@ class TimeMachineControls(object):
     start_time = 0
     freq_mode = 1
     color_mode = 1
+    magnitude = 0
 
     pixels = PixelControl(NUM_LEDS)
     power_routine = PowerGaugeRoutine(pixels, PIXELS_POWER)
@@ -177,6 +180,7 @@ class TimeMachineControls(object):
                     if new_date < START:
                         new_date = END  # Temporary hack for testing
                         change = 0
+                    self.magnitude = self.magnitude if change != 0 else 0
                     if new_date != self.date or (change == 0 and not self.is_stopped):
                         self.is_stopped = change == 0
                         self.speed_routine.update_active(True)
@@ -185,6 +189,7 @@ class TimeMachineControls(object):
                         # print(f"Date changed to {print_datetime(new_date)} - speed {round(self.speed)}")
                         self.__on_change_date(new_date, change)
                     self.last_event = now
+        self.music.update_sounds(self.active, self.magnitude)
         self.light_routines.tick()
         self.pixels.render()
         self.activate_button.tick()

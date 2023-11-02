@@ -110,18 +110,18 @@ class TimeMachineControls(object):
         print("Activate Pressed")
         if self.is_charged:
             self.__start_machine()
-            self.activate_button.set_light(False)
 
     def __on_coin_accepted(self):
         print("Time Machine has a coin!")
         self.is_charged = True
-        self.activate_button.flash_light()
+        self.activate_button.flash_light(0.2)
         if self.active:
             self.__start_machine()
 
     def __start_machine(self):
         if self.is_charged:
             print("Starting Machine")
+            self.activate_button.set_light(False)
             self.active = True
             now = time.time()
             self.last_event = now
@@ -163,6 +163,7 @@ class TimeMachineControls(object):
                 self.__on_change_date(END, 0)
                 self.speed_routine.update_magnitude(0)
                 self.speed_routine.update_active(False)
+                self.speed_routine.tick()
                 self.power_routine.update_percentage(0)
             else:
                 time_delta = now - self.last_event

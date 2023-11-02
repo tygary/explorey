@@ -25,19 +25,20 @@ class TimeMachineSoundSystem(object):
         self.__play_ambient()
 
     def __play_ambient(self):
-        self.player.play_song('/home/admin/explorey/sound/TimeMachineAmbient.ogg', 1, channel=AMBIENT)
+        print("Playing ambient")
+        # self.player.play_song('/home/admin/explorey/sound/TimeMachineAmbient.ogg', 1, channel=AMBIENT)
 
     def __play_time_startup(self):
-        self.player.play_song('/home/admin/explorey/sound/TimeTraveling.ogg', 1, channel=STARTUP)
+        self.player.play_song('/home/admin/explorey/sound/TimeMachine-Startup.ogg', 1, channel=STARTUP)
 
     def __play_time_traveling(self):
-        self.player.play_song('/home/admin/explorey/sound/TimeTraveling.ogg', 1, channel=ON)
+        self.player.play_song('/home/admin/explorey/sound/TimeMachine-Running.ogg', 1, channel=ON)
 
     def __play_time_frozen(self):
-        self.player.play_song('/home/admin/explorey/sound/TimeFrozen.ogg', 1, channel=TIME_STOP)
+        self.player.play_song('/home/admin/explorey/sound/TimeMachine-Frozen.ogg', 1, channel=TIME_STOP)
 
     def __play_time_ending(self):
-        self.player.play_song('/home/admin/explorey/sound/TimeFrozen.ogg', 1, channel=ENDING)
+        self.player.play_song('/home/admin/explorey/sound/TimeMachine-Shutdown.ogg', 1, channel=ENDING)
 
     def update_sounds(self, is_running, time_speed):
         if not is_running and self.current_mode != OFF:

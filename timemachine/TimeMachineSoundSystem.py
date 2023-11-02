@@ -41,6 +41,8 @@ class TimeMachineSoundSystem(object):
 
     def update_sounds(self, is_running, time_speed):
         if not is_running and self.current_mode != OFF:
+            if self.current_mode == ON:
+                self.__play_time_ending()
             self.__play_ambient()
             self.player.stop_music(STARTUP)
             self.player.stop_music(ON)
@@ -51,6 +53,7 @@ class TimeMachineSoundSystem(object):
             self.__play_time_startup()
             self.startup_time = time.time()
             self.player.stop_music(AMBIENT)
+            self.current_mode = STARTUP
         elif self.current_mode == STARTUP and time.time() > self.startup_time + STARTUP_TIME:
             self.__play_time_traveling()
             self.__play_time_frozen()

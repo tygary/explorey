@@ -48,7 +48,9 @@ class Button(object):
     def tick(self):
         now = time.time()
         if self.is_flashing and now >= self.next_flash:
-            self.set_light(not self.light_on)
+            on = not self.light_on
+            GPIO.output(self.button_light_pin, on)
+            self.light_on = on
             self.next_flash = now + self.flash_length
 
 

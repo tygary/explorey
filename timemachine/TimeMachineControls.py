@@ -62,6 +62,7 @@ class TimeMachineControls(object):
     active = False
     last_event = time.time()
     is_charged = False
+    is_starting_up = False
     start_time = 0
     freq_mode = 1
     color_mode = 1

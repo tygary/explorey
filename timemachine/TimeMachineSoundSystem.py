@@ -1,4 +1,4 @@
-from sound.MultiTrackMusicPlayer import MultiTrackMusicPlayer, MUSIC_END
+from sound.MultiTrackMusicPlayer import MultiTrackMusicPlayer
 import pygame
 import time
 

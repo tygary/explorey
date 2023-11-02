@@ -9,7 +9,7 @@ ON = 2
 TIME_STOP = 3
 ENDING = 4
 
-STARTUP_TIME = 16
+STARTUP_TIME = 13
 
 
 class TimeMachineSoundSystem(object):

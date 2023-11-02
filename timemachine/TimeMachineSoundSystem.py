@@ -1,40 +1,70 @@
-from sound.MusicPlayer import MusicPlayer
+from sound.MultiTrackMusicPlayer import MultiTrackMusicPlayer, MUSIC_END
+import pygame
 import time
+
+OFF = -1
+AMBIENT = 0
+STARTUP = 1
+ON = 2
+TIME_STOP = 3
+ENDING = 4
+
+STARTUP_TIME = 16
 
 
 class TimeMachineSoundSystem(object):
-    player = MusicPlayer()
+    player = MultiTrackMusicPlayer()
     wasPlaying = False
-    ambient_pos = 0.0
     time_speed = 0
     is_running = False
+    current_mode = OFF
+    startup_time = 0
 
     def __init__(self):
         self.player.set_volume(0.4)
         self.__play_ambient()
 
     def __play_ambient(self):
-        self.player.play_song('/home/admin/explorey/sound/TimeMachineAmbient.ogg', 1)
+        self.player.play_song('/home/admin/explorey/sound/TimeMachineAmbient.ogg', 1, channel=AMBIENT)
 
-    def __play_time_frozen(self):
-        self.player.play_song('/home/admin/explorey/sound/TimeFrozen.ogg', 1)
+    def __play_time_startup(self):
+        self.player.play_song('/home/admin/explorey/sound/TimeTraveling.ogg', 1, channel=STARTUP)
 
     def __play_time_traveling(self):
-        self.player.play_song('/home/admin/explorey/sound/TimeTraveling.ogg', 1)
+        self.player.play_song('/home/admin/explorey/sound/TimeTraveling.ogg', 1, channel=ON)
+
+    def __play_time_frozen(self):
+        self.player.play_song('/home/admin/explorey/sound/TimeFrozen.ogg', 1, channel=TIME_STOP)
+
+    def __play_time_ending(self):
+        self.player.play_song('/home/admin/explorey/sound/TimeFrozen.ogg', 1, channel=ENDING)
 
     def update_sounds(self, is_running, time_speed):
-        if not self.is_running and not is_running:
-            return
+        if not is_running and self.current_mode != OFF:
+            self.__play_ambient()
+            self.player.stop_music(STARTUP)
+            self.player.stop_music(ON)
+            self.player.stop_music(TIME_STOP)
+            self.current_mode = OFF
 
-        if self.is_running and not is_running:
+        if is_running and self.current_mode == OFF or self.current_mode == AMBIENT:
+            self.__play_time_startup()
+            self.startup_time = time.time()
+            self.player.stop_music(AMBIENT)
+        elif self.current_mode == STARTUP and time.time() > self.startup_time + STARTUP_TIME:
+            self.__play_time_traveling()
             self.__play_time_frozen()
-        else:
-            if time_speed != self.time_speed:
-                self.time_speed = time_speed
-                if time_speed is 0:
-                    self.__play_time_frozen()
-                else:
-                    self.__play_time_traveling()
+            self.current_mode = ON
+        if self.current_mode == ON:
+            velocity = abs(time_speed) / 1000
+            if velocity < .3:
+                ratio = velocity / .3
+                self.player.set_volume(ON, ratio)
+                self.player.set_volume(TIME_STOP, 1 - ratio)
+            else:
+                self.player.set_volume(ON, 1)
+                self.player.set_volume(TIME_STOP, 0)
+
 
 
 

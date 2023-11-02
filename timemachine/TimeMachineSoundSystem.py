@@ -28,7 +28,7 @@ class TimeMachineSoundSystem(object):
         # self.player.play_song('/home/admin/explorey/sound/TimeMachineAmbient.ogg', 1, channel=AMBIENT)
 
     def __play_time_startup(self):
-        self.player.play_song('/home/admin/explorey/sound/TimeMachine-Startup.ogg', 1, channel=STARTUP)
+        self.player.play_song('/home/admin/explorey/sound/TimeMachine-Startup.ogg', 1, channel=STARTUP, loops=0)
 
     def __play_time_traveling(self):
         self.player.play_song('/home/admin/explorey/sound/TimeMachine-Running.ogg', 1, channel=ON)
@@ -37,7 +37,7 @@ class TimeMachineSoundSystem(object):
         self.player.play_song('/home/admin/explorey/sound/TimeMachine-Frozen.ogg', 1, channel=TIME_STOP)
 
     def __play_time_ending(self):
-        self.player.play_song('/home/admin/explorey/sound/TimeMachine-Shutdown.ogg', 1, channel=ENDING)
+        self.player.play_song('/home/admin/explorey/sound/TimeMachine-Shutdown.ogg', 1, channel=ENDING, loops=0)
 
     def update_sounds(self, is_running, time_speed):
         if not is_running and self.current_mode != OFF:

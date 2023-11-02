@@ -22,6 +22,7 @@ SPEED_MULTIPLIER = -(60 * 60 * 24 * 365) * 10
 ZERO_TOLERANCE = 0.1
 MIN_UPDATE_TIME = 0
 RUN_DURATION_S = 60
+STARTUP_TIME = 15
 
 NUM_LEDS = 50
 PIXEL_SPEED_START = 0
@@ -125,7 +126,9 @@ class TimeMachineControls(object):
         if self.is_charged:
             print("Starting Machine")
             self.activate_button.set_light(False)
-            self.active = True
+            self.active = False
+            self.is_starting_up = True
+            self.power_routine.update_percentage(1)
             now = time.time()
             self.last_event = now
             self.start_time = now
@@ -154,8 +157,12 @@ class TimeMachineControls(object):
 
     def update(self):
         self.levers.update()
+        now = time.time()
+        if self.is_starting_up:
+            if now > self.start_time + STARTUP_TIME:
+                self.active = True
+                self.start_time = now
         if self.active:
-            now = time.time()
             percent_power = 1 - ((now - self.start_time) / RUN_DURATION_S)
             self.power_routine.update_percentage(percent_power)
 

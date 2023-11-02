@@ -207,7 +207,7 @@ class RandomPulseRoutine(TimeRoutine):
         light.up = True
         light.timestamp = self.now
         light.nextActionTime = light.timestamp + light.duration
-        light.mode = LIGHT_FADE
+        light.freq_mode = LIGHT_FADE
         light.on_finish = on_finish_mode
 
     def tick(self):
@@ -508,11 +508,11 @@ class BleuRoutine(Routine):
     def pickNewLightMode(self, light):
         rand = random.randrange(0, 100)
         if rand > 90:
-            light.mode = LIGHT_BLINK
+            light.freq_mode = LIGHT_BLINK
         else:
-            light.mode = LIGHT_FADE
+            light.freq_mode = LIGHT_FADE
 
-        if light.mode == LIGHT_FADE:
+        if light.freq_mode == LIGHT_FADE:
             colorBias = random.randrange(0, 1000)
             colorIndex = 0
             breakNum1 = 700
@@ -530,7 +530,7 @@ class BleuRoutine(Routine):
             light.up = True
             light.timestamp = self.now
             light.nextActionTime = light.timestamp + light.duration
-        elif light.mode == LIGHT_BLINK:
+        elif light.freq_mode == LIGHT_BLINK:
             light.intendedColor = self.getNewLightColor(MAIN_COLOR)
             light.previousColor = self.getNewLightColor(ACCENT_COLOR_3)
             light.currentValue = light.previousColor
@@ -689,17 +689,17 @@ class MushroomRoutine(Routine):
     def pickNewLightMode(self, light):
         rand = random.randrange(0, 100)
         if rand < 60:
-            light.mode = LIGHT_UNSET
+            light.freq_mode = LIGHT_UNSET
             light.wait = True
             light.timestamp = self.now
             # light.currentValue = [0, 0, 0]
             light.waitDuration = random.randrange(4000, 20000)
         elif rand > 99:
-            light.mode = LIGHT_BLINK
+            light.freq_mode = LIGHT_BLINK
         else:
-            light.mode = LIGHT_FADE
+            light.freq_mode = LIGHT_FADE
 
-        if light.mode == LIGHT_FADE:
+        if light.freq_mode == LIGHT_FADE:
             colorBias = random.randrange(0, 1000)
             colorIndex = 0
             breakNum1 = 700
@@ -717,7 +717,7 @@ class MushroomRoutine(Routine):
             light.up = True
             light.timestamp = self.now
             light.nextActionTime = light.timestamp + light.duration
-        elif light.mode == LIGHT_BLINK:
+        elif light.freq_mode == LIGHT_BLINK:
             light.intendedColor = self.getNewLightColor(MAIN_COLOR)
             light.previousColor = self.getNewLightColor(ACCENT_COLOR_3)
             light.currentValue = light.previousColor

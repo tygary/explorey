@@ -60,7 +60,7 @@ class TimeMachineControls(object):
     last_event = time.time()
     is_charged = False
     start_time = 0
-    mode = 1
+    freq_mode = 1
     color_mode = 1
 
     pixels = PixelControl(NUM_LEDS)
@@ -91,11 +91,11 @@ class TimeMachineControls(object):
         self.speed = self.__scale_speed(value)
 
     def __on_mode_button(self):
-        self.mode = self.mode + 1
-        if self.mode > 8:
-            self.mode = 1
-        self.mode_routine.update_mode(self.mode)
-        print(f"Mode set to {self.mode}")
+        self.freq_mode = self.freq_mode + 1
+        if self.freq_mode > 8:
+            self.freq_mode = 1
+        self.mode_routine.update_mode(self.freq_mode)
+        print(f"Mode set to {self.freq_mode}")
 
     def __on_mode_switch(self, mode):
         self.color_mode = mode
@@ -141,7 +141,8 @@ class TimeMachineControls(object):
             "date": print_datetime(new_date),
             "timestamp": (new_date - START).total_seconds(),
             "speed": speed,
-            "mode": self.mode,
+            "freq_mode": self.freq_mode,
+            "color_mode": self.color_mode,
             "magnitude": self.magnitude if speed != 0 else 0
         }
         self.mqtt.publish(json.dumps(data))

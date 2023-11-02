@@ -48,8 +48,10 @@ class TimeDisplayWall(object):
                 self.date_string = data["date"]
                 self.display.draw_text(data["date"])
                 magnitude = data["magnitude"]
+                color_mode = data["color_mode"]
+                freq_mode = data["freq_mode"]
                 if self.last_magnitude != magnitude:
-                    output = numpy.int16(magnitude).tobytes() + numpy.uint8(0).tobytes()
+                    output = numpy.int16(magnitude).tobytes() + numpy.uint8(color_mode).tobytes() + numpy.uint8(freq_mode).tobytes()
                     # print(output)
                     self.serial.write(output)
                     self.last_magnitude = magnitude

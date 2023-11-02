@@ -77,17 +77,17 @@ class TimeMachineSoundSystem(object):
             if velocity < .4:
                 ratio = velocity / .4
                 self.player.set_volume(ON, 0.5 + ratio/2)
-                self.player.set_volume(TIME_STOP, 1 - ratio)
-                self.player.set_volume(FULL_SPEED, 0)
+                self.player.set_volume(TIME_STOP, (1 - ratio) * 0.8 + 0.2)
+                self.player.set_volume(FULL_SPEED, 0.2)
             elif velocity > 0.6:
                 ratio = (velocity - 0.6) / .4
                 self.player.set_volume(ON, 1)
-                self.player.set_volume(TIME_STOP, 0)
-                self.player.set_volume(FULL_SPEED, ratio / 2)
+                self.player.set_volume(TIME_STOP, 0.2)
+                self.player.set_volume(FULL_SPEED, 0.4 * ratio + 0.2)
             else:
                 self.player.set_volume(ON, 1)
-                self.player.set_volume(TIME_STOP, 0)
-                self.player.set_volume(FULL_SPEED, 0)
+                self.player.set_volume(TIME_STOP, 0.2)
+                self.player.set_volume(FULL_SPEED, 0.2)
 
 
 

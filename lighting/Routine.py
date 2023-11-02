@@ -64,6 +64,7 @@ class SpeedGaugeRoutine(TimeRoutine):
     color = [255, 0, 0]
     magnitude = 0
     active = False
+    routines = [WaveRoutine(), WaveRoutine()]
 
     def __init__(self, pixels, addresses, color=[255, 0, 0]):
         TimeRoutine.__init__(self, pixels, addresses)
@@ -115,18 +116,11 @@ class SpeedGaugeRoutine(TimeRoutine):
 
         # pixel_breakpoint = math.ceil((abs_mag / 1000) * (num_pixels - 1))
         for i in range(0, pixel_breakpoint + 1):
-            self.pixels.setColor(self.addresses[i], color)
+            strength = random.random()
+            self.pixels.setColor(self.addresses[i], [color[0] * strength, color[1] * strength, color[2] * strength])
         if pixel_breakpoint + 1 < num_pixels:
             for i in range(pixel_breakpoint + 1, num_pixels):
                 self.pixels.setColor(self.addresses[i], [0, 0, 0])
-
-
-        #
-        # for addr in self.addresses:
-        #     if addr in on_pixels:
-        #         self.pixels.setColor(addr, [255, 0, 0])
-        #     else:
-        #         self.pixels.setColor(addr, [0, 0, 0])
 
 
 class ModeRoutine(TimeRoutine):
@@ -154,6 +148,7 @@ class ModeRoutine(TimeRoutine):
             if index is not self.mode - 1:
                 self.pixels.setColor(self.addresses[index], [0, 0, 0])
         self.routines[self.mode - 1].tick()
+
 
 class ModeSwitchRoutine(TimeRoutine):
     mode = 1

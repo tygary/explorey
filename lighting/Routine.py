@@ -115,7 +115,7 @@ class SpeedGaugeRoutine(TimeRoutine):
 
         # pixel_breakpoint = math.ceil((abs_mag / 1000) * (num_pixels - 1))
         for i in range(0, pixel_breakpoint + 1):
-            strength = (random.random() * 5 + 5)/10
+            strength = (random.random() * self.magnitude * 5 + 5000) / 10000
             modified_color = color
             if self.magnitude is not 0:
                 modified_color = [

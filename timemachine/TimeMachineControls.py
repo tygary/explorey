@@ -162,27 +162,26 @@ class TimeMachineControls(object):
                 self.speed_routine.update_magnitude(0)
                 self.speed_routine.update_active(False)
                 self.power_routine.update_percentage(0)
-                return
+            else:
+                time_delta = now - self.last_event
+                if time_delta > MIN_UPDATE_TIME:
+                    change = round(self.speed * time_delta)
+                    delta = timedelta(milliseconds=change)
+                    new_date = self.date + delta
+                    if new_date > END:
+                        new_date = START  # Temporary hack for testing
+                        change = 0
+                    if new_date < START:
+                        new_date = END  # Temporary hack for testing
+                        change = 0
+                    if new_date != self.date or (change == 0 and not self.is_stopped):
+                        self.is_stopped = change == 0
+                        self.speed_routine.update_active(True)
+                        self.speed_routine.update_magnitude(self.magnitude if change != 0 else 0)
 
-            time_delta = now - self.last_event
-            if time_delta > MIN_UPDATE_TIME:
-                change = round(self.speed * time_delta)
-                delta = timedelta(milliseconds=change)
-                new_date = self.date + delta
-                if new_date > END:
-                    new_date = START  # Temporary hack for testing
-                    change = 0
-                if new_date < START:
-                    new_date = END  # Temporary hack for testing
-                    change = 0
-                if new_date != self.date or (change == 0 and not self.is_stopped):
-                    self.is_stopped = change == 0
-                    self.speed_routine.update_active(True)
-                    self.speed_routine.update_magnitude(self.magnitude if change != 0 else 0)
-
-                    # print(f"Date changed to {print_datetime(new_date)} - speed {round(self.speed)}")
-                    self.__on_change_date(new_date, change)
-                self.last_event = now
+                        # print(f"Date changed to {print_datetime(new_date)} - speed {round(self.speed)}")
+                        self.__on_change_date(new_date, change)
+                    self.last_event = now
         self.light_routines.tick()
         self.pixels.render()
         self.activate_button.tick()

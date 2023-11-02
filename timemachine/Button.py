@@ -33,24 +33,24 @@ class Button(object):
             if self.callback:
                 self.callback()
 
-
-    def set_light(self, on):
+    def __set_light(self, on):
         GPIO.output(self.button_light_pin, on)
         self.light_on = on
+
+    def set_light(self, on):
+        self.__set_light(on)
         self.is_flashing = False
 
     def flash_light(self, flash_length=0.5):
         self.flash_length = flash_length
         self.is_flashing = True
-        self.set_light(True)
+        self.__set_light(True)
         self.next_flash = time.time() + flash_length
 
     def tick(self):
         now = time.time()
         if self.is_flashing and now >= self.next_flash:
-            on = not self.light_on
-            GPIO.output(self.button_light_pin, on)
-            self.light_on = on
+            self.__set_light(not self.light_on)
             self.next_flash = now + self.flash_length
 
 

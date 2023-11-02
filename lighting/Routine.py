@@ -81,7 +81,7 @@ class SpeedGaugeRoutine(TimeRoutine):
                 self.pixels.setColor(addr, [0, 0, 0])
             return
         if self.magnitude is 0:
-            color = [255, 255, 255]
+            color = [100, 100, 100]
             self.pixels.setColor(self.addresses[0], color)
         elif self.magnitude > 0:
             color = [255, 0, 0]

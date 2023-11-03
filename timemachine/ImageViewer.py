@@ -4,6 +4,9 @@ from datetime import datetime
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 1024
 
+END = datetime(2999, 12, 31, 23, 59, 59)
+START = datetime(1000, 1, 1, 0, 0, 0)
+
 IMAGES_BY_YEAR = [
  {
    "year": datetime(1000,  1, 1, 0, 0, 0),
@@ -374,6 +377,7 @@ class ImageViewer(object):
     current_image_index = 0
     image = None
     font = None
+    path = None
 
     def __init__(self):
         pygame.init()
@@ -398,15 +402,32 @@ class ImageViewer(object):
     def update(self, date, datestring):
         if self.is_running:
             if self.current_date != date:
-                closest_year_index = 0
-                for index in range(len(IMAGES_BY_YEAR)):
-                    image = IMAGES_BY_YEAR[index]
-                    if image['date'] <= date:
-                        closest_year_index = index
-                current_year = IMAGES_BY_YEAR[closest_year_index]
-                self.current_date = date
-                if current_year != IMAGES_BY_YEAR[self.current_image_index] or not self.image:
-                    self.__update_image(current_year['path'])
+
+                min_distance = (END - START).total_seconds()
+                event = IMAGES_BY_YEAR[0]["filename"]
+                date = IMAGES_BY_YEAR[0]["year"]
+                for index in range(0, len(IMAGES_BY_YEAR)):
+                    event_date = IMAGES_BY_YEAR[index]["year"]
+                    path = IMAGES_BY_YEAR[index]["filename"]
+                    event_distance = abs((event_date - date).total_seconds())
+                    if event_distance < min_distance:
+                        date = event_date
+                        event = path
+                        min_distance = event_distance
+
+
+                # closest_year_index = 0
+                # distance = END
+                # for index in range(len(IMAGES_BY_YEAR)):
+                #     image = IMAGES_BY_YEAR[index]
+                #     if image['date'] <= date:
+                #         closest_year_index = index
+                # current_year = IMAGES_BY_YEAR[closest_year_index]
+
+                if path != self.current_image or not self.image:
+                    self.current_date = date
+                    self.current_image = path
+                    self.__update_image(path)
                     self.render(datestring)
             # iterate over the list of Event objects
             # that was returned by pygame.event.get() method.

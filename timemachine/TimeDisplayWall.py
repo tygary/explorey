@@ -51,8 +51,7 @@ class TimeDisplayWall(object):
                 magnitude = data["magnitude"]
                 color_mode = data["color_mode"]
                 freq_mode = data["freq_mode"]
-                if self.last_magnitude != magnitude:
-                    output = numpy.int16(magnitude).tobytes() + numpy.uint8(color_mode).tobytes() + numpy.uint8(freq_mode).tobytes() + numpy.uint8(active).tobytes()
-                    # print(output)
-                    self.serial.write(output)
-                    self.last_magnitude = magnitude
+                output = numpy.int16(magnitude).tobytes() + numpy.uint8(color_mode).tobytes() + numpy.uint8(
+                    freq_mode).tobytes() + numpy.uint8(active).tobytes()
+                self.serial.write(output)
+                # print(output)

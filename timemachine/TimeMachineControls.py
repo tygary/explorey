@@ -102,10 +102,12 @@ class TimeMachineControls(object):
             self.freq_mode = 1
         self.mode_routine.update_mode(self.freq_mode)
         print(f"Mode set to {self.freq_mode}")
+        self.__on_change_data()
 
     def __on_mode_switch(self, mode):
         self.color_mode = mode
         self.mode_switch_routine.update_mode(mode)
+        self.__on_change_data()
 
 
     def __on_button_change(self, id, value):
@@ -142,17 +144,17 @@ class TimeMachineControls(object):
             value = value * -1
         return value
 
-    def __on_change_date(self, new_date, speed):
-        self.date = new_date
+    def __on_change_data(self):
+
         data = {
             "active": self.active,
             "event": "timechange",
-            "date": print_datetime(new_date),
-            "timestamp": (new_date - START).total_seconds(),
-            "speed": speed,
+            "date": print_datetime(self.date),
+            "timestamp": (self.date - START).total_seconds(),
+            "speed": self.speed,
             "freq_mode": self.freq_mode,
             "color_mode": self.color_mode,
-            "magnitude": self.magnitude if speed != 0 else 0
+            "magnitude": self.magnitude
         }
         self.mqtt.publish(json.dumps(data))
 
@@ -191,12 +193,16 @@ class TimeMachineControls(object):
                         change = 0
                     self.magnitude = self.magnitude if change != 0 else 0
                     if new_date != self.date or (change == 0 and not self.is_stopped):
+                        self.speed = change
+                        if change == 0:
+                            self.magnitude = 0
                         self.is_stopped = change == 0
                         self.speed_routine.update_active(True)
-                        self.speed_routine.update_magnitude(self.magnitude if change != 0 else 0)
+                        self.speed_routine.update_magnitude(self.magnitude)
 
                         # print(f"Date changed to {print_datetime(new_date)} - speed {round(self.speed)}")
-                        self.__on_change_date(new_date, change)
+                        self.date = new_date
+                        self.__on_change_data()
                     self.last_event = now
         self.music.update_sounds(self.active or self.is_starting_up, self.magnitude)
         self.light_routines.tick()

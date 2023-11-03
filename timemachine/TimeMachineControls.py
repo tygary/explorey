@@ -83,7 +83,10 @@ class TimeMachineControls(object):
         GPIO.setmode(GPIO.BCM)
         self.levers = Levers(self.__on_lever_change, self.__on_button_change)
         self.coin.start_waiting_for_coin(self.__on_coin_accepted)
-        self.__on_change_date(END, 0)
+        self.date = END
+        self.speed = 0
+        self.magnitude = 0
+        self.__on_change_data()
 
         self.activate_button = Button(ACTIVATE_BUTTON, ACTIVATE_BUTTON_LIGHT, self.__on_activate)
         self.activate_button.set_light(False)

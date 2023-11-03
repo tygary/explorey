@@ -174,7 +174,9 @@ class TimeMachineControls(object):
                 print("Machine has ran out of power!  Shutting down...")
                 self.is_charged = False
                 self.active = False
-                self.__on_change_date(END, 0)
+                self.speed = 0
+                self.date = END
+                self.__on_change_data()
                 self.speed_routine.update_magnitude(0)
                 self.speed_routine.update_active(False)
                 self.speed_routine.tick()

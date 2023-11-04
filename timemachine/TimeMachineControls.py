@@ -98,6 +98,7 @@ class TimeMachineControls(object):
         # print(f"Got lever {id} change to {value}")
         self.magnitude = round(value * 1000) * -1
         self.speed = self.__scale_speed(value)
+        print(f"magnitude: {self.magnitude} - speed: {self.speed}")
 
     def __on_mode_button(self):
         self.freq_mode = self.freq_mode + 1
@@ -199,8 +200,8 @@ class TimeMachineControls(object):
                     self.magnitude = self.magnitude if change != 0 else 0
                     if new_date != self.date or (change == 0 and not self.is_stopped):
                         self.speed = change
-                        if change == 0:
-                            self.magnitude = 0
+                        # if change == 0:
+                        #     self.magnitude = 0
                         self.is_stopped = change == 0
                         self.speed_routine.update_active(True)
                         self.speed_routine.update_magnitude(self.magnitude)

@@ -416,6 +416,7 @@ class ImageViewer(object):
                         min_distance = event_distance
 
 
+
                 # closest_year_index = 0
                 # distance = END
                 # for index in range(len(IMAGES_BY_YEAR)):
@@ -425,9 +426,10 @@ class ImageViewer(object):
                 # current_year = IMAGES_BY_YEAR[closest_year_index]
 
                 if path != self.current_image or not self.image:
+                    print(f"Changing image - year {date} - path: {event}")
                     self.current_date = date
-                    self.current_image = path
-                    self.__update_image(path)
+                    self.path = event
+                    self.__update_image(self.path)
                     self.render(datestring)
             # iterate over the list of Event objects
             # that was returned by pygame.event.get() method.

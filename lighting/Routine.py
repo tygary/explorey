@@ -77,7 +77,7 @@ class SpeedGaugeRoutine(TimeRoutine):
         self.active = active
 
     def update_magnitude(self, magnitude):
-        if abs(magnitude < 50):
+        if abs(magnitude) < 50:
             magnitude = 0
         self.magnitude = magnitude
 

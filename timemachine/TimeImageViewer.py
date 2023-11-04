@@ -19,9 +19,9 @@ class TimeImageViewer(object):
     def __init__(self):
         self.mqtt.listen(self.__on_event)
 
-    def tick(self):
-        if self.data:
-            print("doing nothing")
+    # def tick(self):
+    #     if self.data:
+    #         print("doing nothing")
             # self.music.update_sounds(self.data["active"], self.data["magnitude"])
 
     def __on_event(self, event):
@@ -34,5 +34,5 @@ class TimeImageViewer(object):
                 date = START + timedelta(seconds=data["timestamp"])
                 self.date = date
                 self.date_string = data["date"]
-                self.viewer.update(date, data["date"])
+                self.viewer.update(date, data["date"], data["active"])
 

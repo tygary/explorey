@@ -200,22 +200,25 @@ class TimeMachineControls(object):
                     new_date = self.date + delta
                     if new_date > END:
                         new_date = START  # Temporary hack for testing
-                        change = 0
+                        # change = 0
+                        # self.magnitude = 0
+                        # self.speed = 0
                     if new_date < START:
                         new_date = END  # Temporary hack for testing
-                        change = 0
-                    self.magnitude = self.magnitude if change != 0 else 0
-                    if new_date != self.date or (change == 0 and not self.is_stopped):
-                        self.speed = change
+                        # change = 0
+                        # self.magnitude = 0
+                        # self.speed = 0
+                    # self.magnitude = self.magnitude if change != 0 else 0
+                        # self.speed = change
                         # if change == 0:
                         #     self.magnitude = 0
-                        self.is_stopped = change == 0
-                        self.speed_routine.update_active(True)
-                        self.speed_routine.update_magnitude(self.magnitude)
+                    self.is_stopped = change == 0
+                    self.speed_routine.update_active(True)
+                    self.speed_routine.update_magnitude(self.magnitude)
 
                         # print(f"Date changed to {print_datetime(new_date)} - speed {round(self.speed)}")
-                        self.date = new_date
-                        self.__on_change_data()
+                    self.date = new_date
+                    self.__on_change_data()
                     self.last_event = now
         self.music.update_sounds(self.active or self.is_starting_up, self.magnitude)
         self.light_routines.tick()

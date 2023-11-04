@@ -372,12 +372,11 @@ IMAGES_BY_YEAR = [
 
 
 class ImageViewer(object):
-    is_running = True
-    current_date = None
-    current_image_index = 0
+    current_date = END
     image = None
     font = None
     path = None
+    screen = None
 
     def __init__(self):
         pygame.init()
@@ -399,8 +398,8 @@ class ImageViewer(object):
         # paint screen one time
         pygame.display.flip()
 
-    def update(self, date, datestring):
-        if self.is_running:
+    def update(self, date, datestring, active):
+        if active:
             if self.current_date != date:
 
                 min_distance = (END - START).total_seconds()
@@ -425,17 +424,12 @@ class ImageViewer(object):
                 #         closest_year_index = index
                 # current_year = IMAGES_BY_YEAR[closest_year_index]
 
-                if path != self.current_image or not self.image:
+                if event != self.path or not self.image:
                     print(f"Changing image - year {date} - path: {event}")
                     self.current_date = date
                     self.path = event
                     self.__update_image(self.path)
                     self.render(datestring)
-            # iterate over the list of Event objects
-            # that was returned by pygame.event.get() method.
-            for i in pygame.event.get():
-                # if event object type is QUIT
-                # then quitting the pygame
-                # and program both.
-                if i.type == pygame.QUIT:
-                    self.is_running = False
+        else:
+            self.screen.fill((0,0,0))
+            pygame.display.flip()

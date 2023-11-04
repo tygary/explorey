@@ -5,15 +5,15 @@ import random
 AMBIENT = '/home/admin/explorey/sound/osc-ambient.wav'
 
 MUSIC = [
-    '/home/admin/explorey/sound/osc-asteroids.wav'
-    '/home/admin/explorey/sound/osc-blocks.wav'
-    '/home/admin/explorey/sound/osc-circles.wav'
-    '/home/admin/explorey/sound/osc-deconstruct.wav'
-    '/home/admin/explorey/sound/osc-dots.wav'
-    '/home/admin/explorey/sound/osc-lines.wav'
-    '/home/admin/explorey/sound/osc-planets.wav'
-    '/home/admin/explorey/sound/osc-reconstruct.wav'
-    '/home/admin/explorey/sound/osc-shrooms.wav'
+    '/home/admin/explorey/sound/osc-asteroids.wav',
+    '/home/admin/explorey/sound/osc-blocks.wav',
+    '/home/admin/explorey/sound/osc-circles.wav',
+    '/home/admin/explorey/sound/osc-deconstruct.wav',
+    '/home/admin/explorey/sound/osc-dots.wav',
+    '/home/admin/explorey/sound/osc-lines.wav',
+    '/home/admin/explorey/sound/osc-planets.wav',
+    '/home/admin/explorey/sound/osc-reconstruct.wav',
+    '/home/admin/explorey/sound/osc-shrooms.wav',
     '/home/admin/explorey/sound/osc-spirals.wav'
 ]
 

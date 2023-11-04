@@ -133,7 +133,11 @@ class TimeMachineControls(object):
         self.is_charged = True
         self.activate_button.flash_light(0.2)
         if self.active:
-            self.__start_machine()
+            self.power_routine.update_percentage(1)
+            now = time.time()
+            self.last_event = now
+            self.start_time = now
+            self.coin.clear_coins()
 
     def __start_machine(self):
         if self.is_charged:

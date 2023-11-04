@@ -30,7 +30,7 @@ class TimeDisplayWall(object):
         self.mqtt.listen(self.__on_event)
         # self.serial.disable()
         self.print_button = Button(PRINT_BUTTON, PRINT_BUTTON_LIGHT, self.__on_print_button)
-        self.print_button.set_light(True)
+        self.print_button.set_light(False)
 
     def __on_print_button(self):
         print("Print button")
@@ -48,6 +48,7 @@ class TimeDisplayWall(object):
                 self.date_string = data["date"]
                 self.display.draw_text(data["date"])
                 active = 1 if data["active"] is True else 0
+                self.print_button.set_light(data["active"])
                 magnitude = data["magnitude"]
                 color_mode = data["color_mode"]
                 freq_mode = data["freq_mode"]

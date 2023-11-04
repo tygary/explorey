@@ -102,6 +102,8 @@ class TimeMachineControls(object):
             self.magnitude = 0
         self.speed = self.__scale_speed(value)
         print(f"magnitude: {self.magnitude} - speed: {self.speed}")
+        if not self.active:
+            self.__on_change_data()
 
     def __on_mode_button(self):
         self.freq_mode = self.freq_mode + 1

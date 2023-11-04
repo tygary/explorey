@@ -409,15 +409,16 @@ class ImageViewer(object):
             if self.current_date != date:
 
                 min_distance = (END - START).total_seconds()
-                event = IMAGES_BY_YEAR[0]["filename"]
-                date = IMAGES_BY_YEAR[0]["year"]
+                path = IMAGES_BY_YEAR[0]["filename"]
+                event_date = IMAGES_BY_YEAR[0]["year"]
                 for index in range(0, len(IMAGES_BY_YEAR)):
-                    event_date = IMAGES_BY_YEAR[index]["year"]
-                    path = IMAGES_BY_YEAR[index]["filename"]
-                    event_distance = abs((event_date - date).total_seconds())
+                    current_event = IMAGES_BY_YEAR[index]
+                    current_event_date = current_event["year"]
+                    current_event_path = current_event["filename"]
+                    event_distance = abs((current_event_date - date).total_seconds())
                     if event_distance < min_distance:
-                        date = event_date
-                        event = path
+                        event_date = current_event
+                        path = current_event_path
                         min_distance = event_distance
 
 
@@ -430,10 +431,10 @@ class ImageViewer(object):
                 #         closest_year_index = index
                 # current_year = IMAGES_BY_YEAR[closest_year_index]
 
-                if event != self.path or not self.image:
-                    print(f"Changing image - year {date} - path: {event}")
+                if path != self.path or not self.image:
+                    print(f"Changing image - year {event_date} - path: {path}")
                     self.current_date = date
-                    self.path = event
+                    self.path = path
                     self.__update_image(self.path)
                     self.render(datestring)
         else:

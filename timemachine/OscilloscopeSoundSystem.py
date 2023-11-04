@@ -2,19 +2,19 @@ from sound.MusicPlayer import MusicPlayer
 import time
 import random
 
-AMBIENT = '/home/admin/explorey/sound/osc_ambient.wav'
+AMBIENT = '/home/admin/explorey/sound/osc-ambient.wav'
 
 MUSIC = [
-    '/home/admin/explorey/sound/osc_asteroids.wav'
-    '/home/admin/explorey/sound/osc_blocks.wav'
-    '/home/admin/explorey/sound/osc_circles.wav'
-    '/home/admin/explorey/sound/osc_deconstruct.wav'
-    '/home/admin/explorey/sound/osc_dots.wav'
-    '/home/admin/explorey/sound/osc_lines.wav'
-    '/home/admin/explorey/sound/osc_planets.wav'
-    '/home/admin/explorey/sound/osc_reconstruct.wav'
-    '/home/admin/explorey/sound/osc_shrooms.wav'
-    '/home/admin/explorey/sound/osc_spirals.wav'
+    '/home/admin/explorey/sound/osc-asteroids.wav'
+    '/home/admin/explorey/sound/osc-blocks.wav'
+    '/home/admin/explorey/sound/osc-circles.wav'
+    '/home/admin/explorey/sound/osc-deconstruct.wav'
+    '/home/admin/explorey/sound/osc-dots.wav'
+    '/home/admin/explorey/sound/osc-lines.wav'
+    '/home/admin/explorey/sound/osc-planets.wav'
+    '/home/admin/explorey/sound/osc-reconstruct.wav'
+    '/home/admin/explorey/sound/osc-shrooms.wav'
+    '/home/admin/explorey/sound/osc-spirals.wav'
 ]
 
 

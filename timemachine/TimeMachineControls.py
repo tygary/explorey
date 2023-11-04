@@ -21,8 +21,8 @@ START = datetime(1000, 1, 1, 0, 0, 0)
 SPEED_MULTIPLIER = -(60 * 60 * 24 * 365) * 10
 ZERO_TOLERANCE = 0.1
 MIN_UPDATE_TIME = 0
-RUN_DURATION_S = 60
-STARTUP_TIME = 15
+RUN_DURATION_S = 120
+STARTUP_TIME = 16
 
 NUM_LEDS = 50
 PIXEL_SPEED_START = 0
@@ -67,6 +67,7 @@ class TimeMachineControls(object):
     freq_mode = 1
     color_mode = 1
     magnitude = 0
+    raw_lever_value = 0
 
     pixels = PixelControl(NUM_LEDS)
     power_routine = PowerGaugeRoutine(pixels, PIXELS_POWER)
@@ -96,7 +97,7 @@ class TimeMachineControls(object):
 
     def __on_lever_change(self, id, value):
         # print(f"Got lever {id} change to {value}")
-
+        self.raw_lever_value = value
         self.magnitude = round(value * 1000) * -1
         if abs(self.magnitude) < 50:
             self.magnitude = 0
@@ -177,6 +178,8 @@ class TimeMachineControls(object):
                 self.active = True
                 self.start_time = now
                 self.is_starting_up = False
+                self.__on_lever_change(0, self.raw_lever_value)
+
         if self.active:
             percent_power = 1 - ((now - self.start_time) / RUN_DURATION_S)
             self.power_routine.update_percentage(percent_power)

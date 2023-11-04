@@ -95,14 +95,18 @@ class TimeMachineControls(object):
         self.mode_button.set_light(True)
         self.mode_switch = ThreeWaySwitch(MODE_TOGGLE_UP, MODE_TOGGLE_DOWN, self.__on_mode_switch)
 
-    def __on_lever_change(self, id, value):
-        # print(f"Got lever {id} change to {value}")
-        self.raw_lever_value = value
-        self.magnitude = round(value * 1000) * -1
-        self.speed = self.__scale_speed(value)
-        print(f"magnitude: {self.magnitude} - speed: {self.speed}")
-        if not self.active:
-            self.__on_change_data()
+    def __on_lever_change(self, lever_id, value):
+        if lever_id == 1:
+            # print(f"Got lever {id} change to {value}")
+            modified_value = round(value * 100) * -1
+            modified_prev_value = round(self.raw_lever_value * 100) * -1
+            if modified_value != modified_prev_value:
+                self.raw_lever_value = value
+                self.magnitude = modified_value * 10
+                self.speed = self.__scale_speed(modified_value / 100)
+                print(f"magnitude: {self.magnitude} - speed: {self.speed}")
+                if not self.active:
+                    self.__on_change_data()
 
     def __on_mode_button(self):
         self.freq_mode = self.freq_mode + 1
@@ -178,7 +182,7 @@ class TimeMachineControls(object):
                 self.active = True
                 self.start_time = now
                 self.is_starting_up = False
-                self.__on_lever_change(0, self.raw_lever_value)
+                self.__on_lever_change(1, self.raw_lever_value)
 
         if self.active:
             percent_power = 1 - ((now - self.start_time) / RUN_DURATION_S)

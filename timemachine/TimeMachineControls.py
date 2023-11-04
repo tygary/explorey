@@ -99,8 +99,6 @@ class TimeMachineControls(object):
         # print(f"Got lever {id} change to {value}")
         self.raw_lever_value = value
         self.magnitude = round(value * 1000) * -1
-        if abs(self.magnitude) < 50:
-            self.magnitude = 0
         self.speed = self.__scale_speed(value)
         print(f"magnitude: {self.magnitude} - speed: {self.speed}")
         if not self.active:
@@ -156,8 +154,6 @@ class TimeMachineControls(object):
         value = 10 ** (abs(speed) * 12.4)
         if is_negative and value is not 0:
             value = value * -1
-        if abs(value) < 10:
-            value = 0
         return value
 
     def __on_change_data(self):

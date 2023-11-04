@@ -21,7 +21,7 @@ START = datetime(1000, 1, 1, 0, 0, 0)
 SPEED_MULTIPLIER = -(60 * 60 * 24 * 365) * 10
 ZERO_TOLERANCE = 0.1
 MIN_UPDATE_TIME = 0
-RUN_DURATION_S = 120
+RUN_DURATION_S = 240
 STARTUP_TIME = 16
 
 NUM_LEDS = 50
@@ -138,6 +138,7 @@ class TimeMachineControls(object):
             self.last_event = now
             self.start_time = now
             self.coin.clear_coins()
+            self.is_charged = False
 
     def __start_machine(self):
         if self.is_charged:
@@ -147,7 +148,6 @@ class TimeMachineControls(object):
             self.is_starting_up = True
             self.power_routine.update_percentage(1)
             now = time.time()
-            self.last_event = now
             self.start_time = now
             self.coin.clear_coins()
 

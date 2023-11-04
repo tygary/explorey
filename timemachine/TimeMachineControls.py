@@ -98,12 +98,13 @@ class TimeMachineControls(object):
     def __on_lever_change(self, lever_id, value):
         if lever_id == 1:
             # print(f"Got lever {id} change to {value}")
-            modified_value = round(value * 100) * -1
-            modified_prev_value = round(self.raw_lever_value * 100) * -1
-            if modified_value != modified_prev_value:
+            modified_value = value * 100 * -1
+            modified_prev_value = self.raw_lever_value * 100 * -1
+            if abs(modified_value - modified_prev_value) > 10:
+                rounded_value = round(modified_value)
                 self.raw_lever_value = value
-                self.magnitude = modified_value * 10
-                self.speed = self.__scale_speed(modified_value / 100)
+                self.magnitude = rounded_value * 10
+                self.speed = self.__scale_speed(rounded_value / 100)
                 print(f"magnitude: {self.magnitude} - speed: {self.speed}")
                 if not self.active:
                     self.__on_change_data()

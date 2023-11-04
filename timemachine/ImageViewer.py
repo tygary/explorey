@@ -386,11 +386,17 @@ class ImageViewer(object):
 
     def __update_image(self, image_path):
         # create a surface object, image is drawn on it.
-        self.image = pygame.image.load(image_path).convert()
+        try:
+            self.image = pygame.image.load(image_path).convert()
+        except Exception as err:
+            print(err)
 
     def render(self, datestring):
         # Using blit to copy content from one surface to other
-        self.screen.blit(self.image, (0, 0))
+        try:
+            self.screen.blit(self.image, (0, 0))
+        except Exception as err:
+            print(err)
         # text = self.font.render(datestring, True, (0, 0, 0))
         # text_rect = text.get_rect()
         # text_rect.topleft = (20, 20)

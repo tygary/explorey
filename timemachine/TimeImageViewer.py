@@ -18,6 +18,7 @@ class TimeImageViewer(object):
 
     def __init__(self):
         self.mqtt.listen(self.__on_event)
+        print("Started TimeImageViewer")
 
     # def tick(self):
     #     if self.data:

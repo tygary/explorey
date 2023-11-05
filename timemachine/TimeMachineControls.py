@@ -100,7 +100,7 @@ class TimeMachineControls(object):
             # print(f"Got lever {id} change to {value}")
             modified_value = value * 100 * -1
             modified_prev_value = self.raw_lever_value * 100 * -1
-            if abs(modified_value - modified_prev_value) > 10:
+            if abs(modified_value - modified_prev_value) > 1:
                 rounded_value = round(modified_value)
                 self.raw_lever_value = value
                 self.magnitude = rounded_value * 10
@@ -155,7 +155,7 @@ class TimeMachineControls(object):
             self.coin.clear_coins()
 
     def __scale_speed(self, speed):
-        is_negative = speed > 0
+        is_negative = speed < 0
         value = 10 ** (abs(speed) * 12.4)
         if is_negative and value is not 0:
             value = value * -1

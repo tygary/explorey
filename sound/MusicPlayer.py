@@ -4,12 +4,22 @@ import multiprocessing
 class MusicPlayer:
     current_song = ''
     music_thread = None
+    started = False
 
     def __init__(self):
-        pygame.mixer.init(buffer=1024)
+        self.__startup_mixer()
+
+    def __startup_mixer(self):
+        try:
+            pygame.mixer.init(buffer=1024)
+            self.started = True
+        except Exception as err:
+            print(f"Failed to start audio - {err}")
 
     def play_song(self, song, volume, pos=0.0, loops=-1):
-        if song != self.current_song or not self.is_still_playing():
+        if not self.started:
+            self.__startup_mixer()
+        if self.started and (song != self.current_song or not self.is_still_playing()):
             self.stop_music()
             self.current_song = song
             #self.music_thread = multiprocessing.Process(target=self.__music_loop)

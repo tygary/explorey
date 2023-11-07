@@ -54,7 +54,7 @@ class TimeRecordPrinter(object):
         pdf.set_auto_page_break(False)
 
         page_len = 90
-        if len(text > 220):
+        if len(text) > 220:
             page_len = 130
 
         pdf.add_page(orientation="P", format=(90, page_len))

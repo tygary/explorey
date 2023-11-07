@@ -140,12 +140,12 @@ class ModeRoutine(TimeRoutine):
         TimeRoutine.__init__(self, pixels, addresses)
         self.routines = [
             RainbowRoutine(pixels, [addresses[0]]),
-            PulseRoutine(pixels, [addresses[1]], color=[255, 0, 0]),
-            PulseRoutine(pixels, [addresses[2]], color=[0, 255, 0]),
+            PulseRoutine(pixels, [addresses[1]], color=[255, 255, 255]),
+            PulseRoutine(pixels, [addresses[2]], color=[255, 0, 0]),
             PulseRoutine(pixels, [addresses[3]], color=[0, 0, 255]),
-            PulseRoutine(pixels, [addresses[4]], color=[255, 255, 0]),
-            PulseRoutine(pixels, [addresses[5]], color=[255, 0, 255]),
-            PulseRoutine(pixels, [addresses[6]], color=[0, 255, 255]),
+            PulseRoutine(pixels, [addresses[4]], color=[0, 255, 0]),
+            FireRoutine(pixels, [addresses[5]]),
+            FireRoutine(pixels, [addresses[6]], color_index=2),
             RainbowRoutine(pixels, [addresses[7]]),
         ]
 
@@ -167,7 +167,7 @@ class ModeSwitchRoutine(TimeRoutine):
         TimeRoutine.__init__(self, pixels, addresses)
         self.routines = [
             PulseRoutine(pixels, [addresses[0]], color=[255, 255, 255]),
-            BleuRoutine(pixels, [addresses[1]]),
+            FireRoutine(pixels, [addresses[1]]),
             RainbowRoutine(pixels, [addresses[2]]),
         ]
 
@@ -241,19 +241,18 @@ class RainbowRoutine(Routine):
 
 class FireRoutine(Routine):
     values = {}
+    color_index = 0
 
-    def __init__(self, pixels, addresses):
+    def __init__(self, pixels, addresses, color_index=0):
         Routine.__init__(self, pixels, addresses)
+        self.color_index = color_index
         for i in self.addresses:
-            red = randint(0, 155)
-            green = 0
-            blue = 0
-            white = 0
-            self.values[i] = [red, green, blue, white]
+            self.values[i] = [0, 0, 0, 0]
+            self.values[i][self.color_index] = randint(0, 155)
 
     def tick(self):
         for i in self.addresses:
-            self.values[i][0] = (self.values[i][0] + randint(0, 5)) % 150
+            self.values[i][self.color_index] = (self.values[i][self.color_index] + randint(0, 5)) % 150
             self.pixels.setRGBW(i, self.values[i])
 
 

@@ -5,6 +5,7 @@ class MusicPlayer:
     current_song = ''
     music_thread = None
     started = False
+    volume = 1
 
     def __init__(self):
         self.__startup_mixer()
@@ -13,6 +14,7 @@ class MusicPlayer:
         try:
             pygame.mixer.init(buffer=1024)
             self.started = True
+            self.set_volume(self.volume)
         except Exception as err:
             print(f"Failed to start audio - {err}")
 
@@ -36,16 +38,19 @@ class MusicPlayer:
             return False
 
     def stop_music(self):
-        #if self.music_thread is not None:
-        #    self.music_thread.terminate()
-        pygame.mixer.music.stop()
-        pygame.mixer.music.rewind()
+        if self.started:
+            #if self.music_thread is not None:
+            #    self.music_thread.terminate()
+            pygame.mixer.music.stop()
+            pygame.mixer.music.rewind()
 
     def get_pos(self):
         return pygame.mixer.music.get_pos()
 
     def set_volume(self, amount):
-        pygame.mixer.music.set_volume(amount)
+        self.volume = amount
+        if self.started:
+            pygame.mixer.music.set_volume(amount)
 
     def __music_loop(self):
 

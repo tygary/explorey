@@ -166,7 +166,7 @@ class ModeSwitchRoutine(TimeRoutine):
     def __init__(self, pixels, addresses):
         TimeRoutine.__init__(self, pixels, addresses)
         self.routines = [
-            PulseRoutine(pixels, [addresses[0]], color=[255, 255, 255])
+            PulseRoutine(pixels, [addresses[0]], color=[255, 255, 255]),
             BleuRoutine(pixels, [addresses[1]]),
             RainbowRoutine(pixels, [addresses[2]]),
         ]

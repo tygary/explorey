@@ -5,7 +5,7 @@ import threading
 from datetime import datetime
 
 from logger.logger import Logger
-from printer.EncounterPrintout import EncounterPrintout
+from timemachine.TimePrintout import TimePrintout
 
 END = datetime(2999, 12, 31, 23, 59, 59)
 START = datetime(1000, 1, 1, 0, 0, 0)
@@ -32,8 +32,6 @@ class TimeRecordPrinter(object):
 
     def __init__(self):
         self.logger = Logger()
-        with open("printer/batsQuotes.json", "r") as file:
-            self.quotes = json.load(file)
 
     def __print_time_record(self):
         self.logger.log("Printer: printing timerecord using %s" % self.printer_name)
@@ -49,7 +47,7 @@ class TimeRecordPrinter(object):
             self.logger.log("  Failure")
             pass
 
-        pdf = EncounterPrintout()
+        pdf = TimePrintout()
         pdf.set_margins(left=16, top=0, right=0)
         pdf.set_auto_page_break(False)
 

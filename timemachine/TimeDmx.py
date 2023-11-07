@@ -9,11 +9,11 @@ LIGHT_THREE = 11
 LIGHT_FOUR = 16
 FOUR_BAR_FLEX = 21
 
-PINK = [232, 209, 239]
-PURPLE = [183, 109, 218]
+PINK = [232, 60, 239]
+PURPLE = [183, 30, 218]
 ORANGE = [236, 103, 32]
-RED = [247, 36, 24]
-BLUE = [68, 231, 198]
+RED = [247, 5, 10]
+BLUE = [15, 100, 255]
 
 UP = True
 DOWN = False
@@ -71,12 +71,12 @@ class TimeDmx(object):
 
     def __running(self):
         for index in range(0, len(self.lights)):
-            self.dmx.setParCan(self.lights[index], scale_color(RED, 0.2))
+            self.dmx.setParCan(self.lights[index], scale_color(RED, 0.1))
         self.dmx.set4barFlex(FOUR_BAR_FLEX, [
-            scale_color(RED, 0.2),
-            scale_color(RED, 0.2),
-            scale_color(RED, 0.2),
-            scale_color(RED, 0.2)
+            scale_color(RED, 0.1),
+            scale_color(RED, 0.1),
+            scale_color(RED, 0.1),
+            scale_color(RED, 0.1)
         ])
         self.mode = RUNNING
         print("Starting Running DMX")

@@ -24,7 +24,7 @@ class DmxControl(object):
     def set4barFlex(self, channelStart, colors=[[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]]):
         self.dmx.set_channel(channelStart, 0)  # Color Mode RGB
         self.dmx.set_channel(channelStart + 1, 255)  # Brightness max
-        self.dmx.set_channel(channelStart + 2, 255)  # strobe 0
+        self.dmx.set_channel(channelStart + 2, 0)  # strobe 0
 
         self.dmx.set_channel(channelStart + 3, colors[0][0])
         self.dmx.set_channel(channelStart + 4, colors[0][1])

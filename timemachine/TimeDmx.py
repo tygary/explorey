@@ -67,7 +67,7 @@ class TimeDmx(object):
             self.__startup()
         elif active and not self.mode == RUNNING:
             self.__running()
-        elif not self.mode == AMBIENT:
+        elif not startup and not active and not self.mode == AMBIENT:
             self.__set_ambient()
 
     def update(self):

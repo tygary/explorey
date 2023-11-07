@@ -10,7 +10,7 @@ TIME_STOP = 3
 ENDING = 4
 FULL_SPEED = 5
 
-STARTUP_TIME = 16
+STARTUP_TIME = 8
 
 songs = [
     '/home/admin/explorey/sound/TimeMachine-AmbienceLoud.ogg',

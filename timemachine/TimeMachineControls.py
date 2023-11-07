@@ -207,7 +207,11 @@ class TimeMachineControls(object):
                 if time_delta > MIN_UPDATE_TIME:
                     change = round(self.speed * time_delta)
                     delta = timedelta(milliseconds=change)
-                    new_date = self.date + delta
+                    try:
+                        new_date = self.date + delta
+                    except OverflowError:
+                        new_date = self.date
+                        print(f"Date Overflow: {self.date} + {delta}")
                     if new_date > END:
                         new_date = START  # Temporary hack for testing
                         # change = 0

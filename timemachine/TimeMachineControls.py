@@ -142,6 +142,7 @@ class TimeMachineControls(object):
             self.start_time = now
             self.coin.clear_coins()
             self.is_charged = False
+            self.activate_button.set_light(False)
 
     def __start_machine(self):
         if self.is_charged:
@@ -165,6 +166,7 @@ class TimeMachineControls(object):
 
         data = {
             "active": self.active,
+            "startup": self.is_starting_up,
             "event": "timechange",
             "date": print_datetime(self.date),
             "timestamp": (self.date - START).total_seconds(),

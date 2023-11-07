@@ -13,8 +13,8 @@ FULL_SPEED = 5
 STARTUP_TIME = 16
 
 songs = [
-    '/home/admin/explorey/sound/TimeMachine-Ambience.ogg',
-    '/home/admin/explorey/sound/TimeMachine-Startup.ogg',
+    '/home/admin/explorey/sound/TimeMachine-AmbienceLoud.ogg',
+    '/home/admin/explorey/sound/TimeMachine-StartupShort.ogg',
     '/home/admin/explorey/sound/TimeMachine-Running.ogg',
     '/home/admin/explorey/sound/TimeMachine-Frozen.ogg',
     '/home/admin/explorey/sound/TimeMachine-Shutdown.ogg',

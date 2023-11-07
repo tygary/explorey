@@ -139,7 +139,7 @@ class ModeRoutine(TimeRoutine):
     def __init__(self, pixels, addresses):
         TimeRoutine.__init__(self, pixels, addresses)
         self.routines = [
-            PulseRoutine(pixels, [addresses[1]], color=[255, 255, 255]),
+            PulseRoutine(pixels, [addresses[0]], color=[255, 255, 255]),
             PulseRoutine(pixels, [addresses[1]], color=[255, 0, 0]),
             PulseRoutine(pixels, [addresses[2]], color=[0, 255, 0]),
             PulseRoutine(pixels, [addresses[3]], color=[0, 0, 255]),

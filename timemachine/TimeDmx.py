@@ -71,7 +71,7 @@ class TimeDmx(object):
             self.__set_ambient()
 
     def update(self):
-        if self.mode == RUNNING:
+        if self.mode == STARTUP:
             for index in range(0, len(self.lights)):
                 self.light_values[index] = self.light_values[index] + (0.05 * (-1 if self.light_directions[index] is DOWN else 1))
                 if self.light_values[index] > 1:
@@ -80,6 +80,6 @@ class TimeDmx(object):
                 elif self.light_values[index] < 0:
                     self.light_values[index] = 0
                     self.light_directions[index] = not self.light_directions[index]
-                print(f"Updating Light {self.lights[index]} - {scale_color(RED, int(self.light_values[index]))}")
-                self.dmx.setParCan(self.lights[index], scale_color(RED, int(self.light_values[index])))
+                print(f"Updating Light {self.lights[index]} - {scale_color(RED, self.light_values[index])}")
+                self.dmx.setParCan(self.lights[index], scale_color(RED, self.light_values[index]))
         self.dmx.render()

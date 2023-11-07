@@ -46,6 +46,7 @@ class TimeDmx(object):
         for index in range(0, len(self.lights)):
             self.dmx.setParCan(self.lights[index], self.ambient_colors[index])
         self.mode = AMBIENT
+        print("Starting Ambient DMX")
 
     def __startup(self):
         self.light_values = [0, 0.33, 0.66, 0.99]
@@ -53,11 +54,13 @@ class TimeDmx(object):
             self.dmx.setParCan(self.lights[index], scale_color(RED, self.light_values[index]))
         self.mode = STARTUP
         self.prev_event = time.time()
+        print("Starting Startup DMX")
 
     def __running(self):
         for index in range(0, len(self.lights)):
             self.dmx.setParCan(self.lights[index], scale_color(RED, 0.2))
         self.mode = RUNNING
+        print("Starting Running DMX")
 
     def change_mode(self, active, startup):
         if startup and not self.mode == STARTUP:

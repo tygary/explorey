@@ -11,7 +11,7 @@ from lighting.PixelControl import PixelControl
 from lighting.Routine import *
 from timemachine.Button import Button
 from timemachine.ThreeWaySwitch import ThreeWaySwitch
-from timemachine.TimeMachineSoundSystem import TimeMachineSoundSystem
+from timemachine.TimeMachineSoundSystem import TimeMachineSoundSystem, STARTUP_TIME
 
 
 ZERO = datetime.fromtimestamp(0)
@@ -22,7 +22,6 @@ SPEED_MULTIPLIER = -(60 * 60 * 24 * 365) * 10
 ZERO_TOLERANCE = 0.1
 MIN_UPDATE_TIME = 0
 RUN_DURATION_S = 240
-STARTUP_TIME = 8
 
 NUM_LEDS = 50
 PIXEL_SPEED_START = 0

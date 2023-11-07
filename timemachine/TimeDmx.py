@@ -7,6 +7,7 @@ LIGHT_ONE = 1
 LIGHT_TWO = 6
 LIGHT_THREE = 11
 LIGHT_FOUR = 16
+FOUR_BAR_FLEX = 21
 
 PINK = [232, 209, 239]
 PURPLE = [183, 109, 218]
@@ -45,6 +46,12 @@ class TimeDmx(object):
     def __set_ambient(self):
         for index in range(0, len(self.lights)):
             self.dmx.setParCan(self.lights[index], self.ambient_colors[index])
+        self.dmx.set4barFlex(FOUR_BAR_FLEX, [
+            self.ambient_colors[0],
+            self.ambient_colors[1],
+            self.ambient_colors[2],
+            self.ambient_colors[3]
+        ])
         self.mode = AMBIENT
         print("Starting Ambient DMX")
 
@@ -52,6 +59,12 @@ class TimeDmx(object):
         self.light_values = [0, 0.33, 0.66, 0.99]
         for index in range(0, len(self.lights)):
             self.dmx.setParCan(self.lights[index], scale_color(RED, self.light_values[index]))
+        self.dmx.set4barFlex(FOUR_BAR_FLEX, [
+            scale_color(RED, self.light_values[0]),
+            scale_color(RED, self.light_values[1]),
+            scale_color(RED, self.light_values[2]),
+            scale_color(RED, self.light_values[3])
+        ])
         self.mode = STARTUP
         self.prev_event = time.time()
         print("Starting Startup DMX")
@@ -59,6 +72,12 @@ class TimeDmx(object):
     def __running(self):
         for index in range(0, len(self.lights)):
             self.dmx.setParCan(self.lights[index], scale_color(RED, 0.2))
+        self.dmx.set4barFlex(FOUR_BAR_FLEX, [
+            scale_color(RED, 0.2),
+            scale_color(RED, 0.2),
+            scale_color(RED, 0.2),
+            scale_color(RED, 0.2)
+        ])
         self.mode = RUNNING
         print("Starting Running DMX")
 
@@ -82,4 +101,10 @@ class TimeDmx(object):
                     self.light_directions[index] = not self.light_directions[index]
                 print(f"Updating Light {self.lights[index]} - {scale_color(RED, self.light_values[index])}")
                 self.dmx.setParCan(self.lights[index], scale_color(RED, self.light_values[index]))
+            self.dmx.set4barFlex(FOUR_BAR_FLEX, [
+                scale_color(RED, self.light_values[0]),
+                scale_color(RED, self.light_values[1]),
+                scale_color(RED, self.light_values[2]),
+                scale_color(RED, self.light_values[3])
+            ])
         self.dmx.render()

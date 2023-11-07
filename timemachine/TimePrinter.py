@@ -53,7 +53,11 @@ class TimeRecordPrinter(object):
         pdf.set_margins(left=16, top=0, right=0)
         pdf.set_auto_page_break(False)
 
-        pdf.add_page(orientation="P", format=(90, 90))
+        page_len = 90
+        if len(text > 220):
+            page_len = 130
+
+        pdf.add_page(orientation="P", format=(90, page_len))
         pdf.set_font("Arial", "B", 16)
         pdf.multi_cell(0, 10, f"{date_string}", align="C")
         pdf.set_font("Arial", "", 12)

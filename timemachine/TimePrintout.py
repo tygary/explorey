@@ -16,4 +16,4 @@ class TimePrintout(FPDF):
     def footer(self):
         self.set_y(-15)
         self.set_font('Arial', 'I', 8)
-        self.multi_cell(0, 5, "Goblin Encounters LTD. 2023\nCows ain't got nuthin' on Goblins..", 0, 'C')
+        self.multi_cell(0, 5, "Timeless Emporium 2023\nFeaturing Time Flavored Play-doh", 0, 'C')

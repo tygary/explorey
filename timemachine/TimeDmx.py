@@ -25,7 +25,7 @@ FADE_DURATION = 2
 
 
 def scale_color(color, scale):
-    return [color[0] * scale, color[1] * scale, color[2] * scale]
+    return [int(color[0] * scale), int(color[1] * scale), int(color[2] * scale)]
 
 
 class TimeDmx(object):
@@ -80,5 +80,5 @@ class TimeDmx(object):
                 elif self.light_values[index] < 0:
                     self.light_values[index] = 0
                     self.light_directions[index] = not self.light_directions[index]
-                self.dmx.setParCan(self.lights[index], scale_color(RED, self.light_values[index]))
+                self.dmx.setParCan(self.lights[index], scale_color(RED, int(self.light_values[index])))
         self.dmx.render()

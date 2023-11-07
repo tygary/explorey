@@ -154,6 +154,7 @@ class TimeMachineControls(object):
             now = time.time()
             self.start_time = now
             self.coin.clear_coins()
+            self.__on_change_data()
 
     def __scale_speed(self, speed):
         is_negative = speed < 0

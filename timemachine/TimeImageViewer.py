@@ -29,13 +29,15 @@ class TimeImageViewer(object):
         # print(f"Got Event: {event}")
         # print(self.serial.read())
         if event:
-            data = json.loads(event)
-            self.data = data
-            self.dmx.change_mode(data["active"], data["startup"])
-            if data["date"]:
-                date = START + timedelta(seconds=data["timestamp"])
-                self.date = date
-                self.date_string = data["date"]
+            try:
+                data = json.loads(event)
+                self.data = data
+                self.dmx.change_mode(data["active"], data["startup"])
+                if data["date"]:
+                    date = START + timedelta(seconds=data["timestamp"])
+                    self.date = date
+                    self.date_string = data["date"]
 
-                self.viewer.update(date, data["date"], data["active"])
-
+                    self.viewer.update(date, data["date"], data["active"])
+            except Exception as err:
+                print(err)

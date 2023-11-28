@@ -367,6 +367,34 @@ IMAGES_BY_YEAR = [
  {
    "year": datetime(2912,  1, 1, 0, 0, 0),
     "filename": "/home/admin/explorey/images/2912.jpeg"
+ },
+ {
+   "year": datetime(2092,  1, 1, 0, 0, 0),
+    "filename": "/home/admin/explorey/images/2092.jpg"
+ },
+ {
+   "year": datetime(2540,  1, 1, 0, 0, 0),
+    "filename": "/home/admin/explorey/images/2540.jpg"
+ },
+ {
+   "year": datetime(2999,  1, 1, 0, 0, 0),
+    "filename": "/home/admin/explorey/images/2999.jpeg"
+ },
+ {
+   "year": datetime(2970,  1, 1, 0, 0, 0),
+    "filename": "/home/admin/explorey/images/2970.jpeg"
+ },
+ {
+   "year": datetime(1983,  2, 22, 4, 56, 0),
+    "filename": "/home/admin/explorey/images/1983-Quest.jpeg"
+ },
+ {
+   "year": datetime(1983,  2, 21, 0, 0, 0),
+    "filename": "/home/admin/explorey/images/1983-Before.jpeg"
+ },
+ {
+   "year": datetime(1983,  2, 23, 0, 0, 0),
+    "filename": "/home/admin/explorey/images/1983-After.jpeg"
  }
 ]
 
@@ -394,7 +422,7 @@ class ImageViewer(object):
     def render(self, datestring):
         # Using blit to copy content from one surface to other
         try:
-            self.screen.blit(self.image, (0, 0))
+            self.screen.blit(self.image, (100, 0))
         except Exception as err:
             print(err)
         # text = self.font.render(datestring, True, (0, 0, 0))

@@ -1,5 +1,5 @@
 import time
-
+import random
 from lighting.DmxControl import DmxControl
 
 
@@ -11,7 +11,7 @@ FOUR_BAR_FLEX = 21
 
 PINK = [232, 60, 239]
 PURPLE = [183, 30, 218]
-ORANGE = [236, 103, 32]
+ORANGE = [236, 153, 92]
 RED = [247, 5, 10]
 BLUE = [15, 100, 255]
 
@@ -34,7 +34,7 @@ class TimeDmx(object):
 
     mode = AMBIENT
 
-    ambient_colors = [PINK, PURPLE, ORANGE, BLUE]
+    ambient_colors = [scale_color(PINK, 0.6), scale_color(PURPLE, 0.6), scale_color(ORANGE, 0.6), scale_color(BLUE, 0.6)]
     lights = [LIGHT_ONE, LIGHT_TWO, LIGHT_THREE, LIGHT_FOUR]
     light_directions = [UP, UP, UP, UP]
     light_values = [1, 1, 1, 1]
@@ -92,7 +92,7 @@ class TimeDmx(object):
     def update(self):
         if self.mode == STARTUP:
             for index in range(0, len(self.lights)):
-                self.light_values[index] = self.light_values[index] + (0.05 * (-1 if self.light_directions[index] is DOWN else 1))
+                self.light_values[index] = self.light_values[index] + (random.random() * 0.2 * (-1 if self.light_directions[index] is DOWN else 1))
                 if self.light_values[index] > 1:
                     self.light_values[index] = 1
                     self.light_directions[index] = not self.light_directions[index]

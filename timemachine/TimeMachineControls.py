@@ -3,6 +3,7 @@ import math
 from datetime import datetime, timedelta
 import time
 import json
+import random
 
 from timemachine.Levers import *
 from mqtt.MqttClient import *
@@ -95,7 +96,10 @@ class TimeMachineControls(object):
         self.mode_switch = ThreeWaySwitch(MODE_TOGGLE_UP, MODE_TOGGLE_DOWN, self.__on_mode_switch)
 
     def __on_lever_change(self, lever_id, value):
-        if lever_id == 1:
+        if self.is_starting_up:
+            print("Startup lever change")
+            value = 0.94
+        if lever_id == 1 and self.raw_lever_value != value:
             # print(f"Got lever {id} change to {value}")
             modified_value = value * 100 * -1
             modified_prev_value = self.raw_lever_value * 100 * -1
@@ -141,6 +145,7 @@ class TimeMachineControls(object):
             self.start_time = now
             self.coin.clear_coins()
             self.is_charged = False
+            self.is_starting_up = False
             self.activate_button.set_light(False)
 
     def __start_machine(self):
@@ -149,6 +154,7 @@ class TimeMachineControls(object):
             self.activate_button.set_light(False)
             self.active = False
             self.is_starting_up = True
+            self.__on_lever_change(1, 0.8)
             self.power_routine.update_percentage(1)
             now = time.time()
             self.start_time = now
@@ -182,12 +188,14 @@ class TimeMachineControls(object):
         now = time.time()
         if self.is_starting_up:
             if now > self.start_time + STARTUP_TIME:
+                print("Startup Done")
                 self.active = True
                 self.start_time = now
                 self.is_starting_up = False
                 self.__on_lever_change(1, self.raw_lever_value)
 
-        if self.active:
+
+        if self.active or self.is_starting_up:
             percent_power = 1 - ((now - self.start_time) / RUN_DURATION_S)
             self.power_routine.update_percentage(percent_power)
 
@@ -213,15 +221,15 @@ class TimeMachineControls(object):
                         new_date = self.date
                         print(f"Date Overflow: {self.date} + {delta}")
                     if new_date > END:
-                        new_date = START  # Temporary hack for testing
-                        # change = 0
-                        # self.magnitude = 0
-                        # self.speed = 0
-                    if new_date < START:
                         new_date = END  # Temporary hack for testing
-                        # change = 0
-                        # self.magnitude = 0
-                        # self.speed = 0
+                        change = 0
+                        self.magnitude = 0
+                        self.speed = 0
+                    if new_date < START:
+                        new_date = START  # Temporary hack for testing
+                        change = 0
+                        self.magnitude = 0
+                        self.speed = 0
                     # self.magnitude = self.magnitude if change != 0 else 0
                         # self.speed = change
                         # if change == 0:

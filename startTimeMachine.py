@@ -6,6 +6,10 @@ print("Machine started, enter 'machine.stop()' before exiting")
 timemachine = TimeMachineControls()
 
 while True:
-    timemachine.update()
+    try:
+        timemachine.update()
+    except Exception as err:
+        print(err)
+
     time.sleep(0.05)
     continue

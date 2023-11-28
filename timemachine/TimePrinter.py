@@ -53,12 +53,12 @@ class TimeRecordPrinter(object):
 
         page_len = 90
         if len(text) > 220:
-            page_len = 130
+            page_len = 140
 
         pdf.add_page(orientation="P", format=(90, page_len))
-        pdf.set_font("Arial", "B", 16)
+        pdf.set_font("helvetica", "B", 16)
         pdf.multi_cell(0, 10, f"{date_string}", align="C")
-        pdf.set_font("Arial", "", 12)
+        pdf.set_font("helvetica", "", 12)
         pdf.cell(90, 4, ln=1)
         pdf.multi_cell(0, 6, f"{text}", align="L")
 
@@ -145,7 +145,7 @@ TIME_EVENTS = [
  },
  {
    "year": datetime(1350, 1, 1, 0, 0, 0),
-   "text": "The Black Death was a bubonic plague pandemic occurring in Western Eurasia and North Africa from 1346 to 1353. It is the most fatal pandemic recorded in human history, causing the deaths of 75–200 million people, peaking in Europe from 1347 to 1351.   Our research unveiled that it began after the eating of Time Spiders began commonplace.  Time Spiders tend to carry infectious diseases from all over the timeline. "
+   "text": "The Black Death was a bubonic plague pandemic occurring in Western Eurasia and North Africa from 1346 to 1353. It is the most fatal pandemic recorded in human history, causing the deaths of 75-200 million people, peaking in Europe from 1347 to 1351.   Our research unveiled that it began after the eating of Time Spiders began commonplace.  Time Spiders tend to carry infectious diseases from all over the timeline. "
  },
  {
    "year": datetime(1429, 1, 1, 0, 0, 0),
@@ -438,6 +438,34 @@ TIME_EVENTS = [
  {
    "year": datetime(2912, 1, 1, 0, 0, 0),
    "text": "In order to reinvigorate the social scene of the 2900s, a clone of Madame Clavae was created and birthed.  Madame Clavae the Second lead a cultural revolution leading the celebrations leading up to the great Y3K. "
+ },
+ {
+   "year": datetime(2092, 1, 1, 0, 0, 0),
+   "text": "In response to rapid terraform expansions, indiginous Martians expel the humans keeping dogs as reparations."
+ },
+ {
+   "year": datetime(2540, 1, 1, 0, 0, 0),
+   "text": "Power struggles over resouces in Water World are growing and piracy is on the rise."
+ },
+ {
+   "year": datetime(2999, 1, 1, 0, 0, 0),
+   "text": "In the eve of Y3K, Dr Reid investigates strange anomalies and error messages popping up.  Something is amiss!  We're witnessing a never before seen rise in temporal anomalies and I, Spider 011, suspect that my time traveling arachnid brethren are at the root of this disaster."
+ },
+ {
+   "year": datetime(2970, 1, 1, 0, 0, 0),
+   "text": "The Brave Alliance for Historical Lecturers & Scholars (BAHLS) is founded by President Jake in order to align the scholors of the world in preserving the temporo-historical timeline."
+ },
+ {
+   "year": datetime(1983,  2, 22, 16, 56, 0),
+   "text": "On February 22nd, 1983 at 4:56 PM, Ronald McDonald makes a Top Secret deal with President Ronald Reagan to purchase alien technology.  Ronald uses this technology to open a time portal, and through it he retrieves a magical giant soup spoon that revolutionizes his recipes and grants him eternal life, but transforming him into Wackronald.   This temportal rift has remained open throughout time. Please, I, Spider 011 need your help!   We must confront Wackronald convince him to close the portal in order to save our timeline! Come back to the Time Machine Sunday at 1:45am (late Saturday Night) and  find me. "
+ },
+ {
+   "year": datetime(1983,  2, 21, 0, 0, 0),
+   "text": "On February 21st, 1983, The NBA San Diego Clippers begin a 29 game road losing streak due to being unable to let go of the basketball.  They complained that their hands began leaking webbing after a night out at the Silken Web, and underground nightclub in New York City.  "
+ },
+ {
+   "year": datetime(1983,  2, 23, 0, 0, 0),
+   "text": "On February 23rd, 1983, The United States Environmental Protection Agency announces its intent to buy out and evacuate the dioxin-contaminated community of Times Beach, Missouri.  The area had been having temporal fluctuations and residents had reported dinosaur attacks and spider infestations. "
  }
 ]
 

@@ -37,16 +37,17 @@ class TimeDisplayWall(object):
         self.printer.printTimeRecord(self.date, self.date_string)
 
     def __on_event(self, event):
-        # print(f"Got Event: {event}")
-        # print(self.serial.read())
+        #print(f"Got Event: {event}")
+        #print(self.serial.read())
         if event:
-            data = json.loads(event)
-            self.osounds.update_sounds(data["active"] is True)
-            if data["date"]:
-                date = START + timedelta(seconds=data["timestamp"])
-                self.date = date
-                self.date_string = data["date"]
-                self.display.draw_text(data["date"])
+            try:
+                data = json.loads(event)
+                self.osounds.update_sounds(data["active"] is True)
+                if data["date"] and (data["active"] is True or data["startup"] is True):
+                    date = START + timedelta(seconds=data["timestamp"])
+                    self.date = date
+                    self.date_string = data["date"]
+                    self.display.draw_text(data["date"])
                 active = 1 if data["active"] is True else 0
                 self.print_button.set_light(data["active"])
                 magnitude = data["magnitude"]
@@ -55,4 +56,8 @@ class TimeDisplayWall(object):
                 output = numpy.int16(magnitude).tobytes() + numpy.uint8(color_mode).tobytes() + numpy.uint8(
                     freq_mode).tobytes() + numpy.uint8(active).tobytes()
                 self.serial.write(output)
-                # print(output)
+                    # print(output)
+                if data["active"] is False and data["startup"] is False:
+                    self.display.draw_text("")
+            except Exception as err:
+                print(err)

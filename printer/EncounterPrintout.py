@@ -19,7 +19,7 @@ class EncounterPrintout(FPDF):
         self.multi_cell(
             0,
             5,
-            "Goblin Encounters LTD 2023\nWe're totally not the ones who burned down your village...",
+            "Goblin Encounters LTD 2023\nGuess who's getting coal this year?!?!",
             0,
             "C",
         )

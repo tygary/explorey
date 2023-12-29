@@ -22,8 +22,8 @@ class AdventureGenerator(object):
     encounter_button_pin = 18
     boss_button_pin = 22
     prize_button_pin = 32
-    punishment_button_pin = 38
-    duel_button_pin = 40
+    punishment_button_pin = 40 # 38
+    duel_button_pin = 38 # 40
 
     print = True
 

@@ -108,9 +108,9 @@ class AdventurePrinter(object):
         pdf = CharacterSheetPrintout()
         pdf.set_margins(left=16, top=0, right=0)
         pdf.set_auto_page_break(False)
-        pdf.add_page(orientation="P", format=(90, 320))
+        pdf.add_page(orientation="P", format=(90, 260))
         pdf.image(
-            "/home/admin/explorey/printer/resources/charactersheet2.png", 15, 10, 75, 290
+            "/home/admin/explorey/printer/resources/charactersheet3.png", 15, 10, 75, 226
         )
         pdf.set_font("Arial", "B", 16)
         pdf.cell(0, 10, f"Character Sheet", align="C", ln=1)
@@ -169,24 +169,24 @@ class AdventurePrinter(object):
         pdf.cell(left_align, 6)
         pdf.multi_cell(0, 6, f"{character.main_quest}", align="L")
         pdf.cell(75, 1, ln=1)
-        pdf.cell(0, 10, f"Quest Stamps:", align="L", ln=1)
-        pdf.set_font("Arial", "", 9)
-        left_side = 35
-        right_side = 100
-        pdf.cell(left_side, 4, f"Blessing of Onions", align="L")
-        pdf.cell(right_side, 4, f"Blessing of Potatoes", align="L", ln=1)
-        pdf.cell(left_side, 4, f"+3 Sneakiness", align="L")
-        pdf.cell(right_side, 4, f"+3 Craftiness", align="L", ln=1)
-        pdf.cell(left_side, 4, f"+1 Life", align="L")
-        pdf.cell(right_side, 4, f"+1 Life", align="L", ln=1)
-        pdf.cell(75, 12, ln=1)
-        pdf.cell(left_side, 4, f"Blessing of Rutabaga", align="L")
-        pdf.cell(right_side, 4, f"Blessing of Carrots", align="L", ln=1)
-        pdf.cell(left_side, 4, f"+3 Scrappiness", align="L")
-        pdf.cell(right_side, 4, f"+3 Fabulousness", align="L", ln=1)
-        pdf.cell(left_side, 4, f"+1 Life", align="L")
-        pdf.cell(right_side, 4, f"+1 Life", align="L", ln=1)
-        pdf.cell(75, 14, ln=1)
+        # pdf.cell(0, 10, f"Quest Stamps:", align="L", ln=1)
+        # pdf.set_font("Arial", "", 9)
+        # left_side = 35
+        # right_side = 100
+        # pdf.cell(left_side, 4, f"Blessing of Onions", align="L")
+        # pdf.cell(right_side, 4, f"Blessing of Potatoes", align="L", ln=1)
+        # pdf.cell(left_side, 4, f"+3 Sneakiness", align="L")
+        # pdf.cell(right_side, 4, f"+3 Craftiness", align="L", ln=1)
+        # pdf.cell(left_side, 4, f"+1 Life", align="L")
+        # pdf.cell(right_side, 4, f"+1 Life", align="L", ln=1)
+        # pdf.cell(75, 12, ln=1)
+        # pdf.cell(left_side, 4, f"Blessing of Rutabaga", align="L")
+        # pdf.cell(right_side, 4, f"Blessing of Carrots", align="L", ln=1)
+        # pdf.cell(left_side, 4, f"+3 Scrappiness", align="L")
+        # pdf.cell(right_side, 4, f"+3 Fabulousness", align="L", ln=1)
+        # pdf.cell(left_side, 4, f"+1 Life", align="L")
+        # pdf.cell(right_side, 4, f"+1 Life", align="L", ln=1)
+        # pdf.cell(75, 14, ln=1)
         pdf.output(self.tmpCharacterPath, "F")
 
     def __create_result(self, result):

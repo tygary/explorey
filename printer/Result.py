@@ -2,51 +2,6 @@ import random
 
 ITEMS = [
     [
-        "Whiffle Whistle",
-        "You found an item!  A small whistle that emits a faint, melodious tune when blown",
-        "Sneakiness +1",
-    ],
-    [
-        "Tickle Gloves",
-        "You found an item!  A pair of gloves that tickle anyone they touch, causing uncontrollable laughter",
-        "Scrappiness +1",
-    ],
-    [
-        "Goblin Goggles",
-        "You found an item!  Goggles that allow the wearer to see through walls, but only when they have been blessed by a goblin",
-        "Craftiness +1",
-    ],
-    [
-        "Cape of Dramatic Flair",
-        "You found an item!  A flowing cape that billows dramatically even in the absence of wind",
-        "Fabulousness +1",
-    ],
-    [
-        "Bag of Endless Snacks",
-        "You found an item!  A small bag that always produces your favorite snack, no matter how many times it's emptied",
-        "Magical Ability: Infinite Snacking",
-    ],
-    [
-        "Socks of Stealth",
-        "You found an item!  Magical socks that muffle the wearer's footsteps, making them nearly silent",
-        "Sneakiness +2",
-    ],
-    [
-        "Bouncy Boots",
-        "You found an item!  A pair of boots that allow the wearer to jump higher and bounce around like a kangaroo",
-        "Scrappiness +2",
-    ],
-    [
-        "Wand of Whimsy",
-        "You found an item!  A wand that can turn mundane objects into amusing and harmless creatures for a short time",
-        "Craftiness +2",
-    ],
-    [
-        "Charm Bracelet of Charm",
-        "You found an item!  A bracelet that enhances the wearer's charisma, making them more persuasive and charismatic",
-        "Fabulousness +2",
-    ],
-    [
         "Singing Sword",
         "You found an item!  A magical sword that sings catchy tunes while in combat, boosting morale and confusing enemies",
         "Magical Ability: Battle Serenade",
@@ -67,60 +22,305 @@ ITEMS = [
         "Fabulousness +2",
     ],
     [
-        "Invisible Ink Pen",
-        "You found an item!  A pen that writes with invisible ink, which can only be revealed by a magical feather duster",
-        "Magical Ability: Invisible Writing",
+        "Icicle Sword of Tickling",
+        "You found an item! A sword made of ice that, instead of cutting, causes its targets to burst into laughter.",
+        "Scrappiness +4, Special Ability: Tickling Strike"
     ],
     [
-        "Mirror of Ridiculous Reflections",
-        "You found an item!  A mirror that distorts the reflections of those who look into it, making them appear comically exaggerated",
-        "Craftiness +1, Fabulousness +1",
+        "Reindeer Antler Headband of Hyperspeed",
+        "You found an item! A headband with reindeer antlers that gives you the speed of a holiday reindeer.",
+        "Sneakiness +5, Special Effect: Hyperspeed Dash"
     ],
     [
-        "Tik-Tok Timepiece",
-        "You found an item!  A pocket watch that manipulates time in small increments, causing minor time loops and déjà vu moments",
-        "Magical Ability: Time Manipulation - Max 5 seconds",
+        "Hot Cocoa Bomb of Warm Fuzziness",
+        "You found an item! A throwable cocoa bomb that, upon explosion, makes everyone in the vicinity feel cozy and happy.",
+        "Fabulousness +6, Special Ability: Area of Effect Coziness"
     ],
     [
-        "Hat of Hilarity",
-        "You found an item!  A hat that tells funny jokes and humorous anecdotes when worn, creating a jovial atmosphere",
-        "Fabulousness +1",
+        "Snow Globe of Endless Winter",
+        "You found an item! A magical snow globe that, when shaken, summons a mini snowstorm in the immediate area.",
+        "Craftiness +7, Magical Ability: Summon Snowstorm"
     ],
     [
-        "Sneaky Shoes",
-        "You found an item!  A pair of shoes that muffle all sounds when the wearer is sneaking, but also emit an embarrassing squeak when walking normally",
-        "Sneakiness +2, Faulousness -1",
+        "Frost Drake Mount",
+        "You found an item! A miniature frost drake that grows into a rideable creature, capable of gliding over snow and ice.",
+        "Sneakiness +3, Special Ability: Ice Gliding"
     ],
     [
-        "Portable Cloud Pillow",
-        "You found an item!  A magical pillow that creates a fluffy cloud to rest on, providing comfort and relaxation anywhere",
+        "Lantern of Northern Lights",
+        "You found an item! A lantern that glows with the colors of the aurora borealis, illuminating even the darkest winter nights.",
+        "Craftiness +4, Magical Ability: Aurora Illumination"
+    ],
+    [
+        "Mystery Gift of Wonder",
+        "You found an item! A beautifully wrapped present that, when opened, reveals a magical pineapple.",
+        "Each bite of the pineapple is one hit of LSD that hits instantaneously.  Special Ability: Dose with LSD"
+    ],
+    [
+        "Blizzard Blade",
+        "You found an item! A sword forged from eternal ice, capable of summoning fierce snowstorms with each swing.",
+        "Scrappiness +5, Special Ability: Snowstorm Summoning"
+    ],
+    [
+        "Subzero Tunneling Gauntlets",
+        "You found an item! Gauntlets that allow the wearer to effortlessly burrow through snow and ice.",
+        "Sneakiness +4, Special Ability: Ice Burrowing"
+    ],
+    [
+        "Enchanted Gingerbread",
+        "You found an item! A delectable gingerbread cookie that boosts your strength and agility when consumed.",
+        "Scrappiness +2, Agility +2"
+    ],
+    [
+        "Frostfire Bow",
+        "You found an item! A mystical bow that shoots arrows of ice and flame, alternating between freezing and burning effects.",
+        "Scrappiness +3, Special Ability: Frostfire Arrows"
+    ],
+    [
+        "Avalanche Axe",
+        "You found an item! A mighty axe that can summon a small avalanche when struck on the ground.",
+        "Scrappiness +4, Special Ability: Mini-Avalanche"
+    ],
+    [
+        "Blizzard Blade",
+        "You found an item! A sword encased in a permanent blizzard, chilling the air and frosting anything it cuts.",
+        "Scrappiness +5, Special Effect: Frost Cut"
+    ],
+    [
+        "Glacial Gauntlets",
+        "You found an item! Gauntlets that freeze anything they touch, turning enemies into ice sculptures.",
+        "Scrappiness +4, Special Ability: Touch of Ice"
+    ],
+    [
+        "Thunderous Snow Cannon",
+        "You found an item! A cannon that launches thunderous balls of packed snow, causing shockwaves on impact.",
+        "Scrappiness +6, Special Ability: Snow Shockwaves"
+    ],
+    [
+        "Icy Wind Whip",
+        "You found an item! A whip that slashes through the air with gusts of icy wind, cutting with cold precision.",
+        "Scrappiness +3, Special Effect: Icy Gust Slash"
+    ],
+    [
+        "Endless Snowball",
+        "You found an item! A snowball that never melts but is too cold to hold for more than a second.",
+        "Ability: Endless Cold Touch"
+    ],
+    [
+        "Inflatable Reindeer",
+        "You found an item! An inflatable reindeer that does nothing but float away when released.",
+        "Ability: Runaway Reindeer"
+    ],
+    [
+        "Ugly Holiday Sweater Detector",
+        "You found an item! A device that beeps loudly when in the presence of ugly holiday sweaters.",
+        "Ability: Sweater Alert"
+    ],
+    [
+        "Bottomless Hot Chocolate Mug",
+        "You found an item! A mug that refills with hot chocolate, but it's always too hot to drink.",
+        "Ability: Perpetually Hot Chocolate"
+    ],
+    [
+        "Singing Mistletoe",
+        "You found an item! Mistletoe that sings off-key holiday tunes when stood under.",
+        "Ability: Off-Key Caroling"
+    ],
+    [
+        "Self-Knitting Scarf",
+        "You found an item! A scarf that knits itself, but never stops, becoming absurdly long and impractical.",
+        "Ability: Endless Knitting"
+    ],
+    [
+        "Snowman Hat of Silliness",
+        "You found an item! A hat that, when worn, makes you think and act like a snowman.",
+        "Ability: Snowman Impersonation"
+    ],
+    [
+        "Frosty's Button Nose",
+        "You found an item! A button nose that makes your nose too slippery for any glasses to stay on.",
+        "Ability: Slippery Nose"
+    ],
+    [
+        "Gingerbread House Blueprint",
+        "You found an item! A blueprint for a gingerbread house that always collapses when built.",
+        "Ability: Collapsing Construction"
+    ],
+    [
+        "Tangled Holiday Lights",
+        "You found an item! A bundle of holiday lights that perpetually tangles itself no matter how carefully stored.",
+        "Ability: Eternal Tangle"
+    ],
+    [
+        "Polar Bear's Whispering Horn",
+        "You found an item! A horn that emits a sound, calming wild polar bears and arctic creatures.",
+        "Ability: Arctic Animal Calming, Sneakiness +2"
+    ],
+    [
+        "Frost Yeti Repellent Spray",
+        "You found an item! A spray that keeps frost yetis at bay but seems to attract snow bunnies.",
+        "Ability: Frost Yeti Repulsion, Sneakiness +3"
+    ],
+    [
+        "Snow Leopard Cloak",
+        "You found an item! A cloak that mimics the fur pattern of snow leopards, perfect for blending into snowy landscapes.",
+        "Sneakiness +4, Ability: Snow Camouflage"
+    ],
+    [
+        "Ice Dragon's Whispering Crystal",
+        "You found an item! A crystal that lets you communicate with ice dragons and other frosty creatures.",
+        "Ability: Ice Dragon Communication, Craftiness +2"
+    ],
+    [
+        "Wendigo's Warming Lantern",
+        "You found an item! A lantern that soothes wendigos and other cold-based monsters.",
+        "Ability: Wendigo Soothing, Fabulousness +2"
+    ],
+    [
+        "Glacial Serpent Flute",
+        "You found an item! A flute that charms frost serpents and other icy reptilian creatures.",
+        "Ability: Glacial Serpent Charm, Craftiness +3"
+    ],
+    [
+        "Snow Owl's Feathered Hat",
+        "You found an item! A hat made of snow owl feathers that attracts these wise winter birds.",
+        "Ability: Snow Owl Attraction, Scrappiness +2"
+    ],
+    [
+        "Salmander's Frostfire Talisman",
+        "You found an item! A talisman that protects from the icy flames of salmanders and other frostfire creatures.",
+        "Ability: Frostfire Protection, Scrappiness +4"
+    ],
+    [
+        "Frost Gorgon's Goggles",
+        "You found an item! Goggles that protect from the freezing gaze of frost gorgons and similar icy creatures.",
+        "Ability: Frost Gorgon Gaze Protection, Craftiness +3"
+    ],
+    [
+        "Ice Labyrinth Map",
+        "You found an item! A magical map that helps navigate icy labyrinths created by winter minotaurs or ice mages.",
+        "Ability: Ice Maze Navigation, Craftiness +5"
+    ],
+    # [
+    #     "Whiffle Whistle",
+    #     "You found an item!  A small whistle that emits a faint, melodious tune when blown",
+    #     "Sneakiness +1",
+    # ],
+    # [
+    #     "Tickle Gloves",
+    #     "You found an item!  A pair of gloves that tickle anyone they touch, causing uncontrollable laughter",
+    #     "Scrappiness +1",
+    # ],
+    [
+        "Goblin Goggles",
+        "You found an item!  Goggles that allow the wearer to see through walls, but only when they have been blessed by a goblin",
         "Craftiness +1",
     ],
+    # [
+    #     "Cape of Dramatic Flair",
+    #     "You found an item!  A flowing cape that billows dramatically even in the absence of wind",
+    #     "Fabulousness +1",
+    # ],
     [
-        "Cape of Confusion",
-        "You found an item!  A cape that shrouds the wearer in an illusion of multiple copies, making it difficult for enemies to determine the real one",
-        "Magical Ability: Illusory Clones - Max 2 clones for 1 minute",
+        "Bag of Endless Snacks",
+        "You found an item!  A small bag that always produces your favorite snack, no matter how many times it's emptied",
+        "Magical Ability: Infinite Snacking",
     ],
-    [
-        "Giggling Gauntlets",
-        "You found an item!  Magical gauntlets that emit uncontrollable giggles when the wearer clenches their fists",
-        "Scrappiness +1",
-    ],
-    [
-        "Quill of Quirkiness",
-        "You found an item!  A quill that writes with its own unique personality, adding witty remarks and sarcastic comments to anything written",
-        "Craftiness +1",
-    ],
-    [
-        "Cloak of the Chameleon",
-        "You found an item!  A cloak that changes its color to match the surroundings, but occasionally gets stuck in an embarrassing pattern",
-        "Sneakiness +1",
-    ],
-    [
-        "Dazzling Diva Tiara",
-        "You found an item!  A tiara that enhances the wearer's stage presence, making them shine brighter and captivating their audience",
-        "Fabulousness +1",
-    ],
+    # [
+    #     "Socks of Stealth",
+    #     "You found an item!  Magical socks that muffle the wearer's footsteps, making them nearly silent",
+    #     "Sneakiness +2",
+    # ],
+    # [
+    #     "Bouncy Boots",
+    #     "You found an item!  A pair of boots that allow the wearer to jump higher and bounce around like a kangaroo",
+    #     "Scrappiness +2",
+    # ],
+    # [
+    #     "Wand of Whimsy",
+    #     "You found an item!  A wand that can turn mundane objects into amusing and harmless creatures for a short time",
+    #     "Craftiness +2",
+    # ],
+    # [
+    #     "Charm Bracelet of Charm",
+    #     "You found an item!  A bracelet that enhances the wearer's charisma, making them more persuasive and charismatic",
+    #     "Fabulousness +2",
+    # ],
+    # [
+    #     "Singing Sword",
+    #     "You found an item!  A magical sword that sings catchy tunes while in combat, boosting morale and confusing enemies",
+    #     "Magical Ability: Battle Serenade",
+    # ],
+    # [
+    #     "Gloves of Butterfingers",
+    #     "You found an item!  A pair of gloves that make the wearer incredibly clumsy, but also surprisingly good at juggling",
+    #     "Sneakiness -1, Craftiness +1",
+    # ],
+    # [
+    #     "Wand of Wackiness",
+    #     "You found an item!  A wand that creates amusing and unpredictable magical effects when waved around",
+    #     "Magical Ability: Random Wackiness - Roll a d6.  If you roll an even number you get +3 to the next roll.  If you roll an odd number you get -3 to the next roll.",
+    # ],
+    # [
+    #     "Goblet of Bottomless Laughter",
+    #     "You found an item!  A goblet that fills with laughter instead of liquid, spreading joy and amusement to those who drink from it",
+    #     "Fabulousness +2",
+    # ],
+    # [
+    #     "Invisible Ink Pen",
+    #     "You found an item!  A pen that writes with invisible ink, which can only be revealed by a magical feather duster",
+    #     "Magical Ability: Invisible Writing",
+    # ],
+    # [
+    #     "Mirror of Ridiculous Reflections",
+    #     "You found an item!  A mirror that distorts the reflections of those who look into it, making them appear comically exaggerated",
+    #     "Craftiness +1, Fabulousness +1",
+    # ],
+    # [
+    #     "Tik-Tok Timepiece",
+    #     "You found an item!  A pocket watch that manipulates time in small increments, causing minor time loops and déjà vu moments",
+    #     "Magical Ability: Time Manipulation - Max 5 seconds",
+    # ],
+    # [
+    #     "Hat of Hilarity",
+    #     "You found an item!  A hat that tells funny jokes and humorous anecdotes when worn, creating a jovial atmosphere",
+    #     "Fabulousness +1",
+    # ],
+    # [
+    #     "Sneaky Shoes",
+    #     "You found an item!  A pair of shoes that muffle all sounds when the wearer is sneaking, but also emit an embarrassing squeak when walking normally",
+    #     "Sneakiness +2, Faulousness -1",
+    # ],
+    # [
+    #     "Portable Cloud Pillow",
+    #     "You found an item!  A magical pillow that creates a fluffy cloud to rest on, providing comfort and relaxation anywhere",
+    #     "Craftiness +1",
+    # ],
+    # [
+    #     "Cape of Confusion",
+    #     "You found an item!  A cape that shrouds the wearer in an illusion of multiple copies, making it difficult for enemies to determine the real one",
+    #     "Magical Ability: Illusory Clones - Max 2 clones for 1 minute",
+    # ],
+    # [
+    #     "Giggling Gauntlets",
+    #     "You found an item!  Magical gauntlets that emit uncontrollable giggles when the wearer clenches their fists",
+    #     "Scrappiness +1",
+    # ],
+    # [
+    #     "Quill of Quirkiness",
+    #     "You found an item!  A quill that writes with its own unique personality, adding witty remarks and sarcastic comments to anything written",
+    #     "Craftiness +1",
+    # ],
+    # [
+    #     "Cloak of the Chameleon",
+    #     "You found an item!  A cloak that changes its color to match the surroundings, but occasionally gets stuck in an embarrassing pattern",
+    #     "Sneakiness +1",
+    # ],
+    # [
+    #     "Dazzling Diva Tiara",
+    #     "You found an item!  A tiara that enhances the wearer's stage presence, making them shine brighter and captivating their audience",
+    #     "Fabulousness +1",
+    # ],
     [
         "Enchanted Feather Duster",
         "You found an item!  A feather duster that reveals hidden messages and secrets when used to brush away dust",
@@ -131,161 +331,161 @@ ITEMS = [
         "You found an item!  A potion that causes the drinker to experience a random comical physical transformation for a short duration",
         "Magical Ability: Comical Transformations - Roll a D6.  DM decides what you transform into based up on the number rolled.",
     ],
-    [
-        "Cloak of Unseen Antics",
-        "You found an item!  A cloak that grants the wearer the ability to turn invisible, but also emits sporadic bursts of colorful confetti",
-        "Sneakiness +2",
-    ],
-    [
-        "Wand of Whimsical Whistling",
-        "You found an item!  A wand that produces catchy tunes when waved, causing those nearby to uncontrollably tap their feet and hum along",
-        "Craftiness +2",
-    ],
+    # [
+    #     "Cloak of Unseen Antics",
+    #     "You found an item!  A cloak that grants the wearer the ability to turn invisible, but also emits sporadic bursts of colorful confetti",
+    #     "Sneakiness +2",
+    # ],
+    # [
+    #     "Wand of Whimsical Whistling",
+    #     "You found an item!  A wand that produces catchy tunes when waved, causing those nearby to uncontrollably tap their feet and hum along",
+    #     "Craftiness +2",
+    # ],
     [
         "Goblet of Endless Nourishment",
         "You found an item!  A goblet that magically refills itself with a hearty and delicious soup, perfect for never-ending feasts",
         "Magical Ability: Infinite Soup",
     ],
-    [
-        "Cape of Clumsy Levitation",
-        "You found an item!  A cape that allows the wearer to levitate a few feet off the ground but also makes them float in comically erratic directions",
-        "Fabulousness +2, Sneakiness -1",
-    ],
-    [
-        "Jester's Juggling Balls",
-        "You found an item!  A set of colorful juggling balls that never drop when thrown, even by those with no juggling skills",
-        "Scrappiness +1, Craftiness +1",
-    ],
-    [
-        "Chatterbox Amulet",
-        "You found an item!  An amulet that grants the wearer the ability to speak and understand the language of animals, but also makes them talkative and gossip-loving",
-        "Magical Ability: Animal Talk",
-    ],
-    [
-        "Orb of Unpredictable Transformation",
-        "You found an item!  An orb that transforms any object touched into a random, unexpected item for a short time",
-        "Magical Ability: Transformative Chaos",
-    ],
-    [
-        "Laughing Boots",
-        "You found an item!  Boots that make a distinctive giggling sound with each step, causing everyone nearby to chuckle",
-        "Sneakiness +1, Fabulousness +1",
-    ],
-    [
-        "Cane of Comical Conjuring",
-        "You found an item!  A cane that, when tapped on the ground, produces amusing and harmless magical effects, like squirting water or confetti showers",
-        "Craftiness +2",
-    ],
-    [
-        "Quizzical Crystal Ball",
-        "You found an item!  A crystal ball that answers questions with riddles and enigmatic messages, rather than straightforward answers",
-        "Magical Ability: Riddling Divination",
-    ],
-    [
-        "Gloves of Mischievous Manipulation",
-        "You found an item!  A pair of gloves that allow the wearer to subtly influence the thoughts and actions of others, but also cause harmless pranks to occur around them",
-        "Craftiness +2",
-    ],
-    [
-        "Whistle of Wandering",
-        "You found an item!  A magical whistle that, when blown, summons a playful breeze that guides you to the nearest hidden treasure",
-        "Magical Ability: Treasure Tracing",
-    ],
-    [
-        "Spoon of Spontaneous Spilling",
-        "You found an item!  A spoon that magically causes the food it touches to spill and splatter uncontrollably",
-        "Craftiness +1, -1 Sneakiness",
-    ],
-    [
-        "Shrieking Shoes",
-        "You found an item!  A pair of shoes that emit a loud, ear-piercing shriek with every step, making sneaking nearly impossible.  But they're so stylish!",
-        "Sneakiness -2, Fabulousness +2",
-    ],
-    [
-        "Ring of Misplaced Trinkets",
-        "You found an item!  A ring that constantly causes small objects in the vicinity to disappear and reappear in unexpected places",
-        "Craftiness +1, Fabulousness -1",
-    ],
+    # [
+    #     "Cape of Clumsy Levitation",
+    #     "You found an item!  A cape that allows the wearer to levitate a few feet off the ground but also makes them float in comically erratic directions",
+    #     "Fabulousness +2, Sneakiness -1",
+    # ],
+    # [
+    #     "Jester's Juggling Balls",
+    #     "You found an item!  A set of colorful juggling balls that never drop when thrown, even by those with no juggling skills",
+    #     "Scrappiness +1, Craftiness +1",
+    # ],
+    # [
+    #     "Chatterbox Amulet",
+    #     "You found an item!  An amulet that grants the wearer the ability to speak and understand the language of animals, but also makes them talkative and gossip-loving",
+    #     "Magical Ability: Animal Talk",
+    # ],
+    # [
+    #     "Orb of Unpredictable Transformation",
+    #     "You found an item!  An orb that transforms any object touched into a random, unexpected item for a short time",
+    #     "Magical Ability: Transformative Chaos",
+    # ],
+    # [
+    #     "Laughing Boots",
+    #     "You found an item!  Boots that make a distinctive giggling sound with each step, causing everyone nearby to chuckle",
+    #     "Sneakiness +1, Fabulousness +1",
+    # ],
+    # [
+    #     "Cane of Comical Conjuring",
+    #     "You found an item!  A cane that, when tapped on the ground, produces amusing and harmless magical effects, like squirting water or confetti showers",
+    #     "Craftiness +2",
+    # ],
+    # [
+    #     "Quizzical Crystal Ball",
+    #     "You found an item!  A crystal ball that answers questions with riddles and enigmatic messages, rather than straightforward answers",
+    #     "Magical Ability: Riddling Divination",
+    # ],
+    # [
+    #     "Gloves of Mischievous Manipulation",
+    #     "You found an item!  A pair of gloves that allow the wearer to subtly influence the thoughts and actions of others, but also cause harmless pranks to occur around them",
+    #     "Craftiness +2",
+    # ],
+    # [
+    #     "Whistle of Wandering",
+    #     "You found an item!  A magical whistle that, when blown, summons a playful breeze that guides you to the nearest hidden treasure",
+    #     "Magical Ability: Treasure Tracing",
+    # ],
+    # [
+    #     "Spoon of Spontaneous Spilling",
+    #     "You found an item!  A spoon that magically causes the food it touches to spill and splatter uncontrollably",
+    #     "Craftiness +1, -1 Sneakiness",
+    # ],
+    # [
+    #     "Shrieking Shoes",
+    #     "You found an item!  A pair of shoes that emit a loud, ear-piercing shriek with every step, making sneaking nearly impossible.  But they're so stylish!",
+    #     "Sneakiness -2, Fabulousness +2",
+    # ],
+    # [
+    #     "Ring of Misplaced Trinkets",
+    #     "You found an item!  A ring that constantly causes small objects in the vicinity to disappear and reappear in unexpected places",
+    #     "Craftiness +1, Fabulousness -1",
+    # ],
     [
         "Belt of Unintentional Inflation",
         "You found an item!  A belt that, when worn, causes the wearer to slowly inflate like a balloon until someone lets the air out",
         "Fabulousness +1, Scrappiness -1",
     ],
-    [
-        "Socks of Slipping",
-        "You found an item!  But it's cursed! A pair of socks that make the wearer's feet incredibly slippery, resulting in frequent accidental falls",
-        "Sneakiness -1",
-    ],
-    [
-        "Cursed Comb",
-        "You found an item!  But it's cursed! A comb that tangles hair into impossible knots and makes it resistant to any attempts at styling",
-        "Fabulousness -1",
-    ],
-    [
-        "Jar of Never-Ending Sneezes",
-        "You found an item!  A jar that, when opened, releases an endless stream of comically loud and frequent sneezes",
-        "Scrappiness +1, Craftiness -1",
-    ],
-    [
-        "Ring of the Clumsy Juggler",
-        "You found an item!  A ring that compels the wearer to juggle random objects whenever they feel nervous or anxious",
-        "Scrappiness +1, Sneakiness -1",
-    ],
+    # [
+    #     "Socks of Slipping",
+    #     "You found an item!  But it's cursed! A pair of socks that make the wearer's feet incredibly slippery, resulting in frequent accidental falls",
+    #     "Sneakiness -1",
+    # ],
+    # [
+    #     "Cursed Comb",
+    #     "You found an item!  But it's cursed! A comb that tangles hair into impossible knots and makes it resistant to any attempts at styling",
+    #     "Fabulousness -1",
+    # ],
+    # [
+    #     "Jar of Never-Ending Sneezes",
+    #     "You found an item!  A jar that, when opened, releases an endless stream of comically loud and frequent sneezes",
+    #     "Scrappiness +1, Craftiness -1",
+    # ],
+    # [
+    #     "Ring of the Clumsy Juggler",
+    #     "You found an item!  A ring that compels the wearer to juggle random objects whenever they feel nervous or anxious",
+    #     "Scrappiness +1, Sneakiness -1",
+    # ],
     [
         "Bag of Unreliable Holding",
         "You found an item!  A bag with a tendency to randomly teleport or spit out items when least expected",
         "Anytime you want to use an item, roll a D6.  Roll a 1 - Lose that item.  Roll 2-5 - Use the item like normal.  Roll 6 - press the Prize button and you pull out that item instead.",
     ],
-    [
-        "Cursed Mirror",
-        "You found an item!  A mirror that reflects the viewer's image with amusing distortions, making them appear silly and exaggerated",
-        "Fabulousness +1",
-    ],
-    [
-        "Chattering Chalice",
-        "You found an item!  A chalice that talks incessantly, narrating everything happening around it in a comically exaggerated manner",
-        "Craftiness +1, Sneakiness -1",
-    ],
-    [
-        "Gloves of Butterfingers",
-        "You found an item!  A pair of gloves that make the wearer incredibly clumsy, causing them to frequently drop and fumble objects",
-        "Scrappiness -2",
-    ],
-    [
-        "Cloak of Unintentional Invisibility",
-        "You found an item!  A cloak that turns the wearer invisible, but only when nobody is looking in their direction",
-        "Sneakiness +1, Fabulousness -1",
-    ],
-    [
-        "Amulet of Awkward Encounters",
-        "You found an item!  An amulet that attracts embarrassing and awkward situations, making social interactions more difficult",
-        "Fabulousness -2",
-    ],
-    [
-        "Cursed Dice",
-        "You found an item!  But it's cursed!  A set of dice that always roll low numbers, making success in games of chance nearly impossible",
-        "Scrappiness -1",
-    ],
-    [
-        "Wand of Whacky Wonders",
-        "You found an item!  A wand that produces wild and uncontrollable magical effects, often with unintended and chaotic consequences",
-        "Roll a d6 whenever you use magic.  1-2 - It fails spectacularly. 3-4 - It works normally. 5-6 - Whacky magical effects happen in your favor.",
-    ],
-    [
-        "Cloak of Magnetism",
-        "You found an item!  But it's cursed!  A cloak that attracts random metallic objects, causing them to stick to the wearer at the most inconvenient times",
-        "Sneakiness -1",
-    ],
-    [
-        "Hat of Distracting Hats",
-        "You found an item!  A hat that spawns multiple smaller hats that orbit around the wearer's head, creating a distracting spectacle",
-        "Fabulousness +1",
-    ],
-    [
-        "Goblin's Grin Mask",
-        "You found an item!  A mask that permanently freezes the wearer's face into a mischievous goblin grin, making it difficult to be taken seriously in serious situations",
-        "Fabulousness +1, Scrappiness -1",
-    ],
+    # [
+    #     "Cursed Mirror",
+    #     "You found an item!  A mirror that reflects the viewer's image with amusing distortions, making them appear silly and exaggerated",
+    #     "Fabulousness +1",
+    # ],
+    # [
+    #     "Chattering Chalice",
+    #     "You found an item!  A chalice that talks incessantly, narrating everything happening around it in a comically exaggerated manner",
+    #     "Craftiness +1, Sneakiness -1",
+    # ],
+    # [
+    #     "Gloves of Butterfingers",
+    #     "You found an item!  A pair of gloves that make the wearer incredibly clumsy, causing them to frequently drop and fumble objects",
+    #     "Scrappiness -2",
+    # ],
+    # [
+    #     "Cloak of Unintentional Invisibility",
+    #     "You found an item!  A cloak that turns the wearer invisible, but only when nobody is looking in their direction",
+    #     "Sneakiness +1, Fabulousness -1",
+    # ],
+    # [
+    #     "Amulet of Awkward Encounters",
+    #     "You found an item!  An amulet that attracts embarrassing and awkward situations, making social interactions more difficult",
+    #     "Fabulousness -2",
+    # ],
+    # [
+    #     "Cursed Dice",
+    #     "You found an item!  But it's cursed!  A set of dice that always roll low numbers, making success in games of chance nearly impossible",
+    #     "Scrappiness -1",
+    # ],
+    # [
+    #     "Wand of Whacky Wonders",
+    #     "You found an item!  A wand that produces wild and uncontrollable magical effects, often with unintended and chaotic consequences",
+    #     "Roll a d6 whenever you use magic.  1-2 - It fails spectacularly. 3-4 - It works normally. 5-6 - Whacky magical effects happen in your favor.",
+    # ],
+    # [
+    #     "Cloak of Magnetism",
+    #     "You found an item!  But it's cursed!  A cloak that attracts random metallic objects, causing them to stick to the wearer at the most inconvenient times",
+    #     "Sneakiness -1",
+    # ],
+    # [
+    #     "Hat of Distracting Hats",
+    #     "You found an item!  A hat that spawns multiple smaller hats that orbit around the wearer's head, creating a distracting spectacle",
+    #     "Fabulousness +1",
+    # ],
+    # [
+    #     "Goblin's Grin Mask",
+    #     "You found an item!  A mask that permanently freezes the wearer's face into a mischievous goblin grin, making it difficult to be taken seriously in serious situations",
+    #     "Fabulousness +1, Scrappiness -1",
+    # ],
     [
         "Fairy in a Bottle",
         "You found an item!  A bottle that contains a fairy that can save you from death!",
@@ -310,96 +510,157 @@ PUNISHMENTS = [
         "You escape unharmed.",
         "You live to quest another day.",
     ],
-    [
-        "Loudspeaker Voice",
-        "You are cursed!  Your voice becomes amplified to a deafening volume, causing everything they say to be heard by everyone within a mile.",
-        "-2 Sneakiness",
+[
+        "Boots of Endless Slipping",
+        "You are cursed! Your boots are enchanted to slip on any surface, making it comically difficult to walk without sliding.",
+        "-2 Sneakiness, Constant Slipping"
     ],
+    [
+        "Hat of Infinite Snowfall",
+        "You are cursed! Your hat now produces a never-ending flurry of snow above your head, making you perpetually cold and damp.",
+        "-1 Fabulousness, Permanent Snow Cloud"
+    ],
+    [
+        "Unlucky Rabbit's Foot",
+        "You find a rabbit's foot that seems to bring misfortune instead of luck. Small, unfortunate events seem to follow you wherever you go.",
+        "-1 Scrappiness, Minor Misfortunes Occur Regularly"
+    ],
+    [
+        "Chattering Teeth Charm",
+        "You are cursed! A charm that causes your teeth to chatter loudly in the cold, making stealth nearly impossible.",
+        "-2 Sneakiness, Constant Teeth Chattering"
+    ],
+    [
+        "Invisible Backpack",
+        "You are cursed! Your backpack turns invisible, and you constantly forget where you put it, often leaving your items behind.",
+        "-2 Craftiness, Lose Items Regularly"
+    ],
+    [
+        "Echoing Voice Potion",
+        "You accidentally drink a potion that causes your voice to echo loudly, making it hard to whisper or speak discreetly.",
+        "-3 Sneakiness, Permanent Echoing Voice"
+    ],
+    [
+        "Snowstorm Hat",
+        "You are cursed! Your hat triggers a personal snowstorm that follows you, obscuring vision and soaking you constantly.",
+        "-3 Sneakiness, Constant Personal Snowstorm"
+    ],
+    [
+        "Icicle Shoes",
+        "You are cursed! Your shoes are replaced with slippery icicles, making it comically difficult to walk without sliding.",
+        "-2 Scrappiness, Perpetual Sliding"
+    ],
+    [
+        "Frost Breath",
+        "You are cursed! Your breath turns frosty, visibly revealing your location in cold air.",
+        "-3 Sneakiness, Visible Frosty Breath"
+    ],
+    [
+        "Ever-Melting Gloves",
+        "You are cursed! Your gloves perpetually melt snow, leaving wet trails wherever you go.",
+        "-2 Sneakiness, Wet Trail Leaving"
+    ],
+    [
+        "Jingle Bell Anklets",
+        "You are cursed! Anklets that jingle loudly with every step, making stealth nearly impossible.",
+        "-3 Sneakiness, Constant Jingle Noise"
+    ],
+    [
+        "Ice Patch Summoner",
+        "You are cursed! You unintentionally create slippery ice patches wherever you walk, causing frequent falls.",
+        "-2 Scrappiness, Creates Slippery Ice Patches"
+    ],
+
+    # [
+    #     "Loudspeaker Voice",
+    #     "You are cursed!  Your voice becomes amplified to a deafening volume, causing everything they say to be heard by everyone within a mile.",
+    #     "-2 Sneakiness",
+    # ],
     [
         "Game Show Voice",
         "You are cursed!  Your voice becomes permanently altered to the voice of a Game Show Host.",
         "+1 D6 to any roll when using the Game Show Voice. -1 D6 if you do not.",
     ],
-    [
-        "Curse of the Bumbling Blunder",
-        "You are cursed!  Your future attempts at being sneaky turn into a series of clumsy and noisy mishaps.",
-        "-2 Sneakiness",
-    ],
-    [
-        "Forgetful Fingers",
-        "You are cursed!  Your hands become unusually uncoordinated, resulting in a string of failed attempts at scrappy actions.",
-        "-2 Scrappiness",
-    ],
-    [
-        "Slippery Slope",
-        "You are cursed!  Your sneaky maneuvers are hindered by an unfortunate tendency to slip and slide, making them prone to comedic falls.",
-        "-2 Sneakiness",
-    ],
-    [
-        "Pratfall Master",
-        "You are cursed!  Your scrappy actions often result in them tripping, stumbling, and performing unintentional acrobatic feats.",
-        "-2 Scrappiness, +1 Fabulousness",
-    ],
-    [
-        "Crafting Clumsiness",
-        "You are cursed!  No matter how hard the you try, your crafty creations always end up being comically off-balance or structurally unsound.",
-        "-2 Craftiness",
-    ],
+    # [
+    #     "Curse of the Bumbling Blunder",
+    #     "You are cursed!  Your future attempts at being sneaky turn into a series of clumsy and noisy mishaps.",
+    #     "-2 Sneakiness",
+    # ],
+    # [
+    #     "Forgetful Fingers",
+    #     "You are cursed!  Your hands become unusually uncoordinated, resulting in a string of failed attempts at scrappy actions.",
+    #     "-2 Scrappiness",
+    # ],
+    # [
+    #     "Slippery Slope",
+    #     "You are cursed!  Your sneaky maneuvers are hindered by an unfortunate tendency to slip and slide, making them prone to comedic falls.",
+    #     "-2 Sneakiness",
+    # ],
+    # [
+    #     "Pratfall Master",
+    #     "You are cursed!  Your scrappy actions often result in them tripping, stumbling, and performing unintentional acrobatic feats.",
+    #     "-2 Scrappiness, +1 Fabulousness",
+    # ],
+    # [
+    #     "Crafting Clumsiness",
+    #     "You are cursed!  No matter how hard the you try, your crafty creations always end up being comically off-balance or structurally unsound.",
+    #     "-2 Craftiness",
+    # ],
     [
         "Mischievous Curse",
         "You are cursed!  You stumble into a cursed mushroom patch and are now afflicted with a mischievous curse. Your voice can only create silly sound effects. ",
         "Speak only with silly sound effects",
     ],
-    [
-        "Gravity Shuffle",
-        "You are cursed!  You accidentally trigger a magical device that alters gravity in your immediate vicinity. Now, whenever you move, you experience unpredictable changes in gravity that make your movements awkward and uncoordinated.",
-        "-2 Scrappiness",
-    ],
-    [
-        "Clumsy Potion",
-        "You are cursed!  While rummaging through an box, you accidentally knock over a vial labeled 'Clumsy Elixir.' As you inhale the fumes, you suddenly find yourself becoming incredibly clumsy, causing frequent mishaps and dropped items.",
-        "-2 Craftiness",
-    ],
-    [
-        "Tickle Curse",
-        "You are cursed!  A mischievous sprite decides to play a prank on you by casting a tickle curse. From now on, at random intervals, you uncontrollably burst into fits of uncontrollable laughter, making it difficult to concentrate on tasks.",
-        "-2 Craftiness",
-    ],
-    [
-        "Fashion Disaster",
-        "You are cursed!  You unknowingly put on a cursed garment that causes your clothing to become mismatched and outlandish. This makes it challenging to maintain a fabulous appearance and leaves others questioning your sense of style.",
-        "-2 Fabulousness",
-    ],
-    [
-        "Bewitched Shadows",
-        "You are cursed!  You inadvertently stumble into an enchanted grove where your shadow takes on a life of its own. It becomes mischievous and frequently sabotages your sneaky attempts, making it difficult to remain unnoticed.",
-        "-2 Sneakiness",
-    ],
-    [
-        "Potion of Uncontrollable Giggles",
-        "You are cursed!  You mistakenly ingest a potion meant for a giggling competition, causing you to burst into uncontrollable fits of giggles at inappropriate moments. This makes it difficult to maintain a serious demeanor or execute sneaky actions.",
-        "-2 Sneakiness",
-    ],
-    [
-        "Squeaky Shoes",
-        "You are cursed!  As you step on an ancient trap, your shoes magically transform into squeaky toys. Your attempts at stealth now draw attention due to the constant squeaking sound they emit.",
-        "-2 Sneakiness",
-    ],
-    [
-        "Butterfly Whispers",
-        "You are cursed!  An enchanted butterfly lands on your shoulder and whispers distracting and nonsensical information into your ear. Its constant chatter hampers your concentration, making it harder to execute sneaky actions.",
-        "-2 Sneakiness",
-    ],
-    [
-        "Singing Spellbook",
-        "You are cursed!  While exploring a magical library, you inadvertently open a book that contains a singing spell. The spellbook now insists on serenading you at every opportunity, causing distractions and making it challenging to focus on tasks.",
-        "-2 Craftiness",
-    ],
-    [
-        "Inflated Ego",
-        "You are cursed!  You stumble upon a magical artifact that temporarily inflates your ego to enormous proportions. Your arrogance hampers your ability to work well with others, leading to reduced scrappiness in team interactions.",
-        "-2 Scrappiness",
-    ],
+    # [
+    #     "Gravity Shuffle",
+    #     "You are cursed!  You accidentally trigger a magical device that alters gravity in your immediate vicinity. Now, whenever you move, you experience unpredictable changes in gravity that make your movements awkward and uncoordinated.",
+    #     "-2 Scrappiness",
+    # ],
+    # [
+    #     "Clumsy Potion",
+    #     "You are cursed!  While rummaging through an box, you accidentally knock over a vial labeled 'Clumsy Elixir.' As you inhale the fumes, you suddenly find yourself becoming incredibly clumsy, causing frequent mishaps and dropped items.",
+    #     "-2 Craftiness",
+    # ],
+    # [
+    #     "Tickle Curse",
+    #     "You are cursed!  A mischievous sprite decides to play a prank on you by casting a tickle curse. From now on, at random intervals, you uncontrollably burst into fits of uncontrollable laughter, making it difficult to concentrate on tasks.",
+    #     "-2 Craftiness",
+    # ],
+    # [
+    #     "Fashion Disaster",
+    #     "You are cursed!  You unknowingly put on a cursed garment that causes your clothing to become mismatched and outlandish. This makes it challenging to maintain a fabulous appearance and leaves others questioning your sense of style.",
+    #     "-2 Fabulousness",
+    # ],
+    # [
+    #     "Bewitched Shadows",
+    #     "You are cursed!  You inadvertently stumble into an enchanted grove where your shadow takes on a life of its own. It becomes mischievous and frequently sabotages your sneaky attempts, making it difficult to remain unnoticed.",
+    #     "-2 Sneakiness",
+    # ],
+    # [
+    #     "Potion of Uncontrollable Giggles",
+    #     "You are cursed!  You mistakenly ingest a potion meant for a giggling competition, causing you to burst into uncontrollable fits of giggles at inappropriate moments. This makes it difficult to maintain a serious demeanor or execute sneaky actions.",
+    #     "-2 Sneakiness",
+    # ],
+    # [
+    #     "Squeaky Shoes",
+    #     "You are cursed!  As you step on an ancient trap, your shoes magically transform into squeaky toys. Your attempts at stealth now draw attention due to the constant squeaking sound they emit.",
+    #     "-2 Sneakiness",
+    # ],
+    # [
+    #     "Butterfly Whispers",
+    #     "You are cursed!  An enchanted butterfly lands on your shoulder and whispers distracting and nonsensical information into your ear. Its constant chatter hampers your concentration, making it harder to execute sneaky actions.",
+    #     "-2 Sneakiness",
+    # ],
+    # [
+    #     "Singing Spellbook",
+    #     "You are cursed!  While exploring a magical library, you inadvertently open a book that contains a singing spell. The spellbook now insists on serenading you at every opportunity, causing distractions and making it challenging to focus on tasks.",
+    #     "-2 Craftiness",
+    # ],
+    # [
+    #     "Inflated Ego",
+    #     "You are cursed!  You stumble upon a magical artifact that temporarily inflates your ego to enormous proportions. Your arrogance hampers your ability to work well with others, leading to reduced scrappiness in team interactions.",
+    #     "-2 Scrappiness",
+    # ],
     [
         "Potion of Avian Transformation",
         "You accidentally drink a potion intended for a bird, causing a sudden and complete transformation into a comical chicken.",
@@ -445,16 +706,16 @@ PUNISHMENTS = [
         "You wear a jester's mask with a hidden curse, causing you to undergo a whimsical and slightly clumsy transformation into a giggling and accident-prone harlequin.",
         "Change your species to Clown.  Does everything have to be a joke to you?",
     ],
-    [
-        "Mystical Mermaid's Scales",
-        "You come into contact with a mystical mermaid's scales, triggering a watery transformation that turns you into a merperson, complete with a fishy tail and aquatic abilities.",
-        "Change your species to Merperson.  You can now breathe underwater!  But you're not very good at walking on land.  -3 Sneakiness.",
-    ],
-    [
-        "The Sneaky Squirrel",
-        "A mischievous squirrel with a penchant for shiny things steals one of your prized possessions right under your nose.",
-        "You lose one item. Cross it out from your character sheet.",
-    ],
+    # [
+    #     "Mystical Mermaid's Scales",
+    #     "You come into contact with a mystical mermaid's scales, triggering a watery transformation that turns you into a merperson, complete with a fishy tail and aquatic abilities.",
+    #     "Change your species to Merperson.  You can now breathe underwater!  But you're not very good at walking on land.  -3 Sneakiness.",
+    # ],
+    # [
+    #     "The Sneaky Squirrel",
+    #     "A mischievous squirrel with a penchant for shiny things steals one of your prized possessions right under your nose.",
+    #     "You lose one item. Cross it out from your character sheet.",
+    # ],
     [
         "The Mysterious Portal",
         "You inadvertently step through a mysterious portal that temporarily disrupts the fabric of reality. When you emerge on the other side, one of your items has vanished into thin air.",
@@ -503,6 +764,26 @@ PUNISHMENTS = [
 ]
 DEATHS = [
     [
+        "Tropical destination vacation accidental death",
+        "To reward yourself for being such an amazing adventurer and doing such cool and great things, you decide you’ve earned yourself a nice tropical vacation to spend the HO HO HO-lidays on a beach in paradise. On Christmas morning, you go down to your hotel lobby for your special Continental breakfast and spot some Lucky Charms cereal….  Your favorite! Well, bad luck for you - you choke on a rainbow marshmallow and die.",
+        "You have lost the adventuring spirit. Lose 1 life or make a new character...",
+    ],
+    [
+        "Goblins need a warm place to sleep, inside your body seems nice",
+        "You find yourself near the North Pole searching for a Coca Cola thieving Polar Bear. Well, the temperature suddenly drops and you and your adventuring party of Goblins are so cold it’s not even cool. One look around and some simple math and the Goblins decide to cut you open Luke Skywalker style and sleep inside you… Saving their lives at the cost of yours.",
+        "You have lost the adventuring spirit. Lose 1 life or make a new character...",
+    ],
+    [
+        "Eggnog Overload",
+        "While enjoying some relaxation time with your adventuring party after a particularly brutal encounter, the rat-wizard conjures up some Eggnog for everyone. In your excitement, you boldly claim you can drink, and I quote, AN UNLIMITED AMOUNT OF EGGNOG because you love it so much. Well, with much cheering and a little peer pressure…. You find out you in fact cannot drink an unlimited amount of eggnog and you die",
+        "You have lost the adventuring spirit. Lose 1 life or make a new character...",
+    ],
+    [
+        "Jingle Bell Distraction",
+        "On a cold night with light snow coming down, you and your party decide to spread the Christmas cheer by caroling in the nearest town. While going through a particularly fantastic rendition of Jingle Bells, you begin to hear a bell ringing somewhere nearby. As your adventuring party dives headfirst into Santa Claus is Coming to Town, you decide to investigate the bell. Bad news - it’s a giant spider who quickly webs you up and begins to suck out your insides while you’re still alive. Now you’re dead.",
+        "You have lost the adventuring spirit. Lose 1 life or make a new character...",
+    ],
+    [
         "Fool's Gold",
         "You stumble upon a hidden chamber filled with what appears to be an enormous treasure hoard. Excitedly, you dive into the pile of gold coins, only to realize it's an illusion. The coins are actually a pit of sharp rocks.",
         "You have died.  Lose 1 life or make a new character...",
@@ -512,11 +793,11 @@ DEATHS = [
         "You come across a seemingly harmless group of adorable munchkins. Unbeknownst to you, they are notorious for their fierce territorial nature. They attack with unexpected ferocity, overwhelming you and ultimately causing your demise.",
         "You have died.  Lose 1 life or make a new character...",
     ],
-    [
-        "Cursed Mirror Maze",
-        "You find yourself trapped in a mirror maze, enchanted with a deadly curse. The mirrors distort reality and disorient you, making it impossible to find your way out. As time passes, you succumb to starvation and exhaustion.",
-        "You have died.  Lose 1 life or make a new character...",
-    ],
+    # [
+    #     "Cursed Mirror Maze",
+    #     "You find yourself trapped in a mirror maze, enchanted with a deadly curse. The mirrors distort reality and disorient you, making it impossible to find your way out. As time passes, you succumb to starvation and exhaustion.",
+    #     "You have died.  Lose 1 life or make a new character...",
+    # ],
     [
         "The Bottomless Pit",
         "In the depths of a dark cavern, you accidentally step onto an illusory surface, plunging into a seemingly endless pit. Despite your best efforts, you fall to your demise, unable to escape the gaping void.",
@@ -532,11 +813,11 @@ DEATHS = [
         "You encounter what appears to be a treasure chest filled with riches. Unfortunately, it's a cleverly disguised mimic that clamps its jaws around you, draining your life force until your body succumbs to the relentless assault.",
         "You have died.  Lose 1 life or make a new character...",
     ],
-    [
-        "With the Herd",
-        "You run away from the party and get lost in the woods.  You stumble upon a quaint cow farm.  You decide to stay and live with the cows.  You are now a cow.",
-        "You have lost the adventuring spirit.  Lose 1 life or make a new character...",
-    ],
+    # [
+    #     "With the Herd",
+    #     "You run away from the party and get lost in the woods.  You stumble upon a quaint cow farm.  You decide to stay and live with the cows.  You are now a cow.",
+    #     "You have lost the adventuring spirit.  Lose 1 life or make a new character...",
+    # ],
     [
         "Slippery Banana Peel",
         "You step on a discarded banana peel, causing you to lose your balance and tumble into an unfortunate chain of events that ultimately leads to your demise.",
@@ -547,16 +828,16 @@ DEATHS = [
         "In an attempt to drink a healing potion, you accidentally grab a potion labeled 'Inflation Elixir.' The result is catastrophic as you rapidly expand in size until you explode with a loud 'pop,' leaving nothing but a cloud of smoke behind.",
         "You have died.  Lose 1 life or make a new character...",
     ],
-    [
-        "Singing Siren's Song",
-        "You encounter a mesmerizing siren whose enchanting voice compels you to follow her melodic song. You blissfully wander off a cliff, lost in a trance, and meet a rather melodramatic end.",
-        "You have died.  Lose 1 life or make a new character...",
-    ],
-    [
-        "Doomed by Quackery",
-        "You fall prey to a seemingly innocent group of quacking ducks. What you don't realize is that they are actually highly trained assassins in disguise. Their synchronized attacks overwhelm you, leading to an unexpected and bizarre demise.",
-        "You have died.  Lose 1 life or make a new character...",
-    ],
+    # [
+    #     "Singing Siren's Song",
+    #     "You encounter a mesmerizing siren whose enchanting voice compels you to follow her melodic song. You blissfully wander off a cliff, lost in a trance, and meet a rather melodramatic end.",
+    #     "You have died.  Lose 1 life or make a new character...",
+    # ],
+    # [
+    #     "Doomed by Quackery",
+    #     "You fall prey to a seemingly innocent group of quacking ducks. What you don't realize is that they are actually highly trained assassins in disguise. Their synchronized attacks overwhelm you, leading to an unexpected and bizarre demise.",
+    #     "You have died.  Lose 1 life or make a new character...",
+    # ],
     [
         "Tangled by Enchanted Yarn",
         "You unwittingly disturb a magical ball of yarn that ensnares you in its endless loops. Despite your best efforts to escape, the more you struggle, the more entangled you become until you're wrapped from head to toe and meet an unfortunate end.",
@@ -567,11 +848,11 @@ DEATHS = [
         "You unwittingly stumble upon a hidden chicken sanctuary and accidentally disrupt their peaceful gathering. The startled chickens go into a frenzy, creating a chaotic stampede that overtakes you and leads to an undignified demise.",
         "You have died.  Lose 1 life or make a new character...",
     ],
-    [
-        "Foolish Fortune Teller",
-        "You seek guidance from a mysterious fortune teller who proclaims that your destiny lies in a life of mundane tasks like sorting socks and baking pies. The prediction resonates with you, and you find yourself abandoning the adventuring life to pursue domestic bliss.",
-        "You have lost the adventuring spirit. Lose 1 life or make a new character...",
-    ],
+    # [
+    #     "Foolish Fortune Teller",
+    #     "You seek guidance from a mysterious fortune teller who proclaims that your destiny lies in a life of mundane tasks like sorting socks and baking pies. The prediction resonates with you, and you find yourself abandoning the adventuring life to pursue domestic bliss.",
+    #     "You have lost the adventuring spirit. Lose 1 life or make a new character...",
+    # ],
     [
         "Permanently Polymorphed",
         "During your side-quest, a spell goes awry and you find yourself permanently transformed into a creature completely unsuited for adventuring, like a humble garden gnome or a tiny tree squirrel. Unable to continue your heroic journey, you resign yourself to a new life.",

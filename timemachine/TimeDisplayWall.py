@@ -42,22 +42,23 @@ class TimeDisplayWall(object):
         if event:
             try:
                 data = json.loads(event)
-                self.osounds.update_sounds(data["active"] is True)
-                if data["date"] and (data["active"] is True or data["startup"] is True):
-                    date = START + timedelta(seconds=data["timestamp"])
-                    self.date = date
-                    self.date_string = data["date"]
-                    self.display.draw_text(data["date"])
-                active = 1 if data["active"] is True else 0
-                self.print_button.set_light(data["active"])
-                magnitude = data["magnitude"]
-                color_mode = data["color_mode"]
-                freq_mode = data["freq_mode"]
-                output = numpy.int16(magnitude).tobytes() + numpy.uint8(color_mode).tobytes() + numpy.uint8(
-                    freq_mode).tobytes() + numpy.uint8(active).tobytes()
-                self.serial.write(output)
-                    # print(output)
-                if data["active"] is False and data["startup"] is False:
-                    self.display.draw_text("")
+                if data["event"] == "timechange":
+                    self.osounds.update_sounds(data["active"] is True)
+                    if data["date"] and (data["active"] is True or data["startup"] is True):
+                        date = START + timedelta(seconds=data["timestamp"])
+                        self.date = date
+                        self.date_string = data["date"]
+                        self.display.draw_text(data["date"])
+                    active = 1 if data["active"] is True else 0
+                    self.print_button.set_light(data["active"])
+                    magnitude = data["magnitude"]
+                    color_mode = data["color_mode"]
+                    freq_mode = data["freq_mode"]
+                    output = numpy.int16(magnitude).tobytes() + numpy.uint8(color_mode).tobytes() + numpy.uint8(
+                        freq_mode).tobytes() + numpy.uint8(active).tobytes()
+                    self.serial.write(output)
+                        # print(output)
+                    if data["active"] is False and data["startup"] is False:
+                        self.display.draw_text("")
             except Exception as err:
                 print(err)

@@ -1,6 +1,7 @@
 from sound.MultiTrackMusicPlayer import MultiTrackMusicPlayer
 import pygame
 import time
+import random
 
 OFF = -1
 AMBIENT = 0
@@ -9,6 +10,7 @@ ON = 2
 TIME_STOP = 3
 ENDING = 4
 FULL_SPEED = 5
+COUNTDOWN = 6
 
 STARTUP_TIME = 10
 
@@ -18,7 +20,11 @@ songs = [
     '/home/admin/explorey/sound/TimeMachine-Running.ogg',
     '/home/admin/explorey/sound/TimeMachine-Frozen.ogg',
     '/home/admin/explorey/sound/TimeMachine-Shutdown.ogg',
-    '/home/admin/explorey/sound/TimeMachine-FullSpeed.ogg'
+    '/home/admin/explorey/sound/TimeMachine-FullSpeed.ogg',
+    '/home/admin/explorey/sound/TimeMachine-Countdown-1.ogg',
+    '/home/admin/explorey/sound/TimeMachine-Countdown-2.ogg',
+    '/home/admin/explorey/sound/TimeMachine-Countdown-3.ogg',
+    '/home/admin/explorey/sound/TimeMachine-Countdown-4.ogg'
 ]
 
 
@@ -27,6 +33,7 @@ class TimeMachineSoundSystem(object):
     wasPlaying = False
     time_speed = 0
     is_running = False
+    is_playing_countdown = False
     current_mode = OFF
     startup_time = 0
 
@@ -51,7 +58,11 @@ class TimeMachineSoundSystem(object):
     def __play_full_speed(self):
         self.player.play_song(FULL_SPEED, 1, channel=FULL_SPEED)
 
-    def update_sounds(self, is_running, time_speed):
+    def __play_countdown(self):
+        num = random.randint(0, 4)
+        self.player.play_song(COUNTDOWN + num, 1, channel=COUNTDOWN)
+
+    def update_sounds(self, is_running, time_speed, is_countdown):
         if not is_running and self.current_mode != OFF:
             if self.current_mode == ON:
                 self.__play_time_ending()
@@ -60,6 +71,7 @@ class TimeMachineSoundSystem(object):
             self.player.stop_music(ON)
             self.player.stop_music(TIME_STOP)
             self.player.stop_music(FULL_SPEED)
+            self.player.stop_music(COUNTDOWN)
             self.current_mode = OFF
 
         if is_running and self.current_mode == OFF or self.current_mode == AMBIENT:
@@ -73,6 +85,8 @@ class TimeMachineSoundSystem(object):
             self.__play_full_speed()
             self.current_mode = ON
         if self.current_mode == ON:
+            if is_countdown and not self.is_playing_countdown:
+                self.__play_countdown()
             velocity = abs(time_speed) / 1000
             if velocity < .4:
                 ratio = velocity / .4

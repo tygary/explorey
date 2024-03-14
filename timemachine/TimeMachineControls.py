@@ -44,6 +44,10 @@ ACTIVATE_BUTTON = 22
 ACTIVATE_BUTTON_LIGHT = 23
 MODE_BUTTON = 25
 MODE_BUTTON_LIGHT = 24
+COUNTDOWN_BUTTON = 28  # ???
+COUNTDOWN_BUTTON_LIGHT = 29  # ???
+
+COUNTDOWN_LENGTH = 11
 
 
 def print_datetime(date):
@@ -68,6 +72,8 @@ class TimeMachineControls(object):
     color_mode = 1
     magnitude = 0
     raw_lever_value = 0
+    is_countdown = False
+    countdown_start_time = 0
 
     pixels = PixelControl(NUM_LEDS)
     power_routine = PowerGaugeRoutine(pixels, PIXELS_POWER)
@@ -78,6 +84,7 @@ class TimeMachineControls(object):
 
     activate_button = None
     mode_button = None
+    countdown_button = None
 
     def __init__(self):
         # GPIO.cleanup()
@@ -95,6 +102,16 @@ class TimeMachineControls(object):
         self.mode_button.set_light(True)
         self.mode_switch = ThreeWaySwitch(MODE_TOGGLE_UP, MODE_TOGGLE_DOWN, self.__on_mode_switch)
 
+        # self.countdown_button = Button(COUNTDOWN_BUTTON, COUNTDOWN_BUTTON_LIGHT, self.__on_countdown_button)
+        # self.countdown_button.set_light(True)
+
+        self.mqtt.listen(self.__on_event)
+
+    def __on_event(self, event):
+        data = json.loads(event)
+        if data and data["event"] == "countdownButton":
+            self.__on_countdown_button()
+
     def __on_lever_change(self, lever_id, value):
         if self.is_starting_up:
             print("Startup lever change")
@@ -103,7 +120,7 @@ class TimeMachineControls(object):
             # print(f"Got lever {id} change to {value}")
             modified_value = value * 100 * -1
             modified_prev_value = self.raw_lever_value * 100 * -1
-            if abs(modified_value - modified_prev_value) > 1:
+            if abs(modified_value - modified_prev_value) > 1 and not self.is_countdown:
                 rounded_value = round(modified_value)
                 self.raw_lever_value = value
                 self.magnitude = rounded_value * 10
@@ -125,6 +142,13 @@ class TimeMachineControls(object):
         self.mode_switch_routine.update_mode(mode)
         self.__on_change_data()
 
+    def __on_countdown_button(self):
+        if self.active:
+            print("Starting Countdown")
+            self.is_countdown = True
+            self.magnitude = 150
+            self.speed = self.__scale_speed(0.15)
+            self.__on_change_data()
 
     def __on_button_change(self, id, value):
         print(f"Got button {id} change to {value}")
@@ -194,15 +218,18 @@ class TimeMachineControls(object):
                 self.is_starting_up = False
                 self.__on_lever_change(1, self.raw_lever_value)
 
-
         if self.active or self.is_starting_up:
             percent_power = 1 - ((now - self.start_time) / RUN_DURATION_S)
             self.power_routine.update_percentage(percent_power)
+
+            if now > self.countdown_start_time + COUNTDOWN_LENGTH:
+                self.is_countdown = False
 
             if percent_power <= 0:
                 print("Machine has ran out of power!  Shutting down...")
                 self.is_charged = False
                 self.active = False
+                self.is_countdown = False
                 self.speed = 0
                 self.date = END
                 self.__on_change_data()
@@ -242,7 +269,7 @@ class TimeMachineControls(object):
                     self.date = new_date
                     self.__on_change_data()
                     self.last_event = now
-        self.music.update_sounds(self.active or self.is_starting_up, self.magnitude)
+        self.music.update_sounds(self.active or self.is_starting_up, self.magnitude, self.is_countdown)
         self.light_routines.tick()
         self.pixels.render()
         self.activate_button.tick()

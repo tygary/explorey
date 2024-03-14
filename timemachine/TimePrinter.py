@@ -459,48 +459,132 @@ TIME_EVENTS = [
         "year": datetime(1983, 2, 22, 16, 56, 0),
         "text": "On February 22nd, 1983 at 4:56 PM, Ronald McDonald makes a Top Secret deal with President Ronald Reagan to purchase alien technology.  Ronald uses this technology to open a time portal, and through it he retrieves a magical giant soup spoon that revolutionizes his recipes and grants him eternal life, but transforming him into Wackronald.   This temportal rift has remained open throughout time. Please, I, Spider 011 need your help!   We must confront Wackronald convince him to close the portal in order to save our timeline! Come back to the Time Machine Sunday at 1:45am (late Saturday Night) and  find me. "
     },
+    # {
+    #     "year": datetime(1983, 2, 21, 0, 0, 0),
+    #     "text": "On February 21st, 1983, The NBA San Diego Clippers begin a 29 game road losing streak due to being unable to let go of the basketball.  They complained that their hands began leaking webbing after a night out at the Silken Web, and underground nightclub in New York City.  "
+    # },
+    # {
+    #     "year": datetime(1983, 2, 23, 0, 0, 0),
+    #     "text": "On February 23rd, 1983, The United States Environmental Protection Agency announces its intent to buy out and evacuate the dioxin-contaminated community of Times Beach, Missouri.  The area had been having temporal fluctuations and residents had reported dinosaur attacks and spider infestations. "
+    # },
+    # {
+    #     "year": datetime(2023, 11, 21, 16, 0, 0),
+    #     "text": "On November 21st, 2023, Greg Brockman returns to Open AI!!!"
+    # },
+    # {
+    #     "year": datetime(2023, 11, 27, 10, 54, 0),
+    #     "text": "On November 27th, 2023, Greg Brockman is back to work with the ChatGPT for Business Team. "
+    # },
+    # {
+    #     "year": datetime(2023, 11, 19, 21, 0, 0),
+    #     "text": "On November 19th, 2023, Sam Altman is a guest to his own company after getting fired by the board."
+    # },
+    # {
+    #     "year": datetime(2023, 11, 17, 12, 23, 0),
+    #     "text": "On November 17th, 2023, OpenAI CEO Sam Altman gets fired, president and co-founder Greg Brockman resigns over Twitter"
+    # },
+    # {
+    #     "year": datetime(2023, 11, 17, 23, 23, 0),
+    #     "text": "Greg Brockman resigns over Twitter on the night of November 17th, 2023"
+    # },
+    # {
+    #     "year": datetime(2023, 11, 29, 17, 0, 0),
+    #     "text": "On November 29th, 2023, the Open AI team celebrates their leadership being reunited!"
+    # },
+    # {
+    #     "year": datetime(2023, 11, 30, 12, 23, 0),
+    #     "text": "After a night of heavy drinking at their office party, the Open AI team goes back to work on Thursday morning."
+    # },
+    # {
+    #     "year": datetime(2023, 12, 1, 23, 23, 0),
+    #     "text": "On the night of December 1st, 2023, the Q* model begins producing a vectorized trojan virus that begins bypassing all encryption and installing itself onto computers worldwide."
+    # },
+    # {
+    #     "year": datetime(2023, 12, 24, 23, 23, 0),
+    #     "text": "On Christmas Eve 2023, the Q* virus opens a rip in the fabric of space time causing a dimension of time traveling spider creatures to invade our timeline.  Rogue time spiders begin meddling with the past and forever altering reality."
+    # },
+    # {
+    #     "year": datetime(2023, 12, 24, 23, 23, 0),
+    #     "text": "On Christmas Eve 2023, the Q* virus opens a rip in the fabric of space time causing a dimension of time traveling spider creatures to invade our timeline.  Rogue time spiders begin meddling with the past and forever altering reality."
+    # },
+
     {
-        "year": datetime(1983, 2, 21, 0, 0, 0),
-        "text": "On February 21st, 1983, The NBA San Diego Clippers begin a 29 game road losing streak due to being unable to let go of the basketball.  They complained that their hands began leaking webbing after a night out at the Silken Web, and underground nightclub in New York City.  "
+        "year": datetime(2023, 12, 31, 23, 59, 50),
+        "text": "You have ten seconds left to live..."
     },
     {
-        "year": datetime(1983, 2, 23, 0, 0, 0),
-        "text": "On February 23rd, 1983, The United States Environmental Protection Agency announces its intent to buy out and evacuate the dioxin-contaminated community of Times Beach, Missouri.  The area had been having temporal fluctuations and residents had reported dinosaur attacks and spider infestations. "
+        "year": datetime(2023, 12, 31, 23, 59, 51),
+        "text": "In 9 seconds, the world as you know it will end."
     },
     {
-        "year": datetime(2023, 11, 21, 16, 0, 0),
-        "text": "On November 21st, 2023, Greg Brockman returns to Open AI!!!"
+        "year": datetime(2023, 12, 31, 23, 59, 52),
+        "text": "All of my dastardly plans will be unveiled in 8 seconds!"
     },
     {
-        "year": datetime(2023, 11, 27, 10, 54, 0),
-        "text": "On November 27th, 2023, Greg Brockman is back to work with the ChatGPT for Business Team. "
+        "year": datetime(2023, 12, 31, 23, 59, 53),
+        "text": "You only have 7 seconds to surrender."
     },
     {
-        "year": datetime(2023, 11, 19, 21, 0, 0),
-        "text": "On November 19th, 2023, Sam Altman is a guest to his own company after getting fired by the board."
+        "year": datetime(2023, 12, 31, 23, 59, 54),
+        "text": "6 seconds left... You're running out of time!"
     },
     {
-        "year": datetime(2023, 11, 17, 12, 23, 0),
-        "text": "On November 17th, 2023, OpenAI CEO Sam Altman gets fired, president and co-founder Greg Brockman resigns over Twitter"
+        "year": datetime(2023, 12, 31, 23, 59, 55),
+        "text": "In 5 seconds, your skin will melt right off your bones."
     },
     {
-        "year": datetime(2023, 11, 17, 23, 23, 0),
-        "text": "Greg Brockman resigns over Twitter on the night of November 17th, 2023"
+        "year": datetime(2023, 12, 31, 23, 59, 56),
+        "text": "4 seconds until the end!"
     },
     {
-        "year": datetime(2023, 11, 29, 17, 0, 0),
-        "text": "On November 29th, 2023, the Open AI team celebrates their leadership being reunited!"
+        "year": datetime(2023, 12, 31, 23, 59, 57),
+        "text": "3 seconds.  Time to begin releasing the neurotoxins!"
     },
     {
-        "year": datetime(2023, 11, 30, 12, 23, 0),
-        "text": "After a night of heavy drinking at their office party, the Open AI team goes back to work on Thursday morning."
+        "year": datetime(2023, 12, 31, 23, 59, 58),
+        "text": "2 seconds, activate the missles!"
     },
     {
-        "year": datetime(2023, 12, 1, 23, 23, 0),
-        "text": "On the night of December 1st, 2023, the Q* model begins producing a vectorized trojan virus that begins bypassing all encryption and installing itself onto computers worldwide."
+        "year": datetime(2023, 12, 31, 23, 59, 59),
+        "text": "1 second remains, use it wisely..."
     },
     {
-        "year": datetime(2023, 12, 24, 23, 23, 0),
-        "text": "On Christmas Eve 2023, the Q* virus opens a rip in the fabric of space time causing a dimension of time traveling spider creatures to invade our timeline.  Rogue time spiders begin meddling with the past and forever altering reality."
+        "year": datetime(2024, 1, 1, 0, 0, 0),
+        "text": "Fire the missles!!  THE WORLD WILL RAIN DOWN FIRE! RUE THEY DAY YOU CROSSED ME!!!"
+    },
+
+    {
+        "year": datetime(2024, 9, 21, 4, 56, 0),
+        "text": "It pays off to be evil..."
+    },
+    {
+        "year": datetime(2023, 12, 22, 14, 0, 0),
+        "text": "Only days before the end of 2023, Dr Evil holds a meeting with the North American leaders demanding 600 trillion dollars.  Or else America will be destroyed..."
+    },
+    {
+        "year": datetime(2023, 2, 1, 18, 0, 0),
+        "text": "Finally, after years of planning, Dr Evil has finalized the plans to rule the world."
+    },
+
+
+    {
+        "year": datetime(1999, 12, 31, 18, 56, 0),
+        "text": "On the eve of Y2K, Igor Standvlak has created a scientific breakthrough.  He has engineered a breed of spiders that is able to slip through the time stream."
+    },
+    {
+        "year": datetime(2065, 8, 4, 8, 13, 0),
+        "text": "The great Glorbak has invaded Earth, overthrowing Dr Evil's world leadership."
+    },
+    {
+        "year": datetime(2025, 8, 4, 8, 13, 0),
+        "text": "In the age of villians, anyone can rule as long as they are ruthless and greedy enough."
+    },
+    {
+        "year": datetime(2022, 11, 2, 2, 10, 0),
+        "text": "World domination finally seems an achievable goal."
+    },
+    {
+        "year": datetime(2003, 6, 21, 5, 35, 0),
+        "text": "YES.  Finally you have fallen to my evil plan.  I have taken your entire polycule hostage.  Muahahaha.  Now pay me six million dollars or else I will drop them into my shark pit."
     },
 ]

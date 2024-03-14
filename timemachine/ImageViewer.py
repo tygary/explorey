@@ -388,50 +388,129 @@ IMAGES_BY_YEAR = [
         "year": datetime(1983, 2, 22, 4, 56, 0),
         "filename": "/home/admin/explorey/images/1983-Quest.jpeg"
     },
+    # {
+    #     "year": datetime(1983, 2, 21, 0, 0, 0),
+    #     "filename": "/home/admin/explorey/images/1983-Before.jpeg"
+    # },
+    # {
+    #     "year": datetime(1983, 2, 23, 0, 0, 0),
+    #     "filename": "/home/admin/explorey/images/1983-After.jpeg"
+    # },
+    # {
+    #     "year": datetime(2023, 11, 21, 16, 0, 0),
+    #     "filename": "/home/admin/explorey/images/nov21-2023-we-are-back.jpeg"
+    # },
+    # {
+    #     "year": datetime(2023, 11, 27, 10, 54, 0),
+    #     "filename": "/home/admin/explorey/images/11-27-23-meeting.jpeg"
+    # },
+    # {
+    #     "year": datetime(2023, 11, 19, 21, 0, 0),
+    #     "filename": "/home/admin/explorey/images/11-19-23-sam-guest.jpeg"
+    # },
+    # {
+    #     "year": datetime(2023, 11, 17, 12, 23, 0),
+    #     "filename": "/home/admin/explorey/images/11-17-23-fired.jpeg"
+    # },
+    # {
+    #     "year": datetime(2023, 11, 17, 23, 23, 0),
+    #     "filename": "/home/admin/explorey/images/11-17-23-i-quit.jpeg"
+    # },
+    # {
+    #     "year": datetime(2023, 11, 29, 17, 0, 0),
+    #     "filename": "/home/admin/explorey/images/11-29-23-party.jpeg"
+    # },
+    # {
+    #     "year": datetime(2023, 11, 30, 12, 23, 0),
+    #     "filename": "/home/admin/explorey/images/11-39-23-hungover.jpeg"
+    # },
+    # {
+    #     "year": datetime(2023, 12, 1, 23, 23, 0),
+    #     "filename": "/home/admin/explorey/images/12-1-23-virus.jpeg"
+    # },
+    # {
+    #     "year": datetime(2023, 12, 24, 23, 23, 0),
+    #     "filename": "/home/admin/explorey/images/12-24-23-spiderportal.jpeg"
+    # }
     {
-        "year": datetime(1983, 2, 21, 0, 0, 0),
-        "filename": "/home/admin/explorey/images/1983-Before.jpeg"
+        "year": datetime(2023, 12, 31, 23, 59, 50),
+        "filename": "/home/admin/explorey/images/10.jpeg"
     },
     {
-        "year": datetime(1983, 2, 23, 0, 0, 0),
-        "filename": "/home/admin/explorey/images/1983-After.jpeg"
+        "year": datetime(2023, 12, 31, 23, 59, 51),
+        "filename": "/home/admin/explorey/images/9.jpeg"
     },
     {
-        "year": datetime(2023, 11, 21, 16, 0, 0),
-        "filename": "/home/admin/explorey/images/nov21-2023-we-are-back.jpeg"
+        "year": datetime(2023, 12, 31, 23, 59, 52),
+        "filename": "/home/admin/explorey/images/8.jpeg"
     },
     {
-        "year": datetime(2023, 11, 27, 10, 54, 0),
-        "filename": "/home/admin/explorey/images/11-27-23-meeting.jpeg"
+        "year": datetime(2023, 12, 31, 23, 59, 53),
+        "filename": "/home/admin/explorey/images/7.jpeg"
     },
     {
-        "year": datetime(2023, 11, 19, 21, 0, 0),
-        "filename": "/home/admin/explorey/images/11-19-23-sam-guest.jpeg"
+        "year": datetime(2023, 12, 31, 23, 59, 54),
+        "filename": "/home/admin/explorey/images/6.jpeg"
     },
     {
-        "year": datetime(2023, 11, 17, 12, 23, 0),
-        "filename": "/home/admin/explorey/images/11-17-23-fired.jpeg"
+        "year": datetime(2023, 12, 31, 23, 59, 55),
+        "filename": "/home/admin/explorey/images/5.jpeg"
     },
     {
-        "year": datetime(2023, 11, 17, 23, 23, 0),
-        "filename": "/home/admin/explorey/images/11-17-23-i-quit.jpeg"
+        "year": datetime(2023, 12, 31, 23, 59, 56),
+        "filename": "/home/admin/explorey/images/4.jpeg"
     },
     {
-        "year": datetime(2023, 11, 29, 17, 0, 0),
-        "filename": "/home/admin/explorey/images/11-29-23-party.jpeg"
+        "year": datetime(2023, 12, 31, 23, 59, 57),
+        "filename": "/home/admin/explorey/images/3.jpeg"
     },
     {
-        "year": datetime(2023, 11, 30, 12, 23, 0),
-        "filename": "/home/admin/explorey/images/11-39-23-hungover.jpeg"
+        "year": datetime(2023, 12, 31, 23, 59, 58),
+        "filename": "/home/admin/explorey/images/2.jpeg"
     },
     {
-        "year": datetime(2023, 12, 1, 23, 23, 0),
-        "filename": "/home/admin/explorey/images/12-1-23-virus.jpeg"
+        "year": datetime(2023, 12, 31, 23, 59, 59),
+        "filename": "/home/admin/explorey/images/1.jpeg"
     },
     {
-        "year": datetime(2023, 12, 24, 23, 23, 0),
-        "filename": "/home/admin/explorey/images/12-24-23-spiderportal.jpeg"
-    }
+        "year": datetime(2024, 1, 1, 0, 0, 0),
+        "filename": "/home/admin/explorey/images/drevil-missles.jpeg"
+    },
+
+    {
+        "year": datetime(2024, 9, 21, 4, 56, 0),
+        "filename": "/home/admin/explorey/images/drevil-beach.jpeg"
+    },
+    {
+        "year": datetime(2023, 12, 22, 14, 0, 0),
+        "filename": "/home/admin/explorey/images/drevil-ransom.jpeg"
+    },
+    {
+        "year": datetime(2023, 2, 1, 18, 0, 0),
+        "filename": "/home/admin/explorey/images/drevil-meeting.jpeg"
+    },
+
+
+    {
+        "year": datetime(1999, 12, 31, 18, 56, 0),
+        "filename": "/home/admin/explorey/images/evilscientist.jpeg"
+    },
+    {
+        "year": datetime(2065, 8, 4, 8, 13, 0),
+        "filename": "/home/admin/explorey/images/eviltentacle.jpeg"
+    },
+    {
+        "year": datetime(2025, 8, 4, 8, 13, 0),
+        "filename": "/home/admin/explorey/images/evilvillain.jpeg"
+    },
+    {
+        "year": datetime(2022, 11, 2, 2, 10, 0),
+        "filename": "/home/admin/explorey/images/eviltsar.jpeg"
+    },
+    {
+        "year": datetime(2003, 6, 21, 5, 35, 0),
+        "filename": "/home/admin/explorey/images/evilweirdo.jpeg"
+    },
 ]
 
 

@@ -1,8 +1,8 @@
 import RPi.GPIO as GPIO
 import time
 
-ON = 0
-OFF = 1
+ON = 1
+OFF = 0
 
 
 class Electromagnet(object):
@@ -13,7 +13,7 @@ class Electromagnet(object):
     def __init__(self, pin):
         self.pin = pin
         if pin > 0:
-            GPIO.setup(pin, GPIO.OUT)
+            GPIO.setup(pin, GPIO.OUT, pull_up_down=GPIO.PUD_UP)
 
     def __set_value(self, value):
         GPIO.output(self.pin, value)

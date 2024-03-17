@@ -27,3 +27,4 @@ class Electromagnet(object):
         if self.turn_on_at and time.time() > self.turn_on_at:
             print("Enabling Magnet")
             self.__set_value(ON)
+            self.turn_on_at = None

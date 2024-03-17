@@ -1,8 +1,8 @@
 import RPi.GPIO as GPIO
 import time
 
-ON = 1
-OFF = 0
+ON = 0
+OFF = 1
 
 
 class Electromagnet(object):

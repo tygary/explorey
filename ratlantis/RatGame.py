@@ -1,5 +1,5 @@
-from Artifact import Artifact
-from EnergyVine import EnergyVine
+from ratlantis.Artifact import Artifact
+from ratlantis.EnergyVine import EnergyVine
 from lighting.PixelControl import PixelControl
 from mqtt.MqttClient import MqttClient
 

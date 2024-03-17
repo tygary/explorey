@@ -1,4 +1,4 @@
-from Electromagnet import Electromagnet
+from ratlantis.Electromagnet import Electromagnet
 from lighting.Routine import *
 
 

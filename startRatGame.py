@@ -1,4 +1,4 @@
-from ratlantis.RatGame import *
+from ratlantis.RatGame import RatGame
 import time
 
 print("Rat Game started, enter 'machine.stop()' before exiting")

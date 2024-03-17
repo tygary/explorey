@@ -8,8 +8,8 @@ class RatGame(object):
     pixels = None
     mqtt = None
 
-    vines: list[EnergyVine] = []
-    artifacts: list[Artifact] = []
+    vines: = []
+    artifacts: = []
 
     is_running = False
 

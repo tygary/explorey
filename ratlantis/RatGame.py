@@ -32,7 +32,7 @@ class RatGame(object):
         for cur_vine in self.vines:
             if cur_vine.rfid == artifact.current_rfid:
                 vine = cur_vine
-
+        print(vine)
         if vine:
             vine.detach()
             # artifact.wave([255, 0, 0])

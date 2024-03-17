@@ -8,8 +8,8 @@ class RatGame(object):
     pixels = None
     mqtt = None
 
-    vines: = []
-    artifacts: = []
+    vines = []
+    artifacts = []
 
     is_running = False
 
@@ -23,7 +23,7 @@ class RatGame(object):
         artifact = Artifact(self.mqtt, self.pixels, range(51, 60), "noodle1", self.__on_artifact_change)
         self.artifacts.append(artifact)
 
-    def __on_artifact_change(self, artifact: Artifact):
+    def __on_artifact_change(self, artifact):
         print("Artifact Changed", artifact)
         vine = None
         for cur_vine in self.vines:

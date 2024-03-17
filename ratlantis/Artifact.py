@@ -18,7 +18,7 @@ class Artifact(object):
     pixels = None
     on_change = None
 
-    def __init__(self, mqtt: MqttClient, pixels, light_addresses, id, on_change):
+    def __init__(self, mqtt, pixels, light_addresses, id, on_change):
         self.mqtt = mqtt
         self.pixels = pixels
         self.light_addresses = light_addresses

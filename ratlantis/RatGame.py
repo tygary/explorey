@@ -20,7 +20,7 @@ class RatGame(object):
         self.pixels = PixelControl(100)
         self.mqtt = MqttClient()
 
-        vine = EnergyVine("noodle1", 17, range(0, 50), self.pixels)
+        vine = EnergyVine("7DC70A09530104E0", 17, range(0, 50), self.pixels)
         self.vines.append(vine)
 
         artifact = Artifact(self.mqtt, self.pixels, range(51, 60), "noodle1", self.__on_artifact_change)

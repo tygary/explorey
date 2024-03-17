@@ -42,10 +42,12 @@ class Artifact(object):
                     self.__on_card_removed()
 
     def __on_card_detected(self, card):
+        print("Card deected", card)
         self.current_rfid = card
         self.on_change(self)
 
     def __on_card_removed(self):
+        print("card removed")
         self.current_rfid = None
         self.is_attached = False
         self.on_change(self)

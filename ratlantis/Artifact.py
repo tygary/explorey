@@ -31,6 +31,7 @@ class Artifact(object):
     def __parse_mqtt_event(self, event):
         data = json.loads(event)
         if data and data["event"]:
+            print(data)
             event = data["event"]
             reader_name = data["reader"]
             card_id = data["card"]

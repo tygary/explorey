@@ -19,7 +19,7 @@ def get_hostname():
 
 class MqttClient(object):
     client = None
-    listener = None
+    listeners = []
     connected = False
 
     def __init__(self):
@@ -45,11 +45,12 @@ class MqttClient(object):
 
     def __on_message(self, client, userdata, message):
         # print("Message received: " + message.payload.decode())
-        if self.listener is not None:
-            self.listener(message.payload.decode())
+        for listener in self.listeners:
+            if listener is not None:
+                listener(message.payload.decode())
 
     def publish(self, message):
         self.client.publish(TOPIC, message)
 
     def listen(self, listener):
-        self.listener = listener
+        self.listeners.append(listener)

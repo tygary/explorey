@@ -5,6 +5,10 @@ import random
 from lighting.Colors import Colors
 
 
+RED = 0
+GREEN = 1
+BLUE = 2
+
 class Routine(object):
     addresses = []
     pixels = None
@@ -179,6 +183,16 @@ class ModeSwitchRoutine(TimeRoutine):
             if index is not self.mode - 1:
                 self.pixels.setColor(self.addresses[index], [0, 0, 0])
         self.routines[self.mode - 1].tick()
+
+
+class BlackoutRoutine(Routine):
+
+    def __init__(self, pixels, addresses):
+        Routine.__init__(self, pixels, addresses)
+
+    def tick(self):
+        for i in self.addresses:
+            self.pixels.setColor(i, [0, 0, 0])
 
 
 class RandomPulseRoutine(TimeRoutine):

@@ -19,9 +19,11 @@ class Electromagnet(object):
         GPIO.output(self.pin, value)
 
     def turn_off(self, time_s=2):
+        print("Disabling Magnet")
         self.__set_value(OFF)
         self.turn_on_at = time.time() + time_s
 
     def update(self):
         if self.turn_on_at and time.time() > self.turn_on_at:
+            print("Enabling Magnet")
             self.__set_value(ON)

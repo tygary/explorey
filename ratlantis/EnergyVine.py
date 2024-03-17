@@ -30,4 +30,5 @@ class EnergyVine(object):
         self.magnet.update()
 
     def detach(self):
+        print("Detaching")
         self.magnet.turn_off()

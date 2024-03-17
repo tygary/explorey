@@ -18,11 +18,11 @@ class Artifact(object):
     pixels = None
     on_change = None
 
-    def __init__(self, mqtt, pixels, light_addresses, id, on_change):
+    def __init__(self, mqtt, pixels, light_addresses, artifact_id, on_change):
         self.mqtt = mqtt
         self.pixels = pixels
         self.light_addresses = light_addresses
-        self.id = id
+        self.id = artifact_id
         self.on_change = on_change
 
         self.stop()
@@ -48,7 +48,7 @@ class Artifact(object):
     def __on_card_removed(self):
         self.current_rfid = None
         self.is_attached = False
-        self.on_change(self.id)
+        self.on_change(self)
 
     def pulse_color(self, color_index):
         self.light_routine = FireRoutine(self.pixels, self.light_addresses, color_index)

@@ -1,3 +1,5 @@
+import RPi.GPIO as GPIO
+
 from ratlantis.Artifact import Artifact
 from ratlantis.EnergyVine import EnergyVine
 from lighting.PixelControl import PixelControl
@@ -14,10 +16,11 @@ class RatGame(object):
     is_running = False
 
     def __init__(self):
+        GPIO.setmode(GPIO.BCM)
         self.pixels = PixelControl(100)
         self.mqtt = MqttClient()
 
-        vine = EnergyVine("noodle1", 10, range(0, 50), self.pixels)
+        vine = EnergyVine("noodle1", 17, range(0, 50), self.pixels)
         self.vines.append(vine)
 
         artifact = Artifact(self.mqtt, self.pixels, range(51, 60), "noodle1", self.__on_artifact_change)

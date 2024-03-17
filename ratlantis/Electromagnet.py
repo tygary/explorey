@@ -13,7 +13,8 @@ class Electromagnet(object):
     def __init__(self, pin):
         self.pin = pin
         if pin > 0:
-            GPIO.setup(pin, GPIO.OUT, pull_up_down=GPIO.PUD_UP)
+            GPIO.setup(pin, GPIO.OUT)
+            self.__set_value(ON)
 
     def __set_value(self, value):
         GPIO.output(self.pin, value)

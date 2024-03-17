@@ -23,5 +23,5 @@ class Electromagnet(object):
         self.turn_on_at = time.time() + time_s
 
     def update(self):
-        if time.time() > self.turn_on_at:
+        if self.turn_on_at and time.time() > self.turn_on_at:
             self.__set_value(ON)

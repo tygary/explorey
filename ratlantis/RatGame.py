@@ -22,6 +22,7 @@ class RatGame(object):
 
         vine = EnergyVine("7DC70A09530104E0", 4, range(0, 1000), self.pixels)
         self.vines.append(vine)
+        vine.pulse_color(0)
 
         artifact = Artifact(self.mqtt, self.pixels, range(51, 60), "noodle1", self.__on_artifact_change)
         self.artifacts.append(artifact)

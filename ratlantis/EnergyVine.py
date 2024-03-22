@@ -17,6 +17,7 @@ class EnergyVine(object):
         self.stop()
 
     def pulse_color(self, color_index):
+        print("pulsing color")
         self.light_routine = FireRoutine(self.pixels, self.light_addresses, color_index)
 
     def wave(self, color):

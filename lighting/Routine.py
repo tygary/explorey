@@ -265,7 +265,6 @@ class FireRoutine(Routine):
             self.values[i][self.color_index] = randint(0, 155)
 
     def tick(self):
-        print("outputting color", self.values)
         for i in self.addresses:
             self.values[i][self.color_index] = (self.values[i][self.color_index] + randint(0, 5)) % 150
             self.pixels.setRGBW(i, self.values[i])

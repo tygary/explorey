@@ -37,10 +37,10 @@ class RatGame(object):
             vine.detach()
             # artifact.wave([255, 0, 0])
             # artifact.is_activated = True
-            # vine.wave([255, 0, 0])
-        #else:
+            vine.wave([255, 0, 0])
+        else:
             # artifact.pulse_color(0)
-            # vine.pulse_color(0)
+            vine.pulse_color(0)
             # artifact.is_activated = False
 
     #def start(self):

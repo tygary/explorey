@@ -28,19 +28,17 @@ class RatGame(object):
 
     def __on_artifact_change(self, artifact):
         print("Artifact Changed", artifact)
-        vine = None
         for cur_vine in self.vines:
             if cur_vine.rfid == artifact.current_rfid:
-                print(vine)
-                vine = cur_vine
-                vine.detach()
-                vine.wave([255, 0, 0])
+                print(cur_vine)
+                cur_vine.detach()
+                cur_vine.wave([255, 0, 0])
             else:
-                vine.pulse_color(0)
+                cur_vine.pulse_color(0)
 
 
         # if vine:
-            
+
             # artifact.wave([255, 0, 0])
             # artifact.is_activated = True
 

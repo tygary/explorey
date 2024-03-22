@@ -16,7 +16,7 @@ class RatGame(object):
     is_running = False
 
     def __init__(self):
-        GPIO.setmode(GPIO.BCM)
+        GPIO.setmode(GPIO.BOARD)
         self.pixels = PixelControl(1000)
         self.mqtt = MqttClient()
 

@@ -11,10 +11,10 @@ class EnergyVine(object):
 
     def __init__(self, rfid, magnet_pin, light_addresses, pixels):
         self.rfid = rfid
-        self.magnet = Electromagnet(magnet_pin)
+        # self.magnet = Electromagnet(magnet_pin)
         self.light_addresses = light_addresses
         self.pixels = pixels
-        self.stop()
+        # self.stop()
 
     def pulse_color(self, color_index):
         print("pulsing color")
@@ -28,8 +28,8 @@ class EnergyVine(object):
 
     def update(self):
         self.light_routine.tick()
-        self.magnet.update()
+        # self.magnet.update()
 
     def detach(self):
         print("Detaching")
-        self.magnet.turn_off()
+        # self.magnet.turn_off()

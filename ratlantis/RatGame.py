@@ -20,7 +20,7 @@ class RatGame(object):
         self.pixels = PixelControl(300, led_brightness=50)
         self.mqtt = MqttClient()
 
-        vine = EnergyVine("7DC70A09530104E0", 4, range(0, 100), self.pixels)
+        vine = EnergyVine("7DC70A09530104E0", 4, range(0, 300), self.pixels)
         self.vines.append(vine)
         vine.pulse_color(0)
 

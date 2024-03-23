@@ -56,6 +56,7 @@ class RatGame(object):
             vine.update()
         # for artifact in self.artifacts:
         #     artifact.update()
+        self.pixels.render()
 
 
 

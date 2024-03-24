@@ -23,15 +23,15 @@ class FireRoutine(Routine):
             self.__register_pixel(i)
 
     def __register_pixel(self, i):
-        self.pixel_colors[i] = random.choice(self.colors)
+        self.pixel_colors.append(random.choice(self.colors))
         self.current_power = randint(0, MAX_FIRE_POWER)
         multiplier = self.current_power / MAX_LED_POWER
-        self.values[i] = [
+        self.values.append([
             self.pixel_colors[i][0] * multiplier,
             self.pixel_colors[i][1] * multiplier,
             self.pixel_colors[i][2] * multiplier,
             self.pixel_colors[i][3] * multiplier
-        ]
+        ])
 
     def update_addresses(self, updated_addresses):
         old_values = self.values
@@ -41,8 +41,8 @@ class FireRoutine(Routine):
         self.pixel_colors = []
         for i, address in enumerate(updated_addresses):
             if old_values[i]:
-                self.values[i] = old_values[i]
-                self.pixel_colors[i] = old_pixel_colors[i]
+                self.values.append(old_values[i])
+                self.pixel_colors.append(old_pixel_colors[i])
             else:
                 self.__register_pixel(i)
 

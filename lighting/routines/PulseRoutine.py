@@ -16,7 +16,7 @@ class PulseRoutine(Routine):
             red = 0
             green = 0
             blue = 0
-            self.values[i] = [red, green, blue]
+            self.values.append([red, green, blue])
 
     def update_addresses(self, addresses):
         Routine.update_addresses(self, addresses)
@@ -25,12 +25,14 @@ class PulseRoutine(Routine):
         last_value = None
         for i, address in enumerate(addresses):
             if old_values[i]:
-                self.values[i] = old_values[i]
+                self.values.append(old_values[i])
                 last_value = self.values[i]
             else:
-                self.values[i][0] = last_value[0]
-                self.values[i][1] = last_value[0]
-                self.values[i][2] = last_value[0]
+                self.values.append([
+                    last_value[0],
+                    last_value[1],
+                    last_value[2],
+                ])
 
     def tick(self):
         if self.ratio >= 1:

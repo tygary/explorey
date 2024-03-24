@@ -1,11 +1,11 @@
-from enum import IntEnum
-import time
 from lighting.PixelControl import PixelControl
-from lighting.GenericButtonController import GenericButtonController
-from lighting.Routine import *
+from lighting.routines.Routine import Routines
 from lighting.Colors import Colors
 from lighting.DmxControl import DmxControl
+
 import threading
+import random
+import time
 
 
 NUM_PIXELS = 200
@@ -117,7 +117,7 @@ class ExploreyLights(object):
 
     def setup_mode(self):
         if self.mode is MODE_PRINT:
-            self.mode_object = MultiRoutine(
+            self.mode_object = Routines.MultiRoutine(
                 [
                     # CyclingMultiRoutine(
                     #     [
@@ -173,8 +173,8 @@ class ExploreyLights(object):
                     #         ],
                     #     ]
                     # ),
-                    MushroomRoutine(self.pixels, DANIELLE_PIXELS),
-                    # WaveRoutine(
+                    Routines.MushroomRoutine(self.pixels, DANIELLE_PIXELS),
+                    # Routines.WaveRoutine(
                     #     self.pixels,
                     #     LILI_PIXELS,
                     #     [
@@ -184,22 +184,22 @@ class ExploreyLights(object):
                     #         Colors.red,
                     #     ],
                     # ),
-                    #             WaveRoutine(self.pixels, ALL_PIXELS, [Colors.mid_green, Colors.mixed_blue, Colors.light_green, Colors.red], delay=1000),
+                    #             Routines.WaveRoutine(self.pixels, ALL_PIXELS, [Colors.mid_green, Colors.mixed_blue, Colors.light_green, Colors.red], delay=1000),
                 ]
             )
         elif self.mode is MODE_WAR:
-            self.mode_object = MultiRoutine(
+            self.mode_object = Routines.MultiRoutine(
                 [
-                    FireRoutine(self.pixels, DAVE_PIXELS),
-                    BleuRoutine(self.pixels, TYLER_PIXELS),
-                    #             WaveRoutine(self.pixels, ALL_PIXELS, [Colors.mid_green, Colors.mixed_blue, Colors.light_green, Colors.red], delay=1000),
+                    Routines.FireRoutine(self.pixels, DAVE_PIXELS),
+                    Routines.BleuRoutine(self.pixels, TYLER_PIXELS),
+                    #             Routines.WaveRoutine(self.pixels, ALL_PIXELS, [Colors.mid_green, Colors.mixed_blue, Colors.light_green, Colors.red], delay=1000),
                 ]
             )
         else:
-            self.mode_object = MultiRoutine(
+            self.mode_object = Routines.MultiRoutine(
                 [
-                    PulseRoutine(self.pixels, BEACON_PIXELS, Colors.mid_green),
-                    WaveRoutine(self.pixels, STEM_PIXELS, [Colors.yellow]),
+                    Routines.PulseRoutine(self.pixels, BEACON_PIXELS, Colors.mid_green),
+                    Routines.WaveRoutine(self.pixels, STEM_PIXELS, [Colors.yellow]),
                 ]
             )
 
@@ -211,11 +211,11 @@ class ExploreyLights(object):
         self.mode = (self.mode + 1) % NUM_MODES
         print("New Mode - {}".format(self.mode))
         if self.mode is MODE_COLOR:
-            self.mode_object = PulseRoutine(self.pixels, FRONT_PIXELS, Colors.mid_green)
+            self.mode_object = Routines.PulseRoutine(self.pixels, FRONT_PIXELS, Colors.mid_green)
         elif self.mode is MODE_RAINBOW:
-            self.mode_object = RainbowRoutine(self.pixels, ALL_PIXELS)
+            self.mode_object = Routines.RainbowRoutine(self.pixels, ALL_PIXELS)
         elif self.mode is MODE_FIRE:
-            self.mode_object = FireRoutine(self.pixels, ALL_PIXELS)
+            self.mode_object = Routines.FireRoutine(self.pixels, ALL_PIXELS)
         elif self.mode is MODE_WAVE:
             middle_index = len(FRONT_MID) // 2
             reverse_FRONT_LEFT = FRONT_LEFT[:]
@@ -224,11 +224,11 @@ class ExploreyLights(object):
             reverse_FRONT_LEFT_MID.reverse()
             reverse_left_FRONT_MID = FRONT_MID[middle_index:]
             reverse_left_FRONT_MID.reverse()
-            self.mode_object = MultiRoutine(
+            self.mode_object = Routines.MultiRoutine(
                 [
-                    RainbowRoutine(self.pixels, BAR_TOP_PIXELS),
-                    RainbowRoutine(self.pixels, BAR_BOTTOM_PIXELS),
-                    WaveRoutine(
+                    Routines.RainbowRoutine(self.pixels, BAR_TOP_PIXELS),
+                    Routines.RainbowRoutine(self.pixels, BAR_BOTTOM_PIXELS),
+                    Routines.WaveRoutine(
                         self.pixels,
                         reverse_FRONT_LEFT,
                         [
@@ -239,7 +239,7 @@ class ExploreyLights(object):
                         ],
                         delay=1000,
                     ),
-                    WaveRoutine(
+                    Routines.WaveRoutine(
                         self.pixels,
                         reverse_FRONT_LEFT_MID,
                         [
@@ -250,7 +250,7 @@ class ExploreyLights(object):
                         ],
                         delay=4000,
                     ),
-                    WaveRoutine(
+                    Routines.WaveRoutine(
                         self.pixels,
                         reverse_left_FRONT_MID,
                         [
@@ -260,7 +260,7 @@ class ExploreyLights(object):
                             Colors.red,
                         ],
                     ),
-                    WaveRoutine(
+                    Routines.WaveRoutine(
                         self.pixels,
                         FRONT_MID[:middle_index],
                         [
@@ -270,7 +270,7 @@ class ExploreyLights(object):
                             Colors.red,
                         ],
                     ),
-                    WaveRoutine(
+                    Routines.WaveRoutine(
                         self.pixels,
                         FRONT_RIGHT_MID,
                         [
@@ -281,7 +281,7 @@ class ExploreyLights(object):
                         ],
                         delay=4000,
                     ),
-                    WaveRoutine(
+                    Routines.WaveRoutine(
                         self.pixels,
                         FRONT_RIGHT,
                         [

@@ -1,5 +1,6 @@
 from lighting.GenericButtonController import GenericButtonController
 from lighting.ExploreyLights import *
+from lighting.routines.Routine import Routines
 
 MAX_POINTS = 1000
 
@@ -68,12 +69,12 @@ class WarGame(object):
         middle_pixel = round(perc_lost * self.num_pixels)
 
         if (middle_pixel != self.prev_middle_pixel):
-            routine = MultiRoutine([
-                WaveRoutine(self.explorey_lights.pixels, range(self.pixel_start, middle_pixel), [Colors.red], wave_wait_time=2000),
-    #             PulseRoutine(self.explorey_lights.pixels, range(self.pixel_start, middle_pixel), Colors.red),
-                RainbowRoutine(self.explorey_lights.pixels, [middle_pixel]),
-                WaveRoutine(self.explorey_lights.pixels, range(middle_pixel + 1, self.pixel_end), [Colors.mixed_blue, Colors.yellow], wave_wait_time=2000),
-    #             PulseRoutine(self.explorey_lights.pixels, range(middle_pixel + 1, self.pixel_end), Colors.mixed_blue),
+            routine = Routines.MultiRoutine([
+                Routines.WaveRoutine(self.explorey_lights.pixels, range(self.pixel_start, middle_pixel), [Colors.red], wave_wait_time=2000),
+    #             Routines.PulseRoutine(self.explorey_lights.pixels, range(self.pixel_start, middle_pixel), Colors.red),
+                Routines.RainbowRoutine(self.explorey_lights.pixels, [middle_pixel]),
+                Routines.WaveRoutine(self.explorey_lights.pixels, range(middle_pixel + 1, self.pixel_end), [Colors.mixed_blue, Colors.yellow], wave_wait_time=2000),
+    #             Routines.PulseRoutine(self.explorey_lights.pixels, range(middle_pixel + 1, self.pixel_end), Colors.mixed_blue),
             ])
             self.explorey_lights.update_war_routine(routine)
             self.prev_middle_pixel = middle_pixel

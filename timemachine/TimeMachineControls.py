@@ -5,11 +5,11 @@ import time
 import json
 import random
 
+from lighting.routines.Routine import Routines
 from timemachine.Levers import *
 from mqtt.MqttClient import *
 from timemachine.CoinMachine import CoinMachine
 from lighting.PixelControl import PixelControl
-from lighting.Routine import *
 from timemachine.Button import Button
 from timemachine.ThreeWaySwitch import ThreeWaySwitch
 from timemachine.TimeMachineSoundSystem import TimeMachineSoundSystem, STARTUP_TIME
@@ -76,11 +76,11 @@ class TimeMachineControls(object):
     countdown_start_time = 0
 
     pixels = PixelControl(NUM_LEDS)
-    power_routine = PowerGaugeRoutine(pixels, PIXELS_POWER)
-    speed_routine = SpeedGaugeRoutine(pixels, PIXELS_SPEED)
-    mode_routine = ModeRoutine(pixels, PIXELS_MODE)
-    mode_switch_routine = ModeSwitchRoutine(pixels, PIXELS_SWITCH)
-    light_routines = MultiRoutine([power_routine, speed_routine, mode_routine, mode_switch_routine])
+    power_routine = Routines.PowerGaugeRoutine(pixels, PIXELS_POWER)
+    speed_routine = Routines.SpeedGaugeRoutine(pixels, PIXELS_SPEED)
+    mode_routine = Routines.ModeRoutine(pixels, PIXELS_MODE)
+    mode_switch_routine = Routines.ModeSwitchRoutine(pixels, PIXELS_SWITCH)
+    light_routines = Routines.MultiRoutine([power_routine, speed_routine, mode_routine, mode_switch_routine])
 
     activate_button = None
     mode_button = None

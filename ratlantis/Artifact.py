@@ -1,7 +1,6 @@
 import json
 
-from lighting.Routine import *
-from mqtt.MqttClient import MqttClient
+from lighting.routines.Routine import Routines
 
 CARD_FOUND = "cardFound"
 CARD_REMOVED = "cardRemoved"
@@ -13,19 +12,19 @@ class Artifact(object):
     is_attached = False
     is_activated = False
     current_rfid = None
-    light_routine = None
-    light_addresses = None
+    ring_light_routine = None
+    ring_light_addresses = None
     pixels = None
     on_change = None
 
-    def __init__(self, mqtt, pixels, light_addresses, artifact_id, on_change):
+    def __init__(self, mqtt, pixels, ring_light_addresses, artifact_id, on_change):
         self.mqtt = mqtt
         self.pixels = pixels
-        self.light_addresses = light_addresses
+        self.ring_light_addresses = ring_light_addresses
         self.id = artifact_id
         self.on_change = on_change
 
-        self.stop()
+        self.ring_stop()
         self.mqtt.listen(self.__parse_mqtt_event)
 
     def __parse_mqtt_event(self, event):
@@ -52,15 +51,15 @@ class Artifact(object):
         self.is_attached = False
         self.on_change(self)
 
-    def pulse_color(self, color_index):
-        self.light_routine = FireRoutine(self.pixels, self.light_addresses, color_index)
+    def ring_pulse_color(self, color_index):
+        self.ring_light_routine = Routines.FireRoutine(self.pixels, self.ring_light_addresses, color_index)
 
-    def wave(self, color):
-        self.light_routine = WaveRoutine(self.pixels, self.light_addresses, [color])
+    def ring_wave(self, color):
+        self.ring_light_routine = Routines.WaveRoutine(self.pixels, self.ring_light_addresses, [color])
 
-    def stop(self):
-        self.light_routine = BlackoutRoutine(self.pixels, self.light_addresses)
+    def ring_stop(self):
+        self.ring_light_routine = Routines.BlackoutRoutine(self.pixels, self.ring_light_addresses)
 
     def update(self):
-        self.light_routine.tick()
+        self.ring_light_routine.tick()
 

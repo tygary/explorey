@@ -2,6 +2,7 @@ import RPi.GPIO as GPIO
 
 from ratlantis.Artifact import Artifact
 from ratlantis.EnergyVine import EnergyVine
+from ratlantis.EnergyTank import EnergyTank
 from lighting.PixelControl import PixelControl
 from mqtt.MqttClient import MqttClient
 
@@ -12,6 +13,7 @@ class RatGame(object):
 
     vines = []
     artifacts = []
+    tank = None
 
     is_running = False
 
@@ -20,12 +22,15 @@ class RatGame(object):
         self.pixels = PixelControl(300, led_brightness=50)
         self.mqtt = MqttClient()
 
-        vine = EnergyVine("7DC70A09530104E0", 4, range(0, 300), self.pixels)
+        vine = EnergyVine("7DC70A09530104E0", 4, range(0, 1), self.pixels)
         self.vines.append(vine)
-        vine.stop()
 
-        artifact = Artifact(self.mqtt, self.pixels, range(51, 60), "noodle1", self.__on_artifact_change)
+        artifact = Artifact(self.mqtt, self.pixels, range(1, 2), "noodle1", self.__on_artifact_change)
         self.artifacts.append(artifact)
+
+        self.tank = EnergyTank(self.mqtt, self.pixels, range(2, 3), range(3, 299), self.__on_artifact_change)
+
+        self.tank.start_charging()
 
     def __on_artifact_change(self, artifact):
         print("Artifact Changed", artifact)
@@ -38,15 +43,6 @@ class RatGame(object):
                 cur_vine.pulse_color(1)
 
 
-        # if vine:
-
-            # artifact.wave([255, 0, 0])
-            # artifact.is_activated = True
-
-            # artifact.pulse_color(0)
-
-            # artifact.is_activated = False
-
     #def start(self):
         #self.vines[0].pulse_color(0)
         #self.artifacts[0].pulse_color(0)
@@ -56,6 +52,9 @@ class RatGame(object):
             vine.update()
         for artifact in self.artifacts:
             artifact.update()
+
+        if self.tank.is_full():
+            self.tank.start_game()
         self.pixels.render()
 
 

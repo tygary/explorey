@@ -1,5 +1,6 @@
+from lighting.Colors import Colors
+from lighting.routines.Routine import Routines
 from ratlantis.Electromagnet import Electromagnet
-from lighting.Routine import *
 
 
 class EnergyVine(object):
@@ -18,13 +19,13 @@ class EnergyVine(object):
 
     def pulse_color(self, color_index):
         print("pulsing color", self.light_addresses)
-        self.light_routine = PulseRoutine(self.pixels, self.light_addresses, Colors.mid_green)  # FireRoutine(self.pixels, self.light_addresses, color_index)
+        self.light_routine = Routines.PulseRoutine(self.pixels, self.light_addresses, Colors.mid_green)  # Routines.FireRoutine(self.pixels, self.light_addresses, color_index)
 
     def wave(self, color):
-        self.light_routine = WaveRoutine(self.pixels, self.light_addresses, [color])
+        self.light_routine = Routines.WaveRoutine(self.pixels, self.light_addresses, [color])
 
     def stop(self):
-        self.light_routine = BlackoutRoutine(self.pixels, self.light_addresses)
+        self.light_routine = Routines.BlackoutRoutine(self.pixels, self.light_addresses)
 
     def update(self):
         self.light_routine.tick()

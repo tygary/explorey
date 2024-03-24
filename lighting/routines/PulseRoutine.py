@@ -22,7 +22,7 @@ class PulseRoutine(Routine):
         Routine.update_addresses(self, addresses)
         old_values = self.values
         self.values = []
-        last_value = None
+        last_value = [0, 0, 0]
         for i, address in enumerate(addresses):
             if i < len(old_values):
                 self.values.append(old_values[i])

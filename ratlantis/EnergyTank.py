@@ -71,6 +71,7 @@ class EnergyTank(Artifact):
         if self.rendered_energy_level <= 0:
             self.energy_level = 0
             self.rendered_energy_level = 0
+            self.is_active = False
             return MODE_OFF
         if self.mode == MODE_OFF_CHARGING and self.rendered_energy_level >= MAX_ENERGY:
             self.energy_level = MAX_ENERGY

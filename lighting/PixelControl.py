@@ -16,8 +16,10 @@ class PixelControl(object):
     LED_CHANNEL = 0
     #     LED_STRIP = ws.SK6812_STRIP_RGBW
 
-    def __init__(self, ledCount=300, led_brightness=200):
-        self.LED_COUNT = ledCount
+    def __init__(self, led_count=300, led_brightness=200, led_pin=10, led_dma=10):
+        self.LED_COUNT = led_count
+        self.LED_PIN = led_pin
+        self.LED_DMA = led_dma
         self.LED_BRIGHTNESS = led_brightness
         self.strip = Adafruit_NeoPixel(
             self.LED_COUNT,

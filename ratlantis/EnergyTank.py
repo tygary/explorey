@@ -143,6 +143,7 @@ class EnergyTank(Artifact):
     def update(self):
         now = time.time()
         time_since_last_update = now - self.last_update
+        print("timesince", time_since_last_update)
         if time_since_last_update > 0:
             prev_active_addresses, prev_inactive_addresses = self.__get_powered_light_addresses()
             if self.is_active:

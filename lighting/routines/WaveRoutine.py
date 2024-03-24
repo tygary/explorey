@@ -36,11 +36,24 @@ class WaveRoutine(TimeRoutine):
             self.starting_color = starting_color[:]
         else:
             self.starting_color = [0, 0, 0, 0]
-        for address in addresses:
-            light = Light(address)
-            self.lights.append(light)
-            light.intendedColor = self.starting_color[:]
-            light.currentValue = self.starting_color[:]
+        for i, address in enumerate(addresses):
+            self.__initialize_light(i, address)
+
+    def __initialize_light(self, index, address):
+        light = Light(address)
+        self.lights[index] = light
+        light.intendedColor = self.colors[self.color_index][:]
+        light.currentValue = self.colors[self.color_index][:]
+
+    def update_addresses(self, addresses):
+        TimeRoutine.update_addresses(self, addresses)
+        old_lights = self.lights
+        self.lights = []
+        for i, address in enumerate(addresses):
+            if old_lights[i]:
+                self.lights[i] = old_lights[i]
+            else:
+                self.__initialize_light(i, address)
 
     def tick(self):
         TimeRoutine.tick(self)

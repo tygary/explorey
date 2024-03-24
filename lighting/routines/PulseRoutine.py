@@ -5,18 +5,32 @@ class PulseRoutine(Routine):
     going_up = True
     color = None
     ratio = 0
-    values = {}
+    values = []
     rate = 0.05
 
     def __init__(self, pixels, addresses, color, rate=0.05):
         Routine.__init__(self, pixels, addresses)
         self.color = color
         self.rate = rate
-        for i in self.addresses:
+        for i, address in enumerate(self.addresses):
             red = 0
             green = 0
             blue = 0
             self.values[i] = [red, green, blue]
+
+    def update_addresses(self, addresses):
+        Routine.update_addresses(self, addresses)
+        old_values = self.values
+        self.values = []
+        last_value = None
+        for i, address in enumerate(addresses):
+            if old_values[i]:
+                self.values[i] = old_values[i]
+                last_value = self.values[i]
+            else:
+                self.values[i][0] = last_value[0]
+                self.values[i][1] = last_value[0]
+                self.values[i][2] = last_value[0]
 
     def tick(self):
         if self.ratio >= 1:
@@ -32,8 +46,8 @@ class PulseRoutine(Routine):
             if self.ratio < 0:
                 self.ratio = 0
 
-        for i in self.addresses:
+        for i, address in enumerate(self.addresses):
             self.values[i][0] = int(self.ratio * self.color[0])
             self.values[i][1] = int(self.ratio * self.color[1])
             self.values[i][2] = int(self.ratio * self.color[2])
-            self.pixels.setColor(i, self.values[i])
+            self.pixels.setColor(address, self.values[i])

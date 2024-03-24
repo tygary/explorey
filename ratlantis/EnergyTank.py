@@ -64,20 +64,20 @@ class EnergyTank(Artifact):
         self.rendered_energy_level = self.rendered_energy_level + (direction * change)
 
     def __get_new_mode(self):
-        if self.energy_level == 0:
+        if self.rendered_energy_level == 0:
             return MODE_OFF
-        if self.mode == MODE_OFF_CHARGING and self.energy_level == MAX_ENERGY:
+        if self.mode == MODE_OFF_CHARGING and self.rendered_energy_level == MAX_ENERGY:
             self.is_charging = False
             return MODE_FULL
         if self.is_charging:
             return MODE_OFF_CHARGING
-        if self.energy_level <= NEARLY_EMPTY_THRESHOLD:
+        if self.rendered_energy_level <= NEARLY_EMPTY_THRESHOLD:
             return MODE_NEARLY_EMPTY
         if self.is_active:
             return MODE_RUNNING
 
     def __get_powered_light_addresses(self):
-        energy_ratio = self.energy_level / MAX_ENERGY
+        energy_ratio = self.rendered_energy_level / MAX_ENERGY
         highest_index = math.floor(energy_ratio * (len(self.tank_light_addresses)))
         active_pixels = self.tank_light_addresses[0:highest_index]
         inactive_pixels = self.tank_light_addresses[highest_index:len(self.tank_light_addresses)]
@@ -86,14 +86,18 @@ class EnergyTank(Artifact):
     def __update_light_routing(self):
         active_pixels, inactive_pixels = self.__get_powered_light_addresses()
         if self.mode == MODE_OFF:
-            self.tank_routine = Routines.BlackoutRoutine(self.pixels, self.tank_light_addresses)
+            self.tank_routine = Routines.MultiRoutine([
+                Routines.BlackoutRoutine(self.pixels, self.tank_light_addresses)
+            ])
         elif self.mode == MODE_OFF_CHARGING:
             self.tank_routine = Routines.MultiRoutine([
                 Routines.WaveRoutine(self.pixels, active_pixels, TANK_COLORS),
                 Routines.BlackoutRoutine(self.pixels, inactive_pixels)
             ])
         elif self.mode == MODE_FULL:
-            self.tank_routine = Routines.FireRoutine(self.pixels, self.tank_light_addresses, TANK_COLORS)
+            self.tank_routine = Routines.MultiRoutine([
+                Routines.FireRoutine(self.pixels, self.tank_light_addresses, TANK_COLORS)
+            ])
         elif self.mode == MODE_RUNNING:
             self.tank_routine = Routines.MultiRoutine([
                 Routines.FireRoutine(self.pixels, active_pixels),
@@ -111,30 +115,44 @@ class EnergyTank(Artifact):
         self.is_active = False
         self.is_charging = True
         self.energy_level = 1
+        self.rendered_energy_level = 1
 
     def is_full(self):
         return self.mode == MODE_FULL
 
     def start_game(self):
         self.last_update = time.time()
-        self.energy_level = 100
+        self.energy_level = MAX_ENERGY
+        self.rendered_energy_level = MAX_ENERGY
         self.is_active = True
         self.is_charging = False
 
     def end_game(self):
         self.energy_level = 0
+        self.rendered_energy_level = 0
         self.is_active = False
         self.is_charging = False
 
     def add_energy(self, amount):
         self.energy_level += amount
+        if self.energy_level < 0:
+            self.energy_level = 0
+        elif self.energy_level > MAX_ENERGY:
+            self.energy_level = MAX_ENERGY
 
     def update(self):
         now = time.time()
         time_since_last_update = now - self.last_update
         if time_since_last_update > 0:
-            self.energy_level = self.energy_level - (time_since_last_update * DRAIN_RATE)
-        self.__update_rendered_energy(time_since_last_update)
+            prev_active_addresses, prev_inactive_addresses = self.__get_powered_light_addresses()
+            if self.is_active:
+                self.energy_level = self.energy_level - (time_since_last_update * DRAIN_RATE)
+            self.__update_rendered_energy(time_since_last_update)
+            active_addresses, inactive_addresses = self.__get_powered_light_addresses()
+            if self.tank_routine.routines and (prev_active_addresses is not active_addresses):
+                if len(self.tank_routine.routines) == 2:
+                    self.tank_routine.routines[0].update_addresses(active_addresses)
+                    self.tank_routine.routines[1].update_addresses(inactive_addresses)
         new_mode = self.__get_new_mode()
         if new_mode != self.mode:
             self.mode = new_mode

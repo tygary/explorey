@@ -42,8 +42,8 @@ class WaveRoutine(TimeRoutine):
     def __initialize_light(self, address):
         light = Light(address)
         self.lights.append(light)
-        light.intendedColor = self.colors[self.color_index][:]
-        light.currentValue = self.colors[self.color_index][:]
+        light.intendedColor = self.starting_color[:]
+        light.currentValue = self.starting_color[:]
 
     def update_addresses(self, addresses):
         TimeRoutine.update_addresses(self, addresses)

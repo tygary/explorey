@@ -155,6 +155,7 @@ class EnergyTank(Artifact):
                     self.tank_routine.routines[1].update_addresses(inactive_addresses)
         new_mode = self.__get_new_mode()
         if new_mode != self.mode:
+            print("Updating energy tank mode to ", new_mode)
             self.mode = new_mode
             self.__update_light_routing()
         Artifact.update(self)

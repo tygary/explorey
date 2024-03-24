@@ -5,7 +5,7 @@ import time
 import json
 import random
 
-from lighting.routines.Routine import Routines
+from lighting.routines import Routines
 from timemachine.Levers import *
 from mqtt.MqttClient import *
 from timemachine.CoinMachine import CoinMachine

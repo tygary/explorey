@@ -1,11 +1,12 @@
 from lighting.GenericButtonController import GenericButtonController
 from lighting.ExploreyLights import *
-from lighting.routines.Routine import Routines
+from lighting.routines import Routines
 
 MAX_POINTS = 1000
 
 RED_BUTTON_PIN = 18
 BLUE_BUTTON_PIN = 22
+
 
 class WarGame(object):
     explorey_lights = None

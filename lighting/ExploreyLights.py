@@ -1,5 +1,5 @@
 from lighting.PixelControl import PixelControl
-from lighting.routines.Routine import Routines
+from lighting.routines import Routines
 from lighting.Colors import Colors
 from lighting.DmxControl import DmxControl
 

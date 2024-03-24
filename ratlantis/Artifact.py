@@ -1,6 +1,6 @@
 import json
 
-from lighting.routines.Routine import Routines
+from lighting.routines import Routines
 
 CARD_FOUND = "cardFound"
 CARD_REMOVED = "cardRemoved"

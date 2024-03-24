@@ -1,7 +1,7 @@
 import math
 import time
 
-from lighting.routines.Routine import Routines
+from lighting.routines import Routines
 from lighting.Colors import Colors
 from ratlantis.Artifact import Artifact
 

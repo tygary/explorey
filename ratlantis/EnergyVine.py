@@ -1,5 +1,5 @@
 from lighting.Colors import Colors
-from lighting.routines.Routine import Routines
+from lighting.routines import Routines
 from ratlantis.Electromagnet import Electromagnet
 
 

@@ -24,7 +24,7 @@ class PulseRoutine(Routine):
         self.values = []
         last_value = None
         for i, address in enumerate(addresses):
-            if old_values[i]:
+            if i < len(old_values):
                 self.values.append(old_values[i])
                 last_value = self.values[i]
             else:

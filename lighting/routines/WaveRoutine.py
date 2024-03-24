@@ -51,7 +51,7 @@ class WaveRoutine(TimeRoutine):
         old_lights = self.lights
         self.lights = []
         for i, address in enumerate(addresses):
-            if old_lights[i]:
+            if i < len(old_lights):
                 self.lights.append(old_lights[i])
             else:
                 self.__initialize_light(address)

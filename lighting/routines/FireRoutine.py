@@ -40,7 +40,7 @@ class FireRoutine(Routine):
         self.values = []
         self.pixel_colors = []
         for i, address in enumerate(updated_addresses):
-            if old_values[i]:
+            if i < len(old_values):
                 self.values.append(old_values[i])
                 self.pixel_colors.append(old_pixel_colors[i])
             else:

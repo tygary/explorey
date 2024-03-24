@@ -28,7 +28,7 @@ class RatGame(object):
         artifact = Artifact(self.mqtt, self.pixels, range(1, 2), "noodle1", self.__on_artifact_change)
         self.artifacts.append(artifact)
 
-        self.tank = EnergyTank(self.mqtt, self.pixels, range(2, 3), range(3, 299), self.__on_artifact_change)
+        self.tank = EnergyTank(self.mqtt, self.pixels, range(2, 3), range(3, 300), self.__on_artifact_change)
 
         self.tank.start_charging()
 

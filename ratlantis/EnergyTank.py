@@ -78,7 +78,7 @@ class EnergyTank(Artifact):
 
     def __get_powered_light_addresses(self):
         energy_ratio = self.rendered_energy_level / MAX_ENERGY
-        highest_index = math.floor(energy_ratio * (len(self.tank_light_addresses)))
+        highest_index = math.floor(energy_ratio * (len(self.tank_light_addresses) - 1))
         active_pixels = self.tank_light_addresses[0:highest_index]
         inactive_pixels = self.tank_light_addresses[highest_index:len(self.tank_light_addresses)]
         return active_pixels, inactive_pixels

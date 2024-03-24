@@ -66,9 +66,13 @@ class EnergyTank(Artifact):
         self.rendered_energy_level = self.rendered_energy_level + (direction * change)
 
     def __get_new_mode(self):
-        if self.rendered_energy_level == 0:
+        if self.rendered_energy_level <= 0:
+            self.energy_level = 0
+            self.rendered_energy_level = 0
             return MODE_OFF
-        if self.mode == MODE_OFF_CHARGING and self.rendered_energy_level == MAX_ENERGY:
+        if self.mode == MODE_OFF_CHARGING and self.rendered_energy_level >= MAX_ENERGY:
+            self.energy_level = MAX_ENERGY
+            self.rendered_energy_level = MAX_ENERGY
             self.is_charging = False
             return MODE_FULL
         if self.is_charging:

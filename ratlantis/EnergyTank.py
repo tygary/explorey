@@ -9,9 +9,11 @@ CARD_FOUND = "cardFound"
 CARD_REMOVED = "cardRemoved"
 
 GAME_LENGTH_S = 60
+CHARGING_TIME_S = 20
 MAX_ENERGY = 100
 ENERGY_LEVEL_TRANSITION_RATE_PER_SEC = 10
 DRAIN_RATE = MAX_ENERGY / GAME_LENGTH_S
+CHARGE_RATE = MAX_ENERGY / CHARGING_TIME_S
 
 NEARLY_EMPTY_THRESHOLD = 10
 
@@ -143,11 +145,12 @@ class EnergyTank(Artifact):
     def update(self):
         now = time.time()
         time_since_last_update = now - self.last_update
-        print("timesince", time_since_last_update)
         if time_since_last_update > 0:
             prev_active_addresses, prev_inactive_addresses = self.__get_powered_light_addresses()
             if self.is_active:
                 self.energy_level = self.energy_level - (time_since_last_update * DRAIN_RATE)
+            elif self.is_charging:
+                self.energy_level = self.energy_level + (time_since_last_update * CHARGE_RATE)
             self.__update_rendered_energy(time_since_last_update)
             active_addresses, inactive_addresses = self.__get_powered_light_addresses()
             if self.tank_routine.routines:

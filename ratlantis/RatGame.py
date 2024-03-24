@@ -63,6 +63,7 @@ class RatGame(object):
         # self.tank.update()
         # if self.tank.is_full():
         #     self.tank.start_game()
+        self.routine.tick()
         self.pixels.render()
 
 

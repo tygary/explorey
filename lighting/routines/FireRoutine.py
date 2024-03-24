@@ -27,10 +27,10 @@ class FireRoutine(Routine):
         self.current_power = randint(0, MAX_FIRE_POWER)
         multiplier = self.current_power / MAX_LED_POWER
         self.values.append([
-            self.pixel_colors[i][0] * multiplier,
-            self.pixel_colors[i][1] * multiplier,
-            self.pixel_colors[i][2] * multiplier,
-            self.pixel_colors[i][3] * multiplier
+            round(self.pixel_colors[i][0] * multiplier),
+            round(self.pixel_colors[i][1] * multiplier),
+            round(self.pixel_colors[i][2] * multiplier),
+            round(self.pixel_colors[i][3] * multiplier)
         ])
 
     def update_addresses(self, updated_addresses):
@@ -51,9 +51,9 @@ class FireRoutine(Routine):
             self.current_power = (self.current_power + randint(0, MAX_CHANGE)) % MAX_FIRE_POWER
             multiplier = self.current_power / MAX_LED_POWER
             self.values[i] = [
-                self.pixel_colors[i][0] * multiplier,
-                self.pixel_colors[i][1] * multiplier,
-                self.pixel_colors[i][2] * multiplier,
-                self.pixel_colors[i][3] * multiplier
+                round(self.pixel_colors[i][0] * multiplier),
+                round(self.pixel_colors[i][1] * multiplier),
+                round(self.pixel_colors[i][2] * multiplier),
+                round(self.pixel_colors[i][3] * multiplier)
             ]
             self.pixels.setRGBW(address, self.values[i])

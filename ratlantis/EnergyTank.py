@@ -11,9 +11,9 @@ CARD_REMOVED = "cardRemoved"
 GAME_LENGTH_S = 60
 CHARGING_TIME_S = 20
 MAX_ENERGY = 100
-ENERGY_LEVEL_TRANSITION_RATE_PER_SEC = 10
 DRAIN_RATE = MAX_ENERGY / GAME_LENGTH_S
 CHARGE_RATE = MAX_ENERGY / CHARGING_TIME_S
+ENERGY_LEVEL_TRANSITION_RATE_PER_SEC = CHARGE_RATE
 
 NEARLY_EMPTY_THRESHOLD = 10
 
@@ -64,6 +64,7 @@ class EnergyTank(Artifact):
             time_since_last_update * ENERGY_LEVEL_TRANSITION_RATE_PER_SEC
         )
         self.rendered_energy_level = self.rendered_energy_level + (direction * change)
+        self.rendered_energy_level = self.energy_level
 
     def __get_new_mode(self):
         if self.rendered_energy_level <= 0:

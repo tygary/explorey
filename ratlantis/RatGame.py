@@ -52,7 +52,7 @@ class RatGame(object):
             vine.update()
         for artifact in self.artifacts:
             artifact.update()
-
+        self.tank.update()
         if self.tank.is_full():
             self.tank.start_game()
         self.pixels.render()

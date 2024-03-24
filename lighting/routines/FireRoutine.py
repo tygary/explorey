@@ -10,10 +10,10 @@ MAX_CHANGE = 5
 
 
 class FireRoutine(Routine):
+    current_magnitudes = []
     values = []
     colors = [Colors.red]
     pixel_colors = []
-    current_power = 0
 
     def __init__(self, pixels, addresses, colors=None):
         Routine.__init__(self, pixels, addresses)
@@ -24,8 +24,11 @@ class FireRoutine(Routine):
 
     def __register_pixel(self, i):
         self.pixel_colors.append(random.choice(self.colors))
-        self.current_power = randint(0, MAX_FIRE_POWER)
-        multiplier = self.current_power / MAX_LED_POWER
+        # current_power = randint(0, MAX_FIRE_POWER)
+        # multiplier = self.current_power / MAX_LED_POWER
+        magnitude = randint(0, MAX_FIRE_POWER)
+        self.current_magnitudes.append(magnitude)
+        multiplier = magnitude / MAX_FIRE_POWER
         self.values.append([
             round(self.pixel_colors[i][0] * multiplier),
             round(self.pixel_colors[i][1] * multiplier),
@@ -48,8 +51,8 @@ class FireRoutine(Routine):
 
     def tick(self):
         for i, address in enumerate(self.addresses):
-            self.current_power = (self.current_power + randint(0, MAX_CHANGE)) % MAX_FIRE_POWER
-            multiplier = self.current_power / MAX_LED_POWER
+            self.current_magnitudes[i] = (self.current_magnitudes[i] + randint(0, 5)) % MAX_FIRE_POWER
+            multiplier = self.current_magnitudes[i] / MAX_FIRE_POWER
             self.values[i] = [
                 round(self.pixel_colors[i][0] * multiplier),
                 round(self.pixel_colors[i][1] * multiplier),

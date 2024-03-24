@@ -159,9 +159,9 @@ class EnergyTank(Artifact):
                 self.energy_level = self.energy_level + (time_since_last_update * CHARGE_RATE)
             self.__update_rendered_energy(time_since_last_update)
             active_addresses, inactive_addresses = self.__get_powered_light_addresses()
+            if len(prev_active_addresses) != len(active_addresses):
+                print("Active addresses: ", len(active_addresses))
             if self.tank_routine.routines:
-                print("Energy Level", self.energy_level)
-                print("Rendered Energy Level", self.rendered_energy_level)
                 if len(self.tank_routine.routines) == 2:
                     self.tank_routine.routines[0].update_addresses(active_addresses)
                     self.tank_routine.routines[1].update_addresses(inactive_addresses)

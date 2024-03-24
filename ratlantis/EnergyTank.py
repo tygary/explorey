@@ -63,7 +63,8 @@ class EnergyTank(Artifact):
             abs(self.rendered_energy_level - self.energy_level),
             time_since_last_update * ENERGY_LEVEL_TRANSITION_RATE_PER_SEC
         )
-        self.rendered_energy_level = self.rendered_energy_level + (direction * change)
+        # self.rendered_energy_level = self.rendered_energy_level + (direction * change)
+        # Temp hack to keep it simple...
         self.rendered_energy_level = self.energy_level
 
     def __get_new_mode(self):

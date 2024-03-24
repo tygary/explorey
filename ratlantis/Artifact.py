@@ -1,5 +1,6 @@
 import json
 
+from lighting.Colors import Colors
 from lighting.routines import Routines
 
 CARD_FOUND = "cardFound"
@@ -51,8 +52,8 @@ class Artifact(object):
         self.is_attached = False
         self.on_change(self)
 
-    def ring_pulse_color(self, color_index):
-        self.ring_light_routine = Routines.FireRoutine(self.pixels, self.ring_light_addresses, color_index)
+    def ring_pulse_color(self):
+        self.ring_light_routine = Routines.FireRoutine(self.pixels, self.ring_light_addresses, [Colors.red])
 
     def ring_wave(self, color):
         self.ring_light_routine = Routines.WaveRoutine(self.pixels, self.ring_light_addresses, [color])

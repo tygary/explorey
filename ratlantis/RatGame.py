@@ -25,10 +25,12 @@ class RatGame(object):
         vine = EnergyVine("7DC70A09530104E0", 4, range(0, 1), self.pixels)
         self.vines.append(vine)
 
-        artifact = Artifact(self.mqtt, self.pixels, range(1, 2), "noodle1", self.__on_artifact_change)
-        self.artifacts.append(artifact)
 
-        self.tank = EnergyTank(self.mqtt, self.pixels, range(2, 3), range(3, 300), self.__on_artifact_change)
+        artifact = Artifact(self.mqtt, self.pixels, range(4, 300), "noodle1", self.__on_artifact_change)
+        self.artifacts.append(artifact)
+        artifact.ring_pulse_color()
+
+        self.tank = EnergyTank(self.mqtt, self.pixels, range(2, 3), range(3, 4), self.__on_artifact_change)
 
         self.tank.start_charging()
 

@@ -159,6 +159,7 @@ class EnergyTank(Artifact):
             self.mode = new_mode
             self.__update_light_routing()
         Artifact.update(self)
+        self.tank_routine.tick()
         self.last_update = now
 
 

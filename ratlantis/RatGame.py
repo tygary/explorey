@@ -21,24 +21,19 @@ class RatGame(object):
 
     def __init__(self):
         GPIO.setmode(GPIO.BCM)
-        self.pixels = PixelControl(600, led_brightness=50, led_pin=21, led_dma=10)
-        #self.pixels2 = PixelControl(300, led_brightness=50, led_pin=12, led_dma=9)
+        self.pixels = PixelControl(600, led_brightness=50)
+        self.mqtt = MqttClient()
 
-        self.routine = Routines.RainbowRoutine(self.pixels, range(0, 600))
+        vine = EnergyVine("7DC70A09530104E0", 4, range(0, 100), self.pixels)
+        self.vines.append(vine)
+        vine.pulse_color(0)
 
-        # self.mqtt = MqttClient()
-        #
-        # vine = EnergyVine("7DC70A09530104E0", 4, range(0, 100), self.pixels)
-        # self.vines.append(vine)
-        # vine.pulse_color(0)
-        #
-        #
-        # artifact = Artifact(self.mqtt, self.pixels, range(100, 200), "noodle1", self.__on_artifact_change)
-        # self.artifacts.append(artifact)
-        # artifact.ring_pulse_color()
-        #
-        # self.tank = EnergyTank(self.mqtt, self.pixels, range(200, 300), range(300, 600), self.__on_artifact_change)
-        # self.tank.start_charging()
+        artifact = Artifact(self.mqtt, self.pixels, range(100, 200), "noodle1", self.__on_artifact_change)
+        self.artifacts.append(artifact)
+        artifact.ring_pulse_color()
+
+        self.tank = EnergyTank(self.mqtt, self.pixels, range(200, 300), range(300, 600), self.__on_artifact_change)
+        self.tank.start_charging()
 
     def __on_artifact_change(self, artifact):
         print("Artifact Changed", artifact)
@@ -56,14 +51,13 @@ class RatGame(object):
         #self.artifacts[0].pulse_color(0)
 
     def update(self):
-        # for vine in self.vines:
-        #     vine.update()
-        # for artifact in self.artifacts:
-        #     artifact.update()
-        # self.tank.update()
-        # if self.tank.is_full():
-        #     self.tank.start_game()
-        self.routine.tick()
+        for vine in self.vines:
+            vine.update()
+        for artifact in self.artifacts:
+            artifact.update()
+        self.tank.update()
+        if self.tank.is_full():
+            self.tank.start_game()
         self.pixels.render()
 
 

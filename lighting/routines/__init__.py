@@ -16,21 +16,21 @@ from lighting.routines.WaveRoutine import WaveRoutine
 
 
 class _Routines(object):
-    BlackoutRoutine: BlackoutRoutine
-    BleuRoutine: BleuRoutine
-    CyclingMultiRoutine: CyclingMultiRoutine
-    FireRoutine: FireRoutine
-    ModeRoutine: ModeRoutine
-    ModeSwitchRoutine: ModeSwitchRoutine
-    MultiRoutine: MultiRoutine
-    MushroomRoutine: MushroomRoutine
-    PowerGaugeRoutine: PowerGaugeRoutine
-    PulseRoutine: PulseRoutine
-    RainbowRoutine: RainbowRoutine
-    RandomPulseRoutine: RandomPulseRoutine
-    SpeedGaugeRoutine: SpeedGaugeRoutine
-    TimeRoutine: TimeRoutine
-    WaveRoutine: WaveRoutine
+    BlackoutRoutine = BlackoutRoutine
+    BleuRoutine = BleuRoutine
+    CyclingMultiRoutine = CyclingMultiRoutine
+    FireRoutine = FireRoutine
+    ModeRoutine = ModeRoutine
+    ModeSwitchRoutine = ModeSwitchRoutine
+    MultiRoutine = MultiRoutine
+    MushroomRoutine = MushroomRoutine
+    PowerGaugeRoutine = PowerGaugeRoutine
+    PulseRoutine = PulseRoutine
+    RainbowRoutine = RainbowRoutine
+    RandomPulseRoutine = RandomPulseRoutine
+    SpeedGaugeRoutine = SpeedGaugeRoutine
+    TimeRoutine = TimeRoutine
+    WaveRoutine = WaveRoutine
 
 
 Routines = _Routines()

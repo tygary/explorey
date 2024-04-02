@@ -21,7 +21,7 @@ class RatGame(object):
 
     def __init__(self):
         GPIO.setmode(GPIO.BCM)
-        self.pixels = PixelControl(300, led_brightness=150, led_pin=21)
+        self.pixels = PixelControl(300, led_brightness=250, led_pin=21)
         self.mqtt = MqttClient()
 
         vine = EnergyVine("7DC70A09530104E0", 4, range(0, 160), self.pixels)

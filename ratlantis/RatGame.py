@@ -24,15 +24,15 @@ class RatGame(object):
         self.pixels = PixelControl(300, led_brightness=150, led_pin=21)
         self.mqtt = MqttClient()
 
-        vine = EnergyVine("7DC70A09530104E0", 4, range(0, 150), self.pixels)
+        vine = EnergyVine("7DC70A09530104E0", 4, range(0, 160), self.pixels)
         self.vines.append(vine)
         vine.pulse_color(0)
 
-        artifact = Artifact(self.mqtt, self.pixels, range(151, 152), "noodle1", self.__on_artifact_change)
+        artifact = Artifact(self.mqtt, self.pixels, range(161, 162), "noodle1", self.__on_artifact_change)
         self.artifacts.append(artifact)
         artifact.ring_pulse_color()
 
-        self.tank = EnergyTank(self.mqtt, self.pixels, range(152, 153), range(153, 300), self.__on_artifact_change)
+        self.tank = EnergyTank(self.mqtt, self.pixels, range(162, 163), range(163, 300), self.__on_artifact_change)
         self.tank.start_charging()
 
     def __on_artifact_change(self, artifact):

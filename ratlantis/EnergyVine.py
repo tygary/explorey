@@ -22,7 +22,12 @@ class EnergyVine(object):
         self.light_routine = Routines.PulseRoutine(self.pixels, self.light_addresses, Colors.mid_green)  # Routines.FireRoutine(self.pixels, self.light_addresses, color_index)
 
     def wave(self, color=None):
-        self.light_routine = Routines.WaveRoutine(self.pixels, self.light_addresses, [Colors.light_green, Colors.mid_green, Colors.green])
+        self.light_routine = Routines.WaveRoutine(
+            self.pixels,
+            self.light_addresses,
+            [Colors.light_green, Colors.mid_green, Colors.green],
+            wave_wait_time=1000
+        )
 
     def stop(self):
         self.light_routine = Routines.BlackoutRoutine(self.pixels, self.light_addresses)

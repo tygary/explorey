@@ -24,11 +24,11 @@ class RatGame(object):
         self.pixels = PixelControl(350, led_brightness=250, led_pin=21)
         self.mqtt = MqttClient()
 
-        vine1 = EnergyVine("7DC70A09530104E0", 4, range(0, 170), self.pixels)
+        vine1 = EnergyVine("7DC70A09530104E0", 4, range(0, 173), self.pixels)
         self.vines.append(vine1)
         vine1.wave()
 
-        vine2 = EnergyVine("7DC70A09530104E0", 4, range(171, 341), self.pixels)
+        vine2 = EnergyVine("7DC70A09530104E0", 4, range(173, 341), self.pixels)
         self.vines.append(vine2)
         vine2.wave()
 

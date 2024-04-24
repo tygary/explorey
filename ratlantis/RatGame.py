@@ -21,22 +21,22 @@ class RatGame(object):
 
     def __init__(self):
         GPIO.setmode(GPIO.BCM)
-        self.pixels = PixelControl(350, led_brightness=250, led_pin=21)
+        self.pixels = PixelControl(360, led_brightness=250, led_pin=21)
         self.mqtt = MqttClient()
 
-        vine1 = EnergyVine("7DC70A09530104E0", 4, range(0, 173), self.pixels)
+        vine1 = EnergyVine("7DC70A09530104E0", 4, range(0, 174), self.pixels)
         self.vines.append(vine1)
         vine1.wave()
 
-        vine2 = EnergyVine("7DC70A09530104E0", 4, range(173, 341), self.pixels)
+        vine2 = EnergyVine("7DC70A09530104E0", 4, range(174, 349), self.pixels)
         self.vines.append(vine2)
         vine2.wave()
 
-        artifact = Artifact(self.mqtt, self.pixels, range(341, 344), "noodle1", self.__on_artifact_change)
+        artifact = Artifact(self.mqtt, self.pixels, range(350, 354), "noodle1", self.__on_artifact_change)
         self.artifacts.append(artifact)
         artifact.ring_pulse_color()
 
-        self.tank = EnergyTank(self.mqtt, self.pixels, range(344, 345), range(345, 350), self.__on_artifact_change)
+        self.tank = EnergyTank(self.mqtt, self.pixels, range(354, 355), range(355, 359), self.__on_artifact_change)
         self.tank.start_charging()
 
     def __on_artifact_change(self, artifact):

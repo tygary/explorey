@@ -13,6 +13,7 @@ class Artifact(object):
     is_attached = False
     is_activated = False
     current_rfid = None
+    desired_rfid = "2dcc1366080104e0"
     ring_light_routine = None
     ring_light_addresses = None
     pixels = None

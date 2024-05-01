@@ -17,9 +17,13 @@ class EnergyVine(object):
         self.pixels = pixels
         self.stop()
 
-    def pulse_color(self, color_index):
+    def invalid_connection(self):
+        print("invalid connection!", self.light_addresses)
+        self.light_routine = Routines.FireRoutine(self.pixels, self.light_addresses)
+
+    def pulse_color(self, color):
         print("pulsing color", self.light_addresses)
-        self.light_routine = Routines.PulseRoutine(self.pixels, self.light_addresses, Colors.mid_green)  # Routines.FireRoutine(self.pixels, self.light_addresses, color_index)
+        self.light_routine = Routines.PulseRoutine(self.pixels, self.light_addresses, Colors.mid_green)  #
 
     def wave(self, color=None):
         self.light_routine = Routines.WaveRoutine(

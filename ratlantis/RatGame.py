@@ -50,7 +50,7 @@ class RatGame(object):
     def __on_artifact_change(self, artifact):
         print("Artifact Changed", artifact)
         for cur_vine in self.vines:
-            if cur_vine.rfid == artifact.current_rfid:
+            if artifact.current_rfid:
                 if artifact.current_rfid == artifact.desired_rfid:
                     cur_vine.wave([255, 0, 0])
                     print("Yay connected!")

@@ -40,7 +40,7 @@ class RatGame(object):
         # self.vines.append(vine4)
         # vine4.wave()
 
-        artifact = Artifact(self.mqtt, self.pixels, range(697, 698), "noodle1", self.__on_artifact_change)
+        artifact = Artifact(self.mqtt, self.pixels, range(697, 698), "noodle/1", self.__on_artifact_change)
         self.artifacts.append(artifact)
         artifact.ring_pulse_color()
 

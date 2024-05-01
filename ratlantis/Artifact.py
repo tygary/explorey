@@ -29,6 +29,7 @@ class Artifact(object):
         self.mqtt.listen(self.__parse_mqtt_event)
 
     def __parse_mqtt_event(self, event):
+        print(event)
         data = json.loads(event)
         if data and data["event"]:
             print(data)

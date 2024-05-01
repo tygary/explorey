@@ -29,10 +29,8 @@ class Artifact(object):
         self.mqtt.listen(self.__parse_mqtt_event)
 
     def __parse_mqtt_event(self, event):
-        print(event)
         data = json.loads(event)
         if data and data["event"]:
-            print(data)
             event = data["event"]
             reader_name = data["reader"]
             card_id = data["card"]
@@ -43,7 +41,7 @@ class Artifact(object):
                     self.__on_card_removed()
 
     def __on_card_detected(self, card):
-        print("Card deected", card)
+        print("Card detected", card)
         self.current_rfid = card
         self.on_change(self)
 

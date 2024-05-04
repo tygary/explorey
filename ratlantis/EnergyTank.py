@@ -42,10 +42,11 @@ class EnergyTank(Artifact):
     tank_light_addresses = []
     tank_routine = None
 
-    def __init__(self, mqtt, pixels, ring_light_addresses, tank_light_addresses, on_change):
+    def __init__(self, mqtt, pixels, tank_light_addresses, on_change):
         self.outer_callback = on_change
+        self.pixels = pixels
         self.tank_light_addresses = tank_light_addresses
-        Artifact.__init__(self, mqtt, pixels, ring_light_addresses, TANK_ID, self.__on_artifact_change)
+        Artifact.__init__(self, mqtt, TANK_ID, self.__on_artifact_change)
         self.last_update = time.time()
         self.__update_light_routing()
 

@@ -44,12 +44,12 @@ class RatGame(object):
         # self.vines.append(vine4)
         # vine4.pending_connection(self.current_color)
         #
-        # artifact = Artifact(self.mqtt, "noodle/1", self.__on_artifact_change)
-        # self.artifacts.append(artifact)
-        # artifact.set_pending_vine(self.current_color, TEST_RFID)
-
-        self.tank = EnergyTank(self.mqtt, self.pixels, range(698, 699), range(699, 700), self.__on_artifact_change)
-        self.tank.start_charging()
+        artifact = Artifact(self.mqtt, "noodle/1", self.__on_artifact_change)
+        self.artifacts.append(artifact)
+        artifact.set_pending_vine(self.current_color, TEST_RFID)
+        #
+        # self.tank = EnergyTank(self.mqtt, self.pixels, range(698, 699), range(699, 700), self.__on_artifact_change)
+        # self.tank.start_charging()
 
     def __on_artifact_change(self, artifact):
         print("Artifact Changed", artifact)
@@ -74,9 +74,9 @@ class RatGame(object):
     def update(self):
         for vine in self.vines:
             vine.update()
-        self.tank.update()
-        if self.tank.is_full():
-            self.tank.start_game()
+        # self.tank.update()
+        # if self.tank.is_full():
+        #     self.tank.start_game()
         self.pixels.render()
 
 

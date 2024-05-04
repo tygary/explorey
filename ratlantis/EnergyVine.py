@@ -50,7 +50,7 @@ class EnergyVine(object):
         self.light_routine = Routines.WaveRoutine(
             self.pixels,
             self.light_addresses,
-            get_color(color),  # [Colors.light_green, Colors.mid_green, Colors.green],
+            [get_color(color)],  # [Colors.light_green, Colors.mid_green, Colors.green],
             wave_wait_time=1000
         )
 

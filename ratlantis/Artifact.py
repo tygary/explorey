@@ -22,16 +22,19 @@ class Artifact(object):
         self.mqtt.listen(self.__parse_mqtt_event)
 
     def __parse_mqtt_event(self, event):
-        data = json.loads(event)
-        if data and data["event"]:
-            event = data["event"]
-            reader_name = data["reader"]
-            card_id = data["card"]
-            if reader_name == self.id:
-                if event == CARD_FOUND:
-                    self.__on_card_detected(card_id)
-                elif event == CARD_REMOVED:
-                    self.__on_card_removed()
+        try:
+            data = json.loads(event)
+            if data and data["event"]:
+                event = data["event"]
+                reader_name = data["reader"]
+                card_id = data["card"]
+                if reader_name == self.id:
+                    if event == CARD_FOUND:
+                        self.__on_card_detected(card_id)
+                    elif event == CARD_REMOVED:
+                        self.__on_card_removed()
+        except:
+            print("Artifact Failed parsing event", event)
 
     def __on_card_detected(self, card):
         print("Card detected", card)

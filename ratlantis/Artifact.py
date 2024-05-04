@@ -10,23 +10,15 @@ CARD_REMOVED = "cardRemoved"
 class Artifact(object):
     id = None
     mqtt = None
-    is_attached = False
-    is_activated = False
     current_rfid = None
-    desired_rfid = "2dcc1366080104e0"
-    ring_light_routine = None
-    ring_light_addresses = None
-    pixels = None
+    desired_rfid = None
     on_change = None
 
-    def __init__(self, mqtt, pixels, ring_light_addresses, artifact_id, on_change):
+    def __init__(self, mqtt, artifact_id, on_change):
         self.mqtt = mqtt
-        self.pixels = pixels
-        self.ring_light_addresses = ring_light_addresses
         self.id = artifact_id
         self.on_change = on_change
 
-        self.ring_stop()
         self.mqtt.listen(self.__parse_mqtt_event)
 
     def __parse_mqtt_event(self, event):
@@ -52,15 +44,13 @@ class Artifact(object):
         self.is_attached = False
         self.on_change(self)
 
-    def ring_pulse_color(self):
-        self.ring_light_routine = Routines.FireRoutine(self.pixels, self.ring_light_addresses, [Colors.red])
+    def set_pending_vine(self, color, vine_id):
+        self.desired_rfid = vine_id
+        self.mqtt.publish(json.dumps({
+            "event": "artifactUpdate",
+            "id": self.id,
+            "pendingRfid": vine_id,
+            "color": color
+        }))
 
-    def ring_wave(self, color):
-        self.ring_light_routine = Routines.WaveRoutine(self.pixels, self.ring_light_addresses, [color])
-
-    def ring_stop(self):
-        self.ring_light_routine = Routines.BlackoutRoutine(self.pixels, self.ring_light_addresses)
-
-    def update(self):
-        self.ring_light_routine.tick()
 

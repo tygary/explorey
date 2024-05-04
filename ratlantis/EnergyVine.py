@@ -27,7 +27,7 @@ def get_color(color_const):
         return Colors.blue
     if color_const == COLOR_PURPLE:
         return Colors.purple
-    if color_const == COLOR_PINK:
+    else:  # if color_const == COLOR_PINK:
         return Colors.pink
 
 class EnergyVine(object):

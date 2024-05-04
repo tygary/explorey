@@ -5,11 +5,13 @@ from lighting.routines import Routines
 
 CARD_FOUND = "cardFound"
 CARD_REMOVED = "cardRemoved"
+FINISHED_BOOT = "finishedBoot"
 
 
 class Artifact(object):
     id = None
     mqtt = None
+    color = None
     current_rfid = None
     desired_rfid = None
     on_change = None
@@ -33,6 +35,8 @@ class Artifact(object):
                         self.__on_card_detected(card_id)
                     elif event == CARD_REMOVED:
                         self.__on_card_removed()
+                    elif event == FINISHED_BOOT:
+                        self.set_pending_vine(self.color, self.desired_rfid)
         except:
             print("Artifact Failed parsing event", event)
 
@@ -48,6 +52,7 @@ class Artifact(object):
         self.on_change(self)
 
     def set_pending_vine(self, color, vine_id):
+        self.color = color
         self.desired_rfid = vine_id
         self.mqtt.publish(json.dumps({
             "event": "artifactUpdate",

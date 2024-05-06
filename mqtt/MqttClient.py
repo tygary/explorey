@@ -2,7 +2,7 @@ import paho.mqtt.client as mqtt
 import socket
 import time
 
-HOSTNAME = "10.0.0.40" # "10.0.0.21"  # "192.168.0.110"
+HOSTNAME = "10.0.0.46" # "10.0.0.21"  # "192.168.0.110"
 BROKER_PORT = 1883
 TOPIC = "mqtt/timemachine"
 

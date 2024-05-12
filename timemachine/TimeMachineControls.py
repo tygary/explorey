@@ -75,7 +75,7 @@ class TimeMachineControls(object):
     is_countdown = False
     countdown_start_time = 0
 
-    pixels = PixelControl(NUM_LEDS)
+    pixels = PixelControl(NUM_LEDS, led_pin=21)
     power_routine = Routines.PowerGaugeRoutine(pixels, PIXELS_POWER)
     speed_routine = Routines.SpeedGaugeRoutine(pixels, PIXELS_SPEED)
     mode_routine = Routines.ModeRoutine(pixels, PIXELS_MODE)

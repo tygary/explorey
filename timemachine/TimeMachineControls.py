@@ -16,8 +16,8 @@ from timemachine.TimeMachineSoundSystem import TimeMachineSoundSystem, STARTUP_T
 
 
 ZERO = datetime.fromtimestamp(0)
-END = datetime(2999, 12, 31, 23, 59, 59)
-START = datetime(1000, 1, 1, 0, 0, 0)
+END = datetime(2024, 5, 13, 23, 59, 59)
+START = datetime(1, 1, 1, 0, 0, 0)
 # 10 years every second at full speed
 SPEED_MULTIPLIER = -(60 * 60 * 24 * 365) * 10
 ZERO_TOLERANCE = 0.1

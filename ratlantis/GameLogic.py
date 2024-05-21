@@ -44,6 +44,18 @@ class GameLogic(object):
         available_colors = [color for color in COLORS if color not in used_colors]
         return random.choice(available_colors)
 
+    def _update_vine_colors(self):
+        vines_by_color = {}
+        for artifact in self.artifacts:
+            if artifact.color:
+                vines_by_color[artifact.desired_rfid] = artifact.color
+        for vine in self.vines:
+
+            if vines_by_color[vine.rfid]:
+                vine.pending_connection(vines_by_color[vine.rfid])
+            else:
+                vine.off()
+
     def _update_objectives(self):
 
         num_to_update = self.difficulty

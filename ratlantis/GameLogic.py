@@ -1,5 +1,5 @@
 import random
-from EnergyVine import COLORS
+from ratlantis.EnergyVine import COLORS
 
 
 STATE_READY = 0

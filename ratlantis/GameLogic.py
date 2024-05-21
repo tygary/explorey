@@ -50,8 +50,8 @@ class GameLogic(object):
             if artifact.color:
                 vines_by_color[artifact.desired_rfid] = artifact.color
         for vine in self.vines:
-            if vines_by_color[vine.rfid]:
-                vine.pending_connection(vines_by_color[vine.rfid])
+            if vines_by_color.get(vine.rfid):
+                vine.pending_connection(vines_by_color.get(vine.rfid))
             else:
                 vine.off()
 

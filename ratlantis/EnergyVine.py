@@ -58,11 +58,12 @@ class EnergyVine(object):
 
     def pending_connection(self, color):
         self.color = color
-        print("pulsing color", self.light_addresses)
+        print(self.rfid, "pulsing color", color)
         self.light_routine = Routines.PulseRoutine(self.pixels, self.light_addresses, get_color(color))  # Colors.mid_green
 
     def off(self):
         self.color = None
+        print(self.rfid, "is off")
         self.light_routine = Routines.BlackoutRoutine(self.pixels, self.light_addresses)
 
     def update(self):

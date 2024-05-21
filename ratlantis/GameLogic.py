@@ -36,10 +36,10 @@ class GameLogic(object):
                 vines.append(vine)
         return random.choice(vines)
 
-    def _get_next_color(self, exclusion=None):
+    def _get_next_color(self):
         used_colors = set()
         for artifact in self.artifacts:
-            if artifact.color and artifact != exclusion:
+            if artifact.color:
                 used_colors.add(artifact.color)
         available_colors = [color for color in COLORS if color not in used_colors]
         return random.choice(available_colors)
@@ -59,12 +59,25 @@ class GameLogic(object):
 
         num_to_update = self.difficulty
 
+        artifacts_by_rfid = {}
+        for artifact in self.artifacts:
+            if artifact.current_rfid is not None:
+                artifacts_by_rfid[artifact.current_rfid] = artifact
+
         artifacts_to_update = random.sample(self.artifacts, num_to_update)
         for artifact in artifacts_to_update:
-            vine = self._get_next_vine(exclusion=artifact.current_rfid)
-            color = self._get_next_color(exclusion=artifact)
+            vine = self._get_next_vine()
+            color = self._get_next_color()
             artifact.set_pending_vine(color, vine.rfid)
             print("artifact ", artifact.id, " is now waiting for ", vine.rfid)
+
+            # If that vine was already connected, then reset the artifact it was connected to
+            previous_artifact = artifacts_by_rfid.get(vine.rfid)
+            if previous_artifact:
+                previous_artifact.reset()
+                print("artifact", previous_artifact.id, "reset")
+
+
 
         self._update_vine_colors()
 

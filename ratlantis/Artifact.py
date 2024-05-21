@@ -29,16 +29,16 @@ class Artifact(object):
             if data and data["event"]:
                 event = data["event"]
                 reader_name = data["reader"]
-                card_id = data["card"]
                 if reader_name == self.id:
                     if event == CARD_FOUND:
+                        card_id = data["card"]
                         self.__on_card_detected(card_id)
                     elif event == CARD_REMOVED:
                         self.__on_card_removed()
                     elif event == FINISHED_BOOT:
                         self.set_pending_vine(self.color, self.desired_rfid)
-        except:
-            print("Artifact Failed parsing event", event)
+        except Exception as e:
+            print("Artifact Failed parsing event", event, e)
 
     def __on_card_detected(self, card):
         print("Card detected", card)
@@ -57,6 +57,7 @@ class Artifact(object):
             color = 0
         self.mqtt.publish(json.dumps({
             "event": "artifactUpdate",
+            "reader": self.id,
             "id": self.id,
             "pendingRfid": self.desired_rfid,
             "color": color,

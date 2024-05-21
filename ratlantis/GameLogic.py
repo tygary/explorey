@@ -29,10 +29,10 @@ class GameLogic(object):
         print("GAME OVER")
         self.energy_tank.end_game()
 
-    def _get_next_vine(self, exclusion=None):
+    def _get_next_vine(self, excluded_rfid=None):
         vines = []
         for vine in self.vines:
-            if vine.rfid != exclusion:
+            if vine.rfid != excluded_rfid:
                 vines.append(vine)
         return random.choice(vines)
 
@@ -67,14 +67,14 @@ class GameLogic(object):
 
         artifacts_to_update = random.sample(self.artifacts, num_to_update)
         for artifact in artifacts_to_update:
-            vine = self._get_next_vine()
+            vine = self._get_next_vine(excluded_rfid=artifact.current_rfid)
             color = self._get_next_color()
             artifact.set_pending_vine(color, vine.rfid)
             print("artifact ", artifact.id, " is now waiting for ", vine.rfid)
 
             # If that vine was already connected, then reset the artifact it was connected to
             previous_artifact = artifacts_by_rfid.get(vine.rfid)
-            if previous_artifact:
+            if previous_artifact and previous_artifact != artifact:
                 previous_artifact.reset()
                 print("artifact", previous_artifact.id, "reset")
 

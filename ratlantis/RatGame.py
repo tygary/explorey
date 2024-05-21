@@ -32,11 +32,11 @@ class RatGame(object):
 
         vine1 = EnergyVine("2dcc1366080104e0", range(0, 174), self.pixels)
         self.vines.append(vine1)
-        vine1.pending_connection(self.current_color)
+        # vine1.pending_connection(self.current_color)
 
         vine2 = EnergyVine("f1011466080104e0", range(174, 349), self.pixels)
         self.vines.append(vine2)
-        vine2.pending_connection(self.current_color)
+        # vine2.pending_connection(self.current_color)
         #
         # vine3 = EnergyVine("7DC70A09530104E0", range(349, 523), self.pixels)
         # self.vines.append(vine3)

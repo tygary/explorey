@@ -22,6 +22,7 @@ class Artifact(object):
         self.on_change = on_change
 
         self.mqtt.listen(self.__parse_mqtt_event)
+        self.reset()
 
     def __parse_mqtt_event(self, event):
         try:

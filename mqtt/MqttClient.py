@@ -50,6 +50,7 @@ class MqttClient(object):
                 listener(message.payload.decode())
 
     def publish(self, message):
+        print("MQTT Publishing message:", message)
         self.client.publish(TOPIC, message)
 
     def listen(self, listener):

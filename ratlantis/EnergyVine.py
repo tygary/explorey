@@ -35,6 +35,7 @@ class EnergyVine(object):
     light_addresses = None
     pixels = None
     light_routine = None
+    color = None
 
     def __init__(self, rfid, light_addresses, pixels):
         self.rfid = rfid
@@ -47,6 +48,7 @@ class EnergyVine(object):
         self.light_routine = Routines.FireRoutine(self.pixels, self.light_addresses)
 
     def valid_connection(self, color):
+        self.color = color
         self.light_routine = Routines.WaveRoutine(
             self.pixels,
             self.light_addresses,
@@ -55,10 +57,12 @@ class EnergyVine(object):
         )
 
     def pending_connection(self, color):
+        self.color = color
         print("pulsing color", self.light_addresses)
         self.light_routine = Routines.PulseRoutine(self.pixels, self.light_addresses, get_color(color))  # Colors.mid_green
 
     def off(self):
+        self.color = None
         self.light_routine = Routines.BlackoutRoutine(self.pixels, self.light_addresses)
 
     def update(self):

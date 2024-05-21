@@ -5,6 +5,7 @@ from lighting.routines import Routines
 from ratlantis.Artifact import Artifact
 from ratlantis.EnergyVine import *
 from ratlantis.EnergyTank import EnergyTank
+from ratlantis.GameLogic import GameLogic
 from lighting.PixelControl import PixelControl
 from mqtt.MqttClient import MqttClient
 
@@ -17,6 +18,7 @@ class RatGame(object):
     mqtt = None
     current_color = COLOR_BLUE
 
+    game = None
     vines = []
     artifacts = []
     tank = None
@@ -28,11 +30,11 @@ class RatGame(object):
         self.pixels = PixelControl(700, led_brightness=180, led_pin=21)
         self.mqtt = MqttClient()
 
-        vine1 = EnergyVine(TEST_RFID, range(0, 174), self.pixels)
+        vine1 = EnergyVine("2dcc1366080104e0", range(0, 174), self.pixels)
         self.vines.append(vine1)
         vine1.pending_connection(self.current_color)
 
-        vine2 = EnergyVine("7DC70A09530104E0", range(174, 349), self.pixels)
+        vine2 = EnergyVine("f1011466080104e0", range(174, 349), self.pixels)
         self.vines.append(vine2)
         vine2.pending_connection(self.current_color)
         #
@@ -48,8 +50,11 @@ class RatGame(object):
         self.artifacts.append(artifact)
         artifact.set_pending_vine(self.current_color, TEST_RFID)
         #
-        # self.tank = EnergyTank(self.mqtt, self.pixels, range(698, 699), range(699, 700), self.__on_artifact_change)
-        # self.tank.start_charging()
+        self.tank = EnergyTank(self.mqtt, self.pixels, range(698, 699), range(699, 700), self.__on_artifact_change)
+        self.tank.start_charging()
+
+        self.game = GameLogic(self.artifacts, self.vines, self.tank, None)
+        self.game.start()
 
     def __on_artifact_change(self, artifact):
         print("Artifact Changed", artifact)
@@ -61,10 +66,10 @@ class RatGame(object):
             else:
                 print("Wrong!!")
                 cur_vine.invalid_connection()
-        else:
-            self.current_color = random.choice(COLORS)
-            artifact.set_pending_vine(self.current_color, TEST_RFID)
-            cur_vine.pending_connection(self.current_color)
+        # else:
+            # self.current_color = random.choice(COLORS)
+            # artifact.set_pending_vine(self.current_color, TEST_RFID)
+            # cur_vine.pending_connection(self.current_color)
 
 
     #def start(self):
@@ -72,6 +77,7 @@ class RatGame(object):
         #self.artifacts[0].pulse_color(0)
 
     def update(self):
+        self.game.update()
         for vine in self.vines:
             vine.update()
         # self.tank.update()

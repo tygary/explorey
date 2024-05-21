@@ -51,14 +51,27 @@ class Artifact(object):
         self.is_attached = False
         self.on_change(self)
 
-    def set_pending_vine(self, color, vine_id):
-        self.color = color
-        self.desired_rfid = vine_id
+    def _send_update(self, should_disconnect=True):
+        color = self.color
+        if color is None:
+            color = 0
         self.mqtt.publish(json.dumps({
             "event": "artifactUpdate",
             "id": self.id,
-            "pendingRfid": vine_id,
-            "color": color
+            "pendingRfid": self.desired_rfid,
+            "color": color,
+            "shouldDisconnect": should_disconnect
         }))
+
+    def reset(self):
+        self.color = None
+        self.desired_rfid = None
+        self._send_update()
+
+    def set_pending_vine(self, color, rfid):
+        self.color = color
+        self.desired_rfid = rfid
+        self._send_update()
+
 
 

@@ -50,7 +50,6 @@ class GameLogic(object):
             if artifact.color:
                 vines_by_color[artifact.desired_rfid] = artifact.color
         for vine in self.vines:
-
             if vines_by_color[vine.rfid]:
                 vine.pending_connection(vines_by_color[vine.rfid])
             else:
@@ -66,6 +65,8 @@ class GameLogic(object):
             color = self._get_next_color(exclusion=artifact)
             artifact.set_pending_vine(color, vine.rfid)
             print("artifact ", artifact.id, " is now waiting for ", vine.rfid)
+
+        self._update_vine_colors()
 
     def start(self):
         print("Starting game")

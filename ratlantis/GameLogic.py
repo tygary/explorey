@@ -55,7 +55,9 @@ class GameLogic(object):
             artifact.set_pending_vine(color, vine.rfid)
 
     def start(self):
+        print("Starting game")
         self.energy_tank.start_game()
+        self._update_objectives()
 
     def update(self):
         if self.energy_tank.energy_level == 0:

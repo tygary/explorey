@@ -48,7 +48,9 @@ class RatGame(object):
         #
         artifact = Artifact(self.mqtt, "noodle/1", self.__on_artifact_change)
         self.artifacts.append(artifact)
-        artifact.set_pending_vine(self.current_color, TEST_RFID)
+
+        artifact = Artifact(self.mqtt, "noodle/9", self.__on_artifact_change)
+        self.artifacts.append(artifact)
         #
         self.tank = EnergyTank(self.mqtt, self.pixels, range(698, 699), self.__on_artifact_change)
         self.tank.start_charging()

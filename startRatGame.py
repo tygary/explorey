@@ -11,5 +11,5 @@ while True:
     #except Exception as err:
     #    print(err)
 
-    time.sleep(0.1)
+    time.sleep(0.05)
     continue

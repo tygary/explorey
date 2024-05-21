@@ -53,7 +53,7 @@ class RatGame(object):
         self.tank = EnergyTank(self.mqtt, self.pixels, range(698, 699), self.__on_artifact_change)
         self.tank.start_charging()
 
-        self.game = GameLogic(self.artifacts, self.vines, self.tank, None)
+        self.game = GameLogic(self.vines, self.artifacts, self.tank, None)
         self.game.start()
 
     def __on_artifact_change(self, artifact):

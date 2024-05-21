@@ -53,6 +53,7 @@ class GameLogic(object):
             vine = self._get_next_vine(exclusion=artifact.current_rfid)
             color = self._get_next_color(exclusion=artifact)
             artifact.set_pending_vine(color, vine.rfid)
+            print("artifact ", artifact.id, " is now waiting for ", vine.rfid)
 
     def start(self):
         print("Starting game")

@@ -49,6 +49,7 @@ class GameLogic(object):
         for artifact in self.artifacts:
             if artifact.color:
                 vines_by_color[artifact.desired_rfid] = artifact.color
+                print(artifact.desired_rfid, artifact.color)
         for vine in self.vines:
             if vines_by_color.get(vine.rfid):
                 vine.pending_connection(vines_by_color.get(vine.rfid))
@@ -76,8 +77,6 @@ class GameLogic(object):
             if previous_artifact:
                 previous_artifact.reset()
                 print("artifact", previous_artifact.id, "reset")
-
-
 
         self._update_vine_colors()
 

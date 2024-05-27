@@ -2,7 +2,8 @@ import RPi.GPIO as GPIO
 
 
 class LeverInputController(object):
-    pins = [37, 35, 33, 31]
+    # pins = [37, 35, 33, 31]
+    pins = [6, 13, 19, 26]
     currentValues = [1, 1, 1, 1]
     callback = None
     thread = None
@@ -16,7 +17,7 @@ class LeverInputController(object):
         # self.thread = threading.Thread(target=self.thread_fn, args=(1,))
 
     def setup_pin(self, pin):
-        GPIO.setmode(GPIO.BOARD)
+        # GPIO.setmode(GPIO.BOARD)
         GPIO.setup(pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.remove_event_detect(pin)
 

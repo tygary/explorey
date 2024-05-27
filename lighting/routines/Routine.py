@@ -12,6 +12,9 @@ class Routine(object):
         self.addresses = addresses
 
     def update_addresses(self, addresses):
+        removed_addresses = set(self.addresses).difference(addresses)
+        for address in removed_addresses:
+            self.pixels.setColor(address, [0, 0, 0])
         self.addresses = addresses
 
     def tick(self):

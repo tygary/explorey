@@ -1,5 +1,6 @@
 from lighting.routines.BlackoutRoutine import BlackoutRoutine
 from lighting.routines.BleuRoutine import BleuRoutine
+from lighting.routines.ColorRoutine import ColorRoutine
 from lighting.routines.CyclingMultiRoutine import CyclingMultiRoutine
 from lighting.routines.FireRoutine import FireRoutine
 from lighting.routines.ModeRoutine import ModeRoutine
@@ -18,6 +19,7 @@ from lighting.routines.WaveRoutine import WaveRoutine
 class _Routines(object):
     BlackoutRoutine = BlackoutRoutine
     BleuRoutine = BleuRoutine
+    ColorRoutine = ColorRoutine
     CyclingMultiRoutine = CyclingMultiRoutine
     FireRoutine = FireRoutine
     ModeRoutine = ModeRoutine

@@ -8,6 +8,16 @@ CARD_REMOVED = "cardRemoved"
 FINISHED_BOOT = "finishedBoot"
 
 
+ARTIFACT_CITY = "artifact/city"
+ARTIFACT_TANK = "artifact/tank"
+ARTIFACT_MICROWAVE = "artifact/microwave"
+ARTIFACT_BUGS = "artifact/bugs"
+ARTIFACT_FISH = "artifact/fish"
+ARTIFACT_MUSHROOMS = "artifact/mushrooms"
+ARTIFACT_VOLCANO = "artifact/volcano"
+ARTIFACT_MOBILE = "artifact/mobile"
+
+
 class Artifact(object):
     id = None
     mqtt = None

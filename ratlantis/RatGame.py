@@ -2,10 +2,11 @@ import RPi.GPIO as GPIO
 import random
 
 from lighting.routines import Routines
-from ratlantis.Artifact import Artifact
+from ratlantis.Artifact import *
 from ratlantis.EnergyVine import *
 from ratlantis.EnergyTank import EnergyTank
 from ratlantis.GameLogic import GameLogic
+from ratlantis.Switchboard import Switchboard
 from lighting.PixelControl import PixelControl
 from mqtt.MqttClient import MqttClient
 
@@ -22,38 +23,37 @@ class RatGame(object):
     vines = []
     artifacts = []
     tank = None
+    switchboard = None
 
     is_running = False
 
     def __init__(self):
         GPIO.setmode(GPIO.BCM)
-        self.pixels = PixelControl(400, led_brightness=180, led_pin=21)
+        self.pixels = PixelControl(108, led_brightness=200, led_pin=21)
         self.mqtt = MqttClient()
 
-        vine1 = EnergyVine("f1011466080104e0", range(0, 174), self.pixels)
-        self.vines.append(vine1)
-        # vine1.pending_connection(self.current_color)
+        self.vines.append(RemoteEnergyVine(VINE_ONE_RFID, self.mqtt))
+        self.vines.append(RemoteEnergyVine(VINE_TWO_RFID, self.mqtt))
+        self.vines.append(RemoteEnergyVine(VINE_THREE_RFID, self.mqtt))
+        self.vines.append(RemoteEnergyVine(VINE_FOUR_RFID, self.mqtt))
+        self.vines.append(RemoteEnergyVine(VINE_FIVE_RFID, self.mqtt))
+        self.vines.append(RemoteEnergyVine(VINE_SIX_RFID, self.mqtt))
+        self.vines.append(RemoteEnergyVine(VINE_SEVEN_RFID, self.mqtt))
+        self.vines.append(RemoteEnergyVine(VINE_EIGHT_RFID, self.mqtt))
 
-        vine2 = EnergyVine("2dcc1366080104e0", range(174, 349), self.pixels)
-        self.vines.append(vine2)
-        # vine2.pending_connection(self.current_color)
-        #
-        # vine3 = EnergyVine("7DC70A09530104E0", range(349, 523), self.pixels)
-        # self.vines.append(vine3)
-        # vine3.pending_connection(self.current_color)
-        #
-        # vine4 = EnergyVine("7DC70A09530104E0", range(523, 697), self.pixels)
-        # self.vines.append(vine4)
-        # vine4.pending_connection(self.current_color)
-        #
-        artifact = Artifact(self.mqtt, "noodle/1", self.__on_artifact_change)
-        self.artifacts.append(artifact)
+        self.artifacts.append(Artifact(self.mqtt, ARTIFACT_VOLCANO, self.__on_artifact_change))
+        self.artifacts.append(Artifact(self.mqtt, ARTIFACT_BUGS, self.__on_artifact_change))
+        self.artifacts.append(Artifact(self.mqtt, ARTIFACT_CITY, self.__on_artifact_change))
+        self.artifacts.append(Artifact(self.mqtt, ARTIFACT_FISH, self.__on_artifact_change))
+        self.artifacts.append(Artifact(self.mqtt, ARTIFACT_MICROWAVE, self.__on_artifact_change))
+        self.artifacts.append(Artifact(self.mqtt, ARTIFACT_MOBILE, self.__on_artifact_change))
+        self.artifacts.append(Artifact(self.mqtt, ARTIFACT_MUSHROOMS, self.__on_artifact_change))
 
-        artifact = Artifact(self.mqtt, "noodle/9", self.__on_artifact_change)
-        self.artifacts.append(artifact)
-        #
-        self.tank = EnergyTank(self.mqtt, self.pixels, range(350, 353), self.__on_artifact_change)
+        self.tank = EnergyTank(self.mqtt, self.pixels, range(8, 108), self.__on_artifact_change)
+        self.artifacts.append(self.tank)
         self.tank.start_charging()
+
+        self.switchboard = Switchboard(self.pixels, range(0, 8))
 
         self.game = GameLogic(self.vines, self.artifacts, self.tank, None)
         self.game.start()
@@ -73,18 +73,10 @@ class RatGame(object):
             # artifact.set_pending_vine(self.current_color, TEST_RFID)
             # cur_vine.pending_connection(self.current_color)
 
-
-    #def start(self):
-        #self.vines[0].pulse_color(0)
-        #self.artifacts[0].pulse_color(0)
-
     def update(self):
         self.game.update()
-        for vine in self.vines:
-            vine.update()
-        # self.tank.update()
-        # if self.tank.is_full():
-        #     self.tank.start_game()
+        self.tank.update()
+        self.switchboard.update()
         self.pixels.render()
 
 

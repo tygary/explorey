@@ -1,3 +1,5 @@
+import json
+
 from lighting.Colors import Colors
 from lighting.routines import Routines
 
@@ -10,6 +12,22 @@ COLOR_BLUE = 0.72
 COLOR_PURPLE = 0.88
 COLOR_PINK = 1
 COLORS = [COLOR_RED, COLOR_ORANGE, COLOR_YELLOW, COLOR_GREEN, COLOR_LIGHT_BLUE, COLOR_BLUE, COLOR_PURPLE, COLOR_PINK]
+
+EVENT_VINE_UPDATE = "vineUpdate"
+VINE_MODE_CONNECTED = 0
+VINE_MODE_INVALID = 1
+VINE_MODE_PENDING = 2
+VINE_MODE_OFF = 3
+
+VINE_ONE_RFID = "f1011466080104e0"
+VINE_TWO_RFID = "2dcc1366080104e0"
+VINE_THREE_RFID = "7DC70A09530104E0"
+VINE_FOUR_RFID = "7DC70A09530104E0"
+VINE_FIVE_RFID = "7DC70A09530104E0"
+VINE_SIX_RFID = "7DC70A09530104E0"
+VINE_SEVEN_RFID = "7DC70A09530104E0"
+VINE_EIGHT_RFID = "7DC70A09530104E0"
+
 
 
 def get_color(color_const):
@@ -30,18 +48,41 @@ def get_color(color_const):
     else:  # if color_const == COLOR_PINK:
         return Colors.pink
 
+
 class EnergyVine(object):
     rfid = None
     light_addresses = None
     pixels = None
+    mqtt = None
     light_routine = None
     color = None
 
-    def __init__(self, rfid, light_addresses, pixels):
+    def __init__(self, rfid, light_addresses, pixels, mqtt):
         self.rfid = rfid
         self.light_addresses = light_addresses
         self.pixels = pixels
+        self.mqtt = mqtt
         self.off()
+        self.mqtt.listen(self.__parse_mqtt_event)
+
+    def __parse_mqtt_event(self, event):
+        try:
+            data = json.loads(event)
+            if data and data["event"] and data["event"] == EVENT_VINE_UPDATE:
+                rfid = data["rfid"]
+                mode = data["mode"]
+                color = data["color"]
+                if rfid == self.rfid:
+                    if mode == VINE_MODE_CONNECTED:
+                        self.valid_connection(color)
+                    elif mode == VINE_MODE_INVALID:
+                        self.invalid_connection()
+                    elif mode == VINE_MODE_PENDING:
+                        self.pending_connection(color)
+                    elif mode == VINE_MODE_OFF:
+                        self.off()
+        except Exception as e:
+            print("Energy Vine Failed parsing event", event, e)
 
     def invalid_connection(self):
         print("invalid connection!", self.light_addresses)
@@ -68,3 +109,44 @@ class EnergyVine(object):
 
     def update(self):
         self.light_routine.tick()
+
+
+class RemoteEnergyVine(object):
+    rfid = None
+    mqtt = None
+    color = None
+    mode = VINE_MODE_OFF
+
+    def __init__(self, rfid, mqtt):
+        self.rfid = rfid
+        self.mqtt = mqtt
+
+    def _send_update(self):
+        print("Vine", self.rfid, "mode", self.mode, "color", self.color)
+        self.mqtt.publish(json.dumps({
+            "event": EVENT_VINE_UPDATE,
+            "mode": self.mode,
+            "rfid": self.rfid,
+            "color": self.color,
+            "shouldDisconnect": True
+        }))
+
+    def invalid_connection(self):
+        self.mode = VINE_MODE_INVALID
+        self._send_update()
+
+    def valid_connection(self, color):
+        self.color = color
+        self.mode = VINE_MODE_CONNECTED
+        self._send_update()
+
+    def pending_connection(self, color):
+        self.color = color
+        self.mode = VINE_MODE_PENDING
+        self._send_update()
+
+    def off(self):
+        self.color = None
+        self.mode = VINE_MODE_OFF
+        self._send_update()
+

@@ -1,9 +1,7 @@
 import math
 import time
 
-from lighting.routines import Routines
-from lighting.Colors import Colors
-from ratlantis.Artifact import Artifact
+from ratlantis.Artifact import *
 
 CARD_FOUND = "cardFound"
 CARD_REMOVED = "cardRemoved"
@@ -22,8 +20,6 @@ MODE_OFF_CHARGING = 1
 MODE_FULL = 2
 MODE_RUNNING = 3
 MODE_NEARLY_EMPTY = 4
-
-TANK_ID = "tank"
 
 TANK_COLOR = Colors.green
 TANK_COLORS = [TANK_COLOR, Colors.light_green, Colors.mid_green]
@@ -46,7 +42,7 @@ class EnergyTank(Artifact):
         self.outer_callback = on_change
         self.pixels = pixels
         self.tank_light_addresses = tank_light_addresses
-        Artifact.__init__(self, mqtt, TANK_ID, self.__on_artifact_change)
+        Artifact.__init__(self, mqtt, ARTIFACT_TANK, self.__on_artifact_change)
         self.last_update = time.time()
         self.__update_light_routing()
 

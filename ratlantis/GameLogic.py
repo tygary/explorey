@@ -85,6 +85,8 @@ class GameLogic(object):
 
     def start(self):
         print("Starting game")
+        for artifact in self.artifacts:
+            artifact.reset()
         self.energy_tank.start_game()
         self._update_objectives()
 

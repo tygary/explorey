@@ -31,6 +31,7 @@ class Switchboard(object):
         self.completed_pattern = Routines.ColorRoutine(pixels, self.completed_addresses, Colors.green)
 
     def _on_levers_changed(self, levers):
+        print("Levers Changed", levers)
         pass
 
     def _update_lights(self):
@@ -60,6 +61,12 @@ class Switchboard(object):
         self.blackout_pattern.update_addresses(self.blackout_addresses)
         self.completed_pattern.update_addresses(self.completed_addresses)
         self.pending_pattern.update_addresses(self.pending_addresses)
+
+        print("Desired", self.desired_state)
+        print("Current", self.levers.currentValues)
+        print("Blackout", self.blackout_addresses)
+        print("completed", self.completed_addresses)
+        print("pending", self.pending_addresses)
 
     # def next_desired_state(self, difficulty=1):
         # self.desired_state = []

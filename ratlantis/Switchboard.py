@@ -62,11 +62,11 @@ class Switchboard(object):
         self.completed_pattern.update_addresses(self.completed_addresses)
         self.pending_pattern.update_addresses(self.pending_addresses)
 
-        # print("Desired", self.desired_state)
-        # print("Current", self.levers.currentValues)
-        # print("Blackout", self.blackout_addresses)
-        # print("completed", self.completed_addresses)
-        # print("pending", self.pending_addresses)
+        print("Desired", self.desired_state)
+        print("Current", self.levers.currentValues)
+        print("Blackout", self.blackout_addresses)
+        print("completed", self.completed_addresses)
+        print("pending", self.pending_addresses)
 
     # def next_desired_state(self, difficulty=1):
         # self.desired_state = []

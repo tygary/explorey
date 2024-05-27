@@ -14,20 +14,21 @@ class GameLogic(object):
     vines = []
     artifacts = []
     energy_tank = None
-    levers = None
+    switchboard = None
 
     difficulty = 1
     current_state = STATE_READY
 
-    def __init__(self, vines, artifacts, energy_tank, levers):
+    def __init__(self, vines, artifacts, energy_tank, switchboard):
         self.vines = vines
         self.artifacts = artifacts
         self.energy_tank = energy_tank
-        self.levers = levers
+        self.switchboard = switchboard
 
     def _end_game(self):
         print("GAME OVER")
         self.energy_tank.end_game()
+        self.start()
 
     def _get_next_vine(self, excluded_rfid=None):
         vines = []
@@ -77,8 +78,10 @@ class GameLogic(object):
             if previous_artifact and previous_artifact != artifact:
                 previous_artifact.reset()
                 print("artifact", previous_artifact.id, "reset")
-
         self._update_vine_colors()
+
+        new_switchboard_state = [random.randint(0, 1), random.randint(0, 1), random.randint(0, 1), random.randint(0, 1)]
+        self.switchboard.desired_state = new_switchboard_state
 
     def start(self):
         print("Starting game")

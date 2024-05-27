@@ -44,29 +44,29 @@ class Switchboard(object):
                 self.blackout_addresses.append(self.top_addresses[i])
                 self.blackout_addresses.append(self.bottom_addresses[i])
             elif self.desired_state[i] == self.levers.currentValues[i]:
-                if self.desired_state == 1:
+                if self.levers.currentValues[i] == 1:
                     self.completed_addresses.append(self.top_addresses[i])
                     self.blackout_addresses.append(self.bottom_addresses[i])
                 else:
                     self.blackout_addresses.append(self.top_addresses[i])
                     self.completed_addresses.append(self.bottom_addresses[i])
             else:
-                if self.desired_state == 1:
-                    self.pending_addresses.append(self.top_addresses[i])
-                    self.blackout_addresses.append(self.bottom_addresses[i])
-                else:
+                if self.levers.currentValues[i] == 1:
                     self.blackout_addresses.append(self.top_addresses[i])
                     self.pending_addresses.append(self.bottom_addresses[i])
+                else:
+                    self.pending_addresses.append(self.top_addresses[i])
+                    self.blackout_addresses.append(self.bottom_addresses[i])
 
         self.blackout_pattern.update_addresses(self.blackout_addresses)
         self.completed_pattern.update_addresses(self.completed_addresses)
         self.pending_pattern.update_addresses(self.pending_addresses)
 
-        print("Desired", self.desired_state)
-        print("Current", self.levers.currentValues)
-        print("Blackout", self.blackout_addresses)
-        print("completed", self.completed_addresses)
-        print("pending", self.pending_addresses)
+        # print("Desired", self.desired_state)
+        # print("Current", self.levers.currentValues)
+        # print("Blackout", self.blackout_addresses)
+        # print("completed", self.completed_addresses)
+        # print("pending", self.pending_addresses)
 
     # def next_desired_state(self, difficulty=1):
         # self.desired_state = []

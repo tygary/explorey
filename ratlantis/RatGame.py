@@ -55,7 +55,7 @@ class RatGame(object):
 
         self.switchboard = Switchboard(self.pixels, [1, 2, 3, 4, 8, 9, 10, 11])
 
-        self.game = GameLogic(self.vines, self.artifacts, self.tank, None)
+        self.game = GameLogic(self.vines, self.artifacts, self.tank, self.switchboard)
         self.game.start()
 
     def __on_artifact_change(self, artifact):

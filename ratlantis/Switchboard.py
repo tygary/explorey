@@ -38,7 +38,7 @@ class Switchboard(object):
         self.pending_addresses = []
         self.completed_addresses = []
         for i in range(0, 4):
-            print("checking update", i, self.desired_state, self.levers.currentValues[i])
+            # print("checking update", i, self.desired_state, self.levers.currentValues[i])
             if self.desired_state[i] == ANY_STATE:
                 self.blackout_addresses.append(self.top_addresses[i])
                 self.blackout_addresses.append(self.bottom_addresses[i])

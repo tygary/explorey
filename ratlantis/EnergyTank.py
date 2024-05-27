@@ -48,9 +48,9 @@ class EnergyTank(Artifact):
 
     # ---------------------------------------
 
-    def __on_artifact_change(self):
+    def __on_artifact_change(self, artifact):
         # Can intercept change event here
-        self.outer_callback(self)
+        self.outer_callback(self, artifact)
 
     def __update_rendered_energy(self, time_since_last_update):
         direction = 1

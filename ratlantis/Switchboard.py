@@ -27,7 +27,7 @@ class Switchboard(object):
         self.desired_state = self.levers.get_current_values().copy()
 
         self.blackout_pattern = Routines.BlackoutRoutine(pixels, self.blackout_addresses)
-        self.pending_pattern = Routines.PulseRoutine(pixels, self.pending_addresses, Colors.red, rate=0.2)
+        self.pending_pattern = Routines.PulseRoutine(pixels, self.pending_addresses, Colors.red, rate=0.4)
         self.completed_pattern = Routines.ColorRoutine(pixels, self.completed_addresses, Colors.green)
 
     def _on_levers_changed(self, levers):

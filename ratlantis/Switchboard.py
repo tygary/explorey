@@ -32,7 +32,7 @@ class Switchboard(object):
         self.blackout_addresses = []
         self.pending_addresses = []
         self.completed_addresses = []
-        for i, address in self.addresses:
+        for i, address in enumerate(self.addresses):
             if self.desired_state[i] == ANY_STATE:
                 self.blackout_addresses.append(address)
             elif self.desired_state[i] == self.levers.currentValues[i]:

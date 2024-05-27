@@ -53,7 +53,7 @@ class RatGame(object):
         self.artifacts.append(self.tank)
         self.tank.start_charging()
 
-        self.switchboard = Switchboard(self.pixels, [1, 2, 3, 4, 11, 10, 9, 8])
+        self.switchboard = Switchboard(self.pixels, [4, 3, 2, 1, 8, 9, 10, 11])
 
         self.game = GameLogic(self.vines, self.artifacts, self.tank, self.switchboard)
         self.game.start()

@@ -39,15 +39,16 @@ class Artifact(object):
             data = json.loads(event)
             if data and data["event"]:
                 event = data["event"]
-                reader_name = data["reader"]
-                if reader_name == self.id:
-                    if event == CARD_FOUND:
-                        card_id = data["card"]
-                        self.__on_card_detected(card_id)
-                    elif event == CARD_REMOVED:
-                        self.__on_card_removed()
-                    elif event == FINISHED_BOOT:
-                        self.set_pending_vine(self.color, self.desired_rfid)
+                if event == CARD_FOUND or event == CARD_REMOVED or event == FINISHED_BOOT:
+                    reader_name = data["reader"]
+                    if reader_name == self.id:
+                        if event == CARD_FOUND:
+                            card_id = data["card"]
+                            self.__on_card_detected(card_id)
+                        elif event == CARD_REMOVED:
+                            self.__on_card_removed()
+                        elif event == FINISHED_BOOT:
+                            self.set_pending_vine(self.color, self.desired_rfid)
         except Exception as e:
             print("Artifact Failed parsing event", event, e)
 

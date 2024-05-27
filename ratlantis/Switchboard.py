@@ -15,8 +15,13 @@ class Switchboard(object):
     pending_addresses = []
     completed_addresses = []
 
+    top_addresses = []
+    bottom_addresses = []
+
     def __init__(self, pixels, addresses):
         self.addresses = addresses
+        self.top_addresses = [addresses[0], addresses[1], addresses[2], addresses[3]]
+        self.bottom_addresses = [addresses[4], addresses[5], addresses[6], addresses[7]]
         self.pixels = pixels
         self.levers = LeverInputController(self._on_levers_changed, self.logger)
         self.desired_state = self.levers.get_current_values().copy()
@@ -32,14 +37,25 @@ class Switchboard(object):
         self.blackout_addresses = []
         self.pending_addresses = []
         self.completed_addresses = []
-        for i, address in enumerate(self.addresses):
-            print ("checking update", i, address)
+        for i in range(0, 4):
+            print("checking update", i, self.desired_state, self.levers.currentValues[i])
             if self.desired_state[i] == ANY_STATE:
-                self.blackout_addresses.append(address)
+                self.blackout_addresses.append(self.top_addresses[i])
+                self.blackout_addresses.append(self.bottom_addresses[i])
             elif self.desired_state[i] == self.levers.currentValues[i]:
-                self.completed_addresses.append(address)
+                if self.desired_state == 1:
+                    self.completed_addresses.append(self.top_addresses[i])
+                    self.blackout_addresses.append(self.bottom_addresses[i])
+                else:
+                    self.blackout_addresses.append(self.top_addresses[i])
+                    self.completed_addresses.append(self.bottom_addresses[i])
             else:
-                self.pending_addresses.append(address)
+                if self.desired_state == 1:
+                    self.pending_addresses.append(self.top_addresses[i])
+                    self.blackout_addresses.append(self.bottom_addresses[i])
+                else:
+                    self.blackout_addresses.append(self.top_addresses[i])
+                    self.pending_addresses.append(self.bottom_addresses[i])
 
         self.blackout_pattern.update_addresses(self.blackout_addresses)
         self.completed_pattern.update_addresses(self.completed_addresses)

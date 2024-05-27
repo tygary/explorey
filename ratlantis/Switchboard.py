@@ -30,7 +30,7 @@ class Switchboard(object):
         self.pending_pattern = Routines.RainbowRoutine(pixels, self.pending_addresses)
         self.completed_pattern = Routines.ColorRoutine(pixels, self.completed_addresses, Colors.green)
 
-    def _on_levers_changed(self):
+    def _on_levers_changed(self, levers):
         pass
 
     def _update_lights(self):

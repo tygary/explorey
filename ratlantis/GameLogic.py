@@ -218,6 +218,7 @@ class GameLogic(object):
                 return
             if not self.is_charging:
                 print("Game Starting Charging")
+                self.is_charging = True
                 self.energy_tank.start_charging()
                 self._update_vine_colors()
             if self.energy_tank.energy_level == 100 and not self.is_ready_to_start:

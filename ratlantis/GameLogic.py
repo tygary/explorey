@@ -120,7 +120,11 @@ class GameLogic(object):
 
     def _get_next_vine(self, artifact, excluded_rfid=""):
         vines = []
-        available_vines = ARTIFACT_VINE_MATRIX[artifact.id]
+        available_vine_ids = ARTIFACT_VINE_MATRIX[artifact.id]
+        available_vines = []
+        for vine in self.vines:
+            if vine.rfid in available_vine_ids:
+                available_vines.append(vine)
         for vine in available_vines:
             if vine.rfid != excluded_rfid:
                 vines.append(vine)

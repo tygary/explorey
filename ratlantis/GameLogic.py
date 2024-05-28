@@ -107,16 +107,22 @@ class GameLogic(object):
         self.energy_tank.end_round()
         self.energy_tank.celebrate()
         self.celebration_end_time = time.time() + CELEBRATION_TIME
+        for artifact in self.artifacts:
+            artifact.reset()
+        self._update_vine_colors()
         self.is_running = False
-        self.is_charging = True
+        self.is_charging = False
 
     def _end_game(self):
         print("GAME OVER")
         self.energy_tank.end_round()
         self.energy_tank.mourn()
+        for artifact in self.artifacts:
+            artifact.reset()
+        self._update_vine_colors()
         self.celebration_end_time = time.time() + CELEBRATION_TIME
         self.is_running = False
-        self.is_charging = True
+        self.is_charging = False
 
     def _get_next_vine(self, artifact, excluded_rfid=""):
         vines = []

@@ -63,7 +63,7 @@ class Artifact(object):
         self.is_attached = False
         self.on_change(self)
 
-    def _send_update(self, should_disconnect=True):
+    def _send_update(self, start_time=-1, end_time=-1, should_disconnect=True):
         color = self.color
         if color is None:
             color = 0
@@ -73,6 +73,8 @@ class Artifact(object):
             "id": self.id,
             "pendingRfid": self.desired_rfid,
             "color": color,
+            "startTime": start_time,
+            "endTime": end_time,
             "shouldDisconnect": should_disconnect
         }))
 

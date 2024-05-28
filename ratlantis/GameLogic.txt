@@ -1,0 +1,40 @@
+
+
+
+Game Flow:
+
+
+WAITING TO PLAY
+Tank is charged
+flash the tank artifact and one vine
+
+Then user plugs in the tank
+
+START GAME
+Start the tanks draining
+Start round
+difficulty 1
+
+ROUND 1 - DIFF 1 - DRAIN_RATE 1
+Set one vine and artifact pending
+
+ROUND 2-4 - DIFF 2 - DRAIN_RATE 1
+Set two vines and (optionally?) the switchboard
+
+ROUND 5-7 - DIFF 3 - DRAIN_RATE 2
+Set 3-4 vines and the switchboard
+
+ROUND ?? - DIFF 4 - DRAIN_RATE 3
+
+
+PENALTIES
+Vine disconnects prematurely
+Wrong lever flips
+
+
+
+ROUND
+Pick # of Objectives
+Pick # of max simultaneous objectives
+As objectives complete,
+Final State

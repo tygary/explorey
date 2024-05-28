@@ -9,7 +9,7 @@ CARD_REMOVED = "cardRemoved"
 GAME_LENGTH_S = 60
 CHARGING_TIME_S = 20
 MAX_ENERGY = 100
-DRAIN_RATE = MAX_ENERGY / GAME_LENGTH_S
+# DRAIN_RATE = MAX_ENERGY / GAME_LENGTH_S
 CHARGE_RATE = MAX_ENERGY / CHARGING_TIME_S
 ENERGY_LEVEL_TRANSITION_RATE_PER_SEC = CHARGE_RATE
 
@@ -20,6 +20,8 @@ MODE_OFF_CHARGING = 1
 MODE_FULL = 2
 MODE_RUNNING = 3
 MODE_NEARLY_EMPTY = 4
+MODE_CELEBRATE = 5
+MODE_MOURN = 6
 
 TANK_COLOR = Colors.green
 TANK_COLORS = [TANK_COLOR, Colors.light_green, Colors.mid_green]
@@ -28,6 +30,8 @@ TANK_COLORS = [TANK_COLOR, Colors.light_green, Colors.mid_green]
 class EnergyTank(Artifact):
     energy_level = 0
     rendered_energy_level = 0
+
+    drain_rate = 0
 
     last_update = 0
     outer_callback = None
@@ -65,6 +69,8 @@ class EnergyTank(Artifact):
         self.rendered_energy_level = self.energy_level
 
     def __get_new_mode(self):
+        if self.mode == MODE_CELEBRATE or self.mode == MODE_MOURN:
+            return self.mode
         if self.rendered_energy_level <= 0:
             self.energy_level = 0
             self.rendered_energy_level = 0
@@ -114,26 +120,45 @@ class EnergyTank(Artifact):
                 Routines.PulseRoutine(self.pixels, active_pixels, TANK_COLOR),
                 Routines.BlackoutRoutine(self.pixels, inactive_pixels)
             ])
+        elif self.mode == MODE_CELEBRATE:
+            self.tank_routine = Routines.MultiRoutine([
+                Routines.RainbowRoutine(self.pixels, self.tank_light_addresses)
+            ])
+        elif self.mode == MODE_MOURN:
+            self.tank_routine = Routines.MultiRoutine([
+                Routines.FireRoutine(self.pixels, self.tank_light_addresses)
+            ])
 
     # ---------------------------------------
 
     def start_charging(self):
+        self.mode = -1
         self.is_active = False
         self.is_charging = True
         self.energy_level = 1
         self.rendered_energy_level = 1
+        self.last_update = time.time()
 
     def is_full(self):
         return self.mode == MODE_FULL
 
-    def start_game(self):
+    def start_round(self, round_time=GAME_LENGTH_S):
+        self.mode = -1
         self.last_update = time.time()
         self.energy_level = MAX_ENERGY
         self.rendered_energy_level = MAX_ENERGY
+        self.drain_rate = MAX_ENERGY / round_time
         self.is_active = True
         self.is_charging = False
 
-    def end_game(self):
+    def celebrate(self):
+        self.mode = MODE_CELEBRATE
+
+    def mourn(self):
+        self.mode = MODE_MOURN
+
+    def end_round(self):
+        self.mode = -1
         self.energy_level = 0
         self.rendered_energy_level = 0
         self.is_active = False
@@ -149,10 +174,10 @@ class EnergyTank(Artifact):
     def update(self):
         now = time.time()
         time_since_last_update = now - self.last_update
-        if time_since_last_update > 0:
+        if time_since_last_update > 0 and (self.is_charging or self.is_active):
             prev_active_addresses, prev_inactive_addresses = self.__get_powered_light_addresses()
             if self.is_active:
-                self.energy_level = self.energy_level - (time_since_last_update * DRAIN_RATE)
+                self.energy_level = self.energy_level - (time_since_last_update * self.drain_rate)
             elif self.is_charging:
                 self.energy_level = self.energy_level + (time_since_last_update * CHARGE_RATE)
             self.__update_rendered_energy(time_since_last_update)

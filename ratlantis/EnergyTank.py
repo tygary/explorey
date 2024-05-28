@@ -103,7 +103,7 @@ class EnergyTank(Artifact):
             ])
         elif self.mode == MODE_OFF_CHARGING:
             self.tank_routine = Routines.MultiRoutine([
-                Routines.WaveRoutine(self.pixels, active_pixels, TANK_COLORS),
+                Routines.PulseRoutine(self.pixels, active_pixels, TANK_COLORS),
                 Routines.BlackoutRoutine(self.pixels, inactive_pixels)
             ])
         elif self.mode == MODE_FULL:

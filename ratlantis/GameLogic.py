@@ -118,7 +118,7 @@ class GameLogic(object):
         self.is_running = False
         self.is_charging = True
 
-    def _get_next_vine(self, artifact, excluded_rfid=None):
+    def _get_next_vine(self, artifact, excluded_rfid=""):
         vines = []
         available_vines = ARTIFACT_VINE_MATRIX[artifact.id]
         for vine in available_vines:

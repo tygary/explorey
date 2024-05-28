@@ -207,8 +207,10 @@ class GameLogic(object):
             if time.time() < self.celebration_end_time:
                 return
             if not self.is_charging:
+                print("Game Starting Charging")
                 self.energy_tank.start_charging()
             if self.energy_tank.energy_level == 100 and not self.is_ready_to_start:
+                print("Game Ready to Start")
                 self.is_ready_to_start = True
                 self.energy_tank.set_pending_vine(self._get_next_vine(self.energy_tank))
                 self._update_vine_colors()

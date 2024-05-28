@@ -217,7 +217,8 @@ class GameLogic(object):
             if self.energy_tank.energy_level == 100 and not self.is_ready_to_start:
                 print("Game Ready to Start")
                 self.is_ready_to_start = True
-                self.energy_tank.set_pending_vine(self._get_next_vine(self.energy_tank))
+                vine = self._get_next_vine(self.energy_tank)
+                self.energy_tank.set_pending_vine(COLORS[3], vine.rfid)
                 self._update_vine_colors()
             if self.is_ready_to_start:
                 if self.energy_tank.desired_rfid == self.energy_tank.current_rfid:

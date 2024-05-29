@@ -39,7 +39,7 @@ class EnergyTank(Artifact):
     is_active = False
     is_charging = False
     mode = MODE_OFF
-    round_number = 0
+    round_num = 0
 
     tank_light_addresses = []
     tank_routine = None
@@ -138,6 +138,7 @@ class EnergyTank(Artifact):
     # ---------------------------------------
 
     def start_charging(self):
+        print("Tank starting charging")
         self.mode = -1
         self.is_active = False
         self.is_charging = True
@@ -149,6 +150,7 @@ class EnergyTank(Artifact):
         return self.mode == MODE_FULL
 
     def start_round(self, round_time=GAME_LENGTH_S):
+        print("Tank starting round")
         self.mode = -1
         self.last_update = time.time()
         self.energy_level = MAX_ENERGY
@@ -158,17 +160,30 @@ class EnergyTank(Artifact):
         self.is_charging = False
 
     def celebrate(self):
+        print("Tank is Celebrating")
         self.mode = MODE_CELEBRATE
+        self.energy_level = 0
+        self.is_active = False
+        self.is_charging = False
 
     def mourn(self):
+        print("Tank is Mourning")
         self.mode = MODE_MOURN
+        self.energy_level = 0
+        self.is_active = False
+        self.is_charging = False
 
     def show_round_num(self, round_num):
-        self.round_num = round_num
+        print("Tank Showing Round Num", round_num)
         self.mode = MODE_ROUND_START
+        self.round_num = round_num
+        self.energy_level = MAX_ENERGY
+        self.is_active = False
+        self.is_charging = False
         # TODO display number in lights
 
     def end_round(self):
+        print("Tank round ended")
         self.mode = -1
         self.energy_level = 0
         self.rendered_energy_level = 0
@@ -181,6 +196,7 @@ class EnergyTank(Artifact):
             self.energy_level = 0
         elif self.energy_level > MAX_ENERGY:
             self.energy_level = MAX_ENERGY
+        print("Tank Gained energy", amount, "to be", self.energy_level)
 
     def update(self):
         now = time.time()

@@ -202,12 +202,6 @@ class GameLogic(object):
                     vine.off()
 
     def _update_objectives(self):
-        if self.is_waiting_for_next_round:
-            if time.time() < self.next_round_start_time:
-                return
-            else:
-                self.is_waiting_for_next_round = False
-
         artifacts_by_rfid = {}
         for artifact in self.artifacts:
             if artifact.current_rfid is not None:
@@ -264,6 +258,8 @@ class GameLogic(object):
             print("Go!")
             for artifact in self.artifacts:
                 artifact.reset()
+            for vine in self.vines:
+                vine.off()
             self.energy_tank.start_round(round_time=self.config.objective_time_length)
             self._update_objectives()
         elif GAME_MODE_WIN:

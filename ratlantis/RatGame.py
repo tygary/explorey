@@ -78,9 +78,10 @@ class RatGame(object):
     def update(self):
         self.game.update()
         self.tank.update()
+        self.mqtt.publish_batch()
         self.switchboard.update()
         self.pixels.render()
-        self.mqtt.publish_batch()
+
 
 
 

@@ -71,7 +71,7 @@ class EnergyTank(Artifact):
         self.rendered_energy_level = self.energy_level
 
     def __get_new_mode(self):
-        if self.mode == MODE_CELEBRATE or self.mode == MODE_MOURN:
+        if self.mode == MODE_CELEBRATE or self.mode == MODE_MOURN or self.mode == MODE_ROUND_START:
             return self.mode
         if self.rendered_energy_level <= 0:
             self.energy_level = 0

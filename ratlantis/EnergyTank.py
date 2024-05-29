@@ -130,6 +130,10 @@ class EnergyTank(Artifact):
             self.tank_routine = Routines.MultiRoutine([
                 Routines.FireRoutine(self.pixels, self.tank_light_addresses)
             ])
+        elif self.mode == MODE_ROUND_START:
+            self.tank_routine = Routines.MultiRoutine([
+                Routines.BleuRoutine(self.pixels, self.tank_light_addresses)
+            ])
 
     # ---------------------------------------
 

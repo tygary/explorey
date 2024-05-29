@@ -102,7 +102,7 @@ class EnergyVine(object):
     def pending_connection(self, color):
         if color == -1:
             print(self.rfid, "party mode", color)
-            self.light_routine = Routines.BleuRoutine(self.pixels, self.light_addresses)  # Colors.mid_green
+            self.light_routine = Routines.MushroomRoutine(self.pixels, self.light_addresses)  # Colors.mid_green
         else:
             self.color = color
             print(self.rfid, "pulsing color", color)

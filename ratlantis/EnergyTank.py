@@ -151,7 +151,7 @@ class EnergyTank(Artifact):
 
     def start_round(self, round_time=GAME_LENGTH_S):
         print("Tank starting round")
-        self.mode = -1
+        self.mode = MODE_RUNNING
         self.last_update = time.time()
         self.energy_level = MAX_ENERGY
         self.rendered_energy_level = MAX_ENERGY

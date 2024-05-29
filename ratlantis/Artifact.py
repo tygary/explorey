@@ -1,4 +1,6 @@
 import json
+import random
+from ratlantis.EnergyVine import COLORS
 
 from lighting.Colors import Colors
 from lighting.routines import Routines
@@ -82,9 +84,14 @@ class Artifact(object):
             "shouldDisconnect": should_disconnect
         })
 
-    def reset(self):
+    def reset(self, allow_any=False):
         self.color = None
-        self.desired_rfid = None
+        if allow_any:
+            self.color = random.choice(COLORS)
+            self.desired_rfid = -1
+        else:
+            self.color = None
+            self.desired_rfid = None
         self._send_update()
 
     def set_pending_vine(self, color, rfid):

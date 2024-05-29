@@ -175,7 +175,7 @@ class GameLogic(object):
         connected_vines_by_color = {}
         pending_vines_by_color = {}
         for artifact in self.artifacts:
-            if artifact.desired_rfid and artifact.desired_rfid == artifact.current_rfid:
+            if artifact.desired_rfid == -1 or (artifact.desired_rfid and artifact.desired_rfid == artifact.current_rfid):
                 connected_vines_by_color[artifact.current_rfid] = artifact.color
                 print(artifact.desired_rfid, "connected to", artifact.color)
             elif artifact.current_rfid and artifact.desired_rfid != artifact.current_rfid:
@@ -263,14 +263,14 @@ class GameLogic(object):
             self.energy_tank.celebrate()
             self.celebration_end_time = time.time() + CELEBRATION_TIME
             for artifact in self.artifacts:
-                artifact.reset()
+                artifact.reset(allow_any=True)
             self._update_vine_colors()
         elif GAME_MODE_LOSE:
             print("GAME OVER")
             self.energy_tank.end_round()
             self.energy_tank.mourn()
             for artifact in self.artifacts:
-                artifact.reset()
+                artifact.reset(allow_any=True)
             self._update_vine_colors()
             self.celebration_end_time = time.time() + CELEBRATION_TIME
 

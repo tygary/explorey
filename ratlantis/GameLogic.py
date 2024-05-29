@@ -238,6 +238,7 @@ class GameLogic(object):
     def _change_game_mode(self, new_mode):
         old_mode = self.mode
         self.mode = new_mode
+        print("updating game mode from", old_mode, "to", new_mode)
         if new_mode == GAME_MODE_CHARGING:
             print("Game Starting Charging")
             self.is_charging = True

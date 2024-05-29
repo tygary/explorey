@@ -180,13 +180,13 @@ class GameLogic(object):
         for artifact in self.artifacts:
             if (artifact.desired_rfid == -1 and artifact.current_rfid) or (artifact.desired_rfid and artifact.desired_rfid == artifact.current_rfid):
                 connected_vines_by_color[artifact.current_rfid] = artifact.color
-                print(artifact.desired_rfid, "connected to", artifact.color)
+                print(artifact.id, "connected to", artifact.current_rfid)
             elif artifact.current_rfid and artifact.desired_rfid != artifact.current_rfid:
                 invalid_vines_by_color[artifact.current_rfid] = artifact.color
-                print(artifact.desired_rfid, "has invalid connection to", artifact.color)
-            elif artifact.color:
+                print(artifact.id, "has invalid connection to", artifact.current_rfid)
+            elif artifact.color and artifact.desired_rfid != -1:
                 pending_vines_by_color[artifact.desired_rfid] = artifact.color
-                print(artifact.desired_rfid, artifact.color)
+                print(artifact.id, artifact.desired_rfid, artifact.color)
         for vine in self.vines:
             if connected_vines_by_color.get(vine.rfid):
                 vine.valid_connection(connected_vines_by_color.get(vine.rfid))
@@ -279,7 +279,7 @@ class GameLogic(object):
 
     def artifact_changed(self, artifact, connected, card):
         if connected:
-            if artifact.desired_rfid and artifact.current_rfid == artifact.desired_rfid:
+            if artifact.desired_rfid and (artifact.current_rfid == artifact.desired_rfid or artifact.desired_rfid == -1):
                 vine = next((vine for vine in self.vines), None)
                 # vine.valid_connection(artifact.color)
                 print(vine.rfid, "connected to", artifact.id)

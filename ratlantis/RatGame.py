@@ -78,6 +78,7 @@ class RatGame(object):
         self.tank.update()
         self.switchboard.update()
         self.pixels.render()
+        self.mqtt.publish_batch()
 
 
 

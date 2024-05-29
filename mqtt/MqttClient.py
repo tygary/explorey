@@ -1,6 +1,7 @@
 import paho.mqtt.client as mqtt
 import socket
 import time
+import json
 
 HOSTNAME = "10.0.1.1" # "10.0.0.21"  # "192.168.0.110"
 BROKER_PORT = 1883
@@ -21,6 +22,7 @@ class MqttClient(object):
     client = None
     listeners = []
     connected = False
+    message_batch = []
 
     def __init__(self):
         self.client = mqtt.Client()
@@ -48,6 +50,13 @@ class MqttClient(object):
         for listener in self.listeners:
             if listener is not None:
                 listener(message.payload.decode())
+
+    def queue_in_batch_publish(self, message):
+        self.message_batch.append(message)
+
+    def publish_batch(self):
+        self.publish(json.dumps(self.message_batch))
+        self.message_batch = []
 
     def publish(self, message):
         print("MQTT Publishing message:", message)

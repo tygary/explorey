@@ -36,19 +36,22 @@ class Artifact(object):
 
     def __parse_mqtt_event(self, event):
         try:
-            data = json.loads(event)
-            if data and data["event"]:
-                event = data["event"]
-                if event == CARD_FOUND or event == CARD_REMOVED or event == FINISHED_BOOT:
-                    reader_name = data["reader"]
-                    if reader_name == self.id:
-                        if event == CARD_FOUND:
-                            card_id = data["card"]
-                            self.__on_card_detected(card_id)
-                        elif event == CARD_REMOVED:
-                            self.__on_card_removed()
-                        elif event == FINISHED_BOOT:
-                            self.set_pending_vine(self.color, self.desired_rfid)
+            events = json.loads(event)
+            if not type(events) in (tuple, list):
+                events = [events]
+            for data in events:
+                if data and data["event"]:
+                    event = data["event"]
+                    if event == CARD_FOUND or event == CARD_REMOVED or event == FINISHED_BOOT:
+                        reader_name = data["reader"]
+                        if reader_name == self.id:
+                            if event == CARD_FOUND:
+                                card_id = data["card"]
+                                self.__on_card_detected(card_id)
+                            elif event == CARD_REMOVED:
+                                self.__on_card_removed()
+                            elif event == FINISHED_BOOT:
+                                self.set_pending_vine(self.color, self.desired_rfid)
         except Exception as e:
             print("Artifact Failed parsing event", event, e)
 
@@ -67,7 +70,7 @@ class Artifact(object):
         color = self.color
         if color is None:
             color = 0
-        self.mqtt.publish(json.dumps({
+        self.mqtt.queue_in_batch_publish({
             "event": "artifactUpdate",
             "reader": self.id,
             "id": self.id,
@@ -76,7 +79,7 @@ class Artifact(object):
             "startTime": start_time,
             "endTime": end_time,
             "shouldDisconnect": should_disconnect
-        }))
+        })
 
     def reset(self):
         self.color = None

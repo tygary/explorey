@@ -66,20 +66,23 @@ class EnergyVine(object):
 
     def __parse_mqtt_event(self, event):
         try:
-            data = json.loads(event)
-            if data and data["event"] and data["event"] == EVENT_VINE_UPDATE:
-                rfid = data["rfid"]
-                mode = data["mode"]
-                color = data["color"]
-                if rfid == self.rfid:
-                    if mode == VINE_MODE_CONNECTED:
-                        self.valid_connection(color)
-                    elif mode == VINE_MODE_INVALID:
-                        self.invalid_connection()
-                    elif mode == VINE_MODE_PENDING:
-                        self.pending_connection(color)
-                    elif mode == VINE_MODE_OFF:
-                        self.off()
+            events = json.loads(event)
+            if not type(events) in (tuple, list):
+                events = [events]
+            for data in events:
+                if data and data["event"] and data["event"] == EVENT_VINE_UPDATE:
+                    rfid = data["rfid"]
+                    mode = data["mode"]
+                    color = data["color"]
+                    if rfid == self.rfid:
+                        if mode == VINE_MODE_CONNECTED:
+                            self.valid_connection(color)
+                        elif mode == VINE_MODE_INVALID:
+                            self.invalid_connection()
+                        elif mode == VINE_MODE_PENDING:
+                            self.pending_connection(color)
+                        elif mode == VINE_MODE_OFF:
+                            self.off()
         except Exception as e:
             print("Energy Vine Failed parsing event", event, e)
 
@@ -122,13 +125,13 @@ class RemoteEnergyVine(object):
 
     def _send_update(self):
         print("Vine", self.rfid, "mode", self.mode, "color", self.color)
-        self.mqtt.publish(json.dumps({
+        self.mqtt.queue_in_batch_publish({
             "event": EVENT_VINE_UPDATE,
             "mode": self.mode,
             "rfid": self.rfid,
             "color": self.color,
             "shouldDisconnect": True
-        }))
+        })
 
     def invalid_connection(self):
         self.mode = VINE_MODE_INVALID

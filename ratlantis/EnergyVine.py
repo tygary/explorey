@@ -122,6 +122,7 @@ class RemoteEnergyVine(object):
     def __init__(self, rfid, mqtt):
         self.rfid = rfid
         self.mqtt = mqtt
+        self._send_update()
 
     def _send_update(self):
         print("Vine", self.rfid, "mode", self.mode, "color", self.color)

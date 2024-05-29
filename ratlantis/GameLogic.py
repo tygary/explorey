@@ -178,7 +178,7 @@ class GameLogic(object):
         connected_vines_by_color = {}
         pending_vines_by_color = {}
         for artifact in self.artifacts:
-            if artifact.desired_rfid == -1 or (artifact.desired_rfid and artifact.desired_rfid == artifact.current_rfid):
+            if (artifact.desired_rfid == -1 and artifact.current_rfid) or (artifact.desired_rfid and artifact.desired_rfid == artifact.current_rfid):
                 connected_vines_by_color[artifact.current_rfid] = artifact.color
                 print(artifact.desired_rfid, "connected to", artifact.color)
             elif artifact.current_rfid and artifact.desired_rfid != artifact.current_rfid:

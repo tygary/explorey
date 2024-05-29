@@ -150,6 +150,9 @@ class GameLogic(object):
         self.energy_tank = energy_tank
         self.switchboard = switchboard
 
+        for artifact in self.artifacts:
+            artifact.reset(allow_any=True)
+
     def _get_next_vine(self, artifact, excluded_rfid=""):
         vines = []
         available_vine_ids = ARTIFACT_VINE_MATRIX[artifact.id]

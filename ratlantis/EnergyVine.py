@@ -134,21 +134,25 @@ class RemoteEnergyVine(object):
         })
 
     def invalid_connection(self):
-        self.mode = VINE_MODE_INVALID
-        self._send_update()
+        if self.mode != VINE_MODE_CONNECTED:
+            self.mode = VINE_MODE_INVALID
+            self._send_update()
 
     def valid_connection(self, color):
-        self.color = color
-        self.mode = VINE_MODE_CONNECTED
-        self._send_update()
+        if self.mode != VINE_MODE_CONNECTED or self.color != color:
+            self.color = color
+            self.mode = VINE_MODE_CONNECTED
+            self._send_update()
 
     def pending_connection(self, color):
-        self.color = color
-        self.mode = VINE_MODE_PENDING
-        self._send_update()
+        if self.mode != VINE_MODE_PENDING or self.color != color:
+            self.color = color
+            self.mode = VINE_MODE_PENDING
+            self._send_update()
 
     def off(self):
-        self.color = None
-        self.mode = VINE_MODE_OFF
-        self._send_update()
+        if self.mode != VINE_MODE_OFF:
+            self.color = None
+            self.mode = VINE_MODE_OFF
+            self._send_update()
 

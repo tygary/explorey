@@ -22,6 +22,7 @@ MODE_RUNNING = 3
 MODE_NEARLY_EMPTY = 4
 MODE_CELEBRATE = 5
 MODE_MOURN = 6
+MODE_ROUND_START = 7
 
 TANK_COLOR = Colors.green
 TANK_COLORS = [TANK_COLOR, Colors.light_green, Colors.mid_green]
@@ -38,6 +39,7 @@ class EnergyTank(Artifact):
     is_active = False
     is_charging = False
     mode = MODE_OFF
+    round_number = 0
 
     tank_light_addresses = []
     tank_routine = None
@@ -156,6 +158,11 @@ class EnergyTank(Artifact):
 
     def mourn(self):
         self.mode = MODE_MOURN
+
+    def show_round_num(self, round_num):
+        self.round_num = round_num
+        self.mode = MODE_ROUND_START
+        # TODO display number in lights
 
     def end_round(self):
         self.mode = -1

@@ -49,7 +49,8 @@ class Artifact(object):
                                 card_id = data["card"]
                                 self.__on_card_detected(card_id)
                             elif event == CARD_REMOVED:
-                                self.__on_card_removed()
+                                previous_card = data["previousCard"]
+                                self.__on_card_removed(previous_card)
                             elif event == FINISHED_BOOT:
                                 self.set_pending_vine(self.color, self.desired_rfid)
         except Exception as e:
@@ -58,13 +59,13 @@ class Artifact(object):
     def __on_card_detected(self, card):
         print("Card detected", card)
         self.current_rfid = card
-        self.on_change(self)
+        self.on_change(self, True, card)
 
-    def __on_card_removed(self):
+    def __on_card_removed(self, previous_card):
         print("card removed")
         self.current_rfid = None
         self.is_attached = False
-        self.on_change(self)
+        self.on_change(self, False, previous_card)
 
     def _send_update(self, start_time=-1, end_time=-1, should_disconnect=True):
         color = self.color

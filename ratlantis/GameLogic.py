@@ -4,6 +4,15 @@ import math
 from ratlantis.EnergyVine import COLORS, VINE_ONE_RFID, VINE_TWO_RFID, VINE_THREE_RFID, VINE_FOUR_RFID, VINE_FIVE_RFID, VINE_SIX_RFID, VINE_SEVEN_RFID, VINE_EIGHT_RFID
 
 
+GAME_MODE_CHARGING = 0
+GAME_MODE_READY = 1
+GAME_MODE_ROUND_START = 2
+GAME_MODE_RUNNING = 3
+# GAME_MODE_ENDING = 4
+GAME_MODE_WIN = 4
+GAME_MODE_LOSE = 5
+
+
 ARTIFACT_VINE_MATRIX = {
     "artifact/city": [
         VINE_FIVE_RFID,
@@ -61,7 +70,15 @@ CHARGING_TIME = 20
 
 
 class RoundConfig(object):
-    def __init__(self, num_objectives, simultaneous_chance, max_simultaneous, switchboard_rate, drain_time, objective_energy_gain, objective_time_length):
+    def __init__(self,
+                 num_objectives,
+                 simultaneous_chance,
+                 max_simultaneous,
+                 switchboard_rate,
+                 drain_time,
+                 objective_energy_gain,
+                 objective_time_length,
+                 will_immediately_disconnect):
         self.num_objectives = num_objectives
         self.simultaneous_chance = simultaneous_chance
         self.max_simultaneous = max_simultaneous
@@ -69,13 +86,46 @@ class RoundConfig(object):
         self.drain_time = drain_time
         self.objective_energy_gain = objective_energy_gain
         self.objective_time_length = objective_time_length
+        self.will_immediately_disconnect = will_immediately_disconnect
 
 
 ROUND_CONFIG = [
-    RoundConfig(num_objectives=2, simultaneous_chance=0, max_simultaneous=1, switchboard_rate=0, drain_time=30, objective_energy_gain=5, objective_time_length=20),
-    RoundConfig(num_objectives=4, simultaneous_chance=0.25, max_simultaneous=2, switchboard_rate=0.25, drain_time=20, objective_energy_gain=4, objective_time_length=15),
-    RoundConfig(num_objectives=6, simultaneous_chance=0.5, max_simultaneous=2, switchboard_rate=0.5, drain_time=15, objective_energy_gain=3, objective_time_length=10),
-    RoundConfig(num_objectives=8, simultaneous_chance=0.5, max_simultaneous=3, switchboard_rate=0.75, drain_time=10, objective_energy_gain=2, objective_time_length=10),
+    # 0
+    RoundConfig(num_objectives=2,
+                simultaneous_chance=0,
+                max_simultaneous=1,
+                switchboard_rate=0,
+                drain_time=30,
+                objective_energy_gain=5,
+                objective_time_length=20,
+                will_immediately_disconnect=False),
+    # 1
+    RoundConfig(num_objectives=4,
+                simultaneous_chance=0.25,
+                max_simultaneous=2,
+                switchboard_rate=0.25,
+                drain_time=20,
+                objective_energy_gain=4,
+                objective_time_length=15,
+                will_immediately_disconnect=False),
+    # 2
+    RoundConfig(num_objectives=6,
+                simultaneous_chance=0.5,
+                max_simultaneous=2,
+                switchboard_rate=0.5,
+                drain_time=15,
+                objective_energy_gain=3,
+                objective_time_length=10,
+                will_immediately_disconnect=False),
+    # 3
+    RoundConfig(num_objectives=8,
+                simultaneous_chance=0.5,
+                max_simultaneous=3,
+                switchboard_rate=0.75,
+                drain_time=10,
+                objective_energy_gain=2,
+                objective_time_length=10,
+                will_immediately_disconnect=True),
 ]
 
 
@@ -85,44 +135,20 @@ class GameLogic(object):
     energy_tank = None
     switchboard = None
 
+    mode = GAME_MODE_CHARGING
     current_round = 0
     config = ROUND_CONFIG[0]
     remaining_objectives = 0
     next_round_start_time = 0
-    is_waiting_for_next_round = False
     celebration_end_time = 0
-    is_running = False
-    is_charging = True
-    is_ready_to_start = False
 
+    last_connected_artifact = None
 
     def __init__(self, vines, artifacts, energy_tank, switchboard):
         self.vines = vines
         self.artifacts = artifacts
         self.energy_tank = energy_tank
         self.switchboard = switchboard
-
-    def _you_win(self):
-        print("YOU WIN!")
-        self.energy_tank.end_round()
-        self.energy_tank.celebrate()
-        self.celebration_end_time = time.time() + CELEBRATION_TIME
-        for artifact in self.artifacts:
-            artifact.reset()
-        self._update_vine_colors()
-        self.is_running = False
-        self.is_charging = False
-
-    def _end_game(self):
-        print("GAME OVER")
-        self.energy_tank.end_round()
-        self.energy_tank.mourn()
-        for artifact in self.artifacts:
-            artifact.reset()
-        self._update_vine_colors()
-        self.celebration_end_time = time.time() + CELEBRATION_TIME
-        self.is_running = False
-        self.is_charging = False
 
     def _get_next_vine(self, artifact, excluded_rfid=""):
         vines = []
@@ -145,14 +171,26 @@ class GameLogic(object):
         return random.choice(available_colors)
 
     def _update_vine_colors(self):
-        vines_by_color = {}
+        invalid_vines_by_color = {}
+        connected_vines_by_color = {}
+        pending_vines_by_color = {}
         for artifact in self.artifacts:
-            if artifact.color:
-                vines_by_color[artifact.desired_rfid] = artifact.color
+            if artifact.desired_rfid and artifact.desired_rfid == artifact.current_rfid:
+                connected_vines_by_color[artifact.current_rfid] = artifact.color
+                print(artifact.desired_rfid, "connected to", artifact.color)
+            elif artifact.current_rfid and artifact.desired_rfid != artifact.current_rfid:
+                invalid_vines_by_color[artifact.current_rfid] = artifact.color
+                print(artifact.desired_rfid, "has invalid connection to", artifact.color)
+            elif artifact.color:
+                pending_vines_by_color[artifact.desired_rfid] = artifact.color
                 print(artifact.desired_rfid, artifact.color)
         for vine in self.vines:
-            if vines_by_color.get(vine.rfid):
-                vine.pending_connection(vines_by_color.get(vine.rfid))
+            if connected_vines_by_color.get(vine.rfid):
+                vine.valid_connection(connected_vines_by_color.get(vine.rfid))
+            elif invalid_vines_by_color.get(vine.rfid):
+                vine.invalid_connection(invalid_vines_by_color.get(vine.rfid))
+            elif pending_vines_by_color.get(vine.rfid):
+                vine.pending_connection(pending_vines_by_color.get(vine.rfid))
             else:
                 vine.off()
 
@@ -170,7 +208,9 @@ class GameLogic(object):
 
         num_to_update = min(random.randint(1, self.config.max_simultaneous), self.remaining_objectives)
 
-        artifacts_to_update = random.sample(self.artifacts, num_to_update)
+        artifacts_without_current = [ artifact for artifact in self.artifacts if artifact != self.last_connected_artifact]
+        available_artifacts = self.artifacts if self.config.will_immediately_disconnect else artifacts_without_current
+        artifacts_to_update = random.sample(available_artifacts, num_to_update)
         for artifact in artifacts_to_update:
             vine = self._get_next_vine(artifact, excluded_rfid=artifact.current_rfid)
             color = self._get_next_color()
@@ -188,65 +228,96 @@ class GameLogic(object):
             new_switchboard_state = [random.randint(0, 1), random.randint(0, 1), random.randint(0, 1), random.randint(0, 1)]
             self.switchboard.desired_state = new_switchboard_state
 
-    def next_round(self):
-        if self.current_round == len(ROUND_CONFIG) - 1:
-            self._you_win()
-            return
-        self.energy_tank.end_round()
-        self.energy_tank.celebrate()
-        self.current_round += 1
-        self.config = ROUND_CONFIG[0]
-        self.remaining_objectives = self.config.num_objectives
-        self.next_round_start_time = time.time() + ROUND_WAIT_TIME
-        self.is_waiting_for_next_round = True
+    def _change_game_mode(self, new_mode):
+        old_mode = self.mode
+        self.mode = new_mode
+        if new_mode == GAME_MODE_CHARGING:
+            print("Game Starting Charging")
+            self.is_charging = True
+            self.energy_tank.start_charging()
+            self._update_vine_colors()
+        elif new_mode == GAME_MODE_READY:
+            print("Game Ready to Start")
+            vine = self._get_next_vine(self.energy_tank)
+            self.current_round = -1
+            self.energy_tank.set_pending_vine(COLORS[3], vine.rfid)
+            self._update_vine_colors()
+        elif GAME_MODE_ROUND_START:
+            print("Round Starting", self.current_round)
+            self.energy_tank.end_round()
+            self.current_round += 1
+            self.energy_tank.show_round_num(self.current_round)
+            self.config = ROUND_CONFIG[self.current_round]
+            self.remaining_objectives = self.config.num_objectives
+            self.next_round_start_time = time.time() + ROUND_WAIT_TIME
+            self.is_waiting_for_next_round = True
+        elif GAME_MODE_RUNNING:
+            print("Go!")
+            for artifact in self.artifacts:
+                artifact.reset()
+            self.energy_tank.start_round(round_time=self.config.objective_time_length)
+            self._update_objectives()
+        elif GAME_MODE_WIN:
+            print("YOU WIN!")
+            self.energy_tank.end_round()
+            self.energy_tank.celebrate()
+            self.celebration_end_time = time.time() + CELEBRATION_TIME
+            for artifact in self.artifacts:
+                artifact.reset()
+            self._update_vine_colors()
+        elif GAME_MODE_LOSE:
+            print("GAME OVER")
+            self.energy_tank.end_round()
+            self.energy_tank.mourn()
+            for artifact in self.artifacts:
+                artifact.reset()
+            self._update_vine_colors()
+            self.celebration_end_time = time.time() + CELEBRATION_TIME
 
-    def start(self):
-        print("Starting game")
-        for artifact in self.artifacts:
-            artifact.reset()
-        self.is_charging = False
-        self.is_ready_to_start = False
-        self.is_running = True
-        self.current_round = -1
-        self.next_round()
-        self.energy_tank.start_round()
-        self._update_objectives()
+    def artifact_changed(self, artifact, connected, card):
+        if connected:
+            if artifact.desired_rfid and artifact.current_rfid == artifact.desired_rfid:
+                vine = next((vine for vine in self.vines), None)
+                # vine.valid_connection(artifact.color)
+                print(vine.rfid, "connected to", artifact.id)
+                self.last_connected_artifact = artifact
+            else:
+                print(card, "invalid connection to", artifact.id)
+        else:
+            self.last_connected_artifact = None
+            if artifact.desired_rfid and artifact.desired_rfid == card:
+                print(card, "accidentally disconnected from", artifact.id)
+            else:
+                print(card, "disconnected from", artifact.id)
+        self._update_vine_colors()
 
     def update(self):
-        if not self.is_running:
-            if time.time() < self.celebration_end_time:
-                return
-            if not self.is_charging:
-                print("Game Starting Charging")
-                self.is_charging = True
-                self.energy_tank.start_charging()
-                self._update_vine_colors()
-            if self.energy_tank.energy_level == 100 and not self.is_ready_to_start:
-                print("Game Ready to Start")
-                self.is_ready_to_start = True
-                vine = self._get_next_vine(self.energy_tank)
-                self.energy_tank.set_pending_vine(COLORS[3], vine.rfid)
-                self._update_vine_colors()
-            if self.is_ready_to_start:
-                if self.energy_tank.desired_rfid == self.energy_tank.current_rfid:
-                    self.start()
-        else:
+        if self.mode == GAME_MODE_LOSE or self.mode == GAME_MODE_WIN:
+            if time.time() >= self.celebration_end_time:
+                self._change_game_mode(GAME_MODE_CHARGING)
+        elif self.mode == GAME_MODE_CHARGING:
+            if self.energy_tank.energy_level >= 100:
+                self._change_game_mode(GAME_MODE_READY)
+        elif self.mode == GAME_MODE_READY:
+            if self.energy_tank.desired_rfid == self.energy_tank.current_rfid:
+                self._change_game_mode(GAME_MODE_ROUND_START)
+        elif self.mode == GAME_MODE_ROUND_START:
+            if time.time() >= self.next_round_start_time:
+                self._change_game_mode(GAME_MODE_RUNNING)
+        elif self.mode == GAME_MODE_RUNNING:
             if self.energy_tank.energy_level == 0:
-                self._end_game()
-                return
-
-            is_objective_completed = True
-            for artifact in self.artifacts:
-                if artifact.current_rfid != artifact.desired_rfid:
-                    is_objective_completed = False
-
-            if is_objective_completed:
-                if self.remaining_objectives == 0:
-                    self.next_round()
-                self._update_objectives()
-                if not self.is_waiting_for_next_round:
-                    self.energy_tank.add_energy(self.config.objective_energy_gain)
-
-
-
-
+                self._change_game_mode(GAME_MODE_LOSE)
+            else:
+                is_objective_completed = True
+                for artifact in self.artifacts:
+                    if artifact.current_rfid != artifact.desired_rfid:
+                        is_objective_completed = False
+                if is_objective_completed:
+                    if self.remaining_objectives == 0:
+                        if self.current_round == len(ROUND_CONFIG) - 1:
+                            self._change_game_mode(GAME_MODE_WIN)
+                        else:
+                            self._change_game_mode(GAME_MODE_ROUND_START)
+                    else:
+                        self.energy_tank.add_energy(self.config.objective_energy_gain)
+                        self._update_objectives()

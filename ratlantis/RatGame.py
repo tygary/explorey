@@ -58,16 +58,18 @@ class RatGame(object):
 
         self.game = GameLogic(self.vines, self.artifacts, self.tank, self.switchboard)
 
-    def __on_artifact_change(self, artifact):
+    def __on_artifact_change(self, artifact, connected, card):
         print("Artifact Changed", artifact)
-        cur_vine = self.vines[0]
-        if artifact.current_rfid:
-            if artifact.current_rfid == artifact.desired_rfid:
-                cur_vine.valid_connection(self.current_color)
-                print("Yay connected!")
-            else:
-                print("Wrong!!")
-                cur_vine.invalid_connection()
+        self.game.artifact_changed(artifact, connected, card)
+        # cur_vine = self.vines[0]
+        # if artifact.current_rfid:
+        #     if artifact.current_rfid == artifact.desired_rfid:
+        #         cur_vine.valid_connection(self.current_color)
+        #
+        #         print("Yay connected!")
+        #     else:
+        #         print("Wrong!!")
+        #         cur_vine.invalid_connection()
         # else:
             # self.current_color = random.choice(COLORS)
             # artifact.set_pending_vine(self.current_color, TEST_RFID)

@@ -253,6 +253,7 @@ class GameLogic(object):
         elif GAME_MODE_ROUND_START:
             print("Round Starting", self.current_round)
             self.energy_tank.end_round()
+            self.energy_tank.energy_level = 100
             self.current_round += 1
             self.energy_tank.show_round_num(self.current_round)
             self.config = ROUND_CONFIG[self.current_round]

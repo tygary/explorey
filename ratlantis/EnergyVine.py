@@ -1,4 +1,5 @@
 import json
+import random
 
 from lighting.Colors import Colors
 from lighting.routines import Routines
@@ -101,7 +102,7 @@ class EnergyVine(object):
     def pending_connection(self, color):
         if color == -1:
             print(self.rfid, "party mode", color)
-            self.light_routine = Routines.WaveRoutine(self.pixels, self.light_addresses, [get_color(color)])  # Colors.mid_green
+            self.light_routine = Routines.WaveRoutine(self.pixels, self.light_addresses, [get_color(random.choice(COLORS))])  # Colors.mid_green
         else:
             self.color = color
             print(self.rfid, "pulsing color", color)

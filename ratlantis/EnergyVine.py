@@ -92,17 +92,16 @@ class EnergyVine(object):
 
     def valid_connection(self, color):
         self.color = color
-        self.light_routine = Routines.WaveRoutine(
+        self.light_routine = Routines.FireRoutine(
             self.pixels,
             self.light_addresses,
-            [get_color(color)],  # [Colors.light_green, Colors.mid_green, Colors.green],
-            wave_wait_time=1000
+            [get_color(color)]  # [Colors.light_green, Colors.mid_green, Colors.green],
         )
 
     def pending_connection(self, color):
         if color == -1:
             print(self.rfid, "party mode", color)
-            self.light_routine = Routines.MushroomRoutine(self.pixels, self.light_addresses)  # Colors.mid_green
+            self.light_routine = Routines.WaveRoutine(self.pixels, self.light_addresses, [get_color(color)])  # Colors.mid_green
         else:
             self.color = color
             print(self.rfid, "pulsing color", color)

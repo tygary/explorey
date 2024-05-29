@@ -202,6 +202,7 @@ class GameLogic(object):
                     vine.off()
 
     def _update_objectives(self):
+        print("Updating Objectives")
         artifacts_by_rfid = {}
         for artifact in self.artifacts:
             if artifact.current_rfid is not None:
@@ -245,15 +246,12 @@ class GameLogic(object):
             self.energy_tank.set_pending_vine(COLORS[3], vine.rfid)
             self._update_vine_colors()
         elif GAME_MODE_ROUND_START:
-            print("Round Starting", self.current_round)
-            self.energy_tank.energy_level = 100
-            self.energy_tank.rendered_energy_level = 100
             self.current_round += 1
+            print("Round Starting", self.current_round)
             self.energy_tank.show_round_num(self.current_round)
             self.config = ROUND_CONFIG[self.current_round]
             self.remaining_objectives = self.config.num_objectives
             self.next_round_start_time = time.time() + ROUND_WAIT_TIME
-            self.is_waiting_for_next_round = True
         elif GAME_MODE_RUNNING:
             print("Go!")
             for artifact in self.artifacts:

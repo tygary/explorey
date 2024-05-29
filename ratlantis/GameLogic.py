@@ -152,6 +152,7 @@ class GameLogic(object):
 
         for artifact in self.artifacts:
             artifact.reset(allow_any=True)
+        self._update_vine_colors()
 
     def _get_next_vine(self, artifact, excluded_rfid=""):
         vines = []

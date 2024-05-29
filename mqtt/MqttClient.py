@@ -55,8 +55,9 @@ class MqttClient(object):
         self.message_batch.append(message)
 
     def publish_batch(self):
-        self.publish(json.dumps(self.message_batch))
-        self.message_batch = []
+        if len(self.message_batch) > 0:
+            self.publish(json.dumps(self.message_batch))
+            self.message_batch = []
 
     def publish(self, message):
         print("MQTT Publishing message:", message)

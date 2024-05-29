@@ -100,9 +100,13 @@ class EnergyVine(object):
         )
 
     def pending_connection(self, color):
-        self.color = color
-        print(self.rfid, "pulsing color", color)
-        self.light_routine = Routines.PulseRoutine(self.pixels, self.light_addresses, get_color(color))  # Colors.mid_green
+        if color == -1:
+            print(self.rfid, "party mode", color)
+            self.light_routine = Routines.BleuRoutine(self.pixels, self.light_addresses)  # Colors.mid_green
+        else:
+            self.color = color
+            print(self.rfid, "pulsing color", color)
+            self.light_routine = Routines.PulseRoutine(self.pixels, self.light_addresses, get_color(color))  # Colors.mid_green
 
     def off(self):
         self.color = None
@@ -136,6 +140,7 @@ class RemoteEnergyVine(object):
 
     def invalid_connection(self):
         if self.mode != VINE_MODE_CONNECTED:
+            self.color = None
             self.mode = VINE_MODE_INVALID
             self._send_update()
 

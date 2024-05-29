@@ -196,7 +196,10 @@ class GameLogic(object):
             elif pending_vines_by_color.get(vine.rfid):
                 vine.pending_connection(pending_vines_by_color.get(vine.rfid))
             else:
-                vine.off()
+                if self.mode == GAME_MODE_CHARGING or self.mode == GAME_MODE_READY:
+                    vine.pending_connection(-1)
+                else:
+                    vine.off()
 
     def _update_objectives(self):
         if self.is_waiting_for_next_round:

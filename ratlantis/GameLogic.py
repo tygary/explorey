@@ -189,6 +189,9 @@ class GameLogic(object):
             elif artifact.desired_rfid and artifact.desired_rfid != -1:
                 pending_vines_by_color[artifact.desired_rfid] = artifact.color
                 print(artifact.id, artifact.desired_rfid, artifact.color)
+        print("invalidVines:", invalid_vines_by_color)
+        print("connectedVines:", connected_vines_by_color)
+        print("pendingVines:", pending_vines_by_color)
         for vine in self.vines:
             if connected_vines_by_color.get(vine.rfid):
                 vine.valid_connection(connected_vines_by_color.get(vine.rfid))

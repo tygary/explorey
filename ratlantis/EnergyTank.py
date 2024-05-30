@@ -208,6 +208,7 @@ class EnergyTank(Artifact):
         print("Tank Gained energy", amount, "to be", self.energy_level)
 
     def update(self):
+        print("tankupdate")
         now = time.time()
         time_since_last_update = now - self.last_update
         if time_since_last_update > 0 and (self.is_charging or self.is_active):

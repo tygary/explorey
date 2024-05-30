@@ -1,5 +1,6 @@
 import json
 import random
+import traceback
 
 from lighting.Colors import Colors
 from lighting.routines import Routines
@@ -87,6 +88,7 @@ class EnergyVine(object):
                             self.off()
         except Exception as e:
             print("Energy Vine Failed parsing event", event, e)
+            print(traceback.format_exc())
 
     def invalid_connection(self):
         print("invalid connection!", self.light_addresses)

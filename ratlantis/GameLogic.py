@@ -248,11 +248,18 @@ class GameLogic(object):
         elif GAME_MODE_ROUND_START:
             self.current_round += 1
             print("Round Starting", self.current_round)
+            for artifact in self.artifacts:
+                if artifact != self.energy_tank:
+                    artifact.reset()
+            for vine in self.vines:
+                if vine.rfid != self.energy_tank.current_rfid:
+                    vine.off()
             self.energy_tank.show_round_num(self.current_round)
             self.config = ROUND_CONFIG[self.current_round]
             self.remaining_objectives = self.config.num_objectives
             self._update_objectives()
             self.next_round_start_time = time.time() + ROUND_WAIT_TIME
+            print("Now:", time.time(), "Starting round at", self.next_round_start_time)
         elif GAME_MODE_RUNNING:
             print("Go!")
             for artifact in self.artifacts:
@@ -266,6 +273,7 @@ class GameLogic(object):
             self.energy_tank.end_round()
             self.energy_tank.celebrate()
             self.celebration_end_time = time.time() + CELEBRATION_TIME
+            print("Now:", time.time(), "Restarting at", self.celebration_end_time)
             for artifact in self.artifacts:
                 artifact.reset(allow_any=True)
             self._update_vine_colors()
@@ -277,6 +285,7 @@ class GameLogic(object):
                 artifact.reset(allow_any=True)
             self._update_vine_colors()
             self.celebration_end_time = time.time() + CELEBRATION_TIME
+            print("Now:", time.time(), "Restarting at", self.celebration_end_time)
 
     def artifact_changed(self, artifact, connected, card):
         if connected:
@@ -306,6 +315,7 @@ class GameLogic(object):
             if self.energy_tank.desired_rfid == self.energy_tank.current_rfid:
                 self._change_game_mode(GAME_MODE_ROUND_START)
         elif self.mode == GAME_MODE_ROUND_START:
+            print("Waiting for round", time.time())
             if time.time() >= self.next_round_start_time:
                 print("Finished waiting for next round")
                 self._change_game_mode(GAME_MODE_RUNNING)

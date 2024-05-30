@@ -245,7 +245,7 @@ class GameLogic(object):
             self.current_round = -1
             self.energy_tank.set_pending_vine(COLORS[3], vine.rfid)
             self._update_vine_colors()
-        elif GAME_MODE_ROUND_START:
+        elif new_mode == GAME_MODE_ROUND_START:
             self.current_round += 1
             print("Round Starting", self.current_round)
             for artifact in self.artifacts:
@@ -259,7 +259,7 @@ class GameLogic(object):
             self.remaining_objectives = self.config.num_objectives
             self.next_round_start_time = time.time() + ROUND_WAIT_TIME
             print("Now:", time.time(), "Starting round at", self.next_round_start_time)
-        elif GAME_MODE_RUNNING:
+        elif new_mode == GAME_MODE_RUNNING:
             print("Go!")
             for artifact in self.artifacts:
                 artifact.reset()
@@ -267,7 +267,7 @@ class GameLogic(object):
                 vine.off()
             self.energy_tank.start_round(round_time=self.config.objective_time_length)
             self._update_objectives()
-        elif GAME_MODE_WIN:
+        elif new_mode == GAME_MODE_WIN:
             print("YOU WIN!")
             self.energy_tank.end_round()
             self.energy_tank.celebrate()
@@ -276,7 +276,7 @@ class GameLogic(object):
             for artifact in self.artifacts:
                 artifact.reset(allow_any=True)
             self._update_vine_colors()
-        elif GAME_MODE_LOSE:
+        elif new_mode == GAME_MODE_LOSE:
             print("GAME OVER")
             self.energy_tank.end_round()
             self.energy_tank.mourn()

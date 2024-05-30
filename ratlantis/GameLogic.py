@@ -2,7 +2,6 @@ import random
 import time
 import math
 from ratlantis.EnergyVine import COLORS, VINE_ONE_RFID, VINE_TWO_RFID, VINE_THREE_RFID, VINE_FOUR_RFID, VINE_FIVE_RFID, VINE_SIX_RFID, VINE_SEVEN_RFID, VINE_EIGHT_RFID
-from ratlantis.RatGameSoundSystem import RatGameSoundSystem
 
 
 GAME_MODE_CHARGING = 0
@@ -147,13 +146,13 @@ class GameLogic(object):
 
     last_connected_artifact = None
 
-    def __init__(self, vines, artifacts, energy_tank, switchboard, mqtt):
+    def __init__(self, vines, artifacts, energy_tank, switchboard, mqtt, sound):
         self.vines = vines
         self.artifacts = artifacts
         self.energy_tank = energy_tank
         self.switchboard = switchboard
         self.mqtt = mqtt
-        self.sound = RatGameSoundSystem()
+        self.sound = sound
 
         for artifact in self.artifacts:
             artifact.reset(allow_any=True)

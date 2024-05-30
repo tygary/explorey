@@ -7,6 +7,7 @@ from ratlantis.EnergyVine import *
 from ratlantis.EnergyTank import EnergyTank
 from ratlantis.GameLogic import GameLogic
 from ratlantis.Switchboard import Switchboard
+from ratlantis.RatGameSoundSystem import RatGameSoundSystem
 from lighting.PixelControl import PixelControl
 from mqtt.MqttClient import MqttClient
 
@@ -31,6 +32,7 @@ class RatGame(object):
         GPIO.setmode(GPIO.BCM)
         self.pixels = PixelControl(150, led_brightness=200, led_pin=21)
         self.mqtt = MqttClient()
+        self.sound = RatGameSoundSystem()
 
         # self.vines.append(RemoteEnergyVine(VINE_ONE_RFID, self.mqtt))
         # self.vines.append(RemoteEnergyVine(VINE_TWO_RFID, self.mqtt))
@@ -56,7 +58,7 @@ class RatGame(object):
 
         self.switchboard = Switchboard(self.pixels, [4, 3, 2, 1, 8, 9, 10, 11])
 
-        self.game = GameLogic(self.vines, self.artifacts, self.tank, self.switchboard, self.mqtt)
+        self.game = GameLogic(self.vines, self.artifacts, self.tank, self.switchboard, self.mqtt, self.sound)
 
     def __on_artifact_change(self, artifact, connected, card):
         print("Artifact Changed", artifact)

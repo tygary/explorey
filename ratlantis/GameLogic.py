@@ -134,6 +134,7 @@ class GameLogic(object):
     artifacts = []
     energy_tank = None
     switchboard = None
+    mqtt = None
 
     mode = GAME_MODE_CHARGING
     current_round = 0
@@ -144,11 +145,12 @@ class GameLogic(object):
 
     last_connected_artifact = None
 
-    def __init__(self, vines, artifacts, energy_tank, switchboard):
+    def __init__(self, vines, artifacts, energy_tank, switchboard, mqtt):
         self.vines = vines
         self.artifacts = artifacts
         self.energy_tank = energy_tank
         self.switchboard = switchboard
+        self.mqtt = mqtt
 
         for artifact in self.artifacts:
             artifact.reset(allow_any=True)
@@ -233,6 +235,7 @@ class GameLogic(object):
         if random.random() < self.config.switchboard_rate:
             new_switchboard_state = [random.randint(0, 1), random.randint(0, 1), random.randint(0, 1), random.randint(0, 1)]
             self.switchboard.desired_state = new_switchboard_state
+        self.mqtt.publish_batch()
 
     def _change_game_mode(self, new_mode):
         old_mode = self.mode
@@ -269,6 +272,7 @@ class GameLogic(object):
                 artifact.reset()
             for vine in self.vines:
                 vine.off()
+            self.mqtt.publish_batch()
             self.energy_tank.start_round(round_time=self.config.objective_time_length)
             self._update_objectives()
         elif new_mode == GAME_MODE_WIN:

@@ -56,7 +56,7 @@ class RatGame(object):
 
         self.switchboard = Switchboard(self.pixels, [4, 3, 2, 1, 8, 9, 10, 11])
 
-        self.game = GameLogic(self.vines, self.artifacts, self.tank, self.switchboard)
+        self.game = GameLogic(self.vines, self.artifacts, self.tank, self.switchboard, self.mqtt)
 
     def __on_artifact_change(self, artifact, connected, card):
         print("Artifact Changed", artifact)

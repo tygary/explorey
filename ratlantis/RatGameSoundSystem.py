@@ -21,14 +21,14 @@ YOU_WIN = 7
 STARTUP_TIME = 10
 
 songs = [
-    '/home/admin/explorey/sound/CaveAmbient.ogg',
+    '/home/admin/explorey/sound/TimeMachine-Startup.ogg',
     '/home/admin/explorey/sound/TimeMachine-Startup.ogg',
     '/home/admin/explorey/sound/TimeMachine-Running.ogg',
     '/home/admin/explorey/sound/TimeMachine-Frozen.ogg',
-    '/home/admin/explorey/sound/exploreysounds-bowlung.ogg',
+    '/home/admin/explorey/sound/TimeMachine-Startup.ogg',
     '/home/admin/explorey/sound/TimeMachine-Shutdown.ogg',
-    '/home/admin/explorey/sound/explorey-space-pasture.ogg',
-    '/home/admin/explorey/sound/exploreysounds-bowlung.ogg',
+    '/home/admin/explorey/sound/TimeMachine-Startup.ogg',
+    '/home/admin/explorey/sound/TimeMachine-Startup.ogg',
 ]
 
 

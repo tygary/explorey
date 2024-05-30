@@ -92,6 +92,7 @@ class EnergyVine(object):
         self.light_routine = Routines.FireRoutine(self.pixels, self.light_addresses)
 
     def valid_connection(self, color):
+        print("Vine", self.rfid, "Valid connection with color", color)
         self.color = color
         self.light_routine = Routines.FireRoutine(
             self.pixels,
@@ -113,6 +114,7 @@ class EnergyVine(object):
                 Colors.soft_blue,
                 Colors.mixed_blue
             ]
+            print("Vine", self.rfid, "party mode")
             self.light_routine = Routines.WaveRoutine(self.pixels, self.light_addresses, [random.choice(non_green_colors)])  # Colors.mid_green
         else:
             self.color = color

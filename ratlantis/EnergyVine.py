@@ -97,10 +97,10 @@ class EnergyVine(object):
     def valid_connection(self, color):
         print("Vine", self.rfid, "Valid connection with color", color)
         self.color = color
-        self.light_routine = Routines.FireRoutine(
+        self.light_routine = Routines.ColorRoutine(
             self.pixels,
             self.light_addresses,
-            [get_color(color)]  # [Colors.light_green, Colors.mid_green, Colors.green],
+            get_color(color)  # [Colors.light_green, Colors.mid_green, Colors.green],
         )
 
     def pending_connection(self, color):

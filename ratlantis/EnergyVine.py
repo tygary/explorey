@@ -69,6 +69,7 @@ class EnergyVine(object):
         try:
             events = json.loads(event)
             if not type(events) in (tuple, list):
+                print("converting mqtt event to array")
                 events = [events]
             for data in events:
                 if data and data["event"] and data["event"] == EVENT_VINE_UPDATE:
@@ -114,7 +115,6 @@ class EnergyVine(object):
                 Colors.soft_blue,
                 Colors.mixed_blue
             ]
-            print("Vine", self.rfid, "party mode")
             self.light_routine = Routines.WaveRoutine(self.pixels, self.light_addresses, [random.choice(non_green_colors)])  # Colors.mid_green
         else:
             self.color = color

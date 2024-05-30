@@ -140,7 +140,7 @@ class RemoteEnergyVine(object):
 
     def invalid_connection(self):
         if self.mode != VINE_MODE_CONNECTED:
-            self.color = None
+            # self.color = None
             self.mode = VINE_MODE_INVALID
             self._send_update()
 

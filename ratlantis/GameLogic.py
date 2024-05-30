@@ -175,6 +175,7 @@ class GameLogic(object):
         return random.choice(available_colors)
 
     def _update_vine_colors(self):
+        print("Updating Vine Colors")
         invalid_vines_by_color = {}
         connected_vines_by_color = {}
         pending_vines_by_color = {}
@@ -192,7 +193,7 @@ class GameLogic(object):
             if connected_vines_by_color.get(vine.rfid):
                 vine.valid_connection(connected_vines_by_color.get(vine.rfid))
             elif invalid_vines_by_color.get(vine.rfid):
-                vine.invalid_connection(invalid_vines_by_color.get(vine.rfid))
+                vine.invalid_connection()
             elif pending_vines_by_color.get(vine.rfid):
                 vine.pending_connection(pending_vines_by_color.get(vine.rfid))
             else:

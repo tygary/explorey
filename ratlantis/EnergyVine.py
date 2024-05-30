@@ -4,7 +4,7 @@ import random
 from lighting.Colors import Colors
 from lighting.routines import Routines
 
-COLOR_RED = 0
+COLOR_RED = 0.01
 COLOR_ORANGE = 0.07
 COLOR_YELLOW = 0.22
 COLOR_GREEN = 0.47

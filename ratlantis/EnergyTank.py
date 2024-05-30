@@ -150,7 +150,7 @@ class EnergyTank(Artifact):
         return self.mode == MODE_FULL
 
     def start_round(self, round_time=GAME_LENGTH_S):
-        print("Tank starting round")
+        print("Tank starting round", round_time)
         self.mode = MODE_RUNNING
         self.last_update = time.time()
         self.energy_level = MAX_ENERGY
@@ -213,6 +213,7 @@ class EnergyTank(Artifact):
         if time_since_last_update > 0 and (self.is_charging or self.is_active):
             prev_active_addresses, prev_inactive_addresses = self.__get_powered_light_addresses()
             if self.is_active:
+                print("Drained power by ", time_since_last_update * self.drain_rate)
                 self.energy_level = self.energy_level - (time_since_last_update * self.drain_rate)
             elif self.is_charging:
                 self.energy_level = self.energy_level + (time_since_last_update * CHARGE_RATE)

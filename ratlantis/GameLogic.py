@@ -257,7 +257,6 @@ class GameLogic(object):
             self.energy_tank.show_round_num(self.current_round)
             self.config = ROUND_CONFIG[self.current_round]
             self.remaining_objectives = self.config.num_objectives
-            self._update_objectives()
             self.next_round_start_time = time.time() + ROUND_WAIT_TIME
             print("Now:", time.time(), "Starting round at", self.next_round_start_time)
         elif GAME_MODE_RUNNING:
@@ -315,7 +314,6 @@ class GameLogic(object):
             if self.energy_tank.desired_rfid == self.energy_tank.current_rfid:
                 self._change_game_mode(GAME_MODE_ROUND_START)
         elif self.mode == GAME_MODE_ROUND_START:
-            print("Waiting for round", time.time())
             if time.time() >= self.next_round_start_time:
                 print("Finished waiting for next round")
                 self._change_game_mode(GAME_MODE_RUNNING)

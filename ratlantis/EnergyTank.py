@@ -158,6 +158,7 @@ class EnergyTank(Artifact):
         self.drain_rate = MAX_ENERGY / round_time
         self.is_active = True
         self.is_charging = False
+        self.__update_light_routing()
 
     def celebrate(self):
         print("Tank is Celebrating")
@@ -165,6 +166,8 @@ class EnergyTank(Artifact):
         self.energy_level = 0
         self.is_active = False
         self.is_charging = False
+        self.last_update = time.time()
+        self.__update_light_routing()
 
     def mourn(self):
         print("Tank is Mourning")
@@ -172,6 +175,8 @@ class EnergyTank(Artifact):
         self.energy_level = 0
         self.is_active = False
         self.is_charging = False
+        self.last_update = time.time()
+        self.__update_light_routing()
 
     def show_round_num(self, round_num):
         print("Tank Showing Round Num", round_num)
@@ -180,6 +185,8 @@ class EnergyTank(Artifact):
         self.energy_level = MAX_ENERGY
         self.is_active = False
         self.is_charging = False
+        self.last_update = time.time()
+        self.__update_light_routing()
         # TODO display number in lights
 
     def end_round(self):
@@ -189,6 +196,8 @@ class EnergyTank(Artifact):
         self.rendered_energy_level = 0
         self.is_active = False
         self.is_charging = False
+        self.last_update = time.time()
+        self.__update_light_routing()
 
     def add_energy(self, amount):
         self.energy_level += amount

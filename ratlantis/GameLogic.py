@@ -2,6 +2,7 @@ import random
 import time
 import math
 from ratlantis.EnergyVine import COLORS, VINE_ONE_RFID, VINE_TWO_RFID, VINE_THREE_RFID, VINE_FOUR_RFID, VINE_FIVE_RFID, VINE_SIX_RFID, VINE_SEVEN_RFID, VINE_EIGHT_RFID
+from ratlantis.RatGameSoundSystem import RatGameSoundSystem
 
 
 GAME_MODE_CHARGING = 0
@@ -67,6 +68,7 @@ ARTIFACT_VINE_MATRIX = {
 ROUND_WAIT_TIME = 5
 CELEBRATION_TIME = 10
 CHARGING_TIME = 20
+LOW_ENERGY_LEVEL_TIME_S = 10
 
 
 class RoundConfig(object):
@@ -76,7 +78,7 @@ class RoundConfig(object):
                  max_simultaneous,
                  switchboard_rate,
                  drain_time,
-                 objective_energy_gain,
+                 objective_energy_gain_s,
                  objective_time_length,
                  will_immediately_disconnect):
         self.num_objectives = num_objectives
@@ -84,7 +86,7 @@ class RoundConfig(object):
         self.max_simultaneous = max_simultaneous
         self.switchboard_rate = switchboard_rate
         self.drain_time = drain_time
-        self.objective_energy_gain = objective_energy_gain
+        self.objective_energy_gain_s = objective_energy_gain_s
         self.objective_time_length = objective_time_length
         self.will_immediately_disconnect = will_immediately_disconnect
 
@@ -96,8 +98,8 @@ ROUND_CONFIG = [
                 max_simultaneous=1,
                 switchboard_rate=0,
                 drain_time=30,
-                objective_energy_gain=5,
-                objective_time_length=20,
+                objective_energy_gain_s=20,
+                objective_time_length=60,
                 will_immediately_disconnect=False),
     # 1
     RoundConfig(num_objectives=4,
@@ -105,8 +107,8 @@ ROUND_CONFIG = [
                 max_simultaneous=2,
                 switchboard_rate=0.25,
                 drain_time=20,
-                objective_energy_gain=4,
-                objective_time_length=15,
+                objective_energy_gain_s=10,
+                objective_time_length=30,
                 will_immediately_disconnect=False),
     # 2
     RoundConfig(num_objectives=6,
@@ -114,8 +116,8 @@ ROUND_CONFIG = [
                 max_simultaneous=2,
                 switchboard_rate=0.5,
                 drain_time=15,
-                objective_energy_gain=3,
-                objective_time_length=10,
+                objective_energy_gain_s=10,
+                objective_time_length=20,
                 will_immediately_disconnect=False),
     # 3
     RoundConfig(num_objectives=8,
@@ -123,8 +125,8 @@ ROUND_CONFIG = [
                 max_simultaneous=3,
                 switchboard_rate=0.75,
                 drain_time=10,
-                objective_energy_gain=2,
-                objective_time_length=10,
+                objective_energy_gain_s=10,
+                objective_time_length=20,
                 will_immediately_disconnect=True),
 ]
 
@@ -151,6 +153,7 @@ class GameLogic(object):
         self.energy_tank = energy_tank
         self.switchboard = switchboard
         self.mqtt = mqtt
+        self.sound = RatGameSoundSystem()
 
         for artifact in self.artifacts:
             artifact.reset(allow_any=True)
@@ -243,6 +246,7 @@ class GameLogic(object):
         print("updating game mode from", old_mode, "to", new_mode)
         if new_mode == GAME_MODE_CHARGING:
             print("Game Starting Charging")
+            self.sound.play_ambient()
             self.is_charging = True
             self.energy_tank.start_charging()
             self._update_vine_colors()
@@ -255,6 +259,10 @@ class GameLogic(object):
         elif new_mode == GAME_MODE_ROUND_START:
             self.current_round += 1
             print("Round Starting", self.current_round)
+            if self.current_round == 0:
+                self.sound.play_game_start()
+            else:
+                self.sound.play_round_success()
             for artifact in self.artifacts:
                 if artifact != self.energy_tank:
                     artifact.reset()
@@ -268,6 +276,7 @@ class GameLogic(object):
             print("Now:", time.time(), "Starting round at", self.next_round_start_time)
         elif new_mode == GAME_MODE_RUNNING:
             print("Go!")
+            self.sound.play_running()
             for artifact in self.artifacts:
                 artifact.reset()
             for vine in self.vines:
@@ -277,6 +286,7 @@ class GameLogic(object):
             self._update_objectives()
         elif new_mode == GAME_MODE_WIN:
             print("YOU WIN!")
+            self.sound.play_you_win()
             self.energy_tank.end_round()
             self.energy_tank.celebrate()
             self.celebration_end_time = time.time() + CELEBRATION_TIME
@@ -286,6 +296,7 @@ class GameLogic(object):
             self._update_vine_colors()
         elif new_mode == GAME_MODE_LOSE:
             print("GAME OVER")
+            self.sound.play_game_over()
             self.energy_tank.end_round()
             self.energy_tank.mourn()
             for artifact in self.artifacts:
@@ -329,6 +340,10 @@ class GameLogic(object):
             if self.energy_tank.energy_level == 0:
                 self._change_game_mode(GAME_MODE_LOSE)
             else:
+                if self.energy_tank.energy_level < (100 / self.config.objective_time_length) * LOW_ENERGY_LEVEL_TIME_S:
+                    self.sound.play_running_out_of_time()
+                else:
+                    self.sound.stop_running_out_of_time()
                 is_objective_completed = True
                 for artifact in self.artifacts:
                     if artifact.current_rfid != artifact.desired_rfid:
@@ -342,5 +357,7 @@ class GameLogic(object):
                         else:
                             self._change_game_mode(GAME_MODE_ROUND_START)
                     else:
-                        self.energy_tank.add_energy(self.config.objective_energy_gain)
+                        gain_in_points = (100 / self.config.objective_time_length) * self.config.objective_energy_gain_s
+                        self.energy_tank.add_energy(gain_in_points)
+                        self.sound.play_energy_gain()
                         self._update_objectives()

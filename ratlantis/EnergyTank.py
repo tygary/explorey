@@ -213,7 +213,7 @@ class EnergyTank(Artifact):
         if time_since_last_update > 0 and (self.is_charging or self.is_active):
             prev_active_addresses, prev_inactive_addresses = self.__get_powered_light_addresses()
             if self.is_active:
-                print("Drained power by ", time_since_last_update * self.drain_rate)
+                # print("Drained power by ", time_since_last_update * self.drain_rate)
                 self.energy_level = self.energy_level - (time_since_last_update * self.drain_rate)
             elif self.is_charging:
                 self.energy_level = self.energy_level + (time_since_last_update * CHARGE_RATE)

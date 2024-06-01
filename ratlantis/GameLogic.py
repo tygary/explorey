@@ -279,7 +279,7 @@ class GameLogic(object):
             self.dmx.change_mode(active=False, startup=True)
         elif new_mode == GAME_MODE_RUNNING:
             print("Go!")
-            self.sound.play_running(round=self.current_round)
+            self.sound.play_running(round_num=self.current_round)
             for artifact in self.artifacts:
                 artifact.reset()
             for vine in self.vines:

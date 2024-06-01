@@ -111,7 +111,8 @@ class Switchboard(object):
             # print("completed_addresses", [])
             # print("ambient addresses", self.completed_addresses)
         else:
-            self.ambient_pattern.update_addresses([])
+            for i in range(0, 4):
+                self.ambient_pattern.routines[i].update_addresses([])
             self.completed_pattern.update_addresses(self.completed_addresses)
             # print("completed_addresses", self.completed_addresses)
             # print("ambient addresses", [])

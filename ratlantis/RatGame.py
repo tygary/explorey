@@ -70,6 +70,7 @@ class RatGame(object):
             if not type(events) in (tuple, list):
                 print("converting mqtt event to array")
                 events = [events]
+            print("Received MQTT Events", events)
             for data in events:
                 if data and data["event"] and data["event"] == EVENT_VINE_BOOTUP:
                     controller_num = data["controllerNum"]

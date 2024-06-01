@@ -175,12 +175,12 @@ class GameLogic(object):
                 vines.append(vine)
         return random.choice(vines)
 
-    def _get_next_color(self):
+    def _get_next_color(self, excluded=None):
         used_colors = set()
         for artifact in self.artifacts:
             if artifact.color:
                 used_colors.add(artifact.color)
-        available_colors = [color for color in COLORS if color not in used_colors]
+        available_colors = [color for color in COLORS if color not in used_colors and color != excluded]
         return random.choice(available_colors)
 
     def _update_vine_colors(self):
@@ -228,10 +228,14 @@ class GameLogic(object):
         available_artifacts = self.artifacts if self.config.will_immediately_disconnect else artifacts_without_current
         artifacts_to_update = random.sample(available_artifacts, num_to_update)
         vines_used = []
+        excluded_color = None
+        if self.last_connected_artifact:
+            excluded_color = self.last_connected_artifact.color
         for artifact in artifacts_to_update:
             vine = self._get_next_vine(artifact, excluded_rfids=[artifact.current_rfid] + vines_used)
             vines_used.append(vine.rfid)
-            color = self._get_next_color()
+
+            color = self._get_next_color(excluded=excluded_color)
             artifact.set_pending_vine(color, vine.rfid)
             print("artifact ", artifact.id, " is now waiting for ", vine.rfid)
 

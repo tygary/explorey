@@ -5,8 +5,9 @@ import multiprocessing
 class MultiTrackMusicPlayer:
     songs = []
 
-    def __init__(self, songs):
+    def __init__(self, songs, num_channels=8):
         pygame.mixer.init(buffer=1024)
+        pygame.mixer.set_num_channels(num_channels)
 
         for song in songs:
             self.songs.append(pygame.mixer.Sound(song))

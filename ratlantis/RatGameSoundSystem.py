@@ -3,12 +3,15 @@ from sound.MultiTrackMusicPlayer import MultiTrackMusicPlayer
 
 OFF = -1
 GAME_START = 0
-ON = 1
-RUNNING_OUT_OF_TIME = 2
-ENERGY_GAIN = 3
-ROUND_SUCCESS = 4
-GAME_OVER = 5
-YOU_WIN = 6
+ON_0 = 1
+ON_1 = 2
+ON_2 = 3
+ON_3 = 4
+RUNNING_OUT_OF_TIME = 5
+ENERGY_GAIN = 6
+ROUND_SUCCESS = 7
+GAME_OVER = 8
+YOU_WIN = 9
 
 
 STARTUP_TIME = 10
@@ -28,7 +31,7 @@ songs = [
 
 
 class RatGameSoundSystem(object):
-    player = MultiTrackMusicPlayer(songs)
+    player = MultiTrackMusicPlayer(songs, num_channels=10)
 
     is_playing_ambient = False
     is_playing_running_out_of_time = False
@@ -39,7 +42,10 @@ class RatGameSoundSystem(object):
     def stop_all(self):
         # self.player.stop_music(AMBIENT)
         self.player.stop_music(GAME_START)
-        self.player.stop_music(ON)
+        self.player.stop_music(ON_0)
+        self.player.stop_music(ON_1)
+        self.player.stop_music(ON_2)
+        self.player.stop_music(ON_3)
         self.player.stop_music(RUNNING_OUT_OF_TIME)
         self.player.stop_music(ENERGY_GAIN)
         self.player.stop_music(ROUND_SUCCESS)
@@ -60,8 +66,9 @@ class RatGameSoundSystem(object):
 
     def play_running(self, round_num):
         print("Playing Running", round_num)
-        index = ON + round_num
-        self.player.play_song(index, 0.5, channel=ON)
+        self.stop_all()
+        index = ON_0 + round_num
+        self.player.play_song(index, 0.5, channel=index)
 
     def play_running_out_of_time(self):
         print("Playing Running out of time")

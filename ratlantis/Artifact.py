@@ -27,6 +27,7 @@ class Artifact(object):
     current_rfid = None
     desired_rfid = None
     on_change = None
+    should_fill_city = False
 
     def __init__(self, mqtt, artifact_id, on_change):
         self.mqtt = mqtt
@@ -58,6 +59,8 @@ class Artifact(object):
         except Exception as e:
             print("Artifact Failed parsing event", event, e)
 
+    def fill_the_city(self):
+        self._send_update(should_fill_city=True)
     def __on_card_detected(self, card):
         print("Card detected", card)
         self.current_rfid = card
@@ -69,7 +72,7 @@ class Artifact(object):
         self.is_attached = False
         self.on_change(self, False, previous_card)
 
-    def _send_update(self, start_time=-1, end_time=-1, should_disconnect=True):
+    def _send_update(self, start_time=-1, end_time=-1, should_disconnect=True, should_fill_city=False):
         color = self.color
         if color is None:
             color = 0
@@ -81,7 +84,8 @@ class Artifact(object):
             "color": color,
             "startTime": start_time,
             "endTime": end_time,
-            "shouldDisconnect": should_disconnect
+            "shouldDisconnect": should_disconnect,
+            "fillTheCity": should_fill_city
         })
 
     def reset(self, allow_any=False):

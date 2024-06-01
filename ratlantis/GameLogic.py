@@ -2,7 +2,7 @@ import random
 import time
 import math
 from ratlantis.EnergyVine import COLORS, VINE_ONE_RFID, VINE_TWO_RFID, VINE_THREE_RFID, VINE_FOUR_RFID, VINE_FIVE_RFID, VINE_SIX_RFID, VINE_SEVEN_RFID, VINE_EIGHT_RFID
-
+from ratlantis.Artifact import ARTIFACT_CITY
 
 GAME_MODE_CHARGING = 0
 GAME_MODE_READY = 1
@@ -136,6 +136,7 @@ class GameLogic(object):
     artifacts = []
     energy_tank = None
     switchboard = None
+    city = None
     mqtt = None
 
     mode = GAME_MODE_CHARGING
@@ -157,6 +158,8 @@ class GameLogic(object):
         self.dmx = dmx
 
         for artifact in self.artifacts:
+            if artifact.id == ARTIFACT_CITY:
+                self.city = artifact
             artifact.reset(allow_any=True)
         self._update_vine_colors()
 
@@ -263,6 +266,7 @@ class GameLogic(object):
             self.energy_tank.set_pending_vine(COLORS[3], vine.rfid)
             self._update_vine_colors()
             self.dmx.change_mode(active=False, startup=False)
+            self.city.fill_the_city()
         elif new_mode == GAME_MODE_ROUND_START:
             self.current_round += 1
             print("Round Starting", self.current_round)

@@ -294,7 +294,7 @@ class GameLogic(object):
             self.sound.play_you_win()
             self.energy_tank.end_round()
             self.energy_tank.celebrate()
-            self.celebration_end_time = time.time() + CELEBRATION_TIME
+            self.celebration_end_time = time.time() + GAME_WIN_TIME
             print("Now:", time.time(), "Restarting at", self.celebration_end_time)
             for artifact in self.artifacts:
                 artifact.reset(allow_any=True)
@@ -308,7 +308,7 @@ class GameLogic(object):
             for artifact in self.artifacts:
                 artifact.reset(allow_any=True)
             self._update_vine_colors()
-            self.celebration_end_time = time.time() + CELEBRATION_TIME
+            self.celebration_end_time = time.time() + GAME_OVER_TIME
             print("Now:", time.time(), "Restarting at", self.celebration_end_time)
             self.dmx.change_mode(active=False, startup=True)
 

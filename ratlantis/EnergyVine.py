@@ -137,7 +137,7 @@ class RemoteEnergyVine(object):
     rfid = None
     mqtt = None
     color = None
-    mode = VINE_MODE_OFF
+    mode = -1
 
     def __init__(self, rfid, mqtt):
         self.rfid = rfid
@@ -145,6 +145,9 @@ class RemoteEnergyVine(object):
         self._send_update()
 
     def _send_update(self):
+        if self.mode == -1:
+            self.color = None
+            self.mode = VINE_MODE_OFF
         print("Vine", self.rfid, "mode", self.mode, "color", self.color)
         self.mqtt.queue_in_batch_publish({
             "event": EVENT_VINE_UPDATE,

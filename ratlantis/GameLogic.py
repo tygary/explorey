@@ -15,13 +15,13 @@ GAME_MODE_LOSE = 5
 
 ARTIFACT_VINE_MATRIX = {
     "artifact/city": [
-        VINE_FIVE_RFID,
-        VINE_SIX_RFID,
+        VINE_ONE_RFID,
+        VINE_TWO_RFID,
         VINE_SEVEN_RFID,
         VINE_EIGHT_RFID
     ],
     "artifact/tank": [
-        VINE_FIVE_RFID,
+        # VINE_FIVE_RFID,
         VINE_SIX_RFID,
         VINE_SEVEN_RFID,
         VINE_EIGHT_RFID
@@ -42,7 +42,7 @@ ARTIFACT_VINE_MATRIX = {
         VINE_ONE_RFID,
         VINE_TWO_RFID,
         VINE_THREE_RFID,
-        VINE_FOUR_RFID
+        # VINE_FOUR_RFID
     ],
     "artifact/bugs": [
         VINE_ONE_RFID,

@@ -216,6 +216,8 @@ class GameLogic(object):
 
     def _update_objectives(self):
         print("Updating Objectives")
+        if self.last_connected_artifact:
+            print("last connected artifact = ", self.last_connected_artifact.id)
         artifacts_by_rfid = {}
         for artifact in self.artifacts:
             if artifact.current_rfid is not None:
@@ -224,7 +226,7 @@ class GameLogic(object):
         num_to_update = min(random.randint(1, self.config.max_simultaneous), self.remaining_objectives)
         self.remaining_objectives -= num_to_update
 
-        artifacts_without_current = [ artifact for artifact in self.artifacts if artifact != self.last_connected_artifact]
+        artifacts_without_current = [artifact for artifact in self.artifacts if artifact != self.last_connected_artifact]
         available_artifacts = self.artifacts if self.config.will_immediately_disconnect else artifacts_without_current
         artifacts_to_update = random.sample(available_artifacts, num_to_update)
         vines_used = []
@@ -327,9 +329,12 @@ class GameLogic(object):
     def artifact_changed(self, artifact, connected, card):
         if connected:
             if artifact.desired_rfid and (artifact.current_rfid == artifact.desired_rfid or artifact.desired_rfid == -1):
-                vine = next((vine for vine in self.vines), None)
+                connected_vine = None
+                for vine in self.vines:
+                    if vine.rfid == card:
+                        connected_vine = vine
                 # vine.valid_connection(artifact.color)
-                print(vine.rfid, "connected to", artifact.id)
+                print(connected_vine.rfid, "connected to", artifact.id)
                 self.last_connected_artifact = artifact
             else:
                 print(card, "invalid connection to", artifact.id)

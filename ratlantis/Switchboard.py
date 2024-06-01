@@ -67,7 +67,7 @@ class Switchboard(object):
 
     def _update_lights(self):
         if self.mode == MODE_OFF:
-            self.blackout_addresses = [self.top_addresses + self.blackout_addresses]
+            self.blackout_addresses = self.top_addresses + self.blackout_addresses
             self.pending_addresses = []
             self.completed_addresses = []
         else:

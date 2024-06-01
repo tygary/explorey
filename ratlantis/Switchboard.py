@@ -39,11 +39,11 @@ class Switchboard(object):
         self.levers = LeverInputController(self._on_levers_changed, self.logger)
         self.desired_state = self.levers.get_current_values().copy()
 
-        self.blackout_pattern = Routines.BlackoutRoutine(pixels, self.blackout_addresses)
-        self.pending_pattern = Routines.PulseRoutine(pixels, self.pending_addresses, Colors.red, rate=0.4)
-        self.completed_pattern = Routines.ColorRoutine(pixels, self.completed_addresses, Colors.green)
-
-        self.ambient_pattern = Routines.RainbowRoutine(pixels, [])
+        # self.blackout_pattern = Routines.BlackoutRoutine(pixels, self.blackout_addresses)
+        # self.pending_pattern = Routines.PulseRoutine(pixels, self.pending_addresses, Colors.red, rate=0.4)
+        # self.completed_pattern = Routines.ColorRoutine(pixels, self.completed_addresses, Colors.green)
+        #
+        # self.ambient_pattern = Routines.RainbowRoutine(pixels, [])
 
     def _on_levers_changed(self, levers):
         print("Levers Changed", levers)
@@ -83,16 +83,16 @@ class Switchboard(object):
                         self.pending_addresses.append(self.top_addresses[i])
                         self.blackout_addresses.append(self.bottom_addresses[i])
 
-        self.blackout_pattern.update_addresses(self.blackout_addresses)
-        self.pending_pattern.update_addresses(self.pending_addresses)
-        if self.mode == MODE_AMBIENT:
-            self.ambient_pattern.update_addresses(self.completed_addresses)
-            self.completed_pattern.update_addresses([])
-            # print("completed_addresses", [])
-            # print("ambient addresses", self.completed_addresses)
-        else:
-            self.ambient_pattern.update_addresses([])
-            self.completed_pattern.update_addresses(self.completed_addresses)
+        # self.blackout_pattern.update_addresses(self.blackout_addresses)
+        # self.pending_pattern.update_addresses(self.pending_addresses)
+        # if self.mode == MODE_AMBIENT:
+        #     self.ambient_pattern.update_addresses(self.completed_addresses)
+        #     self.completed_pattern.update_addresses([])
+        #     # print("completed_addresses", [])
+        #     # print("ambient addresses", self.completed_addresses)
+        # else:
+        #     self.ambient_pattern.update_addresses([])
+        #     self.completed_pattern.update_addresses(self.completed_addresses)
             # print("completed_addresses", self.completed_addresses)
             # print("ambient addresses", [])
         # print("blackout addresses", self.blackout_addresses)
@@ -130,10 +130,10 @@ class Switchboard(object):
             self.mode = MODE_OFF
             print("Switchboard - Done, turning off")
         self._update_lights()
-        self.blackout_pattern.tick()
-        self.pending_pattern.tick()
-        self.completed_pattern.tick()
-        self.ambient_pattern.tick()
+        # self.blackout_pattern.tick()
+        # self.pending_pattern.tick()
+        # self.completed_pattern.tick()
+        # self.ambient_pattern.tick()
 
 
 

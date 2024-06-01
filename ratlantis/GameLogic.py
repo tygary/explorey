@@ -93,7 +93,7 @@ class RoundConfig(object):
 
 ROUND_CONFIG = [
     # 0
-    RoundConfig(num_objectives=2,
+    RoundConfig(num_objectives=4,
                 simultaneous_chance=0,
                 max_simultaneous=1,
                 switchboard_rate=0,
@@ -102,7 +102,7 @@ ROUND_CONFIG = [
                 objective_time_length=60,
                 will_immediately_disconnect=False),
     # 1
-    RoundConfig(num_objectives=4,
+    RoundConfig(num_objectives=6,
                 simultaneous_chance=0.25,
                 max_simultaneous=2,
                 switchboard_rate=0.25,
@@ -111,7 +111,7 @@ ROUND_CONFIG = [
                 objective_time_length=30,
                 will_immediately_disconnect=False),
     # 2
-    RoundConfig(num_objectives=6,
+    RoundConfig(num_objectives=8,
                 simultaneous_chance=0.5,
                 max_simultaneous=2,
                 switchboard_rate=0.5,
@@ -120,7 +120,7 @@ ROUND_CONFIG = [
                 objective_time_length=20,
                 will_immediately_disconnect=False),
     # 3
-    RoundConfig(num_objectives=8,
+    RoundConfig(num_objectives=10,
                 simultaneous_chance=0.5,
                 max_simultaneous=3,
                 switchboard_rate=0.75,
@@ -273,12 +273,6 @@ class GameLogic(object):
                 self.sound.play_game_start()
             else:
                 self.sound.play_round_success()
-            for artifact in self.artifacts:
-                if artifact != self.energy_tank:
-                    artifact.reset()
-            for vine in self.vines:
-                if vine.rfid != self.energy_tank.current_rfid:
-                    vine.off()
             self.energy_tank.show_round_num(self.current_round)
             self.config = ROUND_CONFIG[self.current_round]
             self.remaining_objectives = self.config.num_objectives
@@ -316,6 +310,9 @@ class GameLogic(object):
             self.sound.play_game_over()
             self.energy_tank.end_round()
             self.energy_tank.mourn()
+            for artifact in self.artifacts:
+                artifact.reset()
+            self.mqtt.publish_batch()
             for artifact in self.artifacts:
                 artifact.reset(allow_any=True)
             self._update_vine_colors()

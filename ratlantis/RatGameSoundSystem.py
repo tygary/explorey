@@ -90,7 +90,7 @@ class RatGameSoundSystem(object):
     def play_pending_switchboard(self):
         if not self.is_playing_pending_switchboard:
             print("Playing pending switchboard")
-            self.player.play_song(RUNNING_OUT_OF_TIME, 1, channel=RUNNING_OUT_OF_TIME)
+            self.player.play_song(PENDING_SWITCHBOARD, 1, channel=PENDING_SWITCHBOARD)
             self.is_playing_pending_switchboard = True
 
     def stop_pending_switchboard(self):

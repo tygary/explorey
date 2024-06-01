@@ -9,15 +9,12 @@ import random
 
 OFF = -1
 GAME_START = 1
-ON_1 = 2
-ON_2 = 3
-ON_3 = 4
-ON_4 = 5
-RUNNING_OUT_OF_TIME = 6
-ENERGY_GAIN = 7
-ROUND_SUCCESS = 8
-GAME_OVER = 9
-YOU_WIN = 10
+ON = 2
+RUNNING_OUT_OF_TIME = 3
+ENERGY_GAIN = 4
+ROUND_SUCCESS = 5
+GAME_OVER = 6
+YOU_WIN = 7
 
 
 STARTUP_TIME = 10
@@ -70,8 +67,8 @@ class RatGameSoundSystem(object):
         self.player.play_song(GAME_START, 1, channel=GAME_START, loops=0)
 
     def play_running(self, round_num):
-        index = ON_1 + round_num
-        self.player.play_song(index, 1, channel=index)
+        index = ON + round_num
+        self.player.play_song(index, 1, channel=ON)
 
     def play_running_out_of_time(self):
         if not self.is_playing_running_out_of_time:

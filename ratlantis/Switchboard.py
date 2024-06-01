@@ -74,7 +74,7 @@ class Switchboard(object):
             if self.mode == MODE_AMBIENT and self.next_ambient_change_time < time.time():
                 self.next_ambient_change_time = time.time() + random.randint(AMBIENT_CHANGE_TIME_MIN,
                                                                              AMBIENT_CHANGE_TIME_MAX)
-                for i, addr in enumerate([self.top_addresses + self.bottom_addresses]):
+                for i, addr in enumerate(self.top_addresses + self.bottom_addresses):
                     self.ambient_colors_by_addr[addr] = random.choice(AMBIENT_COLORS)
                 self.request_new_state(is_ambient=True)
 

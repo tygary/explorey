@@ -18,6 +18,9 @@ class PulseRoutine(Routine):
             blue = 0
             self.values.append([red, green, blue])
 
+    def update_color(self, color):
+        self.color = color
+
     def update_addresses(self, addresses):
         Routine.update_addresses(self, addresses)
         old_values = self.values

@@ -55,9 +55,11 @@ class Switchboard(object):
             self.pending_addresses = []
             self.completed_addresses = []
         else:
-            # if self.mode == MODE_AMBIENT and self.next_ambient_change_time < time.time():
-            #     self.request_new_state(is_ambient=True)
-            #     self.next_ambient_change_time = time.time() + random.randint(AMBIENT_CHANGE_TIME_MIN, AMBIENT_CHANGE_TIME_MAX)
+            if self.mode == MODE_AMBIENT and self.next_ambient_change_time < time.time():
+                self.next_ambient_change_time = time.time() + random.randint(AMBIENT_CHANGE_TIME_MIN,
+                                                                             AMBIENT_CHANGE_TIME_MAX)
+                self.request_new_state(is_ambient=True)
+
             self.blackout_addresses = []
             self.pending_addresses = []
             self.completed_addresses = []
@@ -86,9 +88,18 @@ class Switchboard(object):
         if self.mode == MODE_AMBIENT:
             self.ambient_pattern.update_addresses(self.completed_addresses)
             self.completed_pattern.update_addresses([])
+            print("completed_addresses", [])
+            print("ambient addresses", self.completed_addresses)
         else:
             self.ambient_pattern.update_addresses([])
             self.completed_pattern.update_addresses(self.completed_addresses)
+            print("completed_addresses", self.completed_addresses)
+            print("ambient addresses", [])
+
+        print("blackout addresses", self.blackout_addresses)
+        print("pending_addresses", self.pending_addresses)
+        print("completed_addresses", self.completed_addresses)
+        print("ambient addresses", self.blackout_addresses)
 
     def do_ambient(self):
         self.mode = MODE_AMBIENT

@@ -219,6 +219,7 @@ class GameLogic(object):
                 artifacts_by_rfid[artifact.current_rfid] = artifact
 
         num_to_update = min(random.randint(1, self.config.max_simultaneous), self.remaining_objectives)
+        self.remaining_objectives -= num_to_update
 
         artifacts_without_current = [ artifact for artifact in self.artifacts if artifact != self.last_connected_artifact]
         available_artifacts = self.artifacts if self.config.will_immediately_disconnect else artifacts_without_current
@@ -296,6 +297,9 @@ class GameLogic(object):
             self.energy_tank.celebrate()
             self.celebration_end_time = time.time() + GAME_WIN_TIME
             print("Now:", time.time(), "Restarting at", self.celebration_end_time)
+            for artifact in self.artifacts:
+                artifact.reset()
+            self.mqtt.publish_batch()
             for artifact in self.artifacts:
                 artifact.reset(allow_any=True)
             self._update_vine_colors()

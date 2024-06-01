@@ -55,10 +55,9 @@ class Switchboard(object):
             self.pending_addresses = []
             self.completed_addresses = []
         else:
-
-            if self.mode == MODE_AMBIENT and self.next_ambient_change_time < time.time():
-                self.request_new_state(is_ambient=True)
-                self.next_ambient_change_time = time.time() + random.randint(AMBIENT_CHANGE_TIME_MIN, AMBIENT_CHANGE_TIME_MAX)
+            # if self.mode == MODE_AMBIENT and self.next_ambient_change_time < time.time():
+            #     self.request_new_state(is_ambient=True)
+            #     self.next_ambient_change_time = time.time() + random.randint(AMBIENT_CHANGE_TIME_MIN, AMBIENT_CHANGE_TIME_MAX)
             self.blackout_addresses = []
             self.pending_addresses = []
             self.completed_addresses = []

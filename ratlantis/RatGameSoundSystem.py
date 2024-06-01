@@ -33,7 +33,7 @@ songs = [
 
 
 class RatGameSoundSystem(object):
-    player = MultiTrackMusicPlayer(songs, num_channels=10)
+    player = MultiTrackMusicPlayer(songs, num_channels=11)
 
     is_playing_ambient = False
     is_playing_running_out_of_time = False

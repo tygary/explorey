@@ -1,20 +1,14 @@
 from sound.MultiTrackMusicPlayer import MultiTrackMusicPlayer
-import pygame
-import time
-import random
-
-
-
 
 
 OFF = -1
-GAME_START = 1
-ON = 2
-RUNNING_OUT_OF_TIME = 3
-ENERGY_GAIN = 4
-ROUND_SUCCESS = 5
-GAME_OVER = 6
-YOU_WIN = 7
+GAME_START = 0
+ON = 1
+RUNNING_OUT_OF_TIME = 2
+ENERGY_GAIN = 3
+ROUND_SUCCESS = 4
+GAME_OVER = 5
+YOU_WIN = 6
 
 
 STARTUP_TIME = 10
@@ -62,12 +56,12 @@ class RatGameSoundSystem(object):
     def play_game_start(self):
         print("Playing Game Start")
         self.stop_all()
-        self.player.play_song(GAME_START, 1, channel=GAME_START, loops=0)
+        self.player.play_song(GAME_START, 0.5, channel=GAME_START, loops=0)
 
     def play_running(self, round_num):
         print("Playing Running", round_num)
         index = ON + round_num
-        self.player.play_song(index, 1, channel=ON)
+        self.player.play_song(index, 0.5, channel=ON)
 
     def play_running_out_of_time(self):
         print("Playing Running out of time")
@@ -89,17 +83,17 @@ class RatGameSoundSystem(object):
     def play_round_success(self):
         print("Playing Round Success")
         self.stop_all()
-        self.player.play_song(ROUND_SUCCESS, 1, channel=ROUND_SUCCESS, loops=0)
+        self.player.play_song(ROUND_SUCCESS, 0.8, channel=ROUND_SUCCESS, loops=0)
 
     def play_game_over(self):
         print("Playing Game Over")
         self.stop_all()
-        self.player.play_song(GAME_OVER, 1, channel=GAME_OVER, loops=0)
+        self.player.play_song(GAME_OVER, 0.8, channel=GAME_OVER, loops=0)
 
     def play_you_win(self):
         print("Playing You Win")
         self.stop_all()
-        self.player.play_song(YOU_WIN, 1, channel=YOU_WIN, loops=0)
+        self.player.play_song(YOU_WIN, 0.8, channel=YOU_WIN, loops=0)
 
 
     # def play_bat_journey(self):

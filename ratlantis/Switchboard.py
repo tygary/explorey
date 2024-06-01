@@ -93,15 +93,19 @@ class Switchboard(object):
 
     def do_ambient(self):
         self.mode = MODE_AMBIENT
+        print("Switchboard - Ambient")
 
     def clear(self):
         self.mode = MODE_OFF
+        print("Switchboard - Clearing")
 
     def request_new_state(self, is_ambient=False):
         new_switchboard_state = [random.randint(0, 1), random.randint(0, 1), random.randint(0, 1), random.randint(0, 1)]
         self.desired_state = new_switchboard_state
+        print("Switchboard - Getting new State")
         if not is_ambient:
             self.mode = MODE_PENDING
+            print("Switchboard - Pending")
 
     def is_completed(self):
         self.levers.get_current_values()
@@ -110,12 +114,14 @@ class Switchboard(object):
                 return False
         if self.mode == MODE_PENDING:
             self.mode = MODE_OFF
+            print("Switchboard - Done, turning off")
         return True
 
     def update(self):
         self.levers.get_current_values()
         if self.mode == MODE_PENDING and self.is_completed():
             self.mode = MODE_OFF
+            print("Switchboard - Done, turning off")
         self._update_lights()
         self.blackout_pattern.tick()
         self.pending_pattern.tick()

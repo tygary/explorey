@@ -88,18 +88,15 @@ class Switchboard(object):
         if self.mode == MODE_AMBIENT:
             self.ambient_pattern.update_addresses(self.completed_addresses)
             self.completed_pattern.update_addresses([])
-            print("completed_addresses", [])
-            print("ambient addresses", self.completed_addresses)
+            # print("completed_addresses", [])
+            # print("ambient addresses", self.completed_addresses)
         else:
             self.ambient_pattern.update_addresses([])
             self.completed_pattern.update_addresses(self.completed_addresses)
-            print("completed_addresses", self.completed_addresses)
-            print("ambient addresses", [])
-
-        print("blackout addresses", self.blackout_addresses)
-        print("pending_addresses", self.pending_addresses)
-        print("completed_addresses", self.completed_addresses)
-        print("ambient addresses", self.blackout_addresses)
+            # print("completed_addresses", self.completed_addresses)
+            # print("ambient addresses", [])
+        # print("blackout addresses", self.blackout_addresses)
+        # print("pending_addresses", self.pending_addresses)
 
     def do_ambient(self):
         self.mode = MODE_AMBIENT
@@ -136,6 +133,7 @@ class Switchboard(object):
         self.blackout_pattern.tick()
         self.pending_pattern.tick()
         self.completed_pattern.tick()
+        self.ambient_pattern.tick()
 
 
 

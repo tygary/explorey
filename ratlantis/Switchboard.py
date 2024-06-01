@@ -106,7 +106,7 @@ class Switchboard(object):
         if self.mode == MODE_AMBIENT:
             for i in range(0, 4):
                 self.ambient_pattern.routines[i].update_addresses([])
-            for i, addr in self.completed_addresses:
+            for i, addr in enumerate(self.completed_addresses):
                 self.ambient_pattern.routines[i].update_addresses([self.completed_addresses[i]])
                 self.ambient_pattern.routines[i].update_color(self.ambient_colors_by_addr[addr])
             self.completed_pattern.update_addresses([])

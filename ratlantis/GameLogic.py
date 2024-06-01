@@ -160,7 +160,7 @@ class GameLogic(object):
             artifact.reset(allow_any=True)
         self._update_vine_colors()
 
-    def _get_next_vine(self, artifact, excluded_rfid=""):
+    def _get_next_vine(self, artifact, excluded_rfids=[]):
         vines = []
         available_vine_ids = ARTIFACT_VINE_MATRIX[artifact.id]
         available_vines = []
@@ -168,7 +168,7 @@ class GameLogic(object):
             if vine.rfid in available_vine_ids:
                 available_vines.append(vine)
         for vine in available_vines:
-            if vine.rfid != excluded_rfid:
+            if vine.rfid not in excluded_rfids:
                 vines.append(vine)
         return random.choice(vines)
 
@@ -224,8 +224,10 @@ class GameLogic(object):
         artifacts_without_current = [ artifact for artifact in self.artifacts if artifact != self.last_connected_artifact]
         available_artifacts = self.artifacts if self.config.will_immediately_disconnect else artifacts_without_current
         artifacts_to_update = random.sample(available_artifacts, num_to_update)
+        vines_used = []
         for artifact in artifacts_to_update:
-            vine = self._get_next_vine(artifact, excluded_rfid=artifact.current_rfid)
+            vine = self._get_next_vine(artifact, excluded_rfids=[artifact.current_rfid] + vines_used)
+            vines_used.append(vine.rfid)
             color = self._get_next_color()
             artifact.set_pending_vine(color, vine.rfid)
             print("artifact ", artifact.id, " is now waiting for ", vine.rfid)
@@ -361,6 +363,8 @@ class GameLogic(object):
                 for artifact in self.artifacts:
                     if artifact.current_rfid != artifact.desired_rfid:
                         is_objective_completed = False
+                if not self.switchboard.is_completed():
+                    is_objective_completed = False
                 if is_objective_completed:
                     print("Objectives completed")
                     if self.remaining_objectives == 0:

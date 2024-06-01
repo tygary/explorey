@@ -12,6 +12,7 @@ ENERGY_GAIN = 6
 ROUND_SUCCESS = 7
 GAME_OVER = 8
 YOU_WIN = 9
+PENDING_SWITCHBOARD = 10
 
 
 STARTUP_TIME = 10
@@ -27,6 +28,7 @@ songs = [
     '/home/admin/explorey/sound/Game-RoundWin.ogg',
     '/home/admin/explorey/sound/Game-Over.ogg',
     '/home/admin/explorey/sound/Game-YouWin.ogg',
+    '/home/admin/explorey/sound/Game-PendingSwitches.ogg',
 ]
 
 
@@ -35,6 +37,7 @@ class RatGameSoundSystem(object):
 
     is_playing_ambient = False
     is_playing_running_out_of_time = False
+    is_playing_pending_switchboard = False
 
     # def __init__(self):
     #     self.play_ambient()
@@ -51,8 +54,10 @@ class RatGameSoundSystem(object):
         self.player.stop_music(ROUND_SUCCESS)
         self.player.stop_music(GAME_OVER)
         self.player.stop_music(YOU_WIN)
+        self.player.stop_music(PENDING_SWITCHBOARD)
         self.is_playing_ambient = False
         self.is_playing_running_out_of_time = False
+        self.is_playing_pending_switchboard = False
 
     def play_ambient(self):
         if not self.is_playing_ambient:
@@ -71,17 +76,28 @@ class RatGameSoundSystem(object):
         self.player.play_song(index, 0.5, channel=index)
 
     def play_running_out_of_time(self):
-        print("Playing Running out of time")
         if not self.is_playing_running_out_of_time:
+            print("Playing Running out of time")
             self.player.play_song(RUNNING_OUT_OF_TIME, 1, channel=RUNNING_OUT_OF_TIME)
             self.is_playing_running_out_of_time = True
 
     def stop_running_out_of_time(self):
-
         if self.is_playing_running_out_of_time:
             print("Stopping Running out of time")
             self.player.stop_music(RUNNING_OUT_OF_TIME)
             self.is_playing_running_out_of_time = False
+
+    def play_pending_switchboard(self):
+        if not self.is_playing_pending_switchboard:
+            print("Playing pending switchboard")
+            self.player.play_song(RUNNING_OUT_OF_TIME, 1, channel=RUNNING_OUT_OF_TIME)
+            self.is_playing_pending_switchboard = True
+
+    def stop_pending_switchboard(self):
+        if self.is_playing_pending_switchboard:
+            print("Stopping Pending Switchboard")
+            self.player.stop_music(RUNNING_OUT_OF_TIME)
+            self.is_playing_pending_switchboard = False
 
     def play_energy_gain(self):
         print("Playing Energy Gain")

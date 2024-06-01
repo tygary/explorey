@@ -139,6 +139,8 @@ class Switchboard(object):
 
     def is_completed(self):
         self.levers.get_current_values()
+        if self.mode == MODE_OFF:
+            return True
         for i, desired_value in enumerate(self.desired_state):
             if desired_value != self.levers.currentValues[i]:
                 return False

@@ -216,8 +216,10 @@ class GameLogic(object):
 
     def _update_objectives(self):
         print("Updating Objectives")
+        excluded_rfid = None
         if self.last_connected_artifact:
             print("last connected artifact = ", self.last_connected_artifact.id)
+            excluded_rfid = self.last_connected_artifact.current_rfid
         artifacts_by_rfid = {}
         for artifact in self.artifacts:
             if artifact.current_rfid is not None:
@@ -234,7 +236,7 @@ class GameLogic(object):
         if self.last_connected_artifact:
             excluded_color = self.last_connected_artifact.color
         for artifact in artifacts_to_update:
-            vine = self._get_next_vine(artifact, excluded_rfids=[artifact.current_rfid] + vines_used)
+            vine = self._get_next_vine(artifact, excluded_rfids=[artifact.current_rfid, excluded_rfid] + vines_used)
             vines_used.append(vine.rfid)
 
             color = self._get_next_color(excluded=excluded_color)

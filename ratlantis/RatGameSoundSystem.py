@@ -45,10 +45,7 @@ class RatGameSoundSystem(object):
     def stop_all(self):
         # self.player.stop_music(AMBIENT)
         self.player.stop_music(GAME_START)
-        self.player.stop_music(ON_1)
-        self.player.stop_music(ON_2)
-        self.player.stop_music(ON_3)
-        self.player.stop_music(ON_4)
+        self.player.stop_music(ON)
         self.player.stop_music(RUNNING_OUT_OF_TIME)
         self.player.stop_music(ENERGY_GAIN)
         self.player.stop_music(ROUND_SUCCESS)

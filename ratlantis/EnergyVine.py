@@ -178,6 +178,8 @@ class RemoteEnergyVine(object):
             self.color = color
             self.mode = VINE_MODE_PENDING
             self._send_update()
+        else:
+            print("Not sending pending update", self.rfid, self.color, self.mode, color)
 
     def off(self):
         if self.mode != VINE_MODE_OFF:

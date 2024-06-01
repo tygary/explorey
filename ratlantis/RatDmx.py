@@ -99,7 +99,7 @@ class RatDmx(object):
                 elif self.light_values[index] < 0:
                     self.light_values[index] = 0
                     self.light_directions[index] = not self.light_directions[index]
-                print(f"Updating Light {self.lights[index]} - {scale_color(RED, self.light_values[index])}")
+                # print(f"Updating Light {self.lights[index]} - {scale_color(RED, self.light_values[index])}")
                 self.dmx.setParCan(self.lights[index], scale_color(RED, self.light_values[index]))
             self.dmx.set4barFlex(FOUR_BAR_FLEX, [
                 scale_color(RED, self.light_values[0]),

@@ -60,35 +60,44 @@ class RatGameSoundSystem(object):
             self.is_playing_ambient = True
 
     def play_game_start(self):
+        print("Playing Game Start")
         self.stop_all()
         self.player.play_song(GAME_START, 1, channel=GAME_START, loops=0)
 
     def play_running(self, round_num):
+        print("Playing Running", round_num)
         index = ON + round_num
         self.player.play_song(index, 1, channel=ON)
 
     def play_running_out_of_time(self):
+        print("Playing Running out of time")
         if not self.is_playing_running_out_of_time:
             self.player.play_song(RUNNING_OUT_OF_TIME, 1, channel=RUNNING_OUT_OF_TIME)
             self.is_playing_running_out_of_time = True
 
     def stop_running_out_of_time(self):
+
         if self.is_playing_running_out_of_time:
+            print("Stopping Running out of time")
             self.player.stop_music(RUNNING_OUT_OF_TIME)
             self.is_playing_running_out_of_time = False
 
     def play_energy_gain(self):
+        print("Playing Energy Gain")
         self.player.play_song(ENERGY_GAIN, 1, channel=ENERGY_GAIN, loops=0)
 
     def play_round_success(self):
+        print("Playing Round Success")
         self.stop_all()
         self.player.play_song(ROUND_SUCCESS, 1, channel=ROUND_SUCCESS, loops=0)
 
     def play_game_over(self):
+        print("Playing Game Over")
         self.stop_all()
         self.player.play_song(GAME_OVER, 1, channel=GAME_OVER, loops=0)
 
     def play_you_win(self):
+        print("Playing You Win")
         self.stop_all()
         self.player.play_song(YOU_WIN, 1, channel=YOU_WIN, loops=0)
 

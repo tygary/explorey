@@ -337,6 +337,7 @@ class GameLogic(object):
         self._update_vine_colors()
         for artifact in self.artifacts:
             artifact._send_update()
+        self.mqtt.publish_batch()
 
     def update(self):
         if self.mode == GAME_MODE_LOSE or self.mode == GAME_MODE_WIN:

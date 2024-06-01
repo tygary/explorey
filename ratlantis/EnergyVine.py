@@ -112,10 +112,11 @@ class EnergyVine(object):
                 Colors.purple,
                 Colors.orange,
                 Colors.yellow,
-                Colors.mid_green,
-                Colors.light_green,
+                # Colors.mid_green,
+                # Colors.light_green,
                 Colors.soft_blue,
-                Colors.mixed_blue
+                Colors.mixed_blue,
+                Colors.blue
             ]
             self.light_routine = Routines.WaveRoutine(self.pixels, self.light_addresses, [random.choice(non_green_colors)])  # Colors.mid_green
         else:

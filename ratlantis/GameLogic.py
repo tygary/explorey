@@ -266,7 +266,6 @@ class GameLogic(object):
             self.energy_tank.set_pending_vine(COLORS[3], vine.rfid)
             self._update_vine_colors()
             self.dmx.change_mode(active=False, startup=False)
-            self.city.fill_the_city()
         elif new_mode == GAME_MODE_ROUND_START:
             self.current_round += 1
             print("Round Starting", self.current_round)
@@ -303,6 +302,7 @@ class GameLogic(object):
             self.energy_tank.end_round()
             self.energy_tank.celebrate()
             self.celebration_end_time = time.time() + GAME_WIN_TIME
+            self.city.fill_the_city()
             print("Now:", time.time(), "Restarting at", self.celebration_end_time)
             for artifact in self.artifacts:
                 artifact.reset()

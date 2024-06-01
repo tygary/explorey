@@ -62,6 +62,24 @@ class RatGame(object):
 
         self.game = GameLogic(self.vines, self.artifacts, self.tank, self.switchboard, self.mqtt, self.sound, self.dmx)
 
+        self.mqtt.listen(self.__parse_mqtt_event)
+
+    def __parse_mqtt_event(self, event):
+        try:
+            events = json.loads(event)
+            if not type(events) in (tuple, list):
+                print("converting mqtt event to array")
+                events = [events]
+            for data in events:
+                if data and data["event"] and data["event"] == EVENT_VINE_BOOTUP:
+                    controller_num = data["controllerNum"]
+                    for vine in self.vines:
+                        vine.force_send_update()
+            self.mqtt.publish_batch()
+        except Exception as e:
+            print("Rat Game Failed parsing event", event, e)
+            print(traceback.format_exc())
+
     def __on_artifact_change(self, artifact, connected, card):
         print("Artifact Changed", artifact)
         self.game.artifact_changed(artifact, connected, card)

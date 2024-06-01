@@ -16,6 +16,7 @@ COLOR_PINK = 1
 COLORS = [COLOR_RED, COLOR_ORANGE, COLOR_YELLOW, COLOR_GREEN, COLOR_LIGHT_BLUE, COLOR_BLUE, COLOR_PURPLE, COLOR_PINK]
 
 EVENT_VINE_UPDATE = "vineUpdate"
+EVENT_VINE_BOOTUP = "vineBootup"
 VINE_MODE_CONNECTED = 0
 VINE_MODE_INVALID = 1
 VINE_MODE_PENDING = 2
@@ -156,6 +157,9 @@ class RemoteEnergyVine(object):
             "color": self.color,
             "shouldDisconnect": True
         })
+
+    def force_send_update(self):
+        self._send_update()
 
     def invalid_connection(self):
         if self.mode != VINE_MODE_CONNECTED:

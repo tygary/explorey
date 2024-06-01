@@ -50,6 +50,11 @@ class RatVineController(object):
             vine4.pending_connection(COLOR_RED)
             self.vines.append(vine4)
 
+        self.mqtt.publish({
+            "event": EVENT_VINE_BOOTUP,
+            "controllerNum": controller_num
+        })
+
     def update(self):
         for vine in self.vines:
             vine.update()

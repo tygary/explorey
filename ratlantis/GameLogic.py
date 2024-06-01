@@ -250,8 +250,7 @@ class GameLogic(object):
         self._update_vine_colors()
 
         if random.random() < self.config.switchboard_rate:
-            new_switchboard_state = [random.randint(0, 1), random.randint(0, 1), random.randint(0, 1), random.randint(0, 1)]
-            self.switchboard.desired_state = new_switchboard_state
+            self.switchboard.request_new_state()
             self.sound.play_pending_switchboard()
         self.mqtt.publish_batch()
 
@@ -265,6 +264,7 @@ class GameLogic(object):
             self.is_charging = True
             self.energy_tank.start_charging()
             self._update_vine_colors()
+            self.switchboard.do_ambient()
             self.dmx.change_mode(active=False, startup=False)
         elif new_mode == GAME_MODE_READY:
             print("Game Ready to Start")
@@ -294,6 +294,7 @@ class GameLogic(object):
             for vine in self.vines:
                 vine.off()
             self.mqtt.publish_batch()
+            self.switchboard.clear()
             self.energy_tank.start_round(round_time=self.config.objective_time_length)
             self._update_objectives()
             self.dmx.change_mode(active=True, startup=False)

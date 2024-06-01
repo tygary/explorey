@@ -242,6 +242,7 @@ class GameLogic(object):
         if random.random() < self.config.switchboard_rate:
             new_switchboard_state = [random.randint(0, 1), random.randint(0, 1), random.randint(0, 1), random.randint(0, 1)]
             self.switchboard.desired_state = new_switchboard_state
+            self.sound.play_pending_switchboard()
         self.mqtt.publish_batch()
 
     def _change_game_mode(self, new_mode):
@@ -365,6 +366,8 @@ class GameLogic(object):
                         is_objective_completed = False
                 if not self.switchboard.is_completed():
                     is_objective_completed = False
+                else:
+                    self.sound.stop_pending_switchboard()
                 if is_objective_completed:
                     print("Objectives completed")
                     if self.remaining_objectives == 0:

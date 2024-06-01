@@ -52,10 +52,10 @@ class Switchboard(object):
         self.pending_pattern = Routines.PulseRoutine(pixels, self.pending_addresses, Colors.red, rate=0.4)
         self.completed_pattern = Routines.ColorRoutine(pixels, self.completed_addresses, Colors.green)
         self.ambient_pattern = Routines.MultiRoutine([
-            Routines.PulseRoutine(pixels, [], Colors.green),
-            Routines.PulseRoutine(pixels, [], Colors.green),
-            Routines.PulseRoutine(pixels, [], Colors.green),
-            Routines.PulseRoutine(pixels, [], Colors.green),
+            Routines.ColorRoutine(pixels, [], Colors.green),
+            Routines.ColorRoutine(pixels, [], Colors.green),
+            Routines.ColorRoutine(pixels, [], Colors.green),
+            Routines.ColorRoutine(pixels, [], Colors.green),
         ])
 
     def _on_levers_changed(self, levers):

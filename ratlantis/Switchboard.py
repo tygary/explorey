@@ -39,6 +39,9 @@ class Switchboard(object):
     next_ambient_change_time = time.time()
 
     mode = MODE_AMBIENT
+    ambient_colors_by_addr = {
+
+    }
 
     def __init__(self, pixels, addresses):
         self.addresses = addresses
@@ -71,8 +74,8 @@ class Switchboard(object):
             if self.mode == MODE_AMBIENT and self.next_ambient_change_time < time.time():
                 self.next_ambient_change_time = time.time() + random.randint(AMBIENT_CHANGE_TIME_MIN,
                                                                              AMBIENT_CHANGE_TIME_MAX)
-                for i in range(0, 4):
-                    self.ambient_pattern.routines[i].update_color(random.choice(AMBIENT_COLORS))
+                for i, addr in [self.top_addresses + self.bottom_addresses]:
+                    self.ambient_colors_by_addr[addr] = random.choice(AMBIENT_COLORS)
                 self.request_new_state(is_ambient=True)
 
             self.blackout_addresses = []
@@ -102,10 +105,10 @@ class Switchboard(object):
         self.pending_pattern.update_addresses(self.pending_addresses)
         if self.mode == MODE_AMBIENT:
             for i in range(0, 4):
-                if len(self.completed_addresses) > i:
-                    self.ambient_pattern.routines[i].update_addresses([self.completed_addresses[i]])
-                else:
-                    self.ambient_pattern.routines[i].update_addresses([])
+                self.ambient_pattern.routines[i].update_addresses([])
+            for i, addr in self.completed_addresses:
+                self.ambient_pattern.routines[i].update_addresses([self.completed_addresses[i]])
+                self.ambient_pattern.routines[i].update_color(self.ambient_colors_by_addr[addr])
             self.completed_pattern.update_addresses([])
             # print("completed_addresses", [])
             # print("ambient addresses", self.completed_addresses)

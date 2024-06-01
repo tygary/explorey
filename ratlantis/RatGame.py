@@ -8,6 +8,7 @@ from ratlantis.EnergyTank import EnergyTank
 from ratlantis.GameLogic import GameLogic
 from ratlantis.Switchboard import Switchboard
 from ratlantis.RatGameSoundSystem import RatGameSoundSystem
+from ratlantis.RatDmx import RatDmx
 from lighting.PixelControl import PixelControl
 from mqtt.MqttClient import MqttClient
 
@@ -19,6 +20,7 @@ class RatGame(object):
     pixels2 = None
     mqtt = None
     current_color = COLOR_BLUE
+    dmx = RatDmx()
 
     game = None
     vines = []
@@ -58,7 +60,7 @@ class RatGame(object):
 
         self.switchboard = Switchboard(self.pixels, [4, 3, 2, 1, 8, 9, 10, 11])
 
-        self.game = GameLogic(self.vines, self.artifacts, self.tank, self.switchboard, self.mqtt, self.sound)
+        self.game = GameLogic(self.vines, self.artifacts, self.tank, self.switchboard, self.mqtt, self.sound, self.dmx)
 
     def __on_artifact_change(self, artifact, connected, card):
         print("Artifact Changed", artifact)
@@ -83,6 +85,7 @@ class RatGame(object):
         self.mqtt.publish_batch()
         self.switchboard.update()
         self.pixels.render()
+        self.dmx.update()
 
 
 

@@ -8,27 +8,31 @@ import random
 
 
 OFF = -1
-AMBIENT = 0
 GAME_START = 1
-ON = 2
-RUNNING_OUT_OF_TIME = 3
-ENERGY_GAIN = 4
-ROUND_SUCCESS = 5
-GAME_OVER = 6
-YOU_WIN = 7
+ON_1 = 2
+ON_2 = 3
+ON_3 = 4
+ON_4 = 5
+RUNNING_OUT_OF_TIME = 6
+ENERGY_GAIN = 7
+ROUND_SUCCESS = 8
+GAME_OVER = 9
+YOU_WIN = 10
 
 
 STARTUP_TIME = 10
 
 songs = [
-    '/home/admin/explorey/sound/TimeMachine-Startup.ogg',
-    '/home/admin/explorey/sound/TimeMachine-Startup.ogg',
-    '/home/admin/explorey/sound/TimeMachine-Running.ogg',
-    '/home/admin/explorey/sound/TimeMachine-Frozen.ogg',
-    '/home/admin/explorey/sound/TimeMachine-Startup.ogg',
-    '/home/admin/explorey/sound/TimeMachine-Shutdown.ogg',
-    '/home/admin/explorey/sound/TimeMachine-Startup.ogg',
-    '/home/admin/explorey/sound/TimeMachine-Startup.ogg',
+    '/home/admin/explorey/sound/Game-Startup.ogg',
+    '/home/admin/explorey/sound/Game-Running-1.ogg',
+    '/home/admin/explorey/sound/Game-Running-2.ogg',
+    '/home/admin/explorey/sound/Game-Running-3.ogg',
+    '/home/admin/explorey/sound/Game-Running-4.ogg',
+    '/home/admin/explorey/sound/Game-OutOfTime.ogg',
+    '/home/admin/explorey/sound/Game-EnergyGain.ogg',
+    '/home/admin/explorey/sound/Game-RoundWin.ogg',
+    '/home/admin/explorey/sound/Game-Over.ogg',
+    '/home/admin/explorey/sound/Game-YouWin.ogg',
 ]
 
 
@@ -38,13 +42,16 @@ class RatGameSoundSystem(object):
     is_playing_ambient = False
     is_playing_running_out_of_time = False
 
-    def __init__(self):
-        self.play_ambient()
+    # def __init__(self):
+    #     self.play_ambient()
 
     def stop_all(self):
-        self.player.stop_music(AMBIENT)
+        # self.player.stop_music(AMBIENT)
         self.player.stop_music(GAME_START)
-        self.player.stop_music(ON)
+        self.player.stop_music(ON_1)
+        self.player.stop_music(ON_2)
+        self.player.stop_music(ON_3)
+        self.player.stop_music(ON_4)
         self.player.stop_music(RUNNING_OUT_OF_TIME)
         self.player.stop_music(ENERGY_GAIN)
         self.player.stop_music(ROUND_SUCCESS)
@@ -55,15 +62,16 @@ class RatGameSoundSystem(object):
 
     def play_ambient(self):
         if not self.is_playing_ambient:
-            self.player.play_song(AMBIENT, 1, channel=AMBIENT)
+            # self.player.play_song(AMBIENT, 1, channel=AMBIENT)
             self.is_playing_ambient = True
 
     def play_game_start(self):
         self.stop_all()
         self.player.play_song(GAME_START, 1, channel=GAME_START, loops=0)
 
-    def play_running(self):
-        self.player.play_song(ON, 1, channel=ON)
+    def play_running(self, round_num):
+        index = ON_1 + round_num
+        self.player.play_song(index, 1, channel=index)
 
     def play_running_out_of_time(self):
         if not self.is_playing_running_out_of_time:

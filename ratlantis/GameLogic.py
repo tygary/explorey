@@ -146,13 +146,14 @@ class GameLogic(object):
 
     last_connected_artifact = None
 
-    def __init__(self, vines, artifacts, energy_tank, switchboard, mqtt, sound):
+    def __init__(self, vines, artifacts, energy_tank, switchboard, mqtt, sound, dmx):
         self.vines = vines
         self.artifacts = artifacts
         self.energy_tank = energy_tank
         self.switchboard = switchboard
         self.mqtt = mqtt
         self.sound = sound
+        self.dmx = dmx
 
         for artifact in self.artifacts:
             artifact.reset(allow_any=True)
@@ -249,12 +250,14 @@ class GameLogic(object):
             self.is_charging = True
             self.energy_tank.start_charging()
             self._update_vine_colors()
+            self.dmx.change_mode(active=False, startup=False)
         elif new_mode == GAME_MODE_READY:
             print("Game Ready to Start")
             vine = self._get_next_vine(self.energy_tank)
             self.current_round = -1
             self.energy_tank.set_pending_vine(COLORS[3], vine.rfid)
             self._update_vine_colors()
+            self.dmx.change_mode(active=False, startup=False)
         elif new_mode == GAME_MODE_ROUND_START:
             self.current_round += 1
             print("Round Starting", self.current_round)
@@ -273,9 +276,10 @@ class GameLogic(object):
             self.remaining_objectives = self.config.num_objectives
             self.next_round_start_time = time.time() + ROUND_WAIT_TIME
             print("Now:", time.time(), "Starting round at", self.next_round_start_time)
+            self.dmx.change_mode(active=False, startup=True)
         elif new_mode == GAME_MODE_RUNNING:
             print("Go!")
-            self.sound.play_running()
+            self.sound.play_running(round=self.current_round)
             for artifact in self.artifacts:
                 artifact.reset()
             for vine in self.vines:
@@ -283,6 +287,7 @@ class GameLogic(object):
             self.mqtt.publish_batch()
             self.energy_tank.start_round(round_time=self.config.objective_time_length)
             self._update_objectives()
+            self.dmx.change_mode(active=True, startup=False)
         elif new_mode == GAME_MODE_WIN:
             print("YOU WIN!")
             self.sound.play_you_win()
@@ -293,6 +298,7 @@ class GameLogic(object):
             for artifact in self.artifacts:
                 artifact.reset(allow_any=True)
             self._update_vine_colors()
+            self.dmx.change_mode(active=False, startup=True)
         elif new_mode == GAME_MODE_LOSE:
             print("GAME OVER")
             self.sound.play_game_over()
@@ -303,6 +309,7 @@ class GameLogic(object):
             self._update_vine_colors()
             self.celebration_end_time = time.time() + CELEBRATION_TIME
             print("Now:", time.time(), "Restarting at", self.celebration_end_time)
+            self.dmx.change_mode(active=False, startup=True)
 
     def artifact_changed(self, artifact, connected, card):
         if connected:
@@ -320,6 +327,8 @@ class GameLogic(object):
             else:
                 print(card, "disconnected from", artifact.id)
         self._update_vine_colors()
+        for artifact in self.artifacts:
+            artifact._send_update()
 
     def update(self):
         if self.mode == GAME_MODE_LOSE or self.mode == GAME_MODE_WIN:

@@ -260,8 +260,7 @@ class GameLogic(object):
         print("updating game mode from", old_mode, "to", new_mode)
         if new_mode == GAME_MODE_CHARGING:
             print("Game Starting Charging")
-            # self.sound.play_ambient()
-            # self.sound.play_you_win()
+            self.sound.play_ambient()
             self.is_charging = True
             self.energy_tank.start_charging()
             self._update_vine_colors()
@@ -269,7 +268,6 @@ class GameLogic(object):
             self.dmx.change_mode(active=False, startup=False)
         elif new_mode == GAME_MODE_READY:
             print("Game Ready to Start")
-            self.sound.play_you_win()
             vine = self._get_next_vine(self.energy_tank)
             self.current_round = -1
             self.energy_tank.set_pending_vine(COLORS[3], vine.rfid)

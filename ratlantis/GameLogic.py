@@ -260,7 +260,8 @@ class GameLogic(object):
         print("updating game mode from", old_mode, "to", new_mode)
         if new_mode == GAME_MODE_CHARGING:
             print("Game Starting Charging")
-            self.sound.play_ambient()
+            # self.sound.play_ambient()
+            self.sound.play_you_win()
             self.is_charging = True
             self.energy_tank.start_charging()
             self._update_vine_colors()

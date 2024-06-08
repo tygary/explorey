@@ -21,10 +21,10 @@ ARTIFACT_VINE_MATRIX = {
         VINE_EIGHT_RFID
     ],
     "artifact/tank": [
-        # VINE_FIVE_RFID,
-        VINE_SIX_RFID,
-        VINE_SEVEN_RFID,
-        VINE_EIGHT_RFID
+        VINE_EIGHT_RFID,
+        VINE_ONE_RFID,
+        VINE_TWO_RFID,
+        VINE_THREE_RFID
     ],
     "artifact/mobile": [
         VINE_FIVE_RFID,
@@ -39,9 +39,9 @@ ARTIFACT_VINE_MATRIX = {
         VINE_EIGHT_RFID
     ],
     "artifact/microwave": [
-        VINE_ONE_RFID,
-        VINE_TWO_RFID,
-        VINE_THREE_RFID,
+        VINE_FIVE_RFID,
+        VINE_SIX_RFID,
+        VINE_SEVEN_RFID,
         # VINE_FOUR_RFID
     ],
     "artifact/bugs": [
@@ -312,7 +312,7 @@ class GameLogic(object):
             for artifact in self.artifacts:
                 artifact.reset(allow_any=True)
             self._update_vine_colors()
-            self.dmx.change_mode(active=False, startup=True)
+            self.dmx.change_mode(active=False, startup=False, finale=True)
         elif new_mode == GAME_MODE_LOSE:
             print("GAME OVER")
             self.sound.play_game_over()

@@ -42,6 +42,12 @@ class EnergyTank(Artifact):
     round_num = 0
 
     tank_light_addresses = []
+    segment_addresses = [
+        range(0, 33),
+        range(33, 66),
+        range(66, 100)
+    ]
+
     tank_routine = None
 
     def __init__(self, mqtt, pixels, tank_light_addresses, on_change):
@@ -128,12 +134,27 @@ class EnergyTank(Artifact):
             ])
         elif self.mode == MODE_MOURN:
             self.tank_routine = Routines.MultiRoutine([
-                Routines.FireRoutine(self.pixels, self.tank_light_addresses)
+                Routines.FireRoutine(self.pixels, self.tank_light_addresses, Colors.red)
             ])
         elif self.mode == MODE_ROUND_START:
-            self.tank_routine = Routines.MultiRoutine([
-                Routines.BleuRoutine(self.pixels, self.tank_light_addresses)
-            ])
+            if self.round_num == 3:
+                self.tank_routine = Routines.MultiRoutine([
+                    Routines.PulseRoutine(self.pixels, self.tank_light_addresses, Colors.mixed_blue),
+                ])
+            else:
+                lit_addresses = []
+                blackout_addresses = []
+                for i in range(0, 3):
+                    if i <= self.round_num:
+                        for addr_index in self.segment_addresses[i]:
+                            lit_addresses.append(self.tank_light_addresses[addr_index])
+                    else:
+                        for addr_index in self.segment_addresses[i]:
+                            blackout_addresses.append(self.tank_light_addresses[addr_index])
+                self.tank_routine = Routines.MultiRoutine([
+                    Routines.PulseRoutine(self.pixels, lit_addresses, Colors.green),
+                    Routines.BlackoutRoutine(self.pixels, blackout_addresses)
+                ])
 
     # ---------------------------------------
 

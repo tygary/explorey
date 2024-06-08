@@ -1,6 +1,7 @@
 import json
 import random
 import traceback
+import time
 
 from lighting.Colors import Colors
 from lighting.routines import Routines
@@ -31,6 +32,7 @@ VINE_SIX_RFID = "7fec1366080104e0"
 VINE_SEVEN_RFID = "9fd81366080104e0"
 VINE_EIGHT_RFID = "b8f61366080104e0"
 
+MIN_UPDATE_TIME = 10
 
 def get_color(color_const):
     if color_const == COLOR_RED:
@@ -139,6 +141,7 @@ class RemoteEnergyVine(object):
     mqtt = None
     color = None
     mode = -1
+    last_updated = 0
 
     def __init__(self, rfid, mqtt):
         self.rfid = rfid
@@ -157,24 +160,25 @@ class RemoteEnergyVine(object):
             "color": self.color,
             "shouldDisconnect": True
         })
+        self.last_updated = time.time()
 
     def force_send_update(self):
         self._send_update()
 
     def invalid_connection(self):
-        if self.mode != VINE_MODE_CONNECTED:
+        if self.mode != VINE_MODE_CONNECTED or time.time() > self.last_updated + MIN_UPDATE_TIME:
             # self.color = None
             self.mode = VINE_MODE_INVALID
             self._send_update()
 
     def valid_connection(self, color):
-        if self.mode != VINE_MODE_CONNECTED or self.color != color:
+        if self.mode != VINE_MODE_CONNECTED or self.color != color or time.time() > self.last_updated + MIN_UPDATE_TIME:
             self.color = color
             self.mode = VINE_MODE_CONNECTED
             self._send_update()
 
     def pending_connection(self, color):
-        if self.mode != VINE_MODE_PENDING or self.color != color:
+        if self.mode != VINE_MODE_PENDING or self.color != color or time.time() > self.last_updated + MIN_UPDATE_TIME:
             self.color = color
             self.mode = VINE_MODE_PENDING
             self._send_update()
@@ -182,7 +186,7 @@ class RemoteEnergyVine(object):
             print("Not sending pending update", self.rfid, self.color, self.mode, color)
 
     def off(self):
-        if self.mode != VINE_MODE_OFF:
+        if self.mode != VINE_MODE_OFF or time.time() > self.last_updated + MIN_UPDATE_TIME:
             self.color = None
             self.mode = VINE_MODE_OFF
             self._send_update()

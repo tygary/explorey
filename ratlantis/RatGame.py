@@ -99,12 +99,35 @@ class RatGame(object):
             # cur_vine.pending_connection(self.current_color)
 
     def update(self):
-        self.game.update()
-        self.tank.update()
-        self.mqtt.publish_batch()
-        self.switchboard.update()
-        self.pixels.render()
-        self.dmx.update()
+        try:
+            self.game.update()
+        except Exception as e:
+            print("Main Loop - Failed to update game", e)
+        try:
+            self.tank.update()
+        except Exception as e:
+            print("Main Loop - Failed to update tank", e)
+        try:
+            self.mqtt.publish_batch()
+        except Exception as e:
+            print("Main Loop - Failed to update mqtt", e)
+        try:
+            self.pixels.render()
+        except Exception as e:
+            print("Main Loop - Failed to update pixels", e)
+        try:
+            self.dmx.update()
+        except Exception as e:
+            print("Main Loop - Failed to update dmx", e)
+        try:
+            self.switchboard.update()
+        except Exception as e:
+            print("Main Loop - Failed to update switchboard", e)
+
+
+
+
+
 
 
 

@@ -1,11 +1,6 @@
 import RPi.GPIO as GPIO
-import random
 
-from lighting.routines import Routines
-from ratlantis.Artifact import Artifact
 from ratlantis.EnergyVine import *
-from ratlantis.EnergyTank import EnergyTank
-from ratlantis.GameLogic import GameLogic
 from lighting.PixelControl import PixelControl
 from mqtt.MqttClient import MqttClient
 
@@ -56,9 +51,12 @@ class RatVineController(object):
         }]))
 
     def update(self):
-        for vine in self.vines:
-            vine.update()
-        self.pixels.render()
+        try:
+            for vine in self.vines:
+                vine.update()
+            self.pixels.render()
+        except Exception as e:
+            print("Vine controller failed to update", e)
 
 
 

@@ -5,6 +5,8 @@ from printer.addeventdetection import add_event_detection
 
 
 WAIT_TIME = 0.2
+
+
 class Button(object):
     button_pin = -1
     button_light_pin = -1
@@ -34,7 +36,8 @@ class Button(object):
                 self.callback()
 
     def __set_light(self, on):
-        GPIO.output(self.button_light_pin, on)
+        if self.button_light_pin > 0:
+            GPIO.output(self.button_light_pin, on)
         self.light_on = on
 
     def set_light(self, on):
@@ -49,7 +52,7 @@ class Button(object):
 
     def tick(self):
         now = time.time()
-        if self.is_flashing and now >= self.next_flash:
+        if self.button_light_pin > 0 and self.is_flashing and now >= self.next_flash:
             self.__set_light(not self.light_on)
             self.next_flash = now + self.flash_length
 

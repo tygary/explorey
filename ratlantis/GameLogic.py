@@ -15,52 +15,52 @@ GAME_MODE_LOSE = 5
 
 ARTIFACT_VINE_MATRIX = {
     "artifact/city": [
-        VINE_ONE_RFID,
-        VINE_TWO_RFID,
+        # VINE_FOUR_RFID,
+        VINE_FIVE_RFID,
         VINE_SEVEN_RFID,
         VINE_EIGHT_RFID
     ],
     "artifact/tank": [
         VINE_EIGHT_RFID,
-        VINE_ONE_RFID,
-        VINE_TWO_RFID,
-        VINE_THREE_RFID
+        # VINE_FOUR_RFID,
+        VINE_FIVE_RFID,
+        # VINE_THREE_RFID
     ],
     "artifact/mobile": [
-        VINE_FIVE_RFID,
-        VINE_SIX_RFID,
+        # VINE_FIVE_RFID,
+        # VINE_FOUR_RFID,
         VINE_SEVEN_RFID,
         VINE_EIGHT_RFID
     ],
     "artifact/mushrooms": [
-        VINE_FIVE_RFID,
+        # VINE_FIVE_RFID,
         VINE_SIX_RFID,
         VINE_SEVEN_RFID,
         VINE_EIGHT_RFID
     ],
     "artifact/microwave": [
-        VINE_FIVE_RFID,
+        # VINE_FIVE_RFID,
         VINE_SIX_RFID,
         VINE_SEVEN_RFID,
-        # VINE_FOUR_RFID
+        VINE_EIGHT_RFID
     ],
     "artifact/bugs": [
-        VINE_ONE_RFID,
-        VINE_TWO_RFID,
-        VINE_THREE_RFID,
-        VINE_FOUR_RFID
+        # VINE_FOUR_RFID,
+        VINE_FIVE_RFID,
+        # VINE_THREE_RFID,
+        VINE_SIX_RFID
     ],
     "artifact/fish": [
-        VINE_ONE_RFID,
-        VINE_TWO_RFID,
-        VINE_THREE_RFID,
-        VINE_FOUR_RFID
+        # VINE_ONE_RFID,
+        VINE_FIVE_RFID,
+        # VINE_FOUR_RFID,
+        VINE_SIX_RFID
     ],
     "artifact/volcano": [
-        VINE_ONE_RFID,
-        VINE_TWO_RFID,
-        VINE_THREE_RFID,
-        VINE_FOUR_RFID
+        # VINE_ONE_RFID,
+        VINE_FIVE_RFID,
+        VINE_SIX_RFID,
+        # VINE_FOUR_RFID
     ],
 }
 
@@ -109,7 +109,7 @@ ROUND_CONFIG = [
                 drain_time=20,
                 objective_energy_gain_s=10,
                 objective_time_length=30,
-                will_immediately_disconnect=False),
+                will_immediately_disconnect=True),
     # 2
     RoundConfig(num_objectives=8,
                 simultaneous_chance=0.5,
@@ -118,7 +118,7 @@ ROUND_CONFIG = [
                 drain_time=15,
                 objective_energy_gain_s=10,
                 objective_time_length=20,
-                will_immediately_disconnect=False),
+                will_immediately_disconnect=True),
     # 3
     RoundConfig(num_objectives=10,
                 simultaneous_chance=0.5,

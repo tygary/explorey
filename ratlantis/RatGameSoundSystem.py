@@ -25,7 +25,7 @@ songs = [
     '/home/admin/explorey/sound/Game-Running-4.ogg',
     '/home/admin/explorey/sound/Game-OutOfTime.ogg',
     '/home/admin/explorey/sound/Game-EnergyGain.ogg',
-    '/home/admin/explorey/sound/Game-RoundWin-2G.ogg',
+    '/home/admin/explorey/sound/Game-RoundWin-2.ogg',
     '/home/admin/explorey/sound/Game-Over.ogg',
     '/home/admin/explorey/sound/Game-YouWin.ogg',
     '/home/admin/explorey/sound/Game-PendingSwitches.ogg',

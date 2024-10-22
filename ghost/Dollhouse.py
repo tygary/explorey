@@ -74,11 +74,11 @@ class Dollhouse(object):
                 return self.button_pressed(button_num)
             return button_num_callback
         self.buttons = [
-            Button(BUTTON_PINS[BUTTON_ONE], callback=get_callback(BUTTON_ONE)),
-            Button(BUTTON_PINS[BUTTON_TWO], callback=get_callback(BUTTON_TWO)),
-            Button(BUTTON_PINS[BUTTON_THREE], callback=get_callback(BUTTON_THREE)),
-            Button(BUTTON_PINS[BUTTON_FOUR], callback=get_callback(BUTTON_FOUR)),
-            Button(BUTTON_PINS[BUTTON_FIVE], callback=get_callback(BUTTON_FIVE)),
+            # Button(BUTTON_PINS[BUTTON_ONE], callback=get_callback(BUTTON_ONE)),
+            # Button(BUTTON_PINS[BUTTON_TWO], callback=get_callback(BUTTON_TWO)),
+            # Button(BUTTON_PINS[BUTTON_THREE], callback=get_callback(BUTTON_THREE)),
+            # Button(BUTTON_PINS[BUTTON_FOUR], callback=get_callback(BUTTON_FOUR)),
+            # Button(BUTTON_PINS[BUTTON_FIVE], callback=get_callback(BUTTON_FIVE)),
         ]
 
         self.light_routines = Routines.MultiRoutine([

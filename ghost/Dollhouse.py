@@ -82,11 +82,11 @@ class Dollhouse(object):
         ]
 
         self.light_routines = Routines.MultiRoutine([
-            Routines.BlackoutRoutine(self.pixels, BUTTON_ONE_PIXELS),
-            Routines.BlackoutRoutine(self.pixels, BUTTON_TWO_PIXELS),
-            Routines.BlackoutRoutine(self.pixels, BUTTON_THREE_PIXELS),
-            Routines.BlackoutRoutine(self.pixels, BUTTON_FOUR_PIXELS),
-            Routines.BlackoutRoutine(self.pixels, BUTTON_FIVE_PIXELS)
+            Routines.ColorRoutine(self.pixels, BUTTON_ONE_PIXELS, color=Colors.soft_white),
+            Routines.ColorRoutine(self.pixels, BUTTON_TWO_PIXELS, color=Colors.soft_white),
+            Routines.ColorRoutine(self.pixels, BUTTON_THREE_PIXELS, color=Colors.soft_white),
+            Routines.ColorRoutine(self.pixels, BUTTON_FOUR_PIXELS, color=Colors.soft_white),
+            Routines.ColorRoutine(self.pixels, BUTTON_FIVE_PIXELS, color=Colors.soft_white)
         ])
 
         self.mqtt.listen(self.__parse_mqtt_event)

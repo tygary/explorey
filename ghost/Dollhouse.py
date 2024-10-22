@@ -82,11 +82,11 @@ class Dollhouse(object):
         ]
 
         self.light_routines = Routines.MultiRoutine([
-            Routines.ColorRoutine(self.pixels, BUTTON_ONE_PIXELS, color=Colors.soft_white),
-            Routines.ColorRoutine(self.pixels, BUTTON_TWO_PIXELS, color=Colors.soft_white),
-            Routines.ColorRoutine(self.pixels, BUTTON_THREE_PIXELS, color=Colors.soft_white),
-            Routines.ColorRoutine(self.pixels, BUTTON_FOUR_PIXELS, color=Colors.soft_white),
-            Routines.ColorRoutine(self.pixels, BUTTON_FIVE_PIXELS, color=Colors.soft_white)
+            Routines.ColorRoutine(self.pixels, BUTTON_ONE_PIXELS, color=Colors.bright_white),
+            Routines.ColorRoutine(self.pixels, BUTTON_TWO_PIXELS, color=Colors.bright_white),
+            Routines.ColorRoutine(self.pixels, BUTTON_THREE_PIXELS, color=Colors.bright_white),
+            Routines.ColorRoutine(self.pixels, BUTTON_FOUR_PIXELS, color=Colors.bright_white),
+            Routines.ColorRoutine(self.pixels, BUTTON_FIVE_PIXELS, color=Colors.bright_white)
         ])
 
         self.mqtt.listen(self.__parse_mqtt_event)
@@ -175,11 +175,11 @@ class Dollhouse(object):
         self.mode = MODE_GAME_PLAYING
         self.reset_time = None
         self.state = [False, False, False, False, False]
-        self.turn_off_light(0)
-        self.turn_off_light(1)
-        self.turn_off_light(2)
-        self.turn_off_light(3)
-        self.turn_off_light(4)
+        # self.turn_off_light(0)
+        # self.turn_off_light(1)
+        # self.turn_off_light(2)
+        # self.turn_off_light(3)
+        # self.turn_off_light(4)
         self.mqtt.queue_in_batch_publish({
             "event": EVENT_GHOST_UPDATE,
             "reader": self.id,

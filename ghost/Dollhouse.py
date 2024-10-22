@@ -170,7 +170,6 @@ class Dollhouse(object):
             button.tick()
         self.light_routines.tick()
         self.pixels.render()
-        print("tick")
 
     def reset(self):
         self.mode = MODE_GAME_PLAYING

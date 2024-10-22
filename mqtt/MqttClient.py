@@ -3,7 +3,7 @@ import socket
 import time
 import json
 
-HOSTNAME = "10.0.1.66" # "10.0.0.21"  # "192.168.0.110"
+HOSTNAME = "10.0.1.150" # "10.0.0.21"  # "192.168.0.110"
 BROKER_PORT = 1883
 TOPIC = "mqtt/timemachine"
 

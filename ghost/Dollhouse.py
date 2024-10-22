@@ -82,11 +82,11 @@ class Dollhouse(object):
         ]
 
         self.light_routines = Routines.MultiRoutine([
-            Routines.ColorRoutine(self.pixels, BUTTON_ONE_PIXELS, color=Colors.bright_white),
-            Routines.ColorRoutine(self.pixels, BUTTON_TWO_PIXELS, color=Colors.bright_white),
-            Routines.ColorRoutine(self.pixels, BUTTON_THREE_PIXELS, color=Colors.bright_white),
-            Routines.ColorRoutine(self.pixels, BUTTON_FOUR_PIXELS, color=Colors.bright_white),
-            Routines.ColorRoutine(self.pixels, BUTTON_FIVE_PIXELS, color=Colors.bright_white)
+            Routines.RainbowRoutine(self.pixels, BUTTON_ONE_PIXELS),
+            Routines.RainbowRoutine(self.pixels, BUTTON_TWO_PIXELS),
+            Routines.RainbowRoutine(self.pixels, BUTTON_THREE_PIXELS),
+            Routines.RainbowRoutine(self.pixels, BUTTON_FOUR_PIXELS),
+            Routines.RainbowRoutine(self.pixels, BUTTON_FIVE_PIXELS)
         ])
 
         self.mqtt.listen(self.__parse_mqtt_event)
@@ -119,10 +119,12 @@ class Dollhouse(object):
             self.win_game()
 
     def turn_on_light(self, index):
-        self.light_routines.routines[index] = Routines.ColorRoutine(self.pixels, BUTTON_PIXEL_ADDRESSES[index], color=Colors.soft_white)
+        pass
+        # self.light_routines.routines[index] = Routines.ColorRoutine(self.pixels, BUTTON_PIXEL_ADDRESSES[index], color=Colors.soft_white)
 
     def turn_off_light(self, index):
-        self.light_routines.routines[index] = Routines.BlackoutRoutine(self.pixels, BUTTON_PIXEL_ADDRESSES[index])
+        pass
+        # self.light_routines.routines[index] = Routines.BlackoutRoutine(self.pixels, BUTTON_PIXEL_ADDRESSES[index])
 
     def win_game(self):
         self.mqtt.queue_in_batch_publish({

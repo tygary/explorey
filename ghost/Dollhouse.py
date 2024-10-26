@@ -66,7 +66,7 @@ class Dollhouse(object):
 
     def __init__(self):
         GPIO.setmode(GPIO.BCM)
-        self.pixels = PixelControl(150, led_brightness=180, led_pin=18)
+        self.pixels = PixelControl(150, led_brightness=180, led_pin=21)
         self.mqtt = MqttClient()
 
         def get_callback(button_num):

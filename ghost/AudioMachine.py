@@ -61,6 +61,7 @@ class AudioMachine(object):
     mode = MODE_OFF
 
     def __init__(self):
+        GPIO.cleanup()
         GPIO.setmode(GPIO.BCM)
         self.pixels = PixelControl(700, led_brightness=180, led_pin=21)
         self.mqtt = MqttClient()

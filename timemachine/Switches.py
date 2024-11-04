@@ -109,8 +109,8 @@ class GameThreeWaySwitch(ThreeWaySwitch):
         self.pixels = pixels
         self.top_pixels = top_pixels
         self.bottom_pixels = bottom_pixels
-        self.routine_top = Routines.BlackoutRoutine(top_pixels)
-        self.routine_bottom = Routines.BlackoutRoutine(bottom_pixels)
+        self.routine_top = Routines.BlackoutRoutine(self.pixels, top_pixels)
+        self.routine_bottom = Routines.BlackoutRoutine(self.pixels, bottom_pixels)
 
         self.desired_mode = self.mode
         self.completed = True

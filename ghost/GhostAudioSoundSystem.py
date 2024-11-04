@@ -18,17 +18,17 @@ PENDING_SWITCHBOARD = 10
 STARTUP_TIME = 10
 
 songs = [
-    '/home/admin/explorey/sound/Game-Startup.ogg',
-    '/home/admin/explorey/sound/Game-Running-1.ogg',
-    '/home/admin/explorey/sound/Game-Running-2.ogg',
-    '/home/admin/explorey/sound/Game-Running-3.ogg',
-    '/home/admin/explorey/sound/Game-Running-4.ogg',
-    '/home/admin/explorey/sound/Game-OutOfTime.ogg',
-    '/home/admin/explorey/sound/Game-EnergyGain.ogg',
-    '/home/admin/explorey/sound/Game-RoundWin-2.ogg',
-    '/home/admin/explorey/sound/Game-Over.ogg',
-    '/home/admin/explorey/sound/Game-YouWin.ogg',
-    '/home/admin/explorey/sound/Game-PendingSwitches.ogg',
+    # '/home/admin/explorey/sound/Game-Startup.ogg',
+    # '/home/admin/explorey/sound/Game-Running-1.ogg',
+    # '/home/admin/explorey/sound/Game-Running-2.ogg',
+    # '/home/admin/explorey/sound/Game-Running-3.ogg',
+    # '/home/admin/explorey/sound/Game-Running-4.ogg',
+    # '/home/admin/explorey/sound/Game-OutOfTime.ogg',
+    # '/home/admin/explorey/sound/Game-EnergyGain.ogg',
+    # '/home/admin/explorey/sound/Game-RoundWin-2.ogg',
+    # '/home/admin/explorey/sound/Game-Over.ogg',
+    # '/home/admin/explorey/sound/Game-YouWin.ogg',
+    # '/home/admin/explorey/sound/Game-PendingSwitches.ogg',
 ]
 
 

@@ -10,11 +10,11 @@ def add_event_detection(pin, callback, bothdirections=False, pullup=False):
         if bothdirections:
             GPIO.add_event_detect(pin, GPIO.FALLING, callback=callback)
     except RuntimeError:
-        try:
-            GPIO.remove_event_detect(pin)
-            GPIO.add_event_detect(pin, GPIO.RISING, callback=callback)
-            if bothdirections:
-                GPIO.add_event_detect(pin, GPIO.FALLING, callback=callback)
-        except RuntimeError as e:
-            pass
-            print(f"Error during Event Detection: {e}")
+        # try:
+        GPIO.remove_event_detect(pin)
+        GPIO.add_event_detect(pin, GPIO.RISING, callback=callback)
+        if bothdirections:
+            GPIO.add_event_detect(pin, GPIO.FALLING, callback=callback)
+        # except RuntimeError as e:
+        #     pass
+        #     print(f"Error during Event Detection: {e}")

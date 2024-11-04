@@ -16,7 +16,7 @@ class TwoWaySwitch(object):
         self.mode = GPIO.input(self.pin)
 
     def _on_toggle(self, value):
-        self.mode = GPIO.input(self.pin)
+        self.mode = value
         print(f"Switch toggled:{self.mode}")
 
         if self.callback:

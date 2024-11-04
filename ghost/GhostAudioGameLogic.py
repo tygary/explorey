@@ -46,7 +46,7 @@ class GhostAudioGameLogic(object):
 
     playing_running_out_of_time = False
 
-    def __init__(self, green_button: GameButtonWithFourLights, red_button: GameButtonWithFourLights, switch_a: GameTwoWaySwitch, switch_b: GameTwoWaySwitch, power_switch: GameThreeWaySwitch, switchboard: Switchboard, elevator_buttons: GameElevatorButtons, mqtt, sound, dmx):
+    def __init__(self, green_button: GameButtonWithFourLights, red_button: GameButtonWithFourLights, switch_a: GameTwoWaySwitch, switch_b: GameTwoWaySwitch, power_switch: GameThreeWaySwitch, switchboard: Switchboard, elevator_buttons: GameElevatorButtons, mqtt, sound):
         self.green_button = green_button
         self.red_button = red_button
         self.switch_a = switch_a
@@ -56,7 +56,6 @@ class GhostAudioGameLogic(object):
         self.elevator_buttons = elevator_buttons
         self.mqtt = mqtt
         self.sound = sound
-        self.dmx = dmx
 
     def _get_next_objective(self):
         print("Updating Objectives")

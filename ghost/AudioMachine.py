@@ -14,7 +14,7 @@ from timemachine.Button import GameButtonWithFourLights
 from ghost.ElevatorButtons import GameElevatorButtons
 
 from ghost.GhostAudioSoundSystem import GhostAudioSoundSystem
-
+import ghost.GhostAudioGameLogic as game
 
 EVENT_CARD_FOUND = "cardFound"
 EVENT_CARD_REMOVED = "cardRemoved"
@@ -73,6 +73,8 @@ class AudioMachine(object):
         self.switch_b = GameTwoWaySwitch(self.pixels, SWITCH_B_PIN, SWITCH_B_PIXEL_LEFT, SWITCH_B_PIXEL_RIGHT, self.switch_b_toggled)
         self.power_switch = GameThreeWaySwitch(self.pixels, POWER_SWITCH_A_PIN, POWER_SWITCH_B_PIN, POWER_SWITCH_TOP_PIXELS, POWER_SWITCH_BOTTOM_PIXELS, self.power_switch_toggled)
         self.elevator_buttons = GameElevatorButtons(self.pixels, ELEVATOR_BUTTONS_PINS, ELEVATOR_BUTTONS_PIXELS, self.elevator_button_pressed)
+
+        self.game = game.GhostAudioGameLogic(self.green_button, self.red_button, self.switch_a, self.switch_b, self.power_switch, self.switchboard, self.elevator_buttons, self.mqtt, self.sound)
 
         self.mqtt.listen(self.__parse_mqtt_event)
 
@@ -135,6 +137,7 @@ class AudioMachine(object):
         print("Card detected", card)
         self.current_rfid = card
         self.mode = MODE_SCANNING
+        self.game._change_game_mode(game.GAME_MODE_SCANNING)
         self.next_event_time = time.time() + TIME_BEFORE_READY_TO_PRINT
         self.button.set_light(False)
 
@@ -147,12 +150,14 @@ class AudioMachine(object):
 
     def update(self):
         try:
-            if self.mode is MODE_SCANNING and self.next_event_time and self.next_event_time > time.time():
-                self.mode = MODE_READY_TO_PRINT
-                self.button.flash_light()
-        
-            self.pixels.render()
-            self.button.tick()
+            self.game.update()    
+            self.green_button.tick()
+            self.red_button.tick()
+            self.switch_a.tick()
+            self.switch_b.tick()
+            self.power_switch.tick()
+            self.elevator_buttons.tick()
             self.switchboard.update()
+            self.pixels.render()
         except Exception as e:
             print("Audio Machine failed to update", e)

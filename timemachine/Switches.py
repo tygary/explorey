@@ -32,6 +32,7 @@ class GameTwoWaySwitch(TwoWaySwitch):
         self.desired_mode = self.mode
         self.party_mode = False
         self.completed = True
+        self._update_lights()
 
     def _on_toggle(self, value):
         super()._on_toggle(value)

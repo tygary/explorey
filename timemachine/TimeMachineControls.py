@@ -11,7 +11,7 @@ from mqtt.MqttClient import *
 from timemachine.CoinMachine import CoinMachine
 from lighting.PixelControl import PixelControl
 from timemachine.Button import Button
-from timemachine.ThreeWaySwitch import ThreeWaySwitch
+from timemachine.Switches import ThreeWaySwitch
 from timemachine.TimeMachineSoundSystem import TimeMachineSoundSystem, STARTUP_TIME
 
 

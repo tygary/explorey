@@ -34,6 +34,7 @@ VINE_EIGHT_RFID = "b8f61366080104e0"
 
 MIN_UPDATE_TIME = 10
 
+
 def get_color(color_const):
     if color_const == COLOR_RED:
         return Colors.red

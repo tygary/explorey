@@ -76,11 +76,11 @@ class GameElevatorButtons(ElevatorButtons):
 
     def _update_lights(self):
         if self.party_mode:
-            self.routines = [Routines.RainbowRoutine(self.pixels, light) for light in self.button_lights]
+            self.routines = [Routines.RainbowRoutine(self.pixels, [light]) for light in self.button_lights]
         else:
-            self.routines = [Routines.BlackoutRoutine(self.pixels, light) for light in self.button_lights]
+            self.routines = [Routines.BlackoutRoutine(self.pixels, [light]) for light in self.button_lights]
             if self.desired_button > -1 and not self.completed:
-                self.routines[self.desired_button] = Routines.RainbowRoutine(self.pixels, self.button_lights[self.desired_button])
+                self.routines[self.desired_button] = Routines.RainbowRoutine(self.pixels, [self.button_lights[self.desired_button]])
 
     def _on_button_pressed(self):
         super()._on_button_pressed()

@@ -42,13 +42,13 @@ class GameTwoWaySwitch(TwoWaySwitch):
 
     def _update_lights(self):
         if self.party_mode:
-            self.routine_on = Routines.RainbowRoutine(self.pixels, self.pixel_on)
+            self.routine_on = Routines.RainbowRoutine(self.pixels, [self.pixel_on])
             self.routine_off = Routines.RainbowRoutine(self.pixels, [self.pixel_off])
         elif self.completed:
-            self.routine_on = Routines.BlackoutRoutine(self.pixels, self.pixel_on)
+            self.routine_on = Routines.BlackoutRoutine(self.pixels, [self.pixel_on])
             self.routine_off = Routines.BlackoutRoutine(self.pixels, [self.pixel_off])
         elif self.mode:
-            self.routine_on = Routines.FireRoutine(self.pixels, self.pixel_on)
+            self.routine_on = Routines.FireRoutine(self.pixels, [self.pixel_on])
             self.routine_off = Routines.BlackoutRoutine(self.pixels, [self.pixel_off])
         else:
             self.routine_on = Routines.BlackoutRoutine(self.pixels, [self.pixel_on])

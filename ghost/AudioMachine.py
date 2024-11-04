@@ -66,7 +66,7 @@ class AudioMachine(object):
         self.mqtt = MqttClient()
         self.sound = GhostAudioSoundSystem()
 
-        self.switchboard = Switchboard(self.pixels, [4, 3, 2, 1, 8, 9, 10, 11])
+        self.switchboard = Switchboard(self.pixels, [4, 3, 2, 1, 8, 9, 10, 11], SWITCHBOARD_PINS)
         self.green_button = GameButtonWithFourLights(self.pixels, GREEN_BUTTON_PIN, GREEN_BUTTON_PIXELS, self.green_button_pressed)
         self.red_button = GameButtonWithFourLights(self.pixels, RED_BUTTON_PIN, RED_BUTTON_PIXELS, self.red_button_pressed)
         self.switch_a = GameTwoWaySwitch(self.pixels, SWITCH_A_PIN, SWITCH_A_PIXEL_LEFT, SWITCH_A_PIXEL_RIGHT, self.switch_a_toggled)

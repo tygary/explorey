@@ -40,28 +40,43 @@ class ElevatorButtons(object):
             self.b = GPIO.input(self.pins[1])
             self.c = GPIO.input(self.pins[2])
             self.d = GPIO.input(self.pins[3])
+            print("Elevator Button Pressed: ", self.a, self.b, self.c)
             self._update_mode()
             self.callback(self.mode)
 
     def _update_mode(self):
-        if self.a == 1 and self.b == 1 and self.c == 1 and self.d == 1:
-            self.mode = BUTTON_NONE
-        if self.a == 0 and self.b == 1 and self.c == 1 and self.d == 1:
-            self.mode = BUTTON_UP
-        if self.a == 1 and self.b == 0 and self.c == 1 and self.d == 1:
+        if self.a == 0:
             self.mode = BUTTON_ONE
-        if self.a == 0 and self.b == 0 and self.c == 1 and self.d == 1:
-            self.mode = BUTTON_TWO
-        if self.a == 1 and self.b == 1 and self.c == 0 and self.d == 1:
+            print("Elevator Button One Pressed")
+        elif self.b == 0:
             self.mode = BUTTON_THREE
-        if self.a == 0 and self.b == 1 and self.c == 0 and self.d == 1:
+            print("Elevator Button Three Pressed")
+        elif self.c == 0:
             self.mode = BUTTON_FOUR
-        if self.a == 1 and self.b == 0 and self.c == 0 and self.d == 1:
-            self.mode = BUTTON_FIVE
-        if self.a == 0 and self.b == 0 and self.c == 0 and self.d == 1:
-            self.mode = BUTTON_SIX
-        if self.a == 1 and self.b == 1 and self.c == 1 and self.d == 0:
-            self.mode = BUTTON_DOWN
+            print("Elevator Button Four Pressed")
+        elif self.d == 0:
+            self.mode = BUTTON_UP
+            print("Elevator Button Up Pressed")
+        else:
+            self.mode = BUTTON_NONE
+        # if self.a == 1 and self.b == 1 and self.c == 1 and self.d == 1:
+        #     self.mode = BUTTON_NONE
+        # if self.a == 0 and self.b == 1 and self.c == 1 and self.d == 1:
+        #     self.mode = BUTTON_UP
+        # if self.a == 1 and self.b == 0 and self.c == 1 and self.d == 1:
+        #     self.mode = BUTTON_ONE
+        # if self.a == 0 and self.b == 0 and self.c == 1 and self.d == 1:
+        #     self.mode = BUTTON_TWO
+        # if self.a == 1 and self.b == 1 and self.c == 0 and self.d == 1:
+        #     self.mode = BUTTON_THREE
+        # if self.a == 0 and self.b == 1 and self.c == 0 and self.d == 1:
+        #     self.mode = BUTTON_FOUR
+        # if self.a == 1 and self.b == 0 and self.c == 0 and self.d == 1:
+        #     self.mode = BUTTON_FIVE
+        # if self.a == 0 and self.b == 0 and self.c == 0 and self.d == 1:
+        #     self.mode = BUTTON_SIX
+        # if self.a == 1 and self.b == 1 and self.c == 1 and self.d == 0:
+        #     self.mode = BUTTON_DOWN
 
 
 class GameElevatorButtons(ElevatorButtons):

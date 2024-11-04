@@ -9,7 +9,9 @@ class LeverInputController(object):
     thread = None
     logger = None
 
-    def __init__(self, callback, logger):
+    def __init__(self, callback, logger, pins=None):
+        if pins is not None:
+            self.pins = pins
         self.logger = logger
         for pin in self.pins:
             self.setup_pin(pin)

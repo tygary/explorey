@@ -43,12 +43,12 @@ class Switchboard(object):
 
     }
 
-    def __init__(self, pixels, addresses):
+    def __init__(self, pixels, addresses, pins=None):
         self.addresses = addresses
         self.top_addresses = [addresses[0], addresses[1], addresses[2], addresses[3]]
         self.bottom_addresses = [addresses[4], addresses[5], addresses[6], addresses[7]]
         self.pixels = pixels
-        self.levers = LeverInputController(self._on_levers_changed, self.logger)
+        self.levers = LeverInputController(self._on_levers_changed, self.logger, pins=None)
         self.desired_state = self.levers.get_current_values().copy()
 
         self.blackout_pattern = Routines.BlackoutRoutine(pixels, self.blackout_addresses)

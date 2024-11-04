@@ -99,18 +99,6 @@ class AudioMachine(object):
     def elevator_button_pressed(self):
         print("Elevator Button pressed")
 
-    # def button_pressed(self):
-    #     print("Button pressed")
-    #     if self.mode is MODE_READY_TO_PRINT and self.current_rfid:
-    #         self.mode = MODE_OFF
-    #         self.printer.print_ghost(self.current_rfid)
-    #         self.mqtt.queue_in_batch_publish({
-    #             "event": EVENT_GHOST_UPDATE,
-    #             "reader": self.id,
-    #             "id": self.id,
-    #             "command": EVENT_WRITE_RFID_COMMAND,
-    #         })
-
     def __parse_mqtt_event(self, event):
         try:
             events = json.loads(event)
@@ -139,18 +127,16 @@ class AudioMachine(object):
         self.mode = MODE_SCANNING
         self.game._change_game_mode(game.GAME_MODE_SCANNING)
         self.next_event_time = time.time() + TIME_BEFORE_READY_TO_PRINT
-        self.button.set_light(False)
 
     def __on_card_removed(self):
         print("card removed")
         self.current_rfid = None
         self.mode = MODE_OFF
         self.next_event_time = 0
-        self.button.set_light(False)
 
     def update(self):
         try:
-            self.game.update()    
+            self.game.update()
             self.green_button.tick()
             self.red_button.tick()
             self.switch_a.tick()

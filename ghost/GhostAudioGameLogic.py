@@ -6,6 +6,9 @@ from timemachine.Switches import GameThreeWaySwitch, GameTwoWaySwitch
 from ratlantis.Switchboard import Switchboard
 from ghost.ElevatorButtons import GameElevatorButtons
 
+EVENT_GHOST_UPDATE = "ghostUpdate"
+EVENT_WRITE_RFID_COMMAND = "writeRfid"
+LISTENING_MACHINE_ID = "listening"
 
 GAME_MODE_OFF = 0
 GAME_MODE_SCANNING = 1
@@ -133,10 +136,20 @@ class GhostAudioGameLogic(object):
             print("Game Win!")
             self.celebration_end_time = time.time() + GAME_WIN_TIME
             self._set_party_mode()
+            self.mqtt.queue_in_batch_publish({
+                "event": EVENT_GHOST_UPDATE,
+                "id": LISTENING_MACHINE_ID,
+                "command": EVENT_WRITE_RFID_COMMAND,
+            })
         elif new_mode == GAME_MODE_LOSE:
             print("Game Lose!")
             self.celebration_end_time = time.time() + GAME_OVER_TIME
             self._set_party_mode()
+            self.mqtt.queue_in_batch_publish({
+                "event": EVENT_GHOST_UPDATE,
+                "id": LISTENING_MACHINE_ID,
+                "command": EVENT_WRITE_RFID_COMMAND,
+            })
 
     def update(self):
         now = time.time()

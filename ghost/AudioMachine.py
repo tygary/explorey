@@ -135,15 +135,15 @@ class AudioMachine(object):
         self.next_event_time = 0
 
     def update(self):
-        try:
-            self.game.update()
-            self.green_button.tick()
-            self.red_button.tick()
-            self.switch_a.tick()
-            self.switch_b.tick()
-            self.power_switch.tick()
-            self.elevator_buttons.tick()
-            self.switchboard.update()
-            self.pixels.render()
-        except Exception as e:
-            print("Audio Machine failed to update", e)
+        # try:
+        self.game.update()
+        self.green_button.tick()
+        self.red_button.tick()
+        self.switch_a.tick()
+        self.switch_b.tick()
+        self.power_switch.tick()
+        self.elevator_buttons.tick()
+        self.switchboard.update()
+        self.pixels.render()
+        # except Exception as e:
+        #     print("Audio Machine failed to update", e)

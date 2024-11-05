@@ -206,7 +206,7 @@ class GhostAudioGameLogic(object):
                         is_objective_completed = False
                 if is_objective_completed:
                     print("Objective completed")
-                    if self.current_round == len(NUM_OBJECTIVES):
+                    if self.current_round == NUM_OBJECTIVES:
                         self._change_game_mode(GAME_MODE_WIN)
                     else:
                         self._change_game_mode(GAME_MODE_ROUND_START)

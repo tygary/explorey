@@ -34,7 +34,7 @@ class ElevatorButtons(object):
         self.button_c = Button(self.pins[2], callback=self._on_button_pressed)
         self.button_d = Button(self.pins[3], callback=self._on_button_pressed)
 
-    def _on_button_pressed(self, pin):
+    def _on_button_pressed(self):
         # now = time.time()
         # if now - self.last_button_press > DEBOUNCE_TIME:
         # self.last_button_press = now

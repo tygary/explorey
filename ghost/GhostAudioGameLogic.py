@@ -67,14 +67,14 @@ class GhostAudioGameLogic(object):
             options = [x for x in options if x != self.current_objective]
         self.current_objective = random.choice(options)
         if self.current_objective == OBJECTIVE_SWITCH_A:
-            self.switch_a.desired_mode = not self.switch_a.mode
+            self.switch_a.set_desired_mode(not self.switch_a.mode)
         if self.current_objective == OBJECTIVE_SWITCH_B:
-            self.switch_b.desired_mode = not self.switch_b.mode
+            self.switch_b.set_desired_mode(not self.switch_b.mode)
         if self.current_objective == OBJECTIVE_POWER_SWITCH:
             if self.power_switch.mode == 1:
-                self.power_switch.desired_mode = 3
+                self.power_switch.set_desired_mode(3)
             else:
-                self.power_switch.desired_mode = 1
+                self.power_switch.set_desired_mode(1)
         if self.current_objective == OBJECTIVE_RED_BUTTON:
             self.red_button.set_pending()
         if self.current_objective == OBJECTIVE_GREEN_BUTTON:
@@ -83,7 +83,7 @@ class GhostAudioGameLogic(object):
             self.switchboard.request_new_state()
             # self.sound.play_pending_switchboard()
         if self.current_objective == OBJECTIVE_ELEVATOR_BUTTONS:
-            self.elevator_buttons.desired_button = random.choice([1, 3, 4, 7])
+            self.elevator_buttons.set_desired_button(random.choice([1, 3, 4, 7]))
         print("New Objective:", self.current_objective)
 
     def _set_party_mode(self):

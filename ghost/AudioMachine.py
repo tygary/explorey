@@ -51,7 +51,7 @@ ELEVATOR_BUTTONS_PIXELS = [48, 49, 50, 51, 52, 53, 54, 55]
 SWITCHBOARD_DECO_PIXELS = [16, 17, 18, 19, 20, 21, 22, 23]
 HEADPHONE_DECO_PIXELS_TOP = [69, 70, 71, 72, 73, 74, 75, 76]
 HEADPHONE_DECO_PIXELS_BOTTOM = [80, 81, 82, 83, 84, 85, 86, 87]
-PEDESTAL_DECO_PIXELS = range(88, 104)
+PEDESTAL_DECO_PIXELS = list(range(88, 104))
 
 
 class AudioMachine(object):
@@ -87,7 +87,7 @@ class AudioMachine(object):
 
         if self.game.mode is game.GAME_MODE_OFF:
             self.deco_routine = Routines.BleuRoutine(self.pixels, SWITCHBOARD_DECO_PIXELS + PEDESTAL_DECO_PIXELS)
-        elif self.game.mode in [game.GAME_MODE_SCANNING, game.GAME_MODE_READY, game.GAME_MODE_WIN] :
+        elif self.game.mode in [game.GAME_MODE_SCANNING, game.GAME_MODE_READY, game.GAME_MODE_WIN]:
             self.deco_routine = Routines.RainbowRoutine(self.pixels, SWITCHBOARD_DECO_PIXELS + PEDESTAL_DECO_PIXELS)
         elif self.game.mode in [game.GAME_MODE_ROUND_START, game.GAME_MODE_RUNNING]:
             self.deco_routine = Routines.ColorRoutine(self.pixels, SWITCHBOARD_DECO_PIXELS + PEDESTAL_DECO_PIXELS, Colors.green)

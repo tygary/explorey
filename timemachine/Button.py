@@ -24,7 +24,7 @@ class Button(object):
         self.button_light_pin = button_light_pin
         self.callback = callback
 
-        add_event_detection(self.button_pin, callback=self._on_press)
+        add_event_detection(self.button_pin, callback=self._on_press, pullup=True)
         if button_light_pin > 0:
             GPIO.setup(self.button_light_pin, GPIO.OUT)
 

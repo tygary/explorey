@@ -74,8 +74,8 @@ class AudioMachine(object):
         self.power_switch = GameThreeWaySwitch(self.pixels, POWER_SWITCH_A_PIN, POWER_SWITCH_B_PIN, POWER_SWITCH_TOP_PIXELS, POWER_SWITCH_BOTTOM_PIXELS, self.power_switch_toggled)
         self.elevator_buttons = GameElevatorButtons(self.pixels, ELEVATOR_BUTTONS_PINS, ELEVATOR_BUTTONS_PIXELS, self.elevator_button_pressed)
 
-        self.game = game.GhostAudioGameLogic(self.green_button, self.red_button, self.switch_a, self.switch_b, self.power_switch, self.switchboard, self.elevator_buttons, self.mqtt, self.sound)
-
+        self.game = game.GhostAudioGameLogic(self.green_button, self.red_button, self.switch_a, self.switch_b, self.power_switch, self.switchboard, self.elevator_buttons, self.mqtt, self.sound, on_change_mode=self._update_deco_lights)
+        self._update_deco_lights()
         self.mqtt.listen(self.__parse_mqtt_event)
 
     def _update_deco_lights(self):

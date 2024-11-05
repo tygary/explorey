@@ -49,7 +49,7 @@ class GhostAudioGameLogic(object):
 
     playing_running_out_of_time = False
 
-    def __init__(self, green_button: GameButtonWithFourLights, red_button: GameButtonWithFourLights, switch_a: GameTwoWaySwitch, switch_b: GameTwoWaySwitch, power_switch: GameThreeWaySwitch, switchboard: Switchboard, elevator_buttons: GameElevatorButtons, mqtt, sound):
+    def __init__(self, green_button: GameButtonWithFourLights, red_button: GameButtonWithFourLights, switch_a: GameTwoWaySwitch, switch_b: GameTwoWaySwitch, power_switch: GameThreeWaySwitch, switchboard: Switchboard, elevator_buttons: GameElevatorButtons, mqtt, sound, on_change_mode):
         self.green_button = green_button
         self.red_button = red_button
         self.switch_a = switch_a
@@ -59,6 +59,7 @@ class GhostAudioGameLogic(object):
         self.elevator_buttons = elevator_buttons
         self.mqtt = mqtt
         self.sound = sound
+        self.on_change_mode = on_change_mode
 
     def _get_next_objective(self):
         print("Updating Objectives")
@@ -150,6 +151,7 @@ class GhostAudioGameLogic(object):
                 "id": LISTENING_MACHINE_ID,
                 "command": EVENT_WRITE_RFID_COMMAND,
             })
+        self.on_change_mode()
 
     def update(self):
         now = time.time()

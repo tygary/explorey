@@ -77,14 +77,17 @@ class GameButtonWithFourLights(Button):
 
     def _on_press(self, value):
         super()._on_press(value)
-        self.pending = False
-        self.completed = True
+        if (self.pending and not self.completed):
+            print("Completed Button!")
+            self.pending = False
+            self.completed = True
 
     def _set_light(self, on):
         super().__set_light(on)
         self._update_routine()
 
     def set_pending(self):
+        print("Button set pending")
         self.pending = True
         self.completed = False
         self.party_mode = False

@@ -167,6 +167,11 @@ class GhostAudioGameLogic(object):
                 print("Finished waiting for next round")
                 self._change_game_mode(GAME_MODE_RUNNING)
                 return
+        elif self.mode == GAME_MODE_READY:
+            if self.green_button.completed:
+                print("Starting Game!")
+                self._change_game_mode(GAME_MODE_ROUND_START)
+                return
         elif self.mode == GAME_MODE_RUNNING:
             if now >= self.round_end_time:
                 print("Ran out of time")

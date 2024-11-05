@@ -81,7 +81,7 @@ class AudioMachine(object):
 
     def green_button_pressed(self):
         print("Green Button pressed")
-
+        
     def red_button_pressed(self):
         print("Red Button pressed")
 

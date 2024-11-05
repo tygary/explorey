@@ -92,7 +92,7 @@ class AudioMachine(object):
         if self.game.mode is game.GAME_MODE_OFF:
             self.deco_routine = Routines.MushroomRoutine(self.pixels, SWITCHBOARD_DECO_PIXELS + PEDESTAL_DECO_PIXELS)
         elif self.game.mode in [game.GAME_MODE_SCANNING, game.GAME_MODE_READY]:
-            self.deco_routine = Routines.FireRoutine(self.pixels, SWITCHBOARD_DECO_PIXELS + PEDESTAL_DECO_PIXELS, Colors.light_green)
+            self.deco_routine = Routines.FireRoutine(self.pixels, SWITCHBOARD_DECO_PIXELS + PEDESTAL_DECO_PIXELS, [Colors.light_green])
         elif self.game.mode in [game.GAME_MODE_ROUND_START, game.GAME_MODE_RUNNING]:
             self.deco_routine = Routines.ColorRoutine(self.pixels, SWITCHBOARD_DECO_PIXELS + PEDESTAL_DECO_PIXELS, Colors.green)
         elif self.game.mode is game.GAME_MODE_WIN:

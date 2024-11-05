@@ -54,7 +54,7 @@ ELEVATOR_BUTTONS_PIXELS = [46, 47, 48, 49, 50, 51, 52, 53]
 
 
 class AudioMachine(object):
-    id = "printer"
+    id = "listening"
     current_rfid = None
     light_routines = []
     next_event_time = 0
@@ -101,26 +101,26 @@ class AudioMachine(object):
         print("Elevator Button pressed")
 
     def __parse_mqtt_event(self, event):
-        try:
-            events = json.loads(event)
-            if not type(events) in (tuple, list):
-                events = [events]
-            for data in events:
-                if data and data["event"]:
-                    event = data["event"]
-                    if event == EVENT_CARD_FOUND or event == EVENT_CARD_REMOVED or event == EVENT_FINISHED_BOOT:
-                        reader_name = data["reader"]
-                        if reader_name == self.id:
-                            if event == EVENT_CARD_FOUND:
-                                card_id = data["card"]
-                                self.__on_card_detected(card_id)
-                            elif event == EVENT_CARD_REMOVED:
-                                self.__on_card_removed()
-                            elif event == EVENT_FINISHED_BOOT:
-                                pass
-                                # Nothing yet
-        except Exception as e:
-            print("Artifact Failed parsing event", event, e)
+        # try:
+        events = json.loads(event)
+        if not type(events) in (tuple, list):
+            events = [events]
+        for data in events:
+            if data and data["event"]:
+                event = data["event"]
+                if event == EVENT_CARD_FOUND or event == EVENT_CARD_REMOVED or event == EVENT_FINISHED_BOOT:
+                    reader_name = data["reader"]
+                    if reader_name == self.id:
+                        if event == EVENT_CARD_FOUND:
+                            card_id = data["card"]
+                            self.__on_card_detected(card_id)
+                        elif event == EVENT_CARD_REMOVED:
+                            self.__on_card_removed()
+                        elif event == EVENT_FINISHED_BOOT:
+                            pass
+                            # Nothing yet
+        # except Exception as e:
+        #     print("Artifact Failed parsing event", event, e)
 
     def __on_card_detected(self, card):
         print("Card detected", card)

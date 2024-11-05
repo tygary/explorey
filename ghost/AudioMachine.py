@@ -81,24 +81,30 @@ class AudioMachine(object):
 
     def green_button_pressed(self):
         print("Green Button pressed")
+        self.update()
         
     def red_button_pressed(self):
         print("Red Button pressed")
+        self.update()
 
     def switch_a_toggled(self, value):
         completed = self.switch_a.desired_mode == value
         print("Switch A toggled", value, completed)
+        self.update()
 
     def switch_b_toggled(self, value):
         completed = self.switch_b.desired_mode == value
         print("Switch B toggled", value, completed)
+        self.update()
 
     def power_switch_toggled(self, value):
         completed = self.power_switch.desired_mode == value
         print("Power Switch toggled", value, completed)
+        self.update()
 
     def elevator_button_pressed(self, button_num):
         print("Elevator Button pressed")
+        self.update()
 
     def __parse_mqtt_event(self, event):
         try:

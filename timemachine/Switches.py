@@ -25,7 +25,7 @@ class TwoWaySwitch(object):
 
 
 class GameTwoWaySwitch(TwoWaySwitch):
-    def __init__(self, pixels, pin, pixel_on, pixel_off, callback=None):
+    def __init__(self, pixels, pin, pixel_off, pixel_on, callback=None):
         super().__init__(pin, callback)
         self.pixels = pixels
         self.pixel_on = pixel_on

@@ -80,24 +80,30 @@ class AudioMachine(object):
 
     def _update_deco_lights(self):
 
-        if self.game.mode in [game.GAME_MODE_SCANNING, game.GAME_MODE_ROUND_START, game.GAME_MODE_READY, game.GAME_MODE_RUNNING]:
+        if self.game.mode in [game.GAME_MODE_SCANNING, game.GAME_MODE_READY]:
+            self.headphone_routine = Routines.PulseRoutine(self.pixels, HEADPHONE_DECO_PIXELS_TOP + HEADPHONE_DECO_PIXELS_BOTTOM, Colors.green, 0.5)
+        elif self.game.mode in [game.GAME_MODE_ROUND_START, game.GAME_MODE_RUNNING]:
             self.headphone_routine = Routines.ColorRoutine(self.pixels, HEADPHONE_DECO_PIXELS_TOP + HEADPHONE_DECO_PIXELS_BOTTOM, Colors.green)
+        elif self.game.mode in [game.GAME_MODE_WIN, game.GAME_MODE_LOSE]:
+            self.headphone_routine = Routines.PulseRoutine(self.pixels, HEADPHONE_DECO_PIXELS_TOP + HEADPHONE_DECO_PIXELS_BOTTOM, Colors.red, 0.5)
         else:
             self.headphone_routine = Routines.BlackoutRoutine(self.pixels, HEADPHONE_DECO_PIXELS_TOP + HEADPHONE_DECO_PIXELS_BOTTOM)
 
         if self.game.mode is game.GAME_MODE_OFF:
-            self.deco_routine = Routines.BleuRoutine(self.pixels, SWITCHBOARD_DECO_PIXELS + PEDESTAL_DECO_PIXELS)
-        elif self.game.mode in [game.GAME_MODE_SCANNING, game.GAME_MODE_READY, game.GAME_MODE_WIN]:
-            self.deco_routine = Routines.RainbowRoutine(self.pixels, SWITCHBOARD_DECO_PIXELS + PEDESTAL_DECO_PIXELS)
+            self.deco_routine = Routines.MushroomRoutine(self.pixels, SWITCHBOARD_DECO_PIXELS + PEDESTAL_DECO_PIXELS)
+        elif self.game.mode in [game.GAME_MODE_SCANNING, game.GAME_MODE_READY]:
+            self.deco_routine = Routines.FireRoutine(self.pixels, SWITCHBOARD_DECO_PIXELS + PEDESTAL_DECO_PIXELS, Colors.light_green)
         elif self.game.mode in [game.GAME_MODE_ROUND_START, game.GAME_MODE_RUNNING]:
             self.deco_routine = Routines.ColorRoutine(self.pixels, SWITCHBOARD_DECO_PIXELS + PEDESTAL_DECO_PIXELS, Colors.green)
+        elif self.game.mode is game.GAME_MODE_WIN:
+            self.deco_routine = Routines.RainbowRoutine(self.pixels, SWITCHBOARD_DECO_PIXELS + PEDESTAL_DECO_PIXELS)
         elif self.game.mode is game.GAME_MODE_LOSE:
-            self.deco_routine = Routines.ColorRoutine(self.pixels, SWITCHBOARD_DECO_PIXELS + PEDESTAL_DECO_PIXELS, Colors.red)
+            self.deco_routine = Routines.PulseRoutine(self.pixels, SWITCHBOARD_DECO_PIXELS + PEDESTAL_DECO_PIXELS, Colors.red, 0.5)
 
     def green_button_pressed(self):
         print("Green Button pressed")
         self.update()
-        
+
     def red_button_pressed(self):
         print("Red Button pressed")
         self.update()

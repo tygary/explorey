@@ -111,7 +111,7 @@ class GhostAudioGameLogic(object):
 
         if new_mode == GAME_MODE_OFF:
             print("Game is off")
-            self.sound.play_ambient()
+            # self.sound.play_ambient()
             self.switchboard.do_ambient()
         elif new_mode == GAME_MODE_SCANNING:
             print("Game Scanning")
@@ -179,7 +179,7 @@ class GhostAudioGameLogic(object):
                 return
             if now >= self.round_end_time - LOW_ENERGY_LEVEL_TIME_S and not self.playing_running_out_of_time:
                 print("Running low on time")
-                self.sound.play_running_out_of_time()
+                # self.sound.play_running_out_of_time()
                 self.playing_running_out_of_time = True
 
                 is_objective_completed = True

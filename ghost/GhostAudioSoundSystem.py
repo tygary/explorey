@@ -44,17 +44,17 @@ class GhostAudioSoundSystem(object):
 
     def stop_all(self):
         # self.player.stop_music(AMBIENT)
-        self.player.stop_music(GAME_START)
-        self.player.stop_music(ON_0)
-        self.player.stop_music(ON_1)
-        self.player.stop_music(ON_2)
-        self.player.stop_music(ON_3)
-        self.player.stop_music(RUNNING_OUT_OF_TIME)
-        self.player.stop_music(ENERGY_GAIN)
-        self.player.stop_music(ROUND_SUCCESS)
-        self.player.stop_music(GAME_OVER)
-        self.player.stop_music(YOU_WIN)
-        self.player.stop_music(PENDING_SWITCHBOARD)
+        # self.player.stop_music(GAME_START)
+        # self.player.stop_music(ON_0)
+        # self.player.stop_music(ON_1)
+        # self.player.stop_music(ON_2)
+        # self.player.stop_music(ON_3)
+        # self.player.stop_music(RUNNING_OUT_OF_TIME)
+        # self.player.stop_music(ENERGY_GAIN)
+        # self.player.stop_music(ROUND_SUCCESS)
+        # self.player.stop_music(GAME_OVER)
+        # self.player.stop_music(YOU_WIN)
+        # self.player.stop_music(PENDING_SWITCHBOARD)
         self.is_playing_ambient = False
         self.is_playing_running_out_of_time = False
         self.is_playing_pending_switchboard = False
@@ -78,25 +78,25 @@ class GhostAudioSoundSystem(object):
     def play_running_out_of_time(self):
         if not self.is_playing_running_out_of_time:
             print("Playing Running out of time")
-            self.player.play_song(RUNNING_OUT_OF_TIME, 1, channel=RUNNING_OUT_OF_TIME)
+            # self.player.play_song(RUNNING_OUT_OF_TIME, 1, channel=RUNNING_OUT_OF_TIME)
             self.is_playing_running_out_of_time = True
 
     def stop_running_out_of_time(self):
         if self.is_playing_running_out_of_time:
             print("Stopping Running out of time")
-            self.player.stop_music(RUNNING_OUT_OF_TIME)
+            # self.player.stop_music(RUNNING_OUT_OF_TIME)
             self.is_playing_running_out_of_time = False
 
     def play_pending_switchboard(self):
         if not self.is_playing_pending_switchboard:
             print("Playing pending switchboard")
-            self.player.play_song(PENDING_SWITCHBOARD, 1, channel=PENDING_SWITCHBOARD)
+            # self.player.play_song(PENDING_SWITCHBOARD, 1, channel=PENDING_SWITCHBOARD)
             self.is_playing_pending_switchboard = True
 
     def stop_pending_switchboard(self):
         if self.is_playing_pending_switchboard:
             print("Stopping Pending Switchboard")
-            self.player.stop_music(PENDING_SWITCHBOARD)
+            # self.player.stop_music(PENDING_SWITCHBOARD)
             self.is_playing_pending_switchboard = False
 
     def play_energy_gain(self):

@@ -23,24 +23,30 @@ class ElevatorButtons(object):
     a = 0
     b = 0
     c = 0
+    d = 0
 
     def __init__(self, pins, callback):
         self.pins = pins
         self.callback = callback
 
-        self.button_a = Button(pins[0], callback=self._on_button_pressed)
-        self.button_b = Button(pins[1], callback=self._on_button_pressed)
-        self.button_c = Button(pins[2], callback=self._on_button_pressed)
-        self.button_d = Button(pins[3], callback=self._on_button_pressed)
+        self.button_a = Button(self.pins[0], callback=self._on_button_pressed)
+        self.button_b = Button(self.pins[1], callback=self._on_button_pressed)
+        self.button_c = Button(self.pins[2], callback=self._on_button_pressed)
+        self.button_d = Button(self.pins[3], callback=self._on_button_pressed)
 
-    def _on_button_pressed(self):
-        now = time.time()
-        if now - self.last_button_press > DEBOUNCE_TIME:
-            self.last_button_press = now
-            self.a = GPIO.input(self.pins[0])
-            self.b = GPIO.input(self.pins[1])
-            self.c = GPIO.input(self.pins[2])
-            self.d = GPIO.input(self.pins[3])
+    def _on_button_pressed(self, pin):
+        # now = time.time()
+        # if now - self.last_button_press > DEBOUNCE_TIME:
+        # self.last_button_press = now
+        old_a = self.a
+        old_b = self.b
+        old_c = self.c
+        old_d = self.d
+        self.a = GPIO.input(self.pins[0])
+        self.b = GPIO.input(self.pins[1])
+        self.c = GPIO.input(self.pins[2])
+        self.d = GPIO.input(self.pins[3])
+        if self.a != old_a or self.b != old_b or self.c != old_c or self.d != old_d:
             print("Elevator Button Pressed: ", self.a, self.b, self.c)
             self._update_mode()
             self.callback(self.mode)

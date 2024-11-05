@@ -87,6 +87,7 @@ class ThreeWaySwitch(object):
 
         add_event_detection(self.pin_a, bothdirections=True, callback=self._on_toggle, pullup=True)
         add_event_detection(self.pin_b, bothdirections=True, callback=self._on_toggle, pullup=True)
+        self.mode = 2
         self._update_mode()
 
     def _update_mode(self):

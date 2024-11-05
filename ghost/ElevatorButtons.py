@@ -31,6 +31,7 @@ class ElevatorButtons(object):
         self.button_a = Button(pins[0])
         self.button_b = Button(pins[1])
         self.button_c = Button(pins[2])
+        self.button_d = Button(pins[3])
 
     def _on_button_pressed(self):
         now = time.time()

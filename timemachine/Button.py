@@ -58,10 +58,10 @@ class Button(object):
 
 
 class GameButtonWithFourLights(Button):
-    def __init__(self, pixels, button_pin, button_light_pins, callback=None):
+    def __init__(self, pixels, button_pin, button_light_pixels, callback=None):
         super().__init__(button_pin, -1, callback)
         self.pixels = pixels
-        self.button_light_pins = button_light_pins
+        self.button_light_pixels = button_light_pixels
         self.pending = False
         self.completed = False
         self.party_mode = False
@@ -69,11 +69,11 @@ class GameButtonWithFourLights(Button):
 
     def _update_routine(self):
         if self.party_mode:
-            self.routine = Routines.RainbowRoutine(self.pixels, self.button_light_pins)
+            self.routine = Routines.RainbowRoutine(self.pixels, self.button_light_pixels)
         elif self.pending:
-            self.routine = Routines.FireRoutine(self.pixels, self.button_light_pins)
+            self.routine = Routines.FireRoutine(self.pixels, self.button_light_pixels)
         else:
-            self.routine = Routines.BlackoutRoutine(self.pixels, self.button_light_pins)
+            self.routine = Routines.BlackoutRoutine(self.pixels, self.button_light_pixels)
 
     def _on_press(self, value):
         super()._on_press(value)

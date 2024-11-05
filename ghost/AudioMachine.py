@@ -26,10 +26,6 @@ EVENT_WRITE_RFID_COMMAND = "writeRfid"
 
 BUTTON_PIN = 1
 
-MODE_OFF = 0
-MODE_SCANNING = 1
-MODE_READY_TO_PRINT = 2
-
 TIME_BEFORE_READY_TO_PRINT = 5
 
 SWITCHBOARD_PINS = [16, 13, 25, 24]
@@ -52,13 +48,16 @@ POWER_SWITCH_TOP_PIXELS = [32, 33]
 POWER_SWITCH_BOTTOM_PIXELS = [28, 29]
 ELEVATOR_BUTTONS_PIXELS = [48, 49, 50, 51, 52, 53, 54, 55]
 
+SWITCHBOARD_DECO_PIXELS = [16, 17, 18, 19, 20, 21, 22, 23]
+HEADPHONE_DECO_PIXELS_TOP = [69, 70, 71, 72, 73, 74, 75, 76]
+HEADPHONE_DECO_PIXELS_BOTTOM = [80, 81, 82, 83, 84, 85, 86, 87]
+PEDESTAL_DECO_PIXELS = range(88, 104)
+
 
 class AudioMachine(object):
     id = "listening"
     current_rfid = None
-    light_routines = []
     next_event_time = 0
-    mode = MODE_OFF
 
     def __init__(self):
         GPIO.cleanup()
@@ -78,6 +77,22 @@ class AudioMachine(object):
         self.game = game.GhostAudioGameLogic(self.green_button, self.red_button, self.switch_a, self.switch_b, self.power_switch, self.switchboard, self.elevator_buttons, self.mqtt, self.sound)
 
         self.mqtt.listen(self.__parse_mqtt_event)
+
+    def _update_deco_lights(self):
+
+        if self.game.mode in [game.GAME_MODE_SCANNING, game.GAME_MODE_ROUND_START, game.GAME_MODE_READY, game.GAME_MODE_RUNNING]:
+            self.headphone_routine = Routines.ColorRoutine(self.pixels, HEADPHONE_DECO_PIXELS_TOP + HEADPHONE_DECO_PIXELS_BOTTOM, Colors.green)
+        else:
+            self.headphone_routine = Routines.BlackoutRoutine(self.pixels, HEADPHONE_DECO_PIXELS_TOP + HEADPHONE_DECO_PIXELS_BOTTOM)
+
+        if self.game.mode is game.GAME_MODE_OFF:
+            self.deco_routine = Routines.BleuRoutine(self.pixels, SWITCHBOARD_DECO_PIXELS + PEDESTAL_DECO_PIXELS)
+        elif self.game.mode in [game.GAME_MODE_SCANNING, game.GAME_MODE_READY, game.GAME_MODE_WIN] :
+            self.deco_routine = Routines.RainbowRoutine(self.pixels, SWITCHBOARD_DECO_PIXELS + PEDESTAL_DECO_PIXELS)
+        elif self.game.mode in [game.GAME_MODE_ROUND_START, game.GAME_MODE_RUNNING]:
+            self.deco_routine = Routines.ColorRoutine(self.pixels, SWITCHBOARD_DECO_PIXELS + PEDESTAL_DECO_PIXELS, Colors.green)
+        elif self.game.mode is game.GAME_MODE_LOSE:
+            self.deco_routine = Routines.ColorRoutine(self.pixels, SWITCHBOARD_DECO_PIXELS + PEDESTAL_DECO_PIXELS, Colors.red)
 
     def green_button_pressed(self):
         print("Green Button pressed")
@@ -131,14 +146,12 @@ class AudioMachine(object):
     def __on_card_detected(self, card):
         print("Card detected", card)
         self.current_rfid = card
-        self.mode = MODE_SCANNING
         self.game._change_game_mode(game.GAME_MODE_SCANNING)
         self.next_event_time = time.time() + TIME_BEFORE_READY_TO_PRINT
 
     def __on_card_removed(self):
         print("card removed")
         self.current_rfid = None
-        self.mode = MODE_OFF
         self.next_event_time = 0
 
     def update(self):
@@ -151,6 +164,8 @@ class AudioMachine(object):
         self.power_switch.tick()
         self.elevator_buttons.tick()
         self.switchboard.update()
+        self.deco_routine.tick()
+        self.headphone_routine.tick()
         self.pixels.render()
         # except Exception as e:
         #     print("Audio Machine failed to update", e)

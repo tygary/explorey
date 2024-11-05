@@ -97,7 +97,7 @@ class AudioMachine(object):
         completed = self.power_switch.desired_mode == value
         print("Power Switch toggled", value, completed)
 
-    def elevator_button_pressed(self):
+    def elevator_button_pressed(self, button_num):
         print("Elevator Button pressed")
 
     def __parse_mqtt_event(self, event):

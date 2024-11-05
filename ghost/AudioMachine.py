@@ -81,7 +81,7 @@ class AudioMachine(object):
     def _update_deco_lights(self):
 
         if self.game.mode in [game.GAME_MODE_SCANNING, game.GAME_MODE_READY]:
-            self.headphone_routine = Routines.PulseRoutine(self.pixels, HEADPHONE_DECO_PIXELS_TOP + HEADPHONE_DECO_PIXELS_BOTTOM, Colors.green, 0.5)
+            self.headphone_routine = Routines.PulseRoutine(self.pixels, HEADPHONE_DECO_PIXELS_TOP + HEADPHONE_DECO_PIXELS_BOTTOM, Colors.green, 0.05)
         elif self.game.mode in [game.GAME_MODE_ROUND_START, game.GAME_MODE_RUNNING]:
             self.headphone_routine = Routines.ColorRoutine(self.pixels, HEADPHONE_DECO_PIXELS_TOP + HEADPHONE_DECO_PIXELS_BOTTOM, Colors.green)
         elif self.game.mode in [game.GAME_MODE_WIN, game.GAME_MODE_LOSE]:

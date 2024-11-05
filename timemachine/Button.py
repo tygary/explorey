@@ -3,6 +3,7 @@ import time
 
 from printer.addeventdetection import add_event_detection
 from lighting.routines import Routines
+from lighting.Colors import Colors
 
 
 WAIT_TIME = 0.2
@@ -71,7 +72,7 @@ class GameButtonWithFourLights(Button):
         if self.party_mode:
             self.routine = Routines.RainbowRoutine(self.pixels, self.button_light_pixels)
         elif self.pending:
-            self.routine = Routines.FireRoutine(self.pixels, self.button_light_pixels)
+            self.routine = Routines.PulseRoutine(self.pixels, self.button_light_pixels, Colors.mid_green)
         else:
             self.routine = Routines.BlackoutRoutine(self.pixels, self.button_light_pixels)
 

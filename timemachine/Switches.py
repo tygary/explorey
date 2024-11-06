@@ -49,11 +49,11 @@ class GameTwoWaySwitch(TwoWaySwitch):
             self.routine_on = Routines.BlackoutRoutine(self.pixels, [self.pixel_on])
             self.routine_off = Routines.BlackoutRoutine(self.pixels, [self.pixel_off])
         elif self.mode:
-            self.routine_on = Routines.FireRoutine(self.pixels, [self.pixel_on])
+            self.routine_on = Routines.RainbowRoutine(self.pixels, [self.pixel_on])
             self.routine_off = Routines.BlackoutRoutine(self.pixels, [self.pixel_off])
         else:
             self.routine_on = Routines.BlackoutRoutine(self.pixels, [self.pixel_on])
-            self.routine_off = Routines.FireRoutine(self.pixels, [self.pixel_off])
+            self.routine_off = Routines.RainbowRoutine(self.pixels, [self.pixel_off])
 
     def set_desired_mode(self, mode):
         self.desired_mode = mode
@@ -136,11 +136,11 @@ class GameThreeWaySwitch(ThreeWaySwitch):
             self.routine_top = Routines.BlackoutRoutine(self.pixels, self.top_pixels)
             self.routine_bottom = Routines.BlackoutRoutine(self.pixels, self.bottom_pixels)
         elif self.desired_mode == 1:
-            self.routine_top = Routines.FireRoutine(self.pixels, self.top_pixels)
+            self.routine_top = Routines.RainbowRoutine(self.pixels, self.top_pixels)
             self.routine_bottom = Routines.BlackoutRoutine(self.pixels, self.bottom_pixels)
         elif self.desired_mode == 3:
             self.routine_top = Routines.BlackoutRoutine(self.pixels, self.top_pixels)
-            self.routine_bottom = Routines.FireRoutine(self.pixels, self.bottom_pixels)
+            self.routine_bottom = Routines.RainbowRoutine(self.pixels, self.bottom_pixels)
 
     def set_desired_mode(self, mode):
         self.desired_mode = mode

@@ -72,7 +72,7 @@ class GameButtonWithFourLights(Button):
         if self.party_mode:
             self.routine = Routines.RainbowRoutine(self.pixels, self.button_light_pixels)
         elif self.pending:
-            self.routine = Routines.PulseRoutine(self.pixels, self.button_light_pixels, Colors.mid_green)
+            self.routine = Routines.RainbowRoutine(self.pixels, self.button_light_pixels)
         else:
             self.routine = Routines.BlackoutRoutine(self.pixels, self.button_light_pixels)
 

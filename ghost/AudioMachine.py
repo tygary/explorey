@@ -176,5 +176,6 @@ class AudioMachine(object):
         self.deco_routine.tick()
         self.headphone_routine.tick()
         self.pixels.render()
+        self.mqtt.publish_batch()
         # except Exception as e:
         #     print("Audio Machine failed to update", e)

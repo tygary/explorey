@@ -20,12 +20,12 @@ class Button(object):
 
     waiting = 0
 
-    def __init__(self, button_pin, button_light_pin=-1, callback=None):
+    def __init__(self, button_pin, button_light_pin=-1, callback=None, pullup=False):
         self.button_pin = button_pin
         self.button_light_pin = button_light_pin
         self.callback = callback
 
-        add_event_detection(self.button_pin, callback=self._on_press, pullup=True)
+        add_event_detection(self.button_pin, callback=self._on_press, pullup=pullup)
         if button_light_pin > 0:
             GPIO.setup(self.button_light_pin, GPIO.OUT)
 
@@ -60,7 +60,7 @@ class Button(object):
 
 class GameButtonWithFourLights(Button):
     def __init__(self, pixels, button_pin, button_light_pixels, callback=None):
-        super().__init__(button_pin, -1, callback)
+        super().__init__(button_pin, -1, callback, pullup=True)
         self.pixels = pixels
         self.button_light_pixels = button_light_pixels
         self.pending = False

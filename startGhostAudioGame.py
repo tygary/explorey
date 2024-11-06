@@ -1,7 +1,7 @@
 from ghost.AudioMachine import AudioMachine
 import time
 
-print("Dollhouse started, enter 'machine.stop()' before exiting")
+print("Ghost audio game started, enter 'machine.stop()' before exiting")
 
 machine = AudioMachine()
 

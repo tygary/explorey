@@ -76,9 +76,15 @@ class AudioMachine(object):
         self.power_switch = GameThreeWaySwitch(self.pixels, POWER_SWITCH_A_PIN, POWER_SWITCH_B_PIN, POWER_SWITCH_TOP_PIXELS, POWER_SWITCH_BOTTOM_PIXELS, self.power_switch_toggled)
         self.elevator_buttons = GameElevatorButtons(self.pixels, ELEVATOR_BUTTONS_PINS, ELEVATOR_BUTTONS_PIXELS, self.elevator_button_pressed)
 
-        self.game = game.GhostAudioGameLogic(self.green_button, self.red_button, self.switch_a, self.switch_b, self.power_switch, self.switchboard, self.elevator_buttons, self.mqtt, self.sound, on_change_mode=self._update_deco_lights)
+        self.game = game.GhostAudioGameLogic(self.green_button, self.red_button, self.switch_a, self.switch_b, self.power_switch, self.switchboard, self.elevator_buttons, self.mqtt, self.sound, on_change_mode=self._on_change_mode)
         self._update_deco_lights()
         self.mqtt.listen(self.__parse_mqtt_event)
+
+    def _on_change_mode(self, mode):
+        print("Mode changed to", mode)
+        if mode in [game.GAME_MODE_OFF, game.GAME_MODE_WIN, game.GAME_MODE_LOSE]:
+            self.current_rfid = None
+        self._update_deco_lights()
 
     def _update_deco_lights(self):
 
@@ -153,10 +159,9 @@ class AudioMachine(object):
 
     def __on_card_detected(self, card):
         print("Card detected", card)
-        if self.current_rfid != card:
+        if self.current_rfid != card and self.game.mode not in [game.GAME_MODE_RUNNING, game.GAME_MODE_ROUND_START, game.GAME_MODE_WIN]:
             self.current_rfid = card
             self.game._change_game_mode(game.GAME_MODE_SCANNING)
-            self.next_event_time = time.time() + TIME_BEFORE_READY_TO_PRINT
 
     def __on_card_removed(self):
         print("card removed")

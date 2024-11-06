@@ -120,6 +120,7 @@ class GhostAudioGameLogic(object):
             self._turn_off_inputs()
             # self.sound.play_ambient()
             self.switchboard.do_ambient()
+            self.game_timeout_time = 0
             self.mqtt.queue_in_batch_publish({
                 "event": EVENT_GHOST_UPDATE,
                 "id": LISTENING_MACHINE_ID,
@@ -148,6 +149,7 @@ class GhostAudioGameLogic(object):
             self.next_round_start_time = time.time() + ROUND_START_TIME
             self._turn_off_inputs()
             self.playing_running_out_of_time = False
+            self.game_timeout_time = 0
         elif new_mode == GAME_MODE_RUNNING:
             print("Game Running")
             self._get_next_objective()

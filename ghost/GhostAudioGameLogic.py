@@ -10,6 +10,7 @@ EVENT_GHOST_UPDATE = "ghostUpdate"
 # EVENT_WRITE_RFID_COMMAND = "writeRfid"
 EVENT_SET_RUNNING = "setRunning"
 EVENT_SET_FINISHED = "setFinished"
+EVENT_RESET_COMMAND = "reset"
 LISTENING_MACHINE_ID = "listening"
 
 GAME_MODE_OFF = 0
@@ -20,6 +21,7 @@ GAME_MODE_RUNNING = 4
 GAME_MODE_WIN = 5
 GAME_MODE_LOSE = 6
 
+GAME_WAIT_TIMEOUT = 20
 ROUND_TIME = 10
 ROUND_START_TIME = 2
 LOW_ENERGY_LEVEL_TIME_S = 3
@@ -48,6 +50,7 @@ class GhostAudioGameLogic(object):
     next_round_start_time = 0
     celebration_end_time = 0
     round_end_time = 0
+    game_timeout_time = 0
 
     playing_running_out_of_time = False
 
@@ -117,10 +120,16 @@ class GhostAudioGameLogic(object):
             self._turn_off_inputs()
             # self.sound.play_ambient()
             self.switchboard.do_ambient()
+            self.mqtt.queue_in_batch_publish({
+                "event": EVENT_GHOST_UPDATE,
+                "id": LISTENING_MACHINE_ID,
+                "command": EVENT_RESET_COMMAND,
+            })
         elif new_mode == GAME_MODE_SCANNING:
             print("Game Scanning")
             self._set_party_mode()
             self.scanning_end_time = time.time() + SCANNING_TIME
+
             self.mqtt.queue_in_batch_publish({
                 "event": EVENT_GHOST_UPDATE,
                 "reader": LISTENING_MACHINE_ID,
@@ -132,6 +141,7 @@ class GhostAudioGameLogic(object):
             self.current_round = 0
             self._turn_off_inputs()
             self.green_button.set_pending()
+            self.game_timeout_time = time.time() + GAME_WAIT_TIMEOUT
         elif new_mode == GAME_MODE_ROUND_START:
             self.current_round += 1
             print("Game Starting Objective", self.current_round)
@@ -184,6 +194,9 @@ class GhostAudioGameLogic(object):
                 print("Starting Game!")
                 self._change_game_mode(GAME_MODE_ROUND_START)
                 return
+            if now >= self.game_timeout_time:
+                print("Game timed out")
+                self._change_game_mode(GAME_MODE_OFF)
         elif self.mode == GAME_MODE_RUNNING:
             if now >= self.round_end_time:
                 print("Ran out of time")

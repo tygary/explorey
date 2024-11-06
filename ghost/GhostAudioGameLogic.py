@@ -194,31 +194,31 @@ class GhostAudioGameLogic(object):
                 # self.sound.play_running_out_of_time()
                 self.playing_running_out_of_time = True
 
-                is_objective_completed = True
-                if self.current_objective == OBJECTIVE_SWITCH_A:
-                    if self.switch_a.mode != self.switch_a.desired_mode:
-                        is_objective_completed = False
-                if self.current_objective == OBJECTIVE_SWITCH_B:
-                    if self.switch_b.mode != self.switch_b.desired_mode:
-                        is_objective_completed = False
-                if self.current_objective == OBJECTIVE_POWER_SWITCH:
-                    if self.power_switch.mode != self.power_switch.desired_mode:
-                        is_objective_completed = False
-                if self.current_objective == OBJECTIVE_RED_BUTTON:
-                    if not self.red_button.completed:
-                        is_objective_completed = False
-                if self.current_objective == OBJECTIVE_GREEN_BUTTON:
-                    if not self.green_button.completed:
-                        is_objective_completed = False
-                if self.current_objective == OBJECTIVE_SWITCHBOARD:
-                    if not self.switchboard.is_completed():
-                        is_objective_completed = False
-                if self.current_objective == OBJECTIVE_ELEVATOR_BUTTONS:
-                    if not self.elevator_buttons.completed:
-                        is_objective_completed = False
-                if is_objective_completed:
-                    print("Objective completed")
-                    if self.current_round == NUM_OBJECTIVES:
-                        self._change_game_mode(GAME_MODE_WIN)
-                    else:
-                        self._change_game_mode(GAME_MODE_ROUND_START)
+            is_objective_completed = True
+            if self.current_objective == OBJECTIVE_SWITCH_A:
+                if self.switch_a.mode != self.switch_a.desired_mode:
+                    is_objective_completed = False
+            if self.current_objective == OBJECTIVE_SWITCH_B:
+                if self.switch_b.mode != self.switch_b.desired_mode:
+                    is_objective_completed = False
+            if self.current_objective == OBJECTIVE_POWER_SWITCH:
+                if self.power_switch.mode != self.power_switch.desired_mode:
+                    is_objective_completed = False
+            if self.current_objective == OBJECTIVE_RED_BUTTON:
+                if not self.red_button.completed:
+                    is_objective_completed = False
+            if self.current_objective == OBJECTIVE_GREEN_BUTTON:
+                if not self.green_button.completed:
+                    is_objective_completed = False
+            if self.current_objective == OBJECTIVE_SWITCHBOARD:
+                if not self.switchboard.is_completed():
+                    is_objective_completed = False
+            if self.current_objective == OBJECTIVE_ELEVATOR_BUTTONS:
+                if not self.elevator_buttons.completed:
+                    is_objective_completed = False
+            if is_objective_completed:
+                print("Objective completed")
+                if self.current_round == NUM_OBJECTIVES:
+                    self._change_game_mode(GAME_MODE_WIN)
+                else:
+                    self._change_game_mode(GAME_MODE_ROUND_START)

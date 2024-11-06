@@ -82,6 +82,7 @@ class GameButtonWithFourLights(Button):
             print("Completed Button!")
             self.pending = False
             self.completed = True
+            self._update_routine()
 
     def _set_light(self, on):
         super().__set_light(on)

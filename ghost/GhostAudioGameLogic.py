@@ -173,7 +173,7 @@ class GhostAudioGameLogic(object):
                 "id": LISTENING_MACHINE_ID,
                 "command": EVENT_SET_FINISHED,
             })
-        self.on_change_mode()
+        self.on_change_mode(self.mode)
 
     def update(self):
         now = time.time()

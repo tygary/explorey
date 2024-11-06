@@ -123,8 +123,8 @@ class GhostAudioGameLogic(object):
             self.scanning_end_time = time.time() + SCANNING_TIME
             self.mqtt.queue_in_batch_publish({
                 "event": EVENT_GHOST_UPDATE,
-                "reader": self.id,
-                "id": self.id,
+                "reader": LISTENING_MACHINE_ID,
+                "id": LISTENING_MACHINE_ID,
                 "command": EVENT_SET_RUNNING,
             })
         elif new_mode == GAME_MODE_READY:

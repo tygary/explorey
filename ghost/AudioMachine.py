@@ -21,8 +21,10 @@ EVENT_CARD_REMOVED = "cardRemoved"
 EVENT_FINISHED_BOOT = "finishedBoot"
 EVENT_GHOST_UPDATE = "ghostUpdate"
 EVENT_RESET_COMMAND = "reset"
-EVENT_OPEN_DOOR_COMMAND = "openDoor"
-EVENT_WRITE_RFID_COMMAND = "writeRfid"
+# EVENT_OPEN_DOOR_COMMAND = "openDoor"
+# EVENT_WRITE_RFID_COMMAND = "writeRfid"
+EVENT_SET_RUNNING = "setRunning"
+EVENT_SET_FINISHED = "setFinished"
 
 BUTTON_PIN = 1
 
@@ -151,14 +153,15 @@ class AudioMachine(object):
 
     def __on_card_detected(self, card):
         print("Card detected", card)
-        self.current_rfid = card
-        self.game._change_game_mode(game.GAME_MODE_SCANNING)
-        self.next_event_time = time.time() + TIME_BEFORE_READY_TO_PRINT
+        if self.current_rfid != card:
+            self.current_rfid = card
+            self.game._change_game_mode(game.GAME_MODE_SCANNING)
+            self.next_event_time = time.time() + TIME_BEFORE_READY_TO_PRINT
 
     def __on_card_removed(self):
         print("card removed")
-        self.current_rfid = None
-        self.next_event_time = 0
+        # self.current_rfid = None
+        # self.next_event_time = 0
 
     def update(self):
         # try:

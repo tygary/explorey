@@ -7,7 +7,9 @@ from ratlantis.Switchboard import Switchboard
 from ghost.ElevatorButtons import GameElevatorButtons
 
 EVENT_GHOST_UPDATE = "ghostUpdate"
-EVENT_WRITE_RFID_COMMAND = "writeRfid"
+# EVENT_WRITE_RFID_COMMAND = "writeRfid"
+EVENT_SET_RUNNING = "setRunning"
+EVENT_SET_FINISHED = "setFinished"
 LISTENING_MACHINE_ID = "listening"
 
 GAME_MODE_OFF = 0
@@ -112,12 +114,19 @@ class GhostAudioGameLogic(object):
 
         if new_mode == GAME_MODE_OFF:
             print("Game is off")
+            self._turn_off_inputs()
             # self.sound.play_ambient()
             self.switchboard.do_ambient()
         elif new_mode == GAME_MODE_SCANNING:
             print("Game Scanning")
             self._set_party_mode()
             self.scanning_end_time = time.time() + SCANNING_TIME
+            self.mqtt.queue_in_batch_publish({
+                "event": EVENT_GHOST_UPDATE,
+                "reader": self.id,
+                "id": self.id,
+                "command": EVENT_SET_RUNNING,
+            })
         elif new_mode == GAME_MODE_READY:
             print("Game Ready")
             self.current_round = 0
@@ -140,8 +149,9 @@ class GhostAudioGameLogic(object):
             self.mqtt.queue_in_batch_publish({
                 "event": EVENT_GHOST_UPDATE,
                 "id": LISTENING_MACHINE_ID,
-                "command": EVENT_WRITE_RFID_COMMAND,
+                "command": EVENT_SET_FINISHED,
             })
+            # PLAY THE GHOST AUDIO
         elif new_mode == GAME_MODE_LOSE:
             print("Game Lose!")
             self.celebration_end_time = time.time() + GAME_OVER_TIME
@@ -149,7 +159,7 @@ class GhostAudioGameLogic(object):
             self.mqtt.queue_in_batch_publish({
                 "event": EVENT_GHOST_UPDATE,
                 "id": LISTENING_MACHINE_ID,
-                "command": EVENT_WRITE_RFID_COMMAND,
+                "command": EVENT_SET_FINISHED,
             })
         self.on_change_mode()
 

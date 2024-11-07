@@ -28,7 +28,7 @@ class Button(object):
         add_event_detection(self.button_pin, callback=self._on_press, pullup=pullup)
         if button_light_pin > 0:
             GPIO.setup(self.button_light_pin, GPIO.OUT)
-            GPIO.output(self.button_light_pin, True)
+            GPIO.output(self.button_light_pin, False)
 
     def _on_press(self, value):
         now = time.time()
@@ -39,7 +39,7 @@ class Button(object):
 
     def _set_light(self, on):
         if self.button_light_pin > 0:
-            GPIO.output(self.button_light_pin, not on)
+            GPIO.output(self.button_light_pin, on)
         self.light_on = on
 
     def set_light(self, on):

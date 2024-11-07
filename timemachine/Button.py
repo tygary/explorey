@@ -38,7 +38,7 @@ class Button(object):
 
     def _set_light(self, on):
         if self.button_light_pin > 0:
-            GPIO.output(self.button_light_pin, on)
+            GPIO.output(self.button_light_pin, not on)
         self.light_on = on
 
     def set_light(self, on):

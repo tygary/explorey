@@ -96,6 +96,7 @@ class PrinterMachine(object):
                 Routines.MushroomRoutine(self.pixels, DIORAMA_WALL_PIXELS),
                 Routines.MushroomRoutine(self.pixels, DIORAMA_FIBER_PIXELS),
             ]
+        print("Updated light routines", self.mode)
 
     def button_pressed(self):
         print("Button pressed")
@@ -160,11 +161,13 @@ class PrinterMachine(object):
 
     def update(self):
         if self.next_reset_time > 0 and self.next_reset_time < time.time():
+            print("Timed out, resetting")
             self.mode = MODE_OFF
             self.button.set_light(False)
             self.current_rfid = None
             self._update_light_routines()
         if self.mode is MODE_SCANNING and self.next_event_time and self.next_event_time > time.time():
+            print("Ready to print")
             self.mode = MODE_READY_TO_PRINT
             self.button.flash_light()
             self._update_light_routines()

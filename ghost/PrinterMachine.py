@@ -66,7 +66,6 @@ class PrinterMachine(object):
         self.button = Button(BUTTON_PIN, BUTTON_LIGHT_PIN, callback=self.button_pressed, pullup=True)
         self.mqtt.listen(self.__parse_mqtt_event)
         self.pixels = PixelControl(led_count=DIORAMA_FIBER_START_PIXEL + DIORAMA_FIBER_NUM_PIXELS)
-        self.button.flash_light()
         self._update_light_routines()
 
     def _update_light_routines(self):
@@ -108,6 +107,7 @@ class PrinterMachine(object):
             self._update_light_routines()
             self.printer.print_ghost(self.current_rfid)
             self.current_rfid = None
+            self.button.set_light(False)
             self.mqtt.queue_in_batch_publish({
                 "event": EVENT_GHOST_UPDATE,
                 "reader": self.id,

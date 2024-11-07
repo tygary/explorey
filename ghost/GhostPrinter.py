@@ -108,18 +108,18 @@ UNKNOWN_GHOST = {
 }
 
 GHOSTS = {
-    "uid": {
-        {
-            "description": "Old big calculator",
-            "name": "SHARP EL-8301 Calculator",
-            "origin": "Pittsburgh Department of Finance",
-            "fulfillment": 7,
-            "purpose": 10,
-            "owner": "Jeremiah Johann Jr ",
-            "discardReason": "My owner had a heart attack while using me",
-            "dateOfDisposal": "11/11/2024",
-            "factOne": "I singlehandedly underwrote all of the grants in the city of Pittsburgh for 30 years.",
-            "factTwo": "My 0 key is sticky and this caused a recurring underfunding of public programs.",
-        }
-    }
+    # "uid": {
+    #     {
+    #         "description": "Old big calculator",
+    #         "name": "SHARP EL-8301 Calculator",
+    #         "origin": "Pittsburgh Department of Finance",
+    #         "fulfillment": 7,
+    #         "purpose": 10,
+    #         "owner": "Jeremiah Johann Jr ",
+    #         "discardReason": "My owner had a heart attack while using me",
+    #         "dateOfDisposal": "11/11/2024",
+    #         "factOne": "I singlehandedly underwrote all of the grants in the city of Pittsburgh for 30 years.",
+    #         "factTwo": "My 0 key is sticky and this caused a recurring underfunding of public programs.",
+    #     }
+    # }
 }

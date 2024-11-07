@@ -35,7 +35,7 @@ TIME_BEFORE_RESETTING = 30
 
 
 TUBE_INNER_START_PIXEL = 0
-TUBE_INNER_NUM_PIXELS = 200
+TUBE_INNER_NUM_PIXELS = 192
 TUBE_OUTER_START_PIXEL = TUBE_INNER_START_PIXEL + TUBE_INNER_NUM_PIXELS
 TUBE_OUTER_NUM_PIXELS = 313
 DIORAMA_WALL_START_PIXEL = TUBE_OUTER_START_PIXEL + TUBE_OUTER_NUM_PIXELS
@@ -70,8 +70,8 @@ class PrinterMachine(object):
     def _update_light_routines(self):
         if self.mode is MODE_OFF:
             self.light_routines = [
-                Routines.RainbowRoutine(self.pixels, TUBE_INNER_PIXELS),
-                Routines.BlackoutRoutine(self.pixels, TUBE_OUTER_PIXELS),
+                Routines.BlackoutRoutine(self.pixels, TUBE_INNER_PIXELS),
+                Routines.RainbowRoutine(self.pixels, TUBE_OUTER_PIXELS),
                 Routines.BlackoutRoutine(self.pixels, DIORAMA_WALL_PIXELS),
                 Routines.BlackoutRoutine(self.pixels, DIORAMA_FIBER_PIXELS),
             ]

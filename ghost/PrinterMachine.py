@@ -30,7 +30,7 @@ MODE_SCANNING = 1
 MODE_READY_TO_PRINT = 2
 MODE_FINISHED = 3
 
-TIME_BEFORE_READY_TO_PRINT = 5
+TIME_BEFORE_READY_TO_PRINT = 10
 TIME_BEFORE_RESETTING = 30
 
 
@@ -164,12 +164,20 @@ class PrinterMachine(object):
         if self.next_reset_time > 0 and self.next_reset_time < time.time():
             print("Timed out, resetting")
             self.mode = MODE_OFF
+            self.next_reset_time = 0
             self.button.set_light(False)
             self.current_rfid = None
             self._update_light_routines()
-        if self.mode is MODE_SCANNING and self.next_event_time and self.next_event_time > time.time():
+            self.mqtt.queue_in_batch_publish({
+                "event": EVENT_GHOST_UPDATE,
+                "reader": self.id,
+                "id": self.id,
+                "command": EVENT_RESET_COMMAND,
+            })
+        if self.mode is MODE_SCANNING and self.next_event_time > 0 and self.next_event_time > time.time():
             print("Ready to print")
             self.mode = MODE_READY_TO_PRINT
+            self.next_event_time = 0
             self.button.flash_light()
             self._update_light_routines()
         for routine in self.light_routines:

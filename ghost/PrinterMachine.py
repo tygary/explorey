@@ -23,7 +23,8 @@ EVENT_RESET_COMMAND = "reset"
 EVENT_SET_RUNNING = "setRunning"
 EVENT_SET_FINISHED = "setFinished"
 
-BUTTON_PIN = 1
+BUTTON_PIN = 22
+BUTTON_LIGHT_PIN = 23
 
 MODE_OFF = 0
 MODE_SCANNING = 1
@@ -62,7 +63,7 @@ class PrinterMachine(object):
         GPIO.setmode(GPIO.BCM)
         self.mqtt = MqttClient()
         self.printer = GhostPrinter()
-        self.button = Button(BUTTON_PIN, callback=self.button_pressed)
+        self.button = Button(BUTTON_PIN, button_light_pin=BUTTON_LIGHT_PIN callback=self.button_pressed)
         self.mqtt.listen(self.__parse_mqtt_event)
         self.pixels = PixelControl(led_count=DIORAMA_FIBER_START_PIXEL + DIORAMA_FIBER_NUM_PIXELS)
         self._update_light_routines()

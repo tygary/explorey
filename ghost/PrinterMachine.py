@@ -141,6 +141,7 @@ class PrinterMachine(object):
         if self.current_rfid != card:
             self.current_rfid = card
             self.mode = MODE_SCANNING
+            print("Scanning trash")
             self.next_event_time = time.time() + TIME_BEFORE_READY_TO_PRINT
             self.button.set_light(False)
             self._update_light_routines()
@@ -174,7 +175,7 @@ class PrinterMachine(object):
                 "id": self.id,
                 "command": EVENT_RESET_COMMAND,
             })
-        if self.mode is MODE_SCANNING and self.next_event_time > 0 and self.next_event_time > time.time():
+        if self.mode is MODE_SCANNING and self.next_event_time > 0 and self.next_event_time < time.time():
             print("Ready to print")
             self.mode = MODE_READY_TO_PRINT
             self.next_event_time = 0

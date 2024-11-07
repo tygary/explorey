@@ -56,7 +56,7 @@ class PrinterMachine(object):
     light_routines = []
     next_event_time = 0
     next_reset_time = 0
-    mode = MODE_SCANNING
+    mode = MODE_OFF
 
     def __init__(self):
         GPIO.setmode(GPIO.BCM)
@@ -70,10 +70,10 @@ class PrinterMachine(object):
     def _update_light_routines(self):
         if self.mode is MODE_OFF:
             self.light_routines = [
-                Routines.BlackoutRoutine(self.pixels, TUBE_INNER_PIXELS),
-                Routines.BlackoutRoutine(self.pixels, TUBE_OUTER_PIXELS),
-                Routines.BlackoutRoutine(self.pixels, DIORAMA_WALL_PIXELS),
-                Routines.BlackoutRoutine(self.pixels, DIORAMA_FIBER_PIXELS),
+                Routines.RainbowRoutine(self.pixels, TUBE_INNER_PIXELS),
+                Routines.RainbowRoutine(self.pixels, TUBE_OUTER_PIXELS),
+                Routines.RainbowRoutine(self.pixels, DIORAMA_WALL_PIXELS),
+                Routines.RainbowRoutine(self.pixels, DIORAMA_FIBER_PIXELS),
             ]
         elif self.mode is MODE_SCANNING:
             self.light_routines = [
@@ -124,6 +124,7 @@ class PrinterMachine(object):
                     if event == EVENT_CARD_FOUND or event == EVENT_CARD_REMOVED or event == EVENT_FINISHED_BOOT:
                         reader_name = data["reader"]
                         if reader_name == self.id:
+                            print("Got MQTT Event", event)
                             if event == EVENT_CARD_FOUND:
                                 card_id = data["card"]
                                 self.__on_card_detected(card_id)

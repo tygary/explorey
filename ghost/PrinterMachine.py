@@ -66,6 +66,7 @@ class PrinterMachine(object):
         self.button = Button(BUTTON_PIN, BUTTON_LIGHT_PIN, callback=self.button_pressed, pullup=True)
         self.mqtt.listen(self.__parse_mqtt_event)
         self.pixels = PixelControl(led_count=DIORAMA_FIBER_START_PIXEL + DIORAMA_FIBER_NUM_PIXELS)
+        self.button.flash_light()
         self._update_light_routines()
 
     def _update_light_routines(self):

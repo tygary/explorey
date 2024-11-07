@@ -76,7 +76,7 @@ class GhostPrinter(object):
         )
         self.ready_to_print = True
 
-    def printGhost(self, tag_uid):
+    def print_ghost(self, tag_uid):
         self.logger.log(
             "Printer: trying to print ghost with ready status %s"
             % (self.ready_to_print)

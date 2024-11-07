@@ -174,5 +174,5 @@ class PrinterMachine(object):
             self._update_light_routines()
         for routine in self.light_routines:
             routine.tick()
-
         self.button.tick()
+        self.pixels.render()

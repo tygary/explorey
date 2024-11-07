@@ -79,8 +79,8 @@ class PrinterMachine(object):
             ]
         elif self.mode is MODE_SCANNING:
             self.light_routines = [
-                Routines.WaveRoutine(self.pixels, TUBE_INNER_PIXELS, [Colors.mid_green, Colors.blue]),
-                Routines.WaveRoutine(self.pixels, TUBE_OUTER_PIXELS, [Colors.purple, Colors.soft_blue]),
+                Routines.WaveRoutine(self.pixels, TUBE_INNER_PIXELS, [Colors.mid_green, Colors.blue], wave_wait_time=500),
+                Routines.WaveRoutine(self.pixels, TUBE_OUTER_PIXELS, [Colors.purple, Colors.soft_blue], wave_wait_time=200),
                 Routines.MushroomRoutine(self.pixels, DIORAMA_WALL_PIXELS),
                 Routines.BleuRoutine(self.pixels, DIORAMA_FIBER_PIXELS),
             ]

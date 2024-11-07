@@ -56,7 +56,7 @@ class PrinterMachine(object):
     light_routines = []
     next_event_time = 0
     next_reset_time = 0
-    mode = MODE_OFF
+    mode = MODE_SCANNING
 
     def __init__(self):
         GPIO.setmode(GPIO.BCM)

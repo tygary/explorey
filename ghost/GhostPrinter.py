@@ -40,19 +40,19 @@ class GhostPrinter(object):
         try:
             os.remove(self.tmpPath)
             self.logger.log("  Success")
-        except OSError:
-            self.logger.log("  Failure")
+        except OSError as e:
+            self.logger.log("  Failure", e)
             pass
 
         pdf = GhostPrintout()
         pdf.set_margins(left=16, top=0, right=0)
         pdf.set_auto_page_break(False)
 
-        page_len = 90
+        page_len = 140
         # if len(text) > 220:
             # page_len = 140
 
-        pdf.add_page(orientation="P", format=(140, page_len))
+        pdf.add_page(orientation="P", format=(90, page_len))
         pdf.set_font("helvetica", "B", 16)
         pdf.multi_cell(0, 10, f"Name:  {ghost['name']}", align="C")
         pdf.set_font("helvetica", "", 12)

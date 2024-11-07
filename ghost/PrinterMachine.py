@@ -71,9 +71,9 @@ class PrinterMachine(object):
         if self.mode is MODE_OFF:
             self.light_routines = [
                 Routines.RainbowRoutine(self.pixels, TUBE_INNER_PIXELS),
-                Routines.RainbowRoutine(self.pixels, TUBE_OUTER_PIXELS),
-                Routines.RainbowRoutine(self.pixels, DIORAMA_WALL_PIXELS),
-                Routines.RainbowRoutine(self.pixels, DIORAMA_FIBER_PIXELS),
+                Routines.BlackoutRoutine(self.pixels, TUBE_OUTER_PIXELS),
+                Routines.BlackoutRoutine(self.pixels, DIORAMA_WALL_PIXELS),
+                Routines.BlackoutRoutine(self.pixels, DIORAMA_FIBER_PIXELS),
             ]
         elif self.mode is MODE_SCANNING:
             self.light_routines = [

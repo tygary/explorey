@@ -131,28 +131,28 @@ class GhostScaleMachine(object):
             # play sound
 
     def __parse_mqtt_event(self, event):
-        try:
-            events = json.loads(event)
-            if not type(events) in (tuple, list):
-                events = [events]
-            for data in events:
-                if data and data["event"]:
-                    event = data["event"]
-                    if event == EVENT_CARD_FOUND or event == EVENT_CARD_REMOVED or event == EVENT_FINISHED_BOOT:
-                        reader_name = data["reader"]
-                        if reader_name in [SCALE_ONE, SCALE_TWO]:
-                            print("Got MQTT Event", event)
-                            if event == EVENT_CARD_FOUND:
-                                card_id = data["card"]
-                                power_level = data["power"]
-                                self.__on_card_detected(card_id, reader_name, power_level)
-                            elif event == EVENT_CARD_REMOVED:
-                                self.__on_card_removed(reader_name)
-                            elif event == EVENT_FINISHED_BOOT:
-                                pass
-                                # Nothing yet
-        except Exception as e:
-            print("Artifact Failed parsing event", event, e)
+        # try:
+        events = json.loads(event)
+        if not type(events) in (tuple, list):
+            events = [events]
+        for data in events:
+            if data and data["event"]:
+                event = data["event"]
+                if event == EVENT_CARD_FOUND or event == EVENT_CARD_REMOVED or event == EVENT_FINISHED_BOOT:
+                    reader_name = data["reader"]
+                    if reader_name in [SCALE_ONE, SCALE_TWO]:
+                        print("Got MQTT Event", event)
+                        if event == EVENT_CARD_FOUND:
+                            card_id = data["card"]
+                            power_level = data["power"]
+                            self.__on_card_detected(card_id, reader_name, power_level)
+                        elif event == EVENT_CARD_REMOVED:
+                            self.__on_card_removed(reader_name)
+                        elif event == EVENT_FINISHED_BOOT:
+                            pass
+                            # Nothing yet
+        # except Exception as e:
+        #     print("Artifact Failed parsing event", event, e)
 
     def __on_card_detected(self, card, reader_name, power_level):
         print("Card detected", card, reader_name, power_level)

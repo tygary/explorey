@@ -211,8 +211,14 @@ class GhostScaleMachine(object):
         self._update_light_routines()
         self.mqtt.queue_in_batch_publish({
             "event": EVENT_GHOST_UPDATE,
-            "reader": self.id,
-            "id": self.id,
+            "reader": SCALE_ONE,
+            "id": SCALE_ONE,
+            "command": EVENT_RESET_COMMAND,
+        })
+        self.mqtt.queue_in_batch_publish({
+            "event": EVENT_GHOST_UPDATE,
+            "reader": SCALE_TWO,
+            "id": SCALE_TWO,
             "command": EVENT_RESET_COMMAND,
         })
 
@@ -242,8 +248,14 @@ class GhostScaleMachine(object):
         self.buttonTwo.flash_light()
         self.mqtt.queue_in_batch_publish({
             "event": EVENT_GHOST_UPDATE,
-            "reader": self.id,
-            "id": self.id,
+            "reader": SCALE_ONE,
+            "id": SCALE_ONE,
+            "command": EVENT_SET_RUNNING,
+        })
+        self.mqtt.queue_in_batch_publish({
+            "event": EVENT_GHOST_UPDATE,
+            "reader": SCALE_TWO,
+            "id": SCALE_TWO,
             "command": EVENT_SET_RUNNING,
         })
 
@@ -261,8 +273,14 @@ class GhostScaleMachine(object):
         self._update_light_routines()
         self.mqtt.queue_in_batch_publish({
             "event": EVENT_GHOST_UPDATE,
-            "reader": self.id,
-            "id": self.id,
+            "reader": SCALE_ONE,
+            "id": SCALE_ONE,
+            "command": EVENT_SET_FINISHED,
+        })
+        self.mqtt.queue_in_batch_publish({
+            "event": EVENT_GHOST_UPDATE,
+            "reader": SCALE_TWO,
+            "id": SCALE_TWO,
             "command": EVENT_SET_FINISHED,
         })
 

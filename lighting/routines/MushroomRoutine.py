@@ -70,9 +70,7 @@ class MushroomRoutine(Routine):
                 else:
                     self.pickNewLightMode(light)
             elif light.mode == LIGHT_FADE:
-                print("light fade")
                 if light.wait:
-                    print("Light waiting")
                     if self.now > (light.timestamp + light.waitDuration):
                         light.wait = False
                         light.timestamp = self.now
@@ -84,13 +82,11 @@ class MushroomRoutine(Routine):
 
                     light.on_finish = onFinishIncrement
                     Light.increment_color(light, self.now)
-                    print("incrementing color")
                 #    self.setNewIncrementingLightColor(light)
                 else:
 
                     def onFinishDecrement():
                         self.pickNewLightMode(light)
-                    print("decrementing color")
                     light.on_finish = onFinishDecrement
                     Light.decrement_color(light, self.now)
             #

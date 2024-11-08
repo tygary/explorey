@@ -109,13 +109,13 @@ class MushroomRoutine(Routine):
 
     def pickNewLightMode(self, light):
         rand = random.randrange(0, 100)
-        if rand < 60:
+        if rand < 50:
             light.freq_mode = LIGHT_UNSET
             light.wait = True
             light.timestamp = self.now
-            # light.currentValue = [0, 0, 0]
+            light.currentValue = [0, 0, 0]
             light.waitDuration = random.randrange(4000, 20000)
-        elif rand > 99:
+        elif rand > 90:
             light.freq_mode = LIGHT_BLINK
         else:
             light.freq_mode = LIGHT_FADE
@@ -141,12 +141,12 @@ class MushroomRoutine(Routine):
         elif light.freq_mode == LIGHT_BLINK:
             light.intendedColor = self.getNewLightColor(MAIN_COLOR)
             light.previousColor = self.getNewLightColor(ACCENT_COLOR_3)
+            print(light.intendedColor, light.previousColor)
             light.currentValue = light.previousColor
             light.on = False
             light.timestamp = self.now
             light.iterations = random.randrange(5, 10)
             light.duration = random.randrange(100, 700)
-        print("Pick new light mode", light.freq_mode, light.address)
 
     def getNewLightColor(self, colorIndex):
         if self.now > (self.cavePanelColorTimestamp + self.cavePanelColorDuration):

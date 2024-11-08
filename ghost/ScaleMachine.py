@@ -74,13 +74,13 @@ class GhostScaleMachine(object):
         elif self.mode is MODE_SCANNING or self.mode is MODE_READY_TO_PLAY:
             middle = round(num_pixels / 2)
             left = POWER_BOARD_PIXELS[0:middle]
-            right = POWER_BOARD_PIXELS[middle:]
+            right = POWER_BOARD_PIXELS[middle:].reverse()
 
-            left_power_index = round((self.ghost_one_power_level / 6) * len(left))
+            left_power_index = round((self.ghost_one_power_level / 6) * len(left)) if self.current_rfid_one else 0
             powered_left = left[:left_power_index]
             unpowered_left = left[left_power_index:]
 
-            right_power_index = round((self.ghost_two_power_level / 6) * len(right))
+            right_power_index = round((self.ghost_two_power_level / 6) * len(right)) if self.current_rfid_two else 0
             powered_right = right[:right_power_index]
             unpowered_right = right[right_power_index:]
 
@@ -178,6 +178,10 @@ class GhostScaleMachine(object):
             self.current_rfid_one = None
         elif reader_name == SCALE_TWO:
             self.current_rfid_two = None
+        if self.mode is MODE_SCANNING and not self.current_rfid_one and not self.current_rfid_two:
+            self.mode = MODE_OFF
+        self._update_light_routines()
+            
         # self.current_rfid = None
         # self.mode = MODE_OFF
         # self.next_event_time = 0

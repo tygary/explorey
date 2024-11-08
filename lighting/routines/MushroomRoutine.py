@@ -71,6 +71,7 @@ class MushroomRoutine(Routine):
                     self.pickNewLightMode(light)
             elif light.mode == LIGHT_FADE:
                 if light.wait:
+                    print("Light waiting")
                     if self.now > (light.timestamp + light.waitDuration):
                         light.wait = False
                         light.timestamp = self.now
@@ -141,7 +142,6 @@ class MushroomRoutine(Routine):
         elif light.freq_mode == LIGHT_BLINK:
             light.intendedColor = self.getNewLightColor(MAIN_COLOR)
             light.previousColor = self.getNewLightColor(ACCENT_COLOR_3)
-            print(light.intendedColor, light.previousColor)
             light.currentValue = light.previousColor
             light.on = False
             light.timestamp = self.now

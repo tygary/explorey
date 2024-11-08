@@ -73,8 +73,8 @@ class GhostScaleMachine(object):
             ]
         elif self.mode is MODE_SCANNING or self.mode is MODE_READY_TO_PLAY:
             middle = round(num_pixels / 2)
-            left = POWER_BOARD[0:middle]
-            right = POWER_BOARD[middle:]
+            left = POWER_BOARD_PIXELS[0:middle]
+            right = POWER_BOARD_PIXELS[middle:]
 
             left_power_index = round((self.ghost_one_power_level / 6) * len(left))
             powered_left = left[:left_power_index]
@@ -92,16 +92,16 @@ class GhostScaleMachine(object):
             ]
         elif self.mode is MODE_PLAYING:
             middle = round((self.current_balance / 100) * num_pixels)
-            left = POWER_BOARD[0:middle]
-            right = POWER_BOARD[middle:]
+            left = POWER_BOARD_PIXELS[0:middle]
+            right = POWER_BOARD_PIXELS[middle:]
             self.light_routines = [
                 Routines.ColorRoutine(self.pixels, left, Colors.green),
                 Routines.ColorRoutine(self.pixels, right, Colors.red),
             ]
         elif self.mode is MODE_FINISHED:
             middle = round(num_pixels / 2)
-            left = POWER_BOARD[0:middle]
-            right = POWER_BOARD[middle:]
+            left = POWER_BOARD_PIXELS[0:middle]
+            right = POWER_BOARD_PIXELS[middle:]
             if self.current_balance > 50:
                 self.light_routines = [
                     Routines.RainbowRoutine(self.pixels, left),

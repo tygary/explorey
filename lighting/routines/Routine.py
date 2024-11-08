@@ -1,4 +1,4 @@
-from PixelControl import OverlayedPixelControl
+from lighting.PixelControl import OverlayedPixelControl
 
 RED = 0
 GREEN = 1

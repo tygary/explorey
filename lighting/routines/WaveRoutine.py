@@ -26,6 +26,7 @@ class WaveRoutine(TimeRoutine):
         starting_color=None,
         delay=0,
         wave_wait_time=10000,
+        pixel_wait_time=100,
         should_override=False,
         brightness=1.0
     ):

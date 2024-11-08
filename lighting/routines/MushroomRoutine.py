@@ -70,6 +70,7 @@ class MushroomRoutine(Routine):
                 else:
                     self.pickNewLightMode(light)
             elif light.mode == LIGHT_FADE:
+                print("light fade")
                 if light.wait:
                     print("Light waiting")
                     if self.now > (light.timestamp + light.waitDuration):

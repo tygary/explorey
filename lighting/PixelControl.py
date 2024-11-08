@@ -109,7 +109,7 @@ class OverlayedPixelControl(object):
         return min(prev_value + new_value, 255)
 
     def render(self):
-        for i in range(self.strip.numPixels()):
+        for i in range(self.pixels.strip.numPixels()):
             value = [0, 0, 0, 0]
             for routine in self.pending_routines:
                 if routine.should_override:

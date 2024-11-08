@@ -291,7 +291,7 @@ class GhostScaleMachine(object):
         time_since_last_update = time.time() - self.last_game_balance_update
         if time_since_last_update > 1:
             self.last_game_balance_update = time.time()
-            self.current_balance += self.ghost_one_power_level * 1 + self.ghost_two_power_level * -1
+            self.current_balance += self.ghost_one_power_level * 5 + self.ghost_two_power_level * -5
             print("Updated Balance", self.current_balance)
 
     def update(self):

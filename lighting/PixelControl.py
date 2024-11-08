@@ -99,7 +99,7 @@ class OverlayedPixelControl(object):
         self.pixels = PixelControl(led_count, led_brightness, led_pin, led_dma)
 
     def get_sub_pixels_for_routine(self, routine, should_override=False):
-        return SubPixelControl(self, self.pixels.strip.numPixels(), self.add_pending_change, self.pixels.render, routine, should_override)
+        return SubPixelControl(self.pixels.strip.numPixels(), self.add_pending_change, self.pixels.render, routine, should_override)
 
     def add_pending_change(self, sub_pixel_routine):
         if sub_pixel_routine not in self.pending_routines:

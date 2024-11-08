@@ -74,7 +74,8 @@ class GhostScaleMachine(object):
         elif self.mode is MODE_SCANNING or self.mode is MODE_READY_TO_PLAY:
             middle = round(num_pixels / 2)
             left = POWER_BOARD_PIXELS[0:middle]
-            right = POWER_BOARD_PIXELS[middle:].reverse()
+            right = POWER_BOARD_PIXELS[middle:]
+            right.reverse()
 
             left_power_index = round((self.ghost_one_power_level / 6) * len(left)) if self.current_rfid_one else 0
             powered_left = left[:left_power_index]

@@ -32,6 +32,7 @@ MODE_FINISHED = 3
 
 TIME_BEFORE_RESETTING = 30
 GAME_LENGTH_TIME = 60
+RFID_SCAN_TIMEOUT = 20
 
 POWER_BOARD = 0
 POWER_BOARD_NUM_PIXELS = 300
@@ -44,8 +45,10 @@ SCALE_TWO = "scaleTwo"
 
 class GhostScaleMachine(object):
     current_rfid_one = None
+    rfid_one_timeout_time = 0
     ghost_one_power_level = 0
     current_rfid_two = None
+    rfid_two_timeout_time = 0
     ghost_two_power_level = 0
 
     light_routines = []
@@ -175,10 +178,16 @@ class GhostScaleMachine(object):
 
     def __on_card_removed(self, reader_name):
         print("card removed")
-        if reader_name == SCALE_ONE:
-            self.current_rfid_one = None
-        elif reader_name == SCALE_TWO:
-            self.current_rfid_two = None
+        if self.mode in [MODE_SCANNING, MODE_READY_TO_PLAY]:
+            if reader_name == SCALE_ONE:
+                self.rfid_one_timeout_time = time.time() + RFID_SCAN_TIMEOUT
+            elif reader_name == SCALE_TWO:
+                self.rfid_two_timeout_time = time.time() + RFID_SCAN_TIMEOUT
+        if self.mode in [MODE_FINISHED]:
+            if reader_name == SCALE_ONE:
+                self.current_rfid_one = None
+            elif reader_name == SCALE_TWO:
+                self.current_rfid_two = None
         if self.mode is MODE_SCANNING and not self.current_rfid_one and not self.current_rfid_two:
             self.mode = MODE_OFF
         self._update_light_routines()
@@ -190,6 +199,8 @@ class GhostScaleMachine(object):
 
     def reset(self):
         self.mode = MODE_OFF
+        self.rfid_one_timeout_time = 0
+        self.rfid_two_timeout_time = 0
         self.next_reset_time = 0
         self.current_rfid_one = None
         self.ghost_one_power_level = 0
@@ -222,6 +233,8 @@ class GhostScaleMachine(object):
 
     def start_playing(self):
         self.mode = MODE_PLAYING
+        self.rfid_one_timeout_time = 0
+        self.rfid_two_timeout_time = 0
         self._update_light_routines()
         self.current_balance = 50
         self.last_game_balance_update = time.time()
@@ -242,6 +255,8 @@ class GhostScaleMachine(object):
         else:
             print("Ghost Two Wins")
         self.mode = MODE_FINISHED
+        self.rfid_one_timeout_time = 0
+        self.rfid_two_timeout_time = 0
         self.next_reset_time = time.time() + TIME_BEFORE_RESETTING
         self._update_light_routines()
         self.mqtt.queue_in_batch_publish({
@@ -260,6 +275,13 @@ class GhostScaleMachine(object):
     def update(self):
         if self.next_reset_time > 0 and self.next_reset_time < time.time():
             print("Timed out, resetting")
+            self.reset()
+        if self.rfid_one_timeout_time > 0 and self.rfid_one_timeout_time < time.time():
+            self.current_rfid_one = None
+        if self.rfid_two_timeout_time > 0 and self.rfid_two_timeout_time < time.time():
+            self.current_rfid_two = None
+        if self.mode in [MODE_SCANNING, MODE_READY_TO_PLAY] and not self.current_rfid_one and not self.current_rfid_two:
+            self.mode = MODE_OFF
             self.reset()
         if self.mode in [MODE_PLAYING]:
             self.update_game_balance()

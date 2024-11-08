@@ -125,6 +125,7 @@ class GhostScaleMachine(object):
             self.start_playing()
         elif self.mode is MODE_PLAYING:
             self.current_balance += 1
+            print("Updated Balance", self.current_balance)
             # Play sound
 
     def button_two_pressed(self):
@@ -133,6 +134,7 @@ class GhostScaleMachine(object):
             self.start_playing()
         elif self.mode is MODE_PLAYING:
             self.current_balance -= 1
+            print("Updated Balance", self.current_balance)
             # play sound
 
     def __parse_mqtt_event(self, event):
@@ -291,6 +293,7 @@ class GhostScaleMachine(object):
         if time_since_last_update > 1:
             self.last_game_balance_update = time.time()
             self.current_balance += self.ghost_one_power_level * 1 + self.ghost_two_power_level * -1
+            print("Updated Balance", self.current_balance)
 
     def update(self):
         if self.next_reset_time > 0 and self.next_reset_time < time.time():

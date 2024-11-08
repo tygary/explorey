@@ -124,6 +124,7 @@ class MushroomRoutine(Routine):
             light.freq_mode = LIGHT_FADE
 
         if light.freq_mode == LIGHT_FADE:
+            print("Got light fde")
             colorBias = random.randrange(0, 1000)
             colorIndex = 0
             breakNum1 = 700

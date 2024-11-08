@@ -123,7 +123,7 @@ class OverlayedPixelControl(object):
                         self._add_color(value[3], routine_value[3]),
                     ]
             print("Setting value", i, value)
-            self.pixels.setRGBW(i, value)
+            self.pixels.setColor(i, value)
         self.pending_routines = []
         self.pixels.strip.show()
 

@@ -146,7 +146,7 @@ class MushroomRoutine(Routine):
             light.timestamp = self.now
             light.iterations = random.randrange(5, 10)
             light.duration = random.randrange(100, 700)
-        print("Pick new light mode", light.freq_mode, light.intendedColor)
+        print("Pick new light mode", light.freq_mode, light.address)
 
     def getNewLightColor(self, colorIndex):
         if self.now > (self.cavePanelColorTimestamp + self.cavePanelColorDuration):

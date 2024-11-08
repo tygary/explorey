@@ -64,20 +64,23 @@ class PixelControl(object):
 
 class SubPixelControl(object):
 
-    def __init__(self, num_pixels, add_pending_change, on_render, routine, should_override=False):
+    def __init__(self, num_pixels, add_pending_change, on_render, routine, should_override=False, brightness=1.0):
         self.num_pixels = num_pixels
         self.add_pending_change = add_pending_change
         self.on_render = on_render
         self.routine = routine
         self.should_override = should_override
+        self.brighness = brightness
         self.uuid = str(uuid.uuid4())
         self.pixels = [(0, 0, 0, 0) for i in range(num_pixels)]
 
     def setColor(self, channel, color):
+        color = (int(color[0] * self.brighness), int(color[1] * self.brighness), int(color[2] * self.brighness))
         self.pixels[channel] = (color[0], color[1], color[2], 0)
         self.add_pending_change(self)
 
     def setRGBW(self, channel, values):
+        values = (int(values[0] * self.brighness), int(values[1] * self.brighness), int(values[2] * self.brighness), int(values[3] * self.brighness))
         self.pixels[channel] = (values[0], values[1], values[2], values[3])
         self.add_pending_change(self)
 
@@ -99,8 +102,8 @@ class OverlayedPixelControl(object):
     def __init__(self, led_count=300, led_brightness=200, led_pin=21, led_dma=10):
         self.pixels = PixelControl(led_count, led_brightness, led_pin, led_dma)
 
-    def get_sub_pixels_for_routine(self, routine, should_override=False):
-        return SubPixelControl(self.pixels.strip.numPixels(), self.add_pending_change, self.pixels.render, routine, should_override)
+    def get_sub_pixels_for_routine(self, routine, should_override=False, brightness=1.0):
+        return SubPixelControl(self.pixels.strip.numPixels(), self.add_pending_change, self.pixels.render, routine, should_override, brightness)
 
     def add_pending_change(self, sub_pixel_routine):
         if sub_pixel_routine not in self.pending_routines:

@@ -15,8 +15,8 @@ class FireRoutine(Routine):
     colors = [Colors.red]
     pixel_colors = []
 
-    def __init__(self, pixels, addresses, colors=None, should_override=False):
-        Routine.__init__(self, pixels, addresses, should_override)
+    def __init__(self, pixels, addresses, colors=None, should_override=False, brightness=1.0):
+        Routine.__init__(self, pixels, addresses, should_override, brightness)
         if colors:
             self.colors = colors
         for i, address in enumerate(self.addresses):

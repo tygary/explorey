@@ -8,8 +8,8 @@ class PulseRoutine(Routine):
     values = []
     rate = 0.05
 
-    def __init__(self, pixels, addresses, color, rate=0.05, should_override=False):
-        Routine.__init__(self, pixels, addresses, should_override)
+    def __init__(self, pixels, addresses, color, rate=0.05, should_override=False, brightness=1.0):
+        Routine.__init__(self, pixels, addresses, should_override, brightness)
         self.color = color
         self.rate = rate
         for i, address in enumerate(self.addresses):

@@ -26,9 +26,10 @@ class WaveRoutine(TimeRoutine):
         starting_color=None,
         delay=0,
         wave_wait_time=10000,
-        should_override=False
+        should_override=False,
+        brightness=1.0
     ):
-        TimeRoutine.__init__(self, pixels, addresses, should_override)
+        TimeRoutine.__init__(self, pixels, addresses, should_override, brightness)
         self.colors = colors[:]
         self.lights = []
         self.delay = delay

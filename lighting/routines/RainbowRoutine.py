@@ -4,8 +4,8 @@ from lighting.routines.Routine import Routine
 class RainbowRoutine(Routine):
     values = {}
 
-    def __init__(self, pixels, addresses):
-        Routine.__init__(self, pixels, addresses, should_override=False)
+    def __init__(self, pixels, addresses, brightness=1.0):
+        Routine.__init__(self, pixels, addresses, should_override=False, brightness=brightness)
         for i in self.addresses:
             red = 100 + i % 255
             green = i % 255

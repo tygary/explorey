@@ -9,8 +9,8 @@ from lighting.routines.TimeRoutine import TimeRoutine
 class RandomPulseRoutine(TimeRoutine):
     lights = []
 
-    def __init__(self, pixels, addresses, should_override=False):
-        TimeRoutine.__init__(self, pixels, addresses, should_override)
+    def __init__(self, pixels, addresses, should_override=False, brightness=1.0):
+        TimeRoutine.__init__(self, pixels, addresses, should_override, brightness=brightness)
         for address in addresses:
             light = Light(address)
             self.update_light_mode(light)

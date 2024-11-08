@@ -117,10 +117,10 @@ class OverlayedPixelControl(object):
                 else:
                     routine_value = routine.pixels[i]
                     value = [
-                        self._add_color(self.value[0], routine_value[0]),
-                        self._add_color(self.value[1], routine_value[1]),
-                        self._add_color(self.value[2], routine_value[2]),
-                        self._add_color(self.value[3], routine_value[3]),
+                        self._add_color(value[0], routine_value[0]),
+                        self._add_color(value[1], routine_value[1]),
+                        self._add_color(value[2], routine_value[2]),
+                        self._add_color(value[3], routine_value[3]),
                     ]
             self.pixels.setRGBW(i, value)
         self.pending_routines = []

@@ -35,6 +35,7 @@ class WaveRoutine(TimeRoutine):
         self.lights = []
         self.delay = delay
         self.wave_wait_time = wave_wait_time
+        self.pixel_wait_time = pixel_wait_time
         if starting_color:
             self.starting_color = starting_color[:]
         else:

@@ -123,7 +123,7 @@ class GhostScaleMachine(object):
             # Play sound
 
     def button_two_pressed(self):
-        print("Button one pressed")
+        print("Button two pressed")
         if self.mode is MODE_READY_TO_PLAY:
             self.start_playing()
         elif self.mode is MODE_PLAYING:

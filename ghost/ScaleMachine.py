@@ -65,7 +65,7 @@ class GhostScaleMachine(object):
         self.buttonOne = Button(BUTTON_ONE_PIN, BUTTON_ONE_LIGHT_PIN, callback=self.button_one_pressed, pullup=True)
         self.buttonTwo = Button(BUTTON_TWO_PIN, BUTTON_TWO_LIGHT_PIN, callback=self.button_two_pressed, pullup=True)
         self.mqtt.listen(self.__parse_mqtt_event)
-        self.pixels = PixelControl(led_count=POWER_BOARD_NUM_PIXELS)
+        self.pixels = OverlayedPixelControl(led_count=POWER_BOARD_NUM_PIXELS)
         self.reset()
         self._update_light_routines()
 

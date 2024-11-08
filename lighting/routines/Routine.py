@@ -1,3 +1,5 @@
+from PixelControl import OverlayedPixelControl
+
 RED = 0
 GREEN = 1
 BLUE = 2
@@ -7,8 +9,11 @@ class Routine(object):
     addresses = []
     pixels = None
 
-    def __init__(self, pixels, addresses):
-        self.pixels = pixels
+    def __init__(self, pixels, addresses, should_override=False):
+        if isinstance(pixels, OverlayedPixelControl):
+            self.pixels = pixels.get_sub_pixels_for_routine(self, should_override)
+        else:
+            self.pixels = pixels
         self.addresses = addresses
 
     def update_addresses(self, addresses):
@@ -20,4 +25,3 @@ class Routine(object):
 
     def tick(self):
         print("tick")
-

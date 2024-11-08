@@ -5,7 +5,7 @@ class RainbowRoutine(Routine):
     values = {}
 
     def __init__(self, pixels, addresses):
-        Routine.__init__(self, pixels, addresses)
+        Routine.__init__(self, pixels, addresses, should_override=False)
         for i in self.addresses:
             red = 100 + i % 255
             green = i % 255

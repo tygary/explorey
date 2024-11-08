@@ -2,7 +2,7 @@ import json
 import time
 import RPi.GPIO as GPIO
 
-from lighting.PixelControl import PixelControl
+from lighting.PixelControl import OverlayedPixelControl
 from lighting.Colors import Colors
 from lighting.routines import Routines
 from mqtt.MqttClient import MqttClient
@@ -65,16 +65,22 @@ class GhostScaleMachine(object):
         self.buttonOne = Button(BUTTON_ONE_PIN, BUTTON_ONE_LIGHT_PIN, callback=self.button_one_pressed, pullup=True)
         self.buttonTwo = Button(BUTTON_TWO_PIN, BUTTON_TWO_LIGHT_PIN, callback=self.button_two_pressed, pullup=True)
         self.mqtt.listen(self.__parse_mqtt_event)
-        self.pixels = PixelControl(led_count=POWER_BOARD_NUM_PIXELS)
+        self.pixels = OverlayedPixelControl(led_count=POWER_BOARD_NUM_PIXELS)
         self.reset()
         self._update_light_routines()
 
     def _update_light_routines(self):
         num_pixels = POWER_BOARD_NUM_PIXELS // 2
         if self.mode is MODE_OFF:
+
             self.light_routines = [
-                Routines.BlackoutRoutine(self.pixels, POWER_BOARD_PIXELS),
+                Routines.ColorRoutine(self.pixels, POWER_BOARD_PIXELS, [0, 30, 60]),
+                Routines.WaveRoutine(self.pixels, POWER_BOARD_PIXELS, [Colors.red, Colors.green, Colors.blue]),
             ]
+
+            # self.light_routines = [
+            #     Routines.BlackoutRoutine(self.pixels, POWER_BOARD_PIXELS),
+            # ]
         elif self.mode is MODE_SCANNING or self.mode is MODE_READY_TO_PLAY:
             middle = round(num_pixels / 2)
             left = POWER_BOARD_PIXELS[0:middle]

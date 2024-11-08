@@ -58,8 +58,8 @@ class BleuRoutine(Routine):
         [[178, 255, 158], [29, 211, 176], [60, 22, 66], [175, 252, 65]],  # greens
     ]
 
-    def __init__(self, pixels, addresses):
-        Routine.__init__(self, pixels, addresses)
+    def __init__(self, pixels, addresses, should_override=False):
+        Routine.__init__(self, pixels, addresses, should_override)
         self.cave_panel_lights = [Light] * len(addresses)
         for i in range(len(addresses)):
             self.cave_panel_lights[i] = Light(addresses[i])

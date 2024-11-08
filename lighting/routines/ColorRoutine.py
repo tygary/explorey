@@ -3,9 +3,9 @@ from lighting.routines.Routine import Routine
 
 class ColorRoutine(Routine):
 
-    def __init__(self, pixels, addresses, color):
+    def __init__(self, pixels, addresses, color, should_override=False):
         self.color = color
-        Routine.__init__(self, pixels, addresses)
+        Routine.__init__(self, pixels, addresses, should_override)
 
     def update_color(self, color):
         self.color = color

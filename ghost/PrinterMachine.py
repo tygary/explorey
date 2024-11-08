@@ -3,7 +3,7 @@ import random
 import time
 import RPi.GPIO as GPIO
 
-from lighting.PixelControl import PixelControl
+from lighting.PixelControl import OverlayedPixelControl
 from lighting.Colors import Colors
 from lighting.routines import Routines
 from mqtt.MqttClient import MqttClient
@@ -65,7 +65,7 @@ class PrinterMachine(object):
         self.printer = GhostPrinter()
         self.button = Button(BUTTON_PIN, BUTTON_LIGHT_PIN, callback=self.button_pressed, pullup=True)
         self.mqtt.listen(self.__parse_mqtt_event)
-        self.pixels = PixelControl(led_count=DIORAMA_FIBER_START_PIXEL + DIORAMA_FIBER_NUM_PIXELS)
+        self.pixels = OverlayedPixelControl(led_count=DIORAMA_FIBER_START_PIXEL + DIORAMA_FIBER_NUM_PIXELS)
         self._update_light_routines()
 
     def _update_light_routines(self):

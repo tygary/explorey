@@ -109,9 +109,8 @@ class BleuRoutine(Routine):
 
     def pickNewLightMode(self, light):
         rand = random.randrange(0, 100)
-        if rand > 90:
+        if rand > 1:
             light.freq_mode = LIGHT_BLINK
-            print("Blinking Light")
         else:
             light.freq_mode = LIGHT_FADE
 

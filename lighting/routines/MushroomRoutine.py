@@ -114,7 +114,7 @@ class MushroomRoutine(Routine):
             light.timestamp = self.now
             light.currentValue = [0, 0, 0]
             light.waitDuration = random.randrange(4000, 20000)
-        elif rand > 99:
+        elif rand > 95:
             light.mode = LIGHT_BLINK
         else:
             light.mode = LIGHT_FADE

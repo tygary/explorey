@@ -29,10 +29,10 @@ class ElevatorButtons(object):
         self.pins = pins
         self.callback = callback
 
-        self.button_a = Button(self.pins[0], callback=self._on_button_pressed)
-        self.button_b = Button(self.pins[1], callback=self._on_button_pressed)
-        self.button_c = Button(self.pins[2], callback=self._on_button_pressed)
-        self.button_d = Button(self.pins[3], callback=self._on_button_pressed)
+        self.button_a = Button(self.pins[0], callback=self._on_button_pressed, pullup=True)
+        self.button_b = Button(self.pins[1], callback=self._on_button_pressed, pullup=True)
+        self.button_c = Button(self.pins[2], callback=self._on_button_pressed, pullup=True)
+        self.button_d = Button(self.pins[3], callback=self._on_button_pressed, pullup=True)
 
     def _on_button_pressed(self):
         # now = time.time()

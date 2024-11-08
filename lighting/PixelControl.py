@@ -85,10 +85,11 @@ class SubPixelControl(object):
         for i in range(self.num_pixels):
             self.pixels[i] = (0, 0, 0, 0)
         self.add_pending_change(self)
-        self.on_render()
+        # self.on_render()
 
     def render(self):
-        self.on_render()
+        pass
+        # self.on_render()
 
 
 class OverlayedPixelControl(object):

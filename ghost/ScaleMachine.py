@@ -316,7 +316,6 @@ class GhostScaleMachine(object):
             self.update_game_balance()
             if (self.game_end_time > 0 and self.game_end_time < time.time()) or self.current_balance <= 0 or self.current_balance >= 100:
                 self.start_end_game()
-        self._update_light_routines()
 
         for routine in self.light_routines:
             routine.tick()

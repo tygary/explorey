@@ -113,17 +113,17 @@ class MushroomRoutine(Routine):
     def pickNewLightMode(self, light):
         rand = random.randrange(0, 100)
         if rand < 50:
-            light.freq_mode = LIGHT_UNSET
+            light.mode = LIGHT_UNSET
             light.wait = True
             light.timestamp = self.now
             light.currentValue = [0, 0, 0]
             light.waitDuration = random.randrange(4000, 20000)
         elif rand > 90:
-            light.freq_mode = LIGHT_BLINK
+            light.mode = LIGHT_BLINK
         else:
-            light.freq_mode = LIGHT_FADE
+            light.mode = LIGHT_FADE
 
-        if light.freq_mode == LIGHT_FADE:
+        if light.mode == LIGHT_FADE:
             colorBias = random.randrange(0, 1000)
             colorIndex = 0
             breakNum1 = 700
@@ -141,7 +141,7 @@ class MushroomRoutine(Routine):
             light.up = True
             light.timestamp = self.now
             light.nextActionTime = light.timestamp + light.duration
-        elif light.freq_mode == LIGHT_BLINK:
+        elif light.mode == LIGHT_BLINK:
             light.intendedColor = self.getNewLightColor(MAIN_COLOR)
             light.previousColor = self.getNewLightColor(ACCENT_COLOR_3)
             light.currentValue = light.previousColor

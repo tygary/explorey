@@ -35,7 +35,7 @@ GAME_LENGTH_TIME = 60
 RFID_SCAN_TIMEOUT = 20
 
 POWER_BOARD = 0
-POWER_BOARD_NUM_PIXELS = 300
+POWER_BOARD_NUM_PIXELS = 10 #300
 
 POWER_BOARD_PIXELS = list(range(POWER_BOARD, POWER_BOARD + POWER_BOARD_NUM_PIXELS))
 
@@ -75,7 +75,7 @@ class GhostScaleMachine(object):
 
             self.light_routines = [
                 Routines.ColorRoutine(self.pixels, POWER_BOARD_PIXELS, [0, 50, 100]),
-                Routines.WaveRoutine(self.pixels, POWER_BOARD_PIXELS, [Colors.red, Colors.green, Colors.blue], wave_wait_time=1000, should_override=True),
+                # Routines.WaveRoutine(self.pixels, POWER_BOARD_PIXELS, [Colors.red, Colors.green, Colors.blue], wave_wait_time=1000, should_override=True),
                 # Routines.RainbowRoutine(self.pixels, POWER_BOARD_PIXELS),
             ]
 

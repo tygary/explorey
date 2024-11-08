@@ -239,6 +239,7 @@ class GhostScaleMachine(object):
             self.buttonTwo.flash_light()
 
     def start_playing(self):
+        print("Start Playing")
         self.mode = MODE_PLAYING
         self.rfid_one_timeout_time = 0
         self.rfid_two_timeout_time = 0
@@ -312,3 +313,4 @@ class GhostScaleMachine(object):
         self.buttonOne.tick()
         self.buttonTwo.tick()
         self.pixels.render()
+        self.mqtt.publish_batch()

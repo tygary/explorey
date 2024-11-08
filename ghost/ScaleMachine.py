@@ -74,9 +74,9 @@ class GhostScaleMachine(object):
         if self.mode is MODE_OFF:
 
             self.light_routines = [
-                # Routines.ColorRoutine(self.pixels, POWER_BOARD_PIXELS, [0, 50, 100]),
-                # Routines.WaveRoutine(self.pixels, POWER_BOARD_PIXELS, [Colors.red, Colors.green, Colors.blue], wave_wait_time=1000),
-                Routines.RainbowRoutine(self.pixels, POWER_BOARD_PIXELS),
+                Routines.ColorRoutine(self.pixels, POWER_BOARD_PIXELS, [0, 50, 100]),
+                Routines.WaveRoutine(self.pixels, POWER_BOARD_PIXELS, [Colors.red, Colors.green, Colors.blue], wave_wait_time=1000),
+                # Routines.RainbowRoutine(self.pixels, POWER_BOARD_PIXELS),
             ]
 
             # self.light_routines = [

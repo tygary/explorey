@@ -1,7 +1,7 @@
 import random
 import time
 
-from lighting.Light import Light, LIGHT_FADE
+from lighting.Light import Light
 from lighting.routines.Routine import Routine
 
 MAIN_COLOR = 0

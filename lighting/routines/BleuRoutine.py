@@ -147,7 +147,7 @@ class BleuRoutine(Routine):
                 print("Finished Transitioning Color Scheme")
                 self.cavePanelColorTransitioning = False
                 self.cavePanelColorSchemeIndex = self.cavePanelColorSchemeIndexNew
-                self.cavePanelColorDuration = random.randrange(8000, 30000)
+                self.cavePanelColorDuration = random.randrange(1000, 3000)
                 self.cavePanelColorTimestamp = self.now
             else:
                 self.cavePanelColorTransitioning = True

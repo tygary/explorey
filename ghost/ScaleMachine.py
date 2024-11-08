@@ -42,7 +42,7 @@ SCALE_ONE = "scaleOne"
 SCALE_TWO = "scaleTwo"
 
 
-class PrinterMachine(object):
+class GhostScaleMachine(object):
     current_rfid_one = None
     ghost_one_power_level = 0
     current_rfid_two = None

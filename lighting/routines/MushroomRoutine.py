@@ -83,6 +83,7 @@ class MushroomRoutine(Routine):
 
                     light.on_finish = onFinishIncrement
                     Light.increment_color(light, self.now)
+                    print("incrementing color")
                 #    self.setNewIncrementingLightColor(light)
                 else:
 

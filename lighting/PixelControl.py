@@ -103,10 +103,7 @@ class OverlayedPixelControl(object):
 
     def add_pending_change(self, sub_pixel_routine):
         if sub_pixel_routine not in self.pending_routines:
-            print("Adding routine to pending routines")
             self.pending_routines.append(sub_pixel_routine)
-        else:
-            print("Routine already in pending routines")
 
     def _add_color(self, prev_value, new_value):
         return min(prev_value + new_value, 255)
@@ -125,6 +122,7 @@ class OverlayedPixelControl(object):
                         self._add_color(value[2], routine_value[2]),
                         self._add_color(value[3], routine_value[3]),
                     ]
+            print("Setting value", i, value)
             self.pixels.setRGBW(i, value)
         self.pending_routines = []
         self.pixels.strip.show()

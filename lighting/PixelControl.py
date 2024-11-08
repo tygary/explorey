@@ -114,7 +114,8 @@ class OverlayedPixelControl(object):
             value = [0, 0, 0, 0]
             for routine in self.pending_routines:
                 if routine.should_override:
-                    value = routine.pixels[i]
+                    if routine.pixels[i][0] > 0 or routine.pixels[i][1] > 0 or routine.pixels[i][2] > 0:
+                        value = routine.pixels[i]
                 else:
                     routine_value = routine.pixels[i]
                     value = [

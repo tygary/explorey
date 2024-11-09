@@ -75,13 +75,13 @@ class GhostAudioGameLogic(object):
             options = [x for x in options if x != self.current_objective]
         self.current_objective = random.choice(options)
         if self.current_objective == OBJECTIVE_SWITCH_A:
-            if self.switch_a.mode == 1:
+            if self.switch_a.mode == 0:
                 self.sound.play_increase_auraral()
             else:
                 self.sound.play_decrease_auraral()
             self.switch_a.set_desired_mode(not self.switch_a.mode)
         if self.current_objective == OBJECTIVE_SWITCH_B:
-            if self.switch_b.mode == 1:
+            if self.switch_b.mode == 0:
                 self.sound.play_activate_chronometer()
             else:
                 self.sound.play_deactivate_chronometer()

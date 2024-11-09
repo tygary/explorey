@@ -38,7 +38,8 @@ class MultiTrackMusicPlayer:
         try:
             return channel.get_busy() is True
             # return pygame.mixer.music.get_busy() == True
-        except:
+        except Exception as e:
+            print("Error checking if music is still playing", e)
             return False
 
     def stop_music(self, channel=0):

@@ -3,7 +3,7 @@ import random
 import time
 import RPi.GPIO as GPIO
 
-from lighting.PixelControl import PixelControl
+from lighting.PixelControl import OverlayedPixelControl
 from lighting.Colors import Colors
 from lighting.routines import Routines
 from mqtt.MqttClient import MqttClient
@@ -64,7 +64,7 @@ class AudioMachine(object):
     def __init__(self):
         GPIO.cleanup()
         GPIO.setmode(GPIO.BCM)
-        self.pixels = PixelControl(700, led_brightness=180, led_pin=21)
+        self.pixels = OverlayedPixelControl(700, led_brightness=180, led_pin=21)
         self.mqtt = MqttClient()
         self.sound = GhostAudioSoundSystem()
 
@@ -93,16 +93,16 @@ class AudioMachine(object):
         elif self.game.mode in [game.GAME_MODE_ROUND_START, game.GAME_MODE_RUNNING]:
             self.headphone_routine = Routines.ColorRoutine(self.pixels, HEADPHONE_DECO_PIXELS_TOP + HEADPHONE_DECO_PIXELS_BOTTOM, Colors.green)
         elif self.game.mode in [game.GAME_MODE_WIN, game.GAME_MODE_LOSE]:
-            self.headphone_routine = Routines.PulseRoutine(self.pixels, HEADPHONE_DECO_PIXELS_TOP + HEADPHONE_DECO_PIXELS_BOTTOM, Colors.red, 0.5)
+            self.headphone_routine = Routines.FireRoutine(self.pixels, HEADPHONE_DECO_PIXELS_TOP + HEADPHONE_DECO_PIXELS_BOTTOM, Colors.red)
         else:
             self.headphone_routine = Routines.BlackoutRoutine(self.pixels, HEADPHONE_DECO_PIXELS_TOP + HEADPHONE_DECO_PIXELS_BOTTOM)
 
         if self.game.mode is game.GAME_MODE_OFF:
             self.deco_routine = Routines.MushroomRoutine(self.pixels, SWITCHBOARD_DECO_PIXELS + PEDESTAL_DECO_PIXELS)
         elif self.game.mode in [game.GAME_MODE_SCANNING, game.GAME_MODE_READY]:
-            self.deco_routine = Routines.FireRoutine(self.pixels, SWITCHBOARD_DECO_PIXELS + PEDESTAL_DECO_PIXELS, [Colors.light_green])
+            self.deco_routine = Routines.FireRoutine(self.pixels, SWITCHBOARD_DECO_PIXELS + PEDESTAL_DECO_PIXELS, [Colors.light_green, Colors.yellow, Colors.mid_green])
         elif self.game.mode in [game.GAME_MODE_ROUND_START, game.GAME_MODE_RUNNING]:
-            self.deco_routine = Routines.ColorRoutine(self.pixels, SWITCHBOARD_DECO_PIXELS + PEDESTAL_DECO_PIXELS, Colors.green)
+            self.deco_routine = Routines.BleuRoutine(self.pixels, SWITCHBOARD_DECO_PIXELS + PEDESTAL_DECO_PIXELS)
         elif self.game.mode is game.GAME_MODE_WIN:
             self.deco_routine = Routines.RainbowRoutine(self.pixels, SWITCHBOARD_DECO_PIXELS + PEDESTAL_DECO_PIXELS)
         elif self.game.mode is game.GAME_MODE_LOSE:

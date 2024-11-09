@@ -228,7 +228,10 @@ class GhostAudioSoundSystem(object):
         if self.next_event_callbacks is not None and len(self.next_event_callbacks) > 0 and not self.player.is_still_playing(CHANNEL_VOICE):
             print("Calling audio next event callbacks", self.next_event_callbacks)
             self.next_event_callback = self.next_event_callbacks.pop(0)
-            self.next_event_callback()
+            try:
+                self.next_event_callback()
+            except Exception as e:
+                print("Error calling next event callback", e)
             if (len(self.next_event_callbacks) == 0):
                 self.next_event_callbacks = None
 

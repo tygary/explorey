@@ -220,8 +220,7 @@ class GhostAudioGameLogic(object):
             def reset():
                 self._change_game_mode(GAME_MODE_OFF)
             
-            self.sound.set_next_event_callback(reset)
-            # self.sound.queue_put_back_headphones()
+            self.sound.set_next_event_callbacks([reset])
             self.current_rfid = None
             self.celebration_end_time = time.time() + GAME_OVER_TIME
             self._set_party_mode()
@@ -246,7 +245,7 @@ class GhostAudioGameLogic(object):
         elif self.mode == GAME_MODE_SCANNING:
             if now >= self.scanning_end_time:
                 print("Finished scanning")
-                self._change_game_mode(GAME_MODE_WIN) # GAME_MODE_READY
+                self._change_game_mode(GAME_MODE_READY)
                 return
         elif self.mode == GAME_MODE_ROUND_START:
             if now >= self.next_round_start_time:

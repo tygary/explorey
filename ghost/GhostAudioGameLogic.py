@@ -68,7 +68,7 @@ class GhostAudioGameLogic(object):
         self.mqtt = mqtt
         self.sound = sound
         self.on_change_mode = on_change_mode
-        self._change_game_mode(GAME_MODE_OFF)
+        self.sound.play_ambient()
 
     def _get_next_objective(self):
         print("Updating Objectives")

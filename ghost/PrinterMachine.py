@@ -94,8 +94,12 @@ class PrinterMachine(object):
                 Routines.PulseRoutine(self.pixels, TUBE_INNER_PIXELS, Colors.mid_green, 0.5, brightness=0.2),
 
                 Routines.WaveRoutine(self.pixels, TUBE_OUTER_PIXELS, [Colors.light_green, Colors.yellow], wave_wait_time=0, brightness=0.7),
+                
                 Routines.MushroomRoutine(self.pixels, DIORAMA_WALL_PIXELS, brightness=0.5),
+                Routines.PulseRoutine(self.pixels, DIORAMA_WALL_PIXELS, Colors.light_green, 0.5, brightness=0.3),
+                
                 Routines.RainbowRoutine(self.pixels, DIORAMA_FIBER_PIXELS, brightness=1),
+                Routines.PulseRoutine(self.pixels, DIORAMA_FIBER_PIXELS, Colors.light_green, 0.5, brightness=0.5),
             ]
         elif self.mode is MODE_READY_TO_PRINT:
             self.light_routines = [
@@ -106,8 +110,12 @@ class PrinterMachine(object):
                 Routines.MushroomRoutine(self.pixels, TUBE_OUTER_PIXELS, brightness=0.25),
                 Routines.WaveRoutine(self.pixels, TUBE_OUTER_PIXELS, [Colors.purple, Colors.soft_blue], wave_wait_time=10, brightness=0.25),
                 Routines.PulseRoutine(self.pixels, TUBE_OUTER_PIXELS, Colors.purple, 0.3, brightness=0.25),
+                
+                Routines.MushroomRoutine(self.pixels, DIORAMA_WALL_PIXELS, brightness=0.3),
                 Routines.RandomPulseRoutine(self.pixels, DIORAMA_WALL_PIXELS, brightness=0.5),
+
                 Routines.BleuRoutine(self.pixels, DIORAMA_FIBER_PIXELS),
+                Routines.PulseRoutine(self.pixels, DIORAMA_FIBER_PIXELS, Colors.light_green, 0.5, brightness=0.5),
             ]
         elif self.mode is MODE_FINISHED:
             self.light_routines = [

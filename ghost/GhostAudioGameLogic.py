@@ -28,7 +28,7 @@ ROUND_START_TIME = 2
 LOW_ENERGY_LEVEL_TIME_S = 3
 GAME_OVER_TIME = 10
 GAME_WIN_TIME = 55
-SCANNING_TIME = 3
+SCANNING_TIME = 5
 
 NUM_OBJECTIVES = 8
 
@@ -165,7 +165,6 @@ class GhostAudioGameLogic(object):
             print("Game Ready")
             self.current_round = 0
             self._turn_off_inputs()
-            self.sound.stop_all()
             self.sound.play_intro_scan()
             self.green_button.set_pending()
             self.game_timeout_time = time.time() + GAME_WAIT_TIMEOUT

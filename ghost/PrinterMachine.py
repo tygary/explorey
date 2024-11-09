@@ -181,6 +181,8 @@ class PrinterMachine(object):
                 "id": self.id,
                 "command": EVENT_SET_RUNNING,
             })
+        if self.mode not in [MODE_OFF, MODE_SCANNING, MODE_FINISHED]:
+            self.next_reset_time = 0
 
     def __on_card_removed(self):
         print("card removed")

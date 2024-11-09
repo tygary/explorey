@@ -215,7 +215,7 @@ class GhostAudioSoundSystem(object):
         print("Playing Ghost Story")
         self.stop_all()
         story = GHOST_STORIES_BY_RFID["test"]
-        self.player.play_temp_song(story, 1, channel=CHANNEL_VOICE, loops=0)
+        self.player.play_temp_song(story, 1, channel_num=CHANNEL_VOICE, loops=0)
 
     def set_next_event_callbacks(self, callbacks):
         print("Setting audio next event callback")

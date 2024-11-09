@@ -195,18 +195,15 @@ class GhostAudioGameLogic(object):
 
             def play_put_back_headphones():
                 self.sound.play_put_back_headphones()
-                self.sound.set_next_event_callback(reset)
 
             def play_story():
                 self.sound.play_ghost_story(self.current_rfid)
-                self.sound.set_next_event_callback(play_put_back_headphones)
 
             def play_story_intro_sounds():
                 self.sound.play_story_intro_sounds()
-                self.sound.set_next_event_callback(play_story)
 
             self.sound.play_you_win()
-            self.sound.set_next_event_callback(play_story_intro_sounds)
+            self.sound.set_next_event_callbacks([play_story_intro_sounds, play_story, play_put_back_headphones, reset])
             self.celebration_end_time = time.time() + GAME_WIN_TIME
             self._set_party_mode()
             self.mqtt.queue_in_batch_publish({
@@ -249,7 +246,7 @@ class GhostAudioGameLogic(object):
         elif self.mode == GAME_MODE_SCANNING:
             if now >= self.scanning_end_time:
                 print("Finished scanning")
-                self._change_game_mode(GAME_MODE_READY)
+                self._change_game_mode(GAME_MODE_WIN) # GAME_MODE_READY
                 return
         elif self.mode == GAME_MODE_ROUND_START:
             if now >= self.next_round_start_time:

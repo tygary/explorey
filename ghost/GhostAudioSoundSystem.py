@@ -217,18 +217,20 @@ class GhostAudioSoundSystem(object):
         story = GHOST_STORIES_BY_RFID["test"]
         self.player.play_temp_song(story, 1, channel=CHANNEL_VOICE, loops=0)
 
-    def set_next_event_callback(self, callback):
+    def set_next_event_callbacks(self, callbacks):
         print("Setting audio next event callback")
-        self.next_event_callback = callback
+        self.next_event_callbacks = callbacks
 
     def is_still_playing(self, channel_num):
         return self.player.is_still_playing(channel_num)
 
     def tick(self):
-        if self.next_event_callback is not None and not self.player.is_still_playing(CHANNEL_VOICE):
-            print("Calling audio next event callback")
+        if self.next_event_callbacks is not None and len(self.next_event_callbacks) > 0 and not self.player.is_still_playing(CHANNEL_VOICE):
+            print("Calling audio next event callbacks", self.next_event_callbacks)
+            self.next_event_callback = self.next_event_callbacks.pop(0)
             self.next_event_callback()
-            self.next_event_callback = None
+            if (len(self.next_event_callbacks) == 0):
+                self.next_event_callbacks = None
 
 
     # def play_bat_journey(self):

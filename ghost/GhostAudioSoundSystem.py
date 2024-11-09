@@ -32,6 +32,7 @@ SPIN_DOWN = 19
 GAME_BACKGROUND = 20
 MACHINE_SUCCESS = 21
 STORY_INTRO_SOUNDS = 22
+MACHINE_SCANNING = 23
 
 STARTUP_TIME = 10
 
@@ -174,7 +175,7 @@ class GhostAudioSoundSystem(object):
         if not self.is_playing_game_background:
             print("Playing game background")
             self.stop_all()
-            self.player.play_song(GAME_BACKGROUND, 0.5, channel_num=AMBIENT, loops=-1)
+            self.player.play_song(GAME_BACKGROUND, 0.5, channel_num=CHANNEL_AMBIENT, loops=-1)
             self.is_playing_game_background = True
 
     def play_running_out_of_time(self):
@@ -203,7 +204,7 @@ class GhostAudioSoundSystem(object):
 
     def play_scanning(self):
         print("Playing Scanning")
-        self.player.play_song(INTRO_SCAN, 1, channel_num=CHANNEL_FX_2, loops=0)
+        self.player.play_song(MACHINE_SCANNING, 1, channel_num=CHANNEL_FX_2, loops=0)
 
     def queue_ghost_story(self, rfid):
         # story = GHOST_STORIES_BY_RFID[rfid]

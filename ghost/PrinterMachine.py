@@ -191,3 +191,4 @@ class PrinterMachine(object):
             routine.tick()
         self.button.tick()
         self.pixels.render()
+        self.mqtt.publish_batch()

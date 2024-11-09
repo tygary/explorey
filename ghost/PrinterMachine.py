@@ -211,7 +211,7 @@ class PrinterMachine(object):
     def update(self):
         if self.next_reset_time > 0 and self.next_reset_time < time.time():
             print("Timed out, resetting")
-            selt.reset()
+            self.reset()
         if self.mode is MODE_SCANNING and self.next_event_time > 0 and self.next_event_time < time.time():
             print("Ready to print")
             self.mode = MODE_READY_TO_PRINT

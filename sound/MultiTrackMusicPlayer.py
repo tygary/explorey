@@ -25,7 +25,7 @@ class MultiTrackMusicPlayer:
 
     def queue_song(self, song_index, channel_num=0):
         channel = self.channels[channel_num]
-        channel.queue(self.songs[song_index], loops=0)
+        channel.queue(self.songs[song_index])
 
     def queue_temp_song(self, song_path, volume, pos=0.0, loops=-1, channel_num=0):
         channel = self.channels[channel_num]

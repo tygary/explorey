@@ -6,14 +6,14 @@ import RPi.GPIO as GPIO
 from lighting.PixelControl import PixelControl
 from lighting.Colors import Colors
 from lighting.routines import Routines
-# from mqtt.MqttClient import MqttClient
+from mqtt.MqttClient import MqttClient
 
-# from ratlantis.Switchboard import Switchboard
+from ratlantis.Switchboard import Switchboard
 from timemachine.Switches import GameThreeWaySwitch, GameTwoWaySwitch
-# from timemachine.Button import GameButtonWithFourLights
-# from ghost.ElevatorButtons import GameElevatorButtons
+from timemachine.Button import GameButtonWithFourLights
+from ghost.ElevatorButtons import GameElevatorButtons
 
-# from ghost.GhostAudioSoundSystem import GhostAudioSoundSystem
+from ghost.GhostAudioSoundSystem import GhostAudioSoundSystem
 import ghost.GhostAudioGameLogic as game
 
 EVENT_CARD_FOUND = "cardFound"
@@ -65,20 +65,20 @@ class AudioMachine(object):
         GPIO.cleanup()
         GPIO.setmode(GPIO.BCM)
         self.pixels = PixelControl(700, led_brightness=180, led_pin=21)
-        # self.mqtt = MqttClient()
-        # self.sound = GhostAudioSoundSystem()
+        self.mqtt = MqttClient()
+        self.sound = GhostAudioSoundSystem()
 
-        # self.switchboard = Switchboard(self.pixels, [4, 3, 2, 1, 8, 9, 10, 11], SWITCHBOARD_PINS)
-        # self.green_button = GameButtonWithFourLights(self.pixels, GREEN_BUTTON_PIN, GREEN_BUTTON_PIXELS, self.green_button_pressed)
-        # self.red_button = GameButtonWithFourLights(self.pixels, RED_BUTTON_PIN, RED_BUTTON_PIXELS, self.red_button_pressed)
-        # self.switch_a = GameTwoWaySwitch(self.pixels, SWITCH_A_PIN, SWITCH_A_PIXEL_LEFT, SWITCH_A_PIXEL_RIGHT, self.switch_a_toggled)
-        # self.switch_b = GameTwoWaySwitch(self.pixels, SWITCH_B_PIN, SWITCH_B_PIXEL_LEFT, SWITCH_B_PIXEL_RIGHT, self.switch_b_toggled)
+        self.switchboard = Switchboard(self.pixels, [4, 3, 2, 1, 8, 9, 10, 11], SWITCHBOARD_PINS)
+        self.green_button = GameButtonWithFourLights(self.pixels, GREEN_BUTTON_PIN, GREEN_BUTTON_PIXELS, self.green_button_pressed)
+        self.red_button = GameButtonWithFourLights(self.pixels, RED_BUTTON_PIN, RED_BUTTON_PIXELS, self.red_button_pressed)
+        self.switch_a = GameTwoWaySwitch(self.pixels, SWITCH_A_PIN, SWITCH_A_PIXEL_LEFT, SWITCH_A_PIXEL_RIGHT, self.switch_a_toggled)
+        self.switch_b = GameTwoWaySwitch(self.pixels, SWITCH_B_PIN, SWITCH_B_PIXEL_LEFT, SWITCH_B_PIXEL_RIGHT, self.switch_b_toggled)
         self.power_switch = GameThreeWaySwitch(self.pixels, POWER_SWITCH_A_PIN, POWER_SWITCH_B_PIN, POWER_SWITCH_TOP_PIXELS, POWER_SWITCH_BOTTOM_PIXELS, self.power_switch_toggled)
-        # self.elevator_buttons = GameElevatorButtons(self.pixels, ELEVATOR_BUTTONS_PINS, ELEVATOR_BUTTONS_PIXELS, self.elevator_button_pressed)
+        self.elevator_buttons = GameElevatorButtons(self.pixels, ELEVATOR_BUTTONS_PINS, ELEVATOR_BUTTONS_PIXELS, self.elevator_button_pressed)
 
-        # self.game = game.GhostAudioGameLogic(self.green_button, self.red_button, self.switch_a, self.switch_b, self.power_switch, self.switchboard, self.elevator_buttons, self.mqtt, self.sound, on_change_mode=self._on_change_mode)
-        # self._update_deco_lights()
-        # self.mqtt.listen(self.__parse_mqtt_event)
+        self.game = game.GhostAudioGameLogic(self.green_button, self.red_button, self.switch_a, self.switch_b, self.power_switch, self.switchboard, self.elevator_buttons, self.mqtt, self.sound, on_change_mode=self._on_change_mode)
+        self._update_deco_lights()
+        self.mqtt.listen(self.__parse_mqtt_event)
 
     def _on_change_mode(self, mode):
         print("Mode changed to", mode)
@@ -170,17 +170,17 @@ class AudioMachine(object):
 
     def update(self):
         # try:
-        # self.game.update()
-        # self.green_button.tick()
-        # self.red_button.tick()
-        # self.switch_a.tick()
-        # self.switch_b.tick()
+        self.game.update()
+        self.green_button.tick()
+        self.red_button.tick()
+        self.switch_a.tick()
+        self.switch_b.tick()
         self.power_switch.tick()
-        # self.elevator_buttons.tick()
-        # self.switchboard.update()
-        # self.deco_routine.tick()
-        # self.headphone_routine.tick()
-        # self.pixels.render()
-        # self.mqtt.publish_batch()
+        self.elevator_buttons.tick()
+        self.switchboard.update()
+        self.deco_routine.tick()
+        self.headphone_routine.tick()
+        self.pixels.render()
+        self.mqtt.publish_batch()
         # except Exception as e:
         #     print("Audio Machine failed to update", e)

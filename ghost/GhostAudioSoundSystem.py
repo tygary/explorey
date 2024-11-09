@@ -211,10 +211,12 @@ class GhostAudioSoundSystem(object):
         self.player.play_song(STORY_INTRO_SOUNDS, 0.5, channel_num=CHANNEL_VOICE, loops=0)
 
     def play_ghost_story(self, rfid):
+        print("Playing Ghost Story")
         story = GHOST_STORIES_BY_RFID["test"]
         self.player.play_temp_song(story, 1, channel=CHANNEL_VOICE, loops=0)
 
     def set_next_event_callback(self, callback):
+        print("Setting audio next event callback")
         self.next_event_callback = callback
 
     def is_still_playing(self, channel_num):
@@ -222,6 +224,7 @@ class GhostAudioSoundSystem(object):
 
     def tick(self):
         if self.next_event_callback is not None and not self.player.is_still_playing(CHANNEL_VOICE):
+            print("Calling audio next event callback")
             self.next_event_callback()
             self.next_event_callback = None
 

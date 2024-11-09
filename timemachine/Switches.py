@@ -81,6 +81,8 @@ class ThreeWaySwitch(object):
     callback = None
 
     def __init__(self, pin_a, pin_b, callback=None):
+        print("pin_a", pin_a)
+        print("pin_b", pin_b)
         self.pin_a = pin_a
         self.pin_b = pin_b
         self.callback = callback

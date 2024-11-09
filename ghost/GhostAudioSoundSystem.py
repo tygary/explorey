@@ -59,7 +59,7 @@ songs = [
     '/home/admin/explorey/sound/GhostAudio-objective_completed.ogg',
     '/home/admin/explorey/sound/GhostAudio-spin_down.ogg',
     '/home/admin/explorey/sound/GhostAudio-game_background.ogg',
-    '/home/admin/explorey/sound/GhostAudio-startup.ogg', # '/home/admin/explorey/sound/GhostAudio-machine_success.ogg',
+    '/home/admin/explorey/sound/GhostAudio-machine_success.ogg',
     '/home/admin/explorey/sound/GhostAudio-story_intro_sounds.ogg',
     '/home/admin/explorey/sound/GhostAudio-scanning.ogg',
 ]
@@ -207,9 +207,9 @@ class GhostAudioSoundSystem(object):
         self.player.play_song(MACHINE_SCANNING, 0.5, channel_num=CHANNEL_FX_2, loops=0)
 
     def queue_ghost_story(self, rfid):
-        # story = GHOST_STORIES_BY_RFID[rfid]
+        story = GHOST_STORIES_BY_RFID["test"]
         self.player.queue_song(STORY_INTRO_SOUNDS, channel_num=CHANNEL_VOICE)
-        # self.player.queue_temp_song(story, 1, channel=CHANNEL_VOICE, loops=0)
+        self.player.queue_temp_song(story, 1, channel=CHANNEL_VOICE, loops=0)
         self.player.queue_song(PUT_BACK_HEADPHONES, channel=CHANNEL_VOICE)
 
     def set_next_event_callback(self, callback):
@@ -265,4 +265,6 @@ class GhostAudioSoundSystem(object):
 #     control.leverController.check_for_new_switch_values()
 #     continue
 
-GHOST_STORIES_BY_RFID = {}
+GHOST_STORIES_BY_RFID = {
+    "test": '/home/admin/explorey/sound/GhostAudio-story_1.ogg',
+}

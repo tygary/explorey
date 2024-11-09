@@ -72,7 +72,7 @@ class GhostAudioSoundSystem(object):
     is_playing_running_out_of_time = False
     is_playing_game_background = False
 
-    next_event_callback = None
+    next_event_callbacks = None
 
     def stop_all(self):
         self.player.stop_music(CHANNEL_AMBIENT)

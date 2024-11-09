@@ -146,6 +146,7 @@ class GameThreeWaySwitch(ThreeWaySwitch):
     def set_desired_mode(self, mode):
         self.desired_mode = mode
         self.completed = False
+        print("Power switch desired mode set to", mode)
         self._update_lights()
 
     def set_party_mode(self):

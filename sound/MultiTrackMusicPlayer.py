@@ -36,6 +36,7 @@ class MultiTrackMusicPlayer:
     def is_still_playing(self, channel_num=0):
         channel = self.channels[channel_num]
         try:
+            print("Checking if music is still playing", channel.get_busy())
             return channel.get_busy() is True
             # return pygame.mixer.music.get_busy() == True
         except Exception as e:

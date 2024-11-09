@@ -87,13 +87,14 @@ class ThreeWaySwitch(object):
         self.pin_b = pin_b
         self.callback = callback
 
-        add_event_detection(self.pin_a, bothdirections=True, callback=self._on_toggle, pullup=True)
-        add_event_detection(self.pin_b, bothdirections=True, callback=self._on_toggle, pullup=True)
+        GPIO.setup(self.pin_a, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.setup(self.pin_b, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        # add_event_detection(self.pin_a, bothdirections=True, callback=self._on_toggle, pullup=True)
+        # add_event_detection(self.pin_b, bothdirections=True, callback=self._on_toggle, pullup=True)
         self.mode = 2
         self._update_mode()
 
     def _update_mode(self):
-        time.sleep(0.1)
         a = GPIO.input(self.pin_a)
         b = GPIO.input(self.pin_b)
         new_mode = 2
@@ -162,5 +163,6 @@ class GameThreeWaySwitch(ThreeWaySwitch):
         self._update_lights()
 
     def tick(self):
+        self._on_toggle(None)
         self.routine_top.tick()
         self.routine_bottom.tick()

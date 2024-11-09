@@ -15,6 +15,7 @@ class WaveRoutine(TimeRoutine):
     starting_color = None
     lights = None
     next_index = 0
+    prev_index = 0
     running = True
     delay = 0
 
@@ -73,15 +74,17 @@ class WaveRoutine(TimeRoutine):
                 # print "action {}".format(self.next_index)
                 self.next_action = self.now + self.pixel_wait_time
                 if self.next_index < len(self.lights):
-                    light = self.lights[self.next_index]
-                    light.intendedColor = self.colors[self.color_index][:]
-                    light.duration = self.pixel_fade_time
-                    light.iterations = randrange(5)
-                    light.up = True
-                    light.timestamp = self.now
-                    light.waitDuration = randrange(1000, 3000)
-                    light.nextActionTime = light.timestamp + light.duration
-                    light.mode = LIGHT_FADE
+                    for index in range(self.prev_index + 1, self.next_index):
+                        light = self.lights[index]
+                        light.intendedColor = self.colors[self.color_index][:]
+                        light.duration = self.pixel_fade_time
+                        light.iterations = randrange(5)
+                        light.up = True
+                        light.timestamp = self.now
+                        light.waitDuration = randrange(1000, 3000)
+                        light.nextActionTime = light.timestamp + light.duration
+                        light.mode = LIGHT_FADE
+                    self.prev_index = self.next_index
                     self.next_index += 1 * self.pixel_multiplier
                 else:
                     self.next_index = 0

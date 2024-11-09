@@ -204,7 +204,7 @@ class GhostAudioSoundSystem(object):
 
     def play_scanning(self):
         print("Playing Scanning")
-        self.player.play_song(MACHINE_SCANNING, 1, channel_num=CHANNEL_FX_2, loops=0)
+        self.player.play_song(MACHINE_SCANNING, 0.5, channel_num=CHANNEL_FX_2, loops=0)
 
     def queue_ghost_story(self, rfid):
         # story = GHOST_STORIES_BY_RFID[rfid]

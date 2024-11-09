@@ -93,6 +93,7 @@ class ThreeWaySwitch(object):
     def _update_mode(self):
         a = GPIO.input(self.pin_a)
         b = GPIO.input(self.pin_b)
+        print(f"Switch toggled a:{a}, b:{b}")
         new_mode = 2
         if a == 0:
             new_mode = 1
@@ -100,7 +101,7 @@ class ThreeWaySwitch(object):
             new_mode = 3
         if new_mode != self.mode:
             self.mode = new_mode
-            print(f"Switch toggled a:{a}, b:{b}")
+            # print(f"Switch toggled a:{a}, b:{b}")
 
     def _on_toggle(self, value):
         old_mode = self.mode

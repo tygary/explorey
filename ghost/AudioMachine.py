@@ -3,15 +3,15 @@ import random
 import time
 import RPi.GPIO as GPIO
 
-from lighting.PixelControl import PixelControl
+# from lighting.PixelControl import PixelControl
 from lighting.Colors import Colors
 from lighting.routines import Routines
-from mqtt.MqttClient import MqttClient
+# from mqtt.MqttClient import MqttClient
 
-from ratlantis.Switchboard import Switchboard
+# from ratlantis.Switchboard import Switchboard
 from timemachine.Switches import GameThreeWaySwitch, GameTwoWaySwitch
-from timemachine.Button import GameButtonWithFourLights
-from ghost.ElevatorButtons import GameElevatorButtons
+# from timemachine.Button import GameButtonWithFourLights
+# from ghost.ElevatorButtons import GameElevatorButtons
 
 # from ghost.GhostAudioSoundSystem import GhostAudioSoundSystem
 import ghost.GhostAudioGameLogic as game
@@ -64,8 +64,8 @@ class AudioMachine(object):
     def __init__(self):
         GPIO.cleanup()
         GPIO.setmode(GPIO.BCM)
-        self.pixels = PixelControl(700, led_brightness=180, led_pin=21)
-        self.mqtt = MqttClient()
+        # self.pixels = PixelControl(700, led_brightness=180, led_pin=21)
+        # self.mqtt = MqttClient()
         # self.sound = GhostAudioSoundSystem()
 
         # self.switchboard = Switchboard(self.pixels, [4, 3, 2, 1, 8, 9, 10, 11], SWITCHBOARD_PINS)
@@ -78,7 +78,7 @@ class AudioMachine(object):
 
         # self.game = game.GhostAudioGameLogic(self.green_button, self.red_button, self.switch_a, self.switch_b, self.power_switch, self.switchboard, self.elevator_buttons, self.mqtt, self.sound, on_change_mode=self._on_change_mode)
         # self._update_deco_lights()
-        self.mqtt.listen(self.__parse_mqtt_event)
+        # self.mqtt.listen(self.__parse_mqtt_event)
 
     def _on_change_mode(self, mode):
         print("Mode changed to", mode)
@@ -180,7 +180,7 @@ class AudioMachine(object):
         # self.switchboard.update()
         # self.deco_routine.tick()
         # self.headphone_routine.tick()
-        self.pixels.render()
-        self.mqtt.publish_batch()
+        # self.pixels.render()
+        # self.mqtt.publish_batch()
         # except Exception as e:
         #     print("Audio Machine failed to update", e)

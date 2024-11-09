@@ -3,7 +3,7 @@ import random
 import time
 import RPi.GPIO as GPIO
 
-# from lighting.PixelControl import PixelControl
+from lighting.PixelControl import PixelControl
 from lighting.Colors import Colors
 from lighting.routines import Routines
 # from mqtt.MqttClient import MqttClient
@@ -64,7 +64,7 @@ class AudioMachine(object):
     def __init__(self):
         GPIO.cleanup()
         GPIO.setmode(GPIO.BCM)
-        # self.pixels = PixelControl(700, led_brightness=180, led_pin=21)
+        self.pixels = PixelControl(700, led_brightness=180, led_pin=21)
         # self.mqtt = MqttClient()
         # self.sound = GhostAudioSoundSystem()
 

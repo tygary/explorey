@@ -58,7 +58,7 @@ songs = [
     '/home/admin/explorey/sound/GhostAudio-objective_completed.ogg',
     '/home/admin/explorey/sound/GhostAudio-spin_down.ogg',
     '/home/admin/explorey/sound/GhostAudio-game_background.ogg',
-    '/home/admin/explorey/sound/GhostAudio-machine_success.ogg',
+    '/home/admin/explorey/sound/GhostAudio-startup.ogg', # '/home/admin/explorey/sound/GhostAudio-machine_success.ogg',
     '/home/admin/explorey/sound/GhostAudio-story_intro_sounds.ogg',
     '/home/admin/explorey/sound/GhostAudio-scanning.ogg',
 ]

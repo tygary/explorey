@@ -90,10 +90,10 @@ class PrinterMachine(object):
             ]
         elif self.mode is MODE_SCANNING:
             self.light_routines = [
-                Routines.WaveRoutine(self.pixels, TUBE_INNER_PIXELS_A, [Colors.light_green], pixel_wait_time=0, wave_wait_time=0, brightness=0.7),
-                Routines.WaveRoutine(self.pixels, TUBE_INNER_PIXELS_B, [Colors.yellow], pixel_wait_time=0, wave_wait_time=0, brightness=0.7),
-                Routines.WaveRoutine(self.pixels, TUBE_INNER_PIXELS_C, [Colors.orange], pixel_wait_time=0, wave_wait_time=0, brightness=1.0),
-                Routines.PulseRoutine(self.pixels, TUBE_INNER_PIXELS, Colors.mid_green, 0.5, brightness=0.2),
+                Routines.WaveRoutine(self.pixels, TUBE_INNER_PIXELS_A, [get_grb_color(Colors.light_green)], pixel_wait_time=0, wave_wait_time=0, brightness=0.7),
+                Routines.WaveRoutine(self.pixels, TUBE_INNER_PIXELS_B, [get_grb_color(Colors.yellow)], pixel_wait_time=0, wave_wait_time=0, brightness=0.7),
+                Routines.WaveRoutine(self.pixels, TUBE_INNER_PIXELS_C, [get_grb_color(Colors.orange)], pixel_wait_time=0, wave_wait_time=0, brightness=1.0),
+                Routines.PulseRoutine(self.pixels, TUBE_INNER_PIXELS, get_grb_color(Colors.mid_green), 0.5, brightness=0.2),
 
                 Routines.WaveRoutine(self.pixels, TUBE_OUTER_PIXELS, [get_grb_color(Colors.light_green), get_grb_color(Colors.yellow)], wave_wait_time=0, pixel_wait_time=0, brightness=0.7),
                 
@@ -106,8 +106,8 @@ class PrinterMachine(object):
         elif self.mode is MODE_READY_TO_PRINT:
             self.light_routines = [
                 # Routines.BleuRoutine(self.pixels, TUBE_INNER_PIXELS, brightness=0.25),
-                Routines.WaveRoutine(self.pixels, TUBE_INNER_PIXELS, [Colors.mid_green, Colors.orange], wave_wait_time=0, brightness=0.25),
-                Routines.PulseRoutine(self.pixels, TUBE_INNER_PIXELS, Colors.light_green, 0.5, brightness=0.25),
+                Routines.WaveRoutine(self.pixels, TUBE_INNER_PIXELS, [get_grb_color(Colors.mid_green), get_grb_color(Colors.orange)], wave_wait_time=0, brightness=0.25),
+                Routines.PulseRoutine(self.pixels, TUBE_INNER_PIXELS, get_grb_color(Colors.light_green), 0.5, brightness=0.25),
 
                 # Routines.MushroomRoutine(self.pixels, TUBE_OUTER_PIXELS, brightness=0.25),
                 Routines.WaveRoutine(self.pixels, TUBE_OUTER_PIXELS, [get_grb_color(Colors.green), get_grb_color(Colors.soft_blue)], wave_wait_time=0, pixel_wait_time=0, brightness=0.25),

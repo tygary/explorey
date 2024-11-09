@@ -4,8 +4,9 @@ from lighting.routines.Routine import Routine
 class RainbowRoutine(Routine):
     values = {}
 
-    def __init__(self, pixels, addresses, brightness=1.0):
+    def __init__(self, pixels, addresses, brightness=1.0, speed=5):
         Routine.__init__(self, pixels, addresses, should_override=False, brightness=brightness)
+        self.speed = speed
         for i in self.addresses:
             red = 100 + i % 255
             green = i % 255
@@ -25,5 +26,5 @@ class RainbowRoutine(Routine):
     def tick(self):
         for i in self.addresses:
             for j in range(2):
-                self.values[i][j] = (self.values[i][j] + 5) % 255
+                self.values[i][j] = (self.values[i][j] + self.speed) % 255
             self.pixels.setColor(i, self.values[i])

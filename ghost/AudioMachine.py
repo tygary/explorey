@@ -13,7 +13,7 @@ from timemachine.Switches import GameThreeWaySwitch, GameTwoWaySwitch
 from timemachine.Button import GameButtonWithFourLights
 from ghost.ElevatorButtons import GameElevatorButtons
 
-from ghost.GhostAudioSoundSystem import GhostAudioSoundSystem
+# from ghost.GhostAudioSoundSystem import GhostAudioSoundSystem
 import ghost.GhostAudioGameLogic as game
 
 EVENT_CARD_FOUND = "cardFound"
@@ -66,7 +66,7 @@ class AudioMachine(object):
         GPIO.setmode(GPIO.BCM)
         self.pixels = PixelControl(700, led_brightness=180, led_pin=21)
         self.mqtt = MqttClient()
-        self.sound = GhostAudioSoundSystem()
+        # self.sound = GhostAudioSoundSystem()
 
         self.switchboard = Switchboard(self.pixels, [4, 3, 2, 1, 8, 9, 10, 11], SWITCHBOARD_PINS)
         self.green_button = GameButtonWithFourLights(self.pixels, GREEN_BUTTON_PIN, GREEN_BUTTON_PIXELS, self.green_button_pressed)

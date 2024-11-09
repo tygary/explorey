@@ -94,7 +94,7 @@ class PrinterMachine(object):
                 Routines.WaveRoutine(self.pixels, TUBE_INNER_PIXELS_C, [Colors.orange], pixel_wait_time=0, wave_wait_time=0, brightness=1.0),
                 Routines.PulseRoutine(self.pixels, TUBE_INNER_PIXELS, Colors.mid_green, 0.5, brightness=0.2),
 
-                Routines.WaveRoutine(self.pixels, TUBE_OUTER_PIXELS, [Colors.light_green, Colors.yellow], wave_wait_time=0, brightness=0.7),
+                Routines.WaveRoutine(self.pixels, TUBE_OUTER_PIXELS, [Colors.get_grb_color(Colors.light_green), Colors.get_grb_color(Colors.yellow)], wave_wait_time=0, brightness=0.7),
                 
                 Routines.MushroomRoutine(self.pixels, DIORAMA_WALL_PIXELS, brightness=0.5),
                 Routines.PulseRoutine(self.pixels, DIORAMA_WALL_PIXELS, Colors.light_green, 0.5, brightness=0.3),
@@ -109,8 +109,8 @@ class PrinterMachine(object):
                 Routines.PulseRoutine(self.pixels, TUBE_INNER_PIXELS, Colors.light_green, 0.5, brightness=0.25),
 
                 Routines.MushroomRoutine(self.pixels, TUBE_OUTER_PIXELS, brightness=0.25),
-                Routines.WaveRoutine(self.pixels, TUBE_OUTER_PIXELS, [Colors.purple, Colors.soft_blue], wave_wait_time=10, brightness=0.25),
-                Routines.PulseRoutine(self.pixels, TUBE_OUTER_PIXELS, Colors.purple, 0.3, brightness=0.25),
+                Routines.WaveRoutine(self.pixels, TUBE_OUTER_PIXELS, [Colors.get_grb_color(Colors.purple), Colors.get_grb_color(Colors.soft_blue)], wave_wait_time=10, brightness=0.25),
+                Routines.PulseRoutine(self.pixels, TUBE_OUTER_PIXELS, Colors.get_grb_color(Colors.purple), 0.3, brightness=0.25),
                 
                 Routines.MushroomRoutine(self.pixels, DIORAMA_WALL_PIXELS, brightness=0.3),
                 Routines.RandomPulseRoutine(self.pixels, DIORAMA_WALL_PIXELS, brightness=0.5),

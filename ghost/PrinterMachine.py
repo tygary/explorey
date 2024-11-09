@@ -85,8 +85,10 @@ class PrinterMachine(object):
             ]
         elif self.mode is MODE_READY_TO_PRINT:
             self.light_routines = [
-                Routines.ColorRoutine(self.pixels, TUBE_INNER_PIXELS, Colors.green),
-                Routines.ColorRoutine(self.pixels, TUBE_OUTER_PIXELS, Colors.green),
+                Routines.BleuRoutine(self.pixels, TUBE_INNER_PIXELS),
+                Routines.WaveRoutine(self.pixels, TUBE_INNER_PIXELS, [Colors.purple, Colors.soft_blue], wave_wait_time=0),
+                Routines.MushroomRoutine(self.pixels, TUBE_OUTER_PIXELS),
+                Routines.WaveRoutine(self.pixels, TUBE_OUTER_PIXELS, [Colors.purple, Colors.soft_blue], wave_wait_time=10),
                 Routines.RandomPulseRoutine(self.pixels, DIORAMA_WALL_PIXELS),
                 Routines.MushroomRoutine(self.pixels, DIORAMA_FIBER_PIXELS),
             ]

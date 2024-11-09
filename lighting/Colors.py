@@ -1,7 +1,7 @@
 from random import randint, randrange
 
 
-def get_grb_color(self, color):
+def get_grb_color(color):
     return [color[1], color[0], color[2], color[3]]
 
 

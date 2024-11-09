@@ -23,6 +23,8 @@ EVENT_RESET_COMMAND = "reset"
 EVENT_SET_RUNNING = "setRunning"
 EVENT_SET_FINISHED = "setFinished"
 
+EVENT_READY_TO_PRINT = "ready_to_print"
+
 BUTTON_PIN = 22
 BUTTON_LIGHT_PIN = 23
 
@@ -186,6 +188,12 @@ class PrinterMachine(object):
             self.mode = MODE_READY_TO_PRINT
             self.next_event_time = 0
             self.button.flash_light()
+            self.mqtt.queue_in_batch_publish({
+                "event": EVENT_GHOST_UPDATE,
+                "reader": self.id,
+                "id": self.id,
+                "command": EVENT_READY_TO_PRINT,
+            })
             self._update_light_routines()
         for routine in self.light_routines:
             routine.tick()

@@ -203,7 +203,7 @@ class GhostAudioGameLogic(object):
             print("Game Lose!")
             self.sound.stop_running_out_of_time()
             self.sound.play_game_over()
-            self.sound.queue_put_back_headphones()
+            # self.sound.queue_put_back_headphones()
             self.current_rfid = None
             self.celebration_end_time = time.time() + GAME_OVER_TIME
             self._set_party_mode()

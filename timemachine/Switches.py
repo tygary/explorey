@@ -126,6 +126,7 @@ class GameThreeWaySwitch(ThreeWaySwitch):
         super()._on_toggle(value)
         if self.desired_mode == self.mode or self.completed:
             self.completed = True
+            print("Switch is completed!")
         self._update_lights()
 
     def _update_lights(self):

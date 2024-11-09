@@ -162,7 +162,7 @@ class PrinterMachine(object):
                             elif event == EVENT_CARD_REMOVED:
                                 self.__on_card_removed()
                             elif event == EVENT_FINISHED_BOOT:
-                                pass
+                                self.reset()
                                 # Nothing yet
         except Exception as e:
             print("Artifact Failed parsing event", event, e)
@@ -194,20 +194,24 @@ class PrinterMachine(object):
         # self.next_event_time = 0
         # self.button.set_light(False)
 
+    def reset(self):
+        self.mode = MODE_OFF
+        self.current_rfid = None
+        self.next_event_time = 0
+        self.next_reset_time = 0
+        self.button.set_light(False)
+        self._update_light_routines()
+        self.mqtt.queue_in_batch_publish({
+            "event": EVENT_GHOST_UPDATE,
+            "reader": self.id,
+            "id": self.id,
+            "command": EVENT_RESET_COMMAND
+        })
+
     def update(self):
         if self.next_reset_time > 0 and self.next_reset_time < time.time():
             print("Timed out, resetting")
-            self.mode = MODE_OFF
-            self.next_reset_time = 0
-            self.button.set_light(False)
-            self.current_rfid = None
-            self._update_light_routines()
-            self.mqtt.queue_in_batch_publish({
-                "event": EVENT_GHOST_UPDATE,
-                "reader": self.id,
-                "id": self.id,
-                "command": EVENT_RESET_COMMAND,
-            })
+            selt.reset()
         if self.mode is MODE_SCANNING and self.next_event_time > 0 and self.next_event_time < time.time():
             print("Ready to print")
             self.mode = MODE_READY_TO_PRINT

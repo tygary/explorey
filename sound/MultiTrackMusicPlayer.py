@@ -16,7 +16,7 @@ class MultiTrackMusicPlayer:
         for i in range(num_channels):
             self.channels.append(pygame.mixer.Channel(i))
 
-    def play_song(self, song_index, volume, pos=0.0, loops=-1, channel_num=0):
+    def play_song(self, song_index, volume, loops=-1, channel_num=0):
         channel = self.channels[channel_num]
         channel.stop()
 

@@ -88,7 +88,7 @@ class GhostAudioSoundSystem(object):
         print("Playing Intro Scan")
         self.player.stop_music(CHANNEL_VOICE)
         self.player.play_song(INTRO_SCAN, 1, channel_num=CHANNEL_VOICE, loops=0)
-        self.player.queue_song(ENGAGE_NUMINSITY, 1, channel_num=CHANNEL_VOICE, loops=0)
+        self.player.queue_song(ENGAGE_NUMINSITY, channel_num=CHANNEL_VOICE, loops=0)
     
     def play_engage_numinsity(self):
         print("Playing Engage Numinsity")
@@ -207,7 +207,7 @@ class GhostAudioSoundSystem(object):
 
     def queue_ghost_story(self, rfid):
         # story = GHOST_STORIES_BY_RFID[rfid]
-        self.player.queue_song(STORY_INTRO_SOUNDS, 1, channel_num=CHANNEL_VOICE, loops=0)
+        self.player.queue_song(STORY_INTRO_SOUNDS, channel_num=CHANNEL_VOICE, loops=0)
         # self.player.queue_temp_song(story, 1, channel=CHANNEL_VOICE, loops=0)
         self.player.queue_song(PUT_BACK_HEADPHONES, channel=CHANNEL_VOICE, loops=0)
 

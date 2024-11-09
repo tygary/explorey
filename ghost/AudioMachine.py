@@ -178,7 +178,7 @@ class AudioMachine(object):
         self.power_switch.tick()
         self.elevator_buttons.tick()
         self.switchboard.update()
-        self.deco_routine.tick()
+        # self.deco_routine.tick()
         self.headphone_routine.tick()
         self.pixels.render()
         self.mqtt.publish_batch()

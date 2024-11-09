@@ -13,6 +13,34 @@ LIGHT_FADE = 0
 LIGHT_BLINK = 1
 LIGHT_NUM_EFFECTS = 2
 
+CAVE_COLOR_SCHEME_BLUES = [[0, 81, 140], [0, 164, 229], [0, 61, 81], [0, 162, 216]],
+CAVE_COLOR_SCHEME_BLUE_GREEN_PURPLE = [
+    [63, 168, 204],
+    [117, 86, 124],
+    [207, 255, 145],
+    [109, 249, 186],
+]
+CAVE_COLOR_SCHCME_RED_ORANGE_YELLOW_GREEN = [
+    [189, 51, 7],
+    [235, 161, 11],
+    [140, 163, 8],
+    [242, 187, 12],
+]
+CAVE_COLOR_SCHEME_PINKS = [[160, 26, 125], [49, 24, 71], [236, 64, 103], [239, 93, 96]]
+CAVE_COLOR_SCHEME_BLUE_ORANGE_YELLOW = [
+    [15, 163, 177],
+    [247, 160, 114],
+    [237, 222, 164],
+    [255, 155, 66],
+]
+CAVE_COLOR_SCHEME_COTTON_CANDY = [
+    [178, 247, 239],
+    [247, 214, 224],
+    [123, 223, 242],
+    [242, 181, 212],
+]
+CAVE_COLOR_SCHEME_GREENS = [[178, 255, 158], [29, 211, 176], [60, 22, 66], [175, 252, 65]]
+
 
 class BleuRoutine(Routine):
     now = None
@@ -29,38 +57,20 @@ class BleuRoutine(Routine):
     cavePanelColorTransitioning = False
 
     cavePanelColorSchemes = [
-        [[0, 81, 140], [0, 164, 229], [0, 61, 81], [0, 162, 216]],  # blues
-        [
-            [63, 168, 204],
-            [117, 86, 124],
-            [207, 255, 145],
-            [109, 249, 186],
-        ],  # blue green purple
-        [
-            [189, 51, 7],
-            [235, 161, 11],
-            [140, 163, 8],
-            [242, 187, 12],
-        ],  # red orange yellow green
-        [[160, 26, 125], [49, 24, 71], [236, 64, 103], [239, 93, 96]],  # pinks
-        [
-            [15, 163, 177],
-            [247, 160, 114],
-            [237, 222, 164],
-            [255, 155, 66],
-        ],  # blue orange yellow
-        [
-            [178, 247, 239],
-            [247, 214, 224],
-            [123, 223, 242],
-            [242, 181, 212],
-        ],  # cotton candy
-        [[178, 255, 158], [29, 211, 176], [60, 22, 66], [175, 252, 65]],  # greens
+        CAVE_COLOR_SCHEME_BLUES,
+        CAVE_COLOR_SCHEME_BLUE_GREEN_PURPLE,
+        CAVE_COLOR_SCHCME_RED_ORANGE_YELLOW_GREEN,
+        CAVE_COLOR_SCHEME_PINKS,
+        CAVE_COLOR_SCHEME_BLUE_ORANGE_YELLOW,
+        CAVE_COLOR_SCHEME_COTTON_CANDY,
+        CAVE_COLOR_SCHEME_GREENS
     ]
 
-    def __init__(self, pixels, addresses, should_override=False, brightness=1.0):
+    def __init__(self, pixels, addresses, should_override=False, brightness=1.0, color_schemes=None):
         Routine.__init__(self, pixels, addresses, should_override, brightness)
         self.cave_panel_lights = [Light] * len(addresses)
+        if color_schemes is not None:
+            self.cavePanelColorSchemes = color_schemes
         for i in range(len(addresses)):
             self.cave_panel_lights[i] = Light(addresses[i])
 

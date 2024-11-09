@@ -24,10 +24,11 @@ class Colors(object):
         all_colors = self.get_all_colors()
         index = randrange(len(all_colors))
         return all_colors[index]
+    
+    def get_grb_color(self, color):
+        return [color[1], color[0], color[2], color[3]]
 
     def get_all_colors(self):
         return [self.light_green, self.mid_green, self.green, self.mixed_blue, self.blue, self.red]
-
-
 
 

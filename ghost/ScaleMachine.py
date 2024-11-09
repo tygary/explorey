@@ -75,7 +75,7 @@ class GhostScaleMachine(object):
 
             self.light_routines = [
                 # Routines.ColorRoutine(self.pixels, POWER_BOARD_PIXELS, [0, 50, 100], brightness=0.2),
-                Routines.WaveRoutine(self.pixels, POWER_BOARD_PIXELS, [Colors.red, Colors.green, Colors.blue], wave_wait_time=10, pixel_wait_time=0, should_override=True, brightness=0.8, can_reverse=False),
+                Routines.WaveRoutine(self.pixels, POWER_BOARD_PIXELS, [Colors.blue, Colors.mixed_blue, Colors.purple], wave_wait_time=10, pixel_wait_time=0, should_override=True, brightness=0.8, can_reverse=False),
                 Routines.MushroomRoutine(self.pixels, POWER_BOARD_PIXELS, brightness=1.0),
                 # Routines.RainbowRoutine(self.pixels, POWER_BOARD_PIXELS),
             ]

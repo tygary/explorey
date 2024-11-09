@@ -155,8 +155,7 @@ class AudioMachine(object):
                             elif event == EVENT_CARD_REMOVED:
                                 self.__on_card_removed()
                             elif event == EVENT_FINISHED_BOOT:
-                                pass
-                                # Nothing yet
+                                self.game._change_game_mode(game.GAME_MODE_OFF)
         except Exception as e:
             print("Artifact Failed parsing event", event, e)
 

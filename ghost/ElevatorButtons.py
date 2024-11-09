@@ -47,7 +47,7 @@ class ElevatorButtons(object):
         self.c = GPIO.input(self.pins[2])
         self.d = GPIO.input(self.pins[3])
         if self.a != old_a or self.b != old_b or self.c != old_c or self.d != old_d:
-            print("Elevator Button Pressed: ", self.a, self.b, self.c)
+            print("Elevator Button Pressed: ", self.a, self.b, self.c, self.d)
             self._update_mode()
             self.callback(self.mode)
 

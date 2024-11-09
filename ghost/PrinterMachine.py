@@ -84,8 +84,8 @@ class PrinterMachine(object):
                 Routines.BlackoutRoutine(self.pixels, TUBE_INNER_PIXELS),
 
                 Routines.WaveRoutine(self.pixels, TUBE_INNER_PIXELS_A, [Colors.red], pixel_wait_time=0, wave_wait_time=0, brightness=1.0),
-                Routines.ColorRoutine(self.pixels, TUBE_INNER_PIXELS_B, [Colors.green], pixel_wait_time=0, wave_wait_time=0, brightness=1.0),
-                Routines.ColorRoutine(self.pixels, TUBE_INNER_PIXELS_C, [Colors.blue], pixel_wait_time=0, wave_wait_time=0, brightness=1.0),
+                Routines.WaveRoutine(self.pixels, TUBE_INNER_PIXELS_B, [Colors.green], pixel_wait_time=0, wave_wait_time=0, brightness=1.0),
+                Routines.WaveRoutine(self.pixels, TUBE_INNER_PIXELS_C, [Colors.blue], pixel_wait_time=0, wave_wait_time=0, brightness=1.0),
 
 
                 Routines.BlackoutRoutine(self.pixels, TUBE_OUTER_PIXELS),

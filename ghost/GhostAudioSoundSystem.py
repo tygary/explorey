@@ -200,7 +200,7 @@ class GhostAudioSoundSystem(object):
 
     def play_startup(self):
         print("Playing Startup")
-        self.player.play_song(STARTUP, 1, channel_num=CHANNEL_FX_2, loops=0)
+        self.player.play_song(STARTUP, 0.5, channel_num=CHANNEL_FX_2, loops=0)
 
     def play_scanning(self):
         print("Playing Scanning")

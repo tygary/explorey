@@ -107,6 +107,7 @@ class GameElevatorButtons(ElevatorButtons):
     def _on_button_pressed(self):
         super()._on_button_pressed()
         if self.desired_button > -1 and self.mode == self.desired_button:
+            print("Elevator Button Completed")
             self.desired_button = BUTTON_NONE
             self.completed = True
             self._update_lights()
@@ -115,6 +116,7 @@ class GameElevatorButtons(ElevatorButtons):
     def set_desired_button(self, button):
         self.desired_button = button
         self.completed = False
+        print("Setting desired elevator button", button)
         self._update_lights()
 
     def set_party_mode(self):

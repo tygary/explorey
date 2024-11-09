@@ -23,11 +23,12 @@ GAME_MODE_WIN = 5
 GAME_MODE_LOSE = 6
 
 GAME_WAIT_TIMEOUT = 20
+GAME_STARTUP_TIME = 8
 ROUND_TIME = 10
 ROUND_START_TIME = 2
 LOW_ENERGY_LEVEL_TIME_S = 3
 GAME_OVER_TIME = 10
-GAME_WIN_TIME = 55
+GAME_WIN_TIME = 30
 SCANNING_TIME = 10
 
 NUM_OBJECTIVES = 8
@@ -67,6 +68,7 @@ class GhostAudioGameLogic(object):
         self.mqtt = mqtt
         self.sound = sound
         self.on_change_mode = on_change_mode
+        self._change_game_mode(GAME_MODE_OFF)
 
     def _get_next_objective(self):
         print("Updating Objectives")
@@ -164,14 +166,13 @@ class GhostAudioGameLogic(object):
         elif new_mode == GAME_MODE_READY:
             print("Game Ready")
             self.current_round = 0
+            self.next_round_start_time = 0
             self._turn_off_inputs()
             self.sound.play_intro_scan()
             self.green_button.set_pending()
             self.game_timeout_time = time.time() + GAME_WAIT_TIMEOUT
         elif new_mode == GAME_MODE_ROUND_START:
-            if self.current_round == 0:
-                self.sound.play_startup()
-            else:
+            if self.current_round > 0:
                 self.sound.play_objective_completed()
             self.sound.stop_running_out_of_time()
             self.current_round += 1
@@ -190,7 +191,7 @@ class GhostAudioGameLogic(object):
             self.sound.stop_running_out_of_time()
             self.sound.play_you_win()
             self.sound.queue_ghost_story(self.current_rfid)
-            # self.celebration_end_time = time.time() + GAME_WIN_TIME
+            self.celebration_end_time = time.time() + GAME_WIN_TIME
             self._set_party_mode()
             self.current_rfid = None
             self.mqtt.queue_in_batch_publish({
@@ -221,7 +222,7 @@ class GhostAudioGameLogic(object):
                 self._change_game_mode(GAME_MODE_OFF)
                 return
         elif self.mode == GAME_MODE_WIN:
-            if not self.sound.is_still_playing(1):
+            if not self.sound.is_still_playing(1) and now > self.celebration_end_time:
                 self._change_game_mode(GAME_MODE_OFF)
                 return
         elif self.mode == GAME_MODE_SCANNING:
@@ -235,11 +236,18 @@ class GhostAudioGameLogic(object):
                 self._change_game_mode(GAME_MODE_RUNNING)
                 return
         elif self.mode == GAME_MODE_READY:
-            if self.green_button.completed:
+            if self.green_button.completed and self.next_round_start_time == 0:
+                print("Starting game sequence!")
+                self.next_round_start_time = now + GAME_STARTUP_TIME
+                self.game_timeout_time = 0
+                self.sound.play_startup()
+                self._change_game_mode(GAME_MODE_ROUND_START)
+                return
+            if self.next_round_start_time > 0 and now >= self.next_round_start_time:
                 print("Starting Game!")
                 self._change_game_mode(GAME_MODE_ROUND_START)
                 return
-            if now >= self.game_timeout_time:
+            if self.game_timeout_time > 0 and now >= self.game_timeout_time:
                 print("Game timed out")
                 self._change_game_mode(GAME_MODE_OFF)
         elif self.mode == GAME_MODE_RUNNING:

@@ -208,10 +208,12 @@ class GhostAudioSoundSystem(object):
 
     def play_story_intro_sounds(self):
         print("Playing Story Intro Sounds")
+        self.stop_all()
         self.player.play_song(STORY_INTRO_SOUNDS, 0.5, channel_num=CHANNEL_VOICE, loops=0)
 
     def play_ghost_story(self, rfid):
         print("Playing Ghost Story")
+        self.stop_all()
         story = GHOST_STORIES_BY_RFID["test"]
         self.player.play_temp_song(story, 1, channel=CHANNEL_VOICE, loops=0)
 

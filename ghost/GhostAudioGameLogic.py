@@ -242,10 +242,10 @@ class GhostAudioGameLogic(object):
                 self._change_game_mode(GAME_MODE_OFF)
                 return
         elif self.mode == GAME_MODE_WIN:
-            if not self.sound.is_still_playing(1) and now > self.celebration_end_time:
-                self.celebration_end_time = 0
-                # self._change_game_mode(GAME_MODE_OFF)
-                return
+            # if not self.sound.is_still_playing(1):
+            #     self.celebration_end_time = 0
+            #     # self._change_game_mode(GAME_MODE_OFF)
+            return
         elif self.mode == GAME_MODE_SCANNING:
             if now >= self.scanning_end_time:
                 print("Finished scanning")

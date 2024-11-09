@@ -95,7 +95,7 @@ class PrinterMachine(object):
                 Routines.WaveRoutine(self.pixels, TUBE_INNER_PIXELS_C, [get_grb_color(Colors.orange)], pixel_wait_time=0, wave_wait_time=0, brightness=1.0),
                 Routines.PulseRoutine(self.pixels, TUBE_INNER_PIXELS, get_grb_color(Colors.mid_green), 0.5, brightness=0.2),
 
-                Routines.WaveRoutine(self.pixels, TUBE_OUTER_PIXELS, [get_grb_color(Colors.light_green), get_grb_color(Colors.yellow)], wave_wait_time=0, pixel_wait_time=0, brightness=0.7),
+                Routines.WaveRoutine(self.pixels, TUBE_OUTER_PIXELS, [get_grb_color(Colors.light_green), get_grb_color(Colors.yellow)], wave_wait_time=0, pixel_wait_time=0, brightness=0.7, pixel_multiplier=3),
                 
                 Routines.MushroomRoutine(self.pixels, DIORAMA_WALL_PIXELS, brightness=0.5),
                 Routines.PulseRoutine(self.pixels, DIORAMA_WALL_PIXELS, Colors.light_green, 0.5, brightness=0.3),

@@ -30,6 +30,7 @@ class WaveRoutine(TimeRoutine):
         should_override=False,
         brightness=1.0,
         can_reverse=True,
+        pixel_multiplier=1,
     ):
         TimeRoutine.__init__(self, pixels, addresses, should_override, brightness)
         self.colors = colors[:]
@@ -38,6 +39,7 @@ class WaveRoutine(TimeRoutine):
         self.wave_wait_time = wave_wait_time
         self.pixel_wait_time = pixel_wait_time
         self.can_reverse = can_reverse
+        self.pixel_multiplier = pixel_multiplier
         if starting_color:
             self.starting_color = starting_color[:]
         else:
@@ -80,7 +82,7 @@ class WaveRoutine(TimeRoutine):
                     light.waitDuration = randrange(1000, 3000)
                     light.nextActionTime = light.timestamp + light.duration
                     light.mode = LIGHT_FADE
-                    self.next_index += 1
+                    self.next_index += 1 * self.pixel_multiplier
                 else:
                     self.next_index = 0
                     self.next_action = self.now + self.wave_wait_time

@@ -65,7 +65,7 @@ class PrinterMachine(object):
         self.printer = GhostPrinter()
         self.button = Button(BUTTON_PIN, BUTTON_LIGHT_PIN, callback=self.button_pressed, pullup=True)
         self.mqtt.listen(self.__parse_mqtt_event)
-        self.pixels = OverlayedPixelControl(led_count=DIORAMA_FIBER_START_PIXEL + DIORAMA_FIBER_NUM_PIXELS)
+        self.pixels = OverlayedPixelControl(led_count=DIORAMA_FIBER_START_PIXEL + DIORAMA_FIBER_NUM_PIXELS, led_brightness=255)
         self._update_light_routines()
 
     def _update_light_routines(self):
@@ -74,24 +74,24 @@ class PrinterMachine(object):
                 Routines.BlackoutRoutine(self.pixels, TUBE_INNER_PIXELS),
                 Routines.BlackoutRoutine(self.pixels, TUBE_OUTER_PIXELS),
                 Routines.BlackoutRoutine(self.pixels, DIORAMA_WALL_PIXELS),
-                Routines.MushroomRoutine(self.pixels, DIORAMA_FIBER_PIXELS),
+                Routines.BleuRoutine(self.pixels, DIORAMA_FIBER_PIXELS),
             ]
         elif self.mode is MODE_SCANNING:
             self.light_routines = [
-                Routines.WaveRoutine(self.pixels, TUBE_INNER_PIXELS, [Colors.mid_green, Colors.blue], wave_wait_time=0),
-                Routines.WaveRoutine(self.pixels, TUBE_OUTER_PIXELS, [Colors.purple, Colors.soft_blue], wave_wait_time=0),
-                Routines.MushroomRoutine(self.pixels, DIORAMA_WALL_PIXELS),
-                Routines.BleuRoutine(self.pixels, DIORAMA_FIBER_PIXELS),
+                Routines.WaveRoutine(self.pixels, TUBE_INNER_PIXELS, [Colors.mid_green, Colors.blue], wave_wait_time=0, brightness=0.7),
+                Routines.WaveRoutine(self.pixels, TUBE_OUTER_PIXELS, [Colors.purple, Colors.soft_blue], wave_wait_time=0, brightness=0.7),
+                Routines.MushroomRoutine(self.pixels, DIORAMA_WALL_PIXELS, brightness=0.7),
+                Routines.BleuRoutine(self.pixels, DIORAMA_FIBER_PIXELS, brightness=1),
             ]
         elif self.mode is MODE_READY_TO_PRINT:
             self.light_routines = [
-                Routines.BleuRoutine(self.pixels, TUBE_INNER_PIXELS, brightness=0.3),
-                Routines.WaveRoutine(self.pixels, TUBE_INNER_PIXELS, [Colors.purple, Colors.soft_blue], wave_wait_time=0, brightness=0.3),
-                Routines.PulseRoutine(self.pixels, TUBE_INNER_PIXELS, Colors.purple, 0.5, brightness=0.3),
-                Routines.MushroomRoutine(self.pixels, TUBE_OUTER_PIXELS),
-                Routines.WaveRoutine(self.pixels, TUBE_OUTER_PIXELS, [Colors.purple, Colors.soft_blue], wave_wait_time=10),
-                Routines.PulseRoutine(self.pixels, TUBE_OUTER_PIXELS, Colors.purple, 0.3, brightness=0.3),
-                Routines.RandomPulseRoutine(self.pixels, DIORAMA_WALL_PIXELS),
+                Routines.BleuRoutine(self.pixels, TUBE_INNER_PIXELS, brightness=0.25),
+                Routines.WaveRoutine(self.pixels, TUBE_INNER_PIXELS, [Colors.purple, Colors.soft_blue], wave_wait_time=0, brightness=0.25),
+                Routines.PulseRoutine(self.pixels, TUBE_INNER_PIXELS, Colors.purple, 0.5, brightness=0.25),
+                Routines.MushroomRoutine(self.pixels, TUBE_OUTER_PIXELS, brightness=0.25),
+                Routines.WaveRoutine(self.pixels, TUBE_OUTER_PIXELS, [Colors.purple, Colors.soft_blue], wave_wait_time=10, brightness=0.25),
+                Routines.PulseRoutine(self.pixels, TUBE_OUTER_PIXELS, Colors.purple, 0.3, brightness=0.25),
+                Routines.RandomPulseRoutine(self.pixels, DIORAMA_WALL_PIXELS, brightness=0.7),
                 Routines.MushroomRoutine(self.pixels, DIORAMA_FIBER_PIXELS),
             ]
         elif self.mode is MODE_FINISHED:

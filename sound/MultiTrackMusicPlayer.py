@@ -27,10 +27,11 @@ class MultiTrackMusicPlayer:
         channel = self.channels[channel_num]
         channel.queue(self.songs[song_index])
 
-    def queue_temp_song(self, song_path, volume, pos=0.0, loops=-1, channel_num=0):
+    def play_temp_song(self, song_path, volume, pos=0.0, loops=-1, channel_num=0):
         channel = self.channels[channel_num]
         sound = pygame.mixer.Sound(song_path)
-        channel.queue(sound, loops=loops)
+        channel.play(sound, loops=loops)
+        channel.set_volume(volume)
 
     def is_still_playing(self, channel_num=0):
         channel = self.channels[channel_num]

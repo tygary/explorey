@@ -156,9 +156,9 @@ class GhostAudioSoundSystem(object):
         print("Playing You Win")
         self.stop_all()
         self.player.play_song(YOU_WIN, 1, channel_num=CHANNEL_VOICE, loops=0)
-        self.player.play_song(MACHINE_SUCCESS, 1, channel_num=CHANNEL_FX, loops=0)
+        self.player.play_song(MACHINE_SUCCESS, 0.5, channel_num=CHANNEL_FX, loops=0)
 
-    def queue_put_back_headphones(self):
+    def play_put_back_headphones(self):
         print("Playing Put Back Headphones")
         self.stop_all()
         self.player.play_song(PUT_BACK_HEADPHONES, 1, channel_num=CHANNEL_VOICE, loops=0)
@@ -206,11 +206,13 @@ class GhostAudioSoundSystem(object):
         print("Playing Scanning")
         self.player.play_song(MACHINE_SCANNING, 0.5, channel_num=CHANNEL_FX_2, loops=0)
 
-    def queue_ghost_story(self, rfid):
+    def play_story_intro_sounds(self):
+        print("Playing Story Intro Sounds")
+        self.player.play_song(STORY_INTRO_SOUNDS, 0.5, channel_num=CHANNEL_VOICE, loops=0)
+
+    def play_ghost_story(self, rfid):
         story = GHOST_STORIES_BY_RFID["test"]
-        self.player.queue_song(STORY_INTRO_SOUNDS, channel_num=CHANNEL_VOICE)
-        self.player.queue_temp_song(story, 1, channel=CHANNEL_VOICE, loops=0)
-        self.player.queue_song(PUT_BACK_HEADPHONES, channel=CHANNEL_VOICE)
+        self.player.play_temp_song(story, 1, channel=CHANNEL_VOICE, loops=0)
 
     def set_next_event_callback(self, callback):
         self.next_event_callback = callback
@@ -219,7 +221,7 @@ class GhostAudioSoundSystem(object):
         return self.player.is_still_playing(channel_num)
 
     def tick(self):
-        if self.next_event_callback is not None and not self.player.is_still_playing():
+        if self.next_event_callback is not None and not self.player.is_still_playing(CHANNEL_VOICE):
             self.next_event_callback()
             self.next_event_callback = None
 

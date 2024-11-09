@@ -171,6 +171,7 @@ class AudioMachine(object):
     def update(self):
         # try:
         self.game.update()
+        self.sound.tick()
         self.green_button.tick()
         self.red_button.tick()
         self.switch_a.tick()

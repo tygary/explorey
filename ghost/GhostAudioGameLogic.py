@@ -189,11 +189,26 @@ class GhostAudioGameLogic(object):
         elif new_mode == GAME_MODE_WIN:
             print("Game Win!")
             self.sound.stop_running_out_of_time()
+
+            def reset():
+                self._change_game_mode(GAME_MODE_OFF)
+
+            def play_put_back_headphones():
+                self.sound.play_put_back_headphones()
+                self.sound.set_next_event_callback(reset)
+
+            def play_story():
+                self.sound.play_ghost_story(self.current_rfid)
+                self.sound.set_next_event_callback(play_put_back_headphones)
+
+            def play_story_intro_sounds():
+                self.sound.play_story_intro_sounds()
+                self.sound.set_next_event_callback(play_story)
+
             self.sound.play_you_win()
-            self.sound.queue_ghost_story(self.current_rfid)
+            self.sound.set_next_event_callback(play_story_intro_sounds)
             self.celebration_end_time = time.time() + GAME_WIN_TIME
             self._set_party_mode()
-            self.current_rfid = None
             self.mqtt.queue_in_batch_publish({
                 "event": EVENT_GHOST_UPDATE,
                 "id": LISTENING_MACHINE_ID,
@@ -204,6 +219,11 @@ class GhostAudioGameLogic(object):
             print("Game Lose!")
             self.sound.stop_running_out_of_time()
             self.sound.play_game_over()
+
+            def reset():
+                self._change_game_mode(GAME_MODE_OFF)
+            
+            self.sound.set_next_event_callback(reset)
             # self.sound.queue_put_back_headphones()
             self.current_rfid = None
             self.celebration_end_time = time.time() + GAME_OVER_TIME
@@ -223,7 +243,8 @@ class GhostAudioGameLogic(object):
                 return
         elif self.mode == GAME_MODE_WIN:
             if not self.sound.is_still_playing(1) and now > self.celebration_end_time:
-                self._change_game_mode(GAME_MODE_OFF)
+                self.celebration_end_time = 0
+                # self._change_game_mode(GAME_MODE_OFF)
                 return
         elif self.mode == GAME_MODE_SCANNING:
             if now >= self.scanning_end_time:

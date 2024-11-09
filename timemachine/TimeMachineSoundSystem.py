@@ -41,26 +41,26 @@ class TimeMachineSoundSystem(object):
         self.__play_ambient()
 
     def __play_ambient(self):
-        self.player.play_song(AMBIENT, 1, channel=AMBIENT)
+        self.player.play_song(AMBIENT, 1, channel_num=AMBIENT)
 
     def __play_time_startup(self):
-        self.player.play_song(STARTUP, 1, channel=STARTUP, loops=0)
+        self.player.play_song(STARTUP, 1, channel_num=STARTUP, loops=0)
 
     def __play_time_traveling(self):
-        self.player.play_song(ON, 1, channel=ON)
+        self.player.play_song(ON, 1, channel_num=ON)
 
     def __play_time_frozen(self):
-        self.player.play_song(TIME_STOP, 1, channel=TIME_STOP)
+        self.player.play_song(TIME_STOP, 1, channel_num=TIME_STOP)
 
     def __play_time_ending(self):
-        self.player.play_song(ENDING, 1, channel=ENDING, loops=0)
+        self.player.play_song(ENDING, 1, channel_num=ENDING, loops=0)
 
     def __play_full_speed(self):
-        self.player.play_song(FULL_SPEED, 1, channel=FULL_SPEED)
+        self.player.play_song(FULL_SPEED, 1, channel_num=FULL_SPEED)
 
     def __play_countdown(self):
         num = random.randint(0, 4)
-        self.player.play_song(COUNTDOWN + num, 1, channel=COUNTDOWN)
+        self.player.play_song(COUNTDOWN + num, 1, channel_num=COUNTDOWN)
 
     def update_sounds(self, is_running, time_speed, is_countdown):
         if not is_running and self.current_mode != OFF:

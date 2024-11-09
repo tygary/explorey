@@ -67,18 +67,18 @@ class RatGameSoundSystem(object):
     def play_game_start(self):
         print("Playing Game Start")
         self.stop_all()
-        self.player.play_song(GAME_START, 0.5, channel=GAME_START, loops=0)
+        self.player.play_song(GAME_START, 0.5, channel_num=GAME_START, loops=0)
 
     def play_running(self, round_num):
         print("Playing Running", round_num)
         self.stop_all()
         index = ON_0 + round_num
-        self.player.play_song(index, 0.5, channel=index)
+        self.player.play_song(index, 0.5, channel_num=index)
 
     def play_running_out_of_time(self):
         if not self.is_playing_running_out_of_time:
             print("Playing Running out of time")
-            self.player.play_song(RUNNING_OUT_OF_TIME, 1, channel=RUNNING_OUT_OF_TIME)
+            self.player.play_song(RUNNING_OUT_OF_TIME, 1, channel_num=RUNNING_OUT_OF_TIME)
             self.is_playing_running_out_of_time = True
 
     def stop_running_out_of_time(self):
@@ -90,7 +90,7 @@ class RatGameSoundSystem(object):
     def play_pending_switchboard(self):
         if not self.is_playing_pending_switchboard:
             print("Playing pending switchboard")
-            self.player.play_song(PENDING_SWITCHBOARD, 1, channel=PENDING_SWITCHBOARD)
+            self.player.play_song(PENDING_SWITCHBOARD, 1, channel_num=PENDING_SWITCHBOARD)
             self.is_playing_pending_switchboard = True
 
     def stop_pending_switchboard(self):
@@ -101,22 +101,22 @@ class RatGameSoundSystem(object):
 
     def play_energy_gain(self):
         print("Playing Energy Gain")
-        self.player.play_song(ENERGY_GAIN, 1, channel=ENERGY_GAIN, loops=0)
+        self.player.play_song(ENERGY_GAIN, 1, channel_num=ENERGY_GAIN, loops=0)
 
     def play_round_success(self):
         print("Playing Round Success")
         self.stop_all()
-        self.player.play_song(ROUND_SUCCESS, 0.8, channel=ROUND_SUCCESS, loops=0)
+        self.player.play_song(ROUND_SUCCESS, 0.8, channel_num=ROUND_SUCCESS, loops=0)
 
     def play_game_over(self):
         print("Playing Game Over")
         self.stop_all()
-        self.player.play_song(GAME_OVER, 0.8, channel=GAME_OVER, loops=0)
+        self.player.play_song(GAME_OVER, 0.8, channel_num=GAME_OVER, loops=0)
 
     def play_you_win(self):
         print("Playing You Win")
         self.stop_all()
-        self.player.play_song(YOU_WIN, 0.8, channel=YOU_WIN, loops=0)
+        self.player.play_song(YOU_WIN, 0.8, channel_num=YOU_WIN, loops=0)
 
 
     # def play_bat_journey(self):

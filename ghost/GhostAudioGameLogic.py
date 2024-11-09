@@ -5,6 +5,7 @@ from timemachine.Button import GameButtonWithFourLights
 from timemachine.Switches import GameThreeWaySwitch, GameTwoWaySwitch
 from ratlantis.Switchboard import Switchboard
 from ghost.ElevatorButtons import GameElevatorButtons
+from ghost.GhostAudioSoundSystem import GhostAudioSoundSystem
 
 EVENT_GHOST_UPDATE = "ghostUpdate"
 # EVENT_WRITE_RFID_COMMAND = "writeRfid"
@@ -45,6 +46,7 @@ class GhostAudioGameLogic(object):
     mode = GAME_MODE_OFF
     current_round = 0
     current_objective = OBJECTIVE_NONE
+    current_rfid = None
 
     scanning_end_time = 0
     next_round_start_time = 0
@@ -54,7 +56,7 @@ class GhostAudioGameLogic(object):
 
     playing_running_out_of_time = False
 
-    def __init__(self, green_button: GameButtonWithFourLights, red_button: GameButtonWithFourLights, switch_a: GameTwoWaySwitch, switch_b: GameTwoWaySwitch, power_switch: GameThreeWaySwitch, switchboard: Switchboard, elevator_buttons: GameElevatorButtons, mqtt, sound, on_change_mode):
+    def __init__(self, green_button: GameButtonWithFourLights, red_button: GameButtonWithFourLights, switch_a: GameTwoWaySwitch, switch_b: GameTwoWaySwitch, power_switch: GameThreeWaySwitch, switchboard: Switchboard, elevator_buttons: GameElevatorButtons, mqtt, sound: GhostAudioSoundSystem, on_change_mode):
         self.green_button = green_button
         self.red_button = red_button
         self.switch_a = switch_a
@@ -73,23 +75,40 @@ class GhostAudioGameLogic(object):
             options = [x for x in options if x != self.current_objective]
         self.current_objective = random.choice(options)
         if self.current_objective == OBJECTIVE_SWITCH_A:
+            if self.switch_a.mode == 1:
+                self.sound.play_increase_auraral()
+            else:
+                self.sound.play_decrease_auraral()
             self.switch_a.set_desired_mode(not self.switch_a.mode)
         if self.current_objective == OBJECTIVE_SWITCH_B:
+            if self.switch_b.mode == 1:
+                self.sound.play_activate_chronometer()
+            else:
+                self.sound.play_deactivate_chronometer()
             self.switch_b.set_desired_mode(not self.switch_b.mode)
         if self.current_objective == OBJECTIVE_POWER_SWITCH:
             if self.power_switch.mode == 1:
                 self.power_switch.set_desired_mode(3)
+                self.sound.play_decrease_insulation()
             else:
                 self.power_switch.set_desired_mode(1)
+                self.sound.play_increase_insulation()
         if self.current_objective == OBJECTIVE_RED_BUTTON:
             self.red_button.set_pending()
+            self.sound.play_initiate_flux()
         if self.current_objective == OBJECTIVE_GREEN_BUTTON:
             self.green_button.set_pending()
+            self.sound.play_engage_numinsity()
         if self.current_objective == OBJECTIVE_SWITCHBOARD:
             self.switchboard.request_new_state()
+            self.sound.play_magnetize_matrix()
             # self.sound.play_pending_switchboard()
         if self.current_objective == OBJECTIVE_ELEVATOR_BUTTONS:
             self.elevator_buttons.set_desired_button(random.choice([1, 3, 4, 7]))
+            if self.elevator_buttons.desired_button == 7:
+                self.sound.play_increase_accelerator()
+            else:
+                self.sound.play_determine_accelerator()
         print("New Objective:", self.current_objective)
 
     def _set_party_mode(self):
@@ -110,6 +129,10 @@ class GhostAudioGameLogic(object):
         self.elevator_buttons.off()
         self.switchboard.clear()
 
+    def start_scanning(self, rfid):
+        self.current_rfid = rfid
+        self._change_game_mode(GAME_MODE_SCANNING)
+
     def _change_game_mode(self, new_mode):
         old_mode = self.mode
         self.mode = new_mode
@@ -118,9 +141,10 @@ class GhostAudioGameLogic(object):
         if new_mode == GAME_MODE_OFF:
             print("Game is off")
             self._turn_off_inputs()
-            # self.sound.play_ambient()
+            self.sound.play_ambient()
             self.switchboard.do_ambient()
             self.game_timeout_time = 0
+            self.current_rfid = None
             self.mqtt.queue_in_batch_publish({
                 "event": EVENT_GHOST_UPDATE,
                 "id": LISTENING_MACHINE_ID,
@@ -130,7 +154,7 @@ class GhostAudioGameLogic(object):
             print("Game Scanning")
             self._set_party_mode()
             self.scanning_end_time = time.time() + SCANNING_TIME
-
+            self.sound.play_scanning()
             self.mqtt.queue_in_batch_publish({
                 "event": EVENT_GHOST_UPDATE,
                 "reader": LISTENING_MACHINE_ID,
@@ -141,23 +165,35 @@ class GhostAudioGameLogic(object):
             print("Game Ready")
             self.current_round = 0
             self._turn_off_inputs()
+            self.sound.stop_all()
+            self.sound.play_intro_scan()
             self.green_button.set_pending()
             self.game_timeout_time = time.time() + GAME_WAIT_TIMEOUT
         elif new_mode == GAME_MODE_ROUND_START:
+            if self.current_round == 0:
+                self.sound.play_startup()
+            else:
+                self.sound.play_objective_completed()
+            self.sound.stop_running_out_of_time()
             self.current_round += 1
             print("Game Starting Objective", self.current_round)
             self.next_round_start_time = time.time() + ROUND_START_TIME
             self._turn_off_inputs()
             self.playing_running_out_of_time = False
             self.game_timeout_time = 0
+            self.sound.play_game_backround()
         elif new_mode == GAME_MODE_RUNNING:
             print("Game Running")
             self._get_next_objective()
             self.round_end_time = time.time() + ROUND_TIME
         elif new_mode == GAME_MODE_WIN:
             print("Game Win!")
-            self.celebration_end_time = time.time() + GAME_WIN_TIME
+            self.sound.stop_running_out_of_time()
+            self.sound.play_you_win()
+            self.sound.queue_ghost_story(self.current_rfid)
+            # self.celebration_end_time = time.time() + GAME_WIN_TIME
             self._set_party_mode()
+            self.current_rfid = None
             self.mqtt.queue_in_batch_publish({
                 "event": EVENT_GHOST_UPDATE,
                 "id": LISTENING_MACHINE_ID,
@@ -166,6 +202,10 @@ class GhostAudioGameLogic(object):
             # PLAY THE GHOST AUDIO
         elif new_mode == GAME_MODE_LOSE:
             print("Game Lose!")
+            self.sound.stop_running_out_of_time()
+            self.sound.play_game_over()
+            self.sound.queue_put_back_headphones()
+            self.current_rfid = None
             self.celebration_end_time = time.time() + GAME_OVER_TIME
             self._set_party_mode()
             self.mqtt.queue_in_batch_publish({
@@ -177,8 +217,12 @@ class GhostAudioGameLogic(object):
 
     def update(self):
         now = time.time()
-        if self.mode == GAME_MODE_LOSE or self.mode == GAME_MODE_WIN:
+        if self.mode == GAME_MODE_LOSE:
             if now >= self.celebration_end_time:
+                self._change_game_mode(GAME_MODE_OFF)
+                return
+        elif self.mode == GAME_MODE_WIN:
+            if not self.sound.is_still_playing(1):
                 self._change_game_mode(GAME_MODE_OFF)
                 return
         elif self.mode == GAME_MODE_SCANNING:
@@ -208,6 +252,7 @@ class GhostAudioGameLogic(object):
                 print("Running low on time")
                 # self.sound.play_running_out_of_time()
                 self.playing_running_out_of_time = True
+                self.sound.play_running_out_of_time()
 
             is_objective_completed = True
             if self.current_objective == OBJECTIVE_SWITCH_A:

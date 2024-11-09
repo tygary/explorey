@@ -4,6 +4,7 @@ import multiprocessing
 
 class MultiTrackMusicPlayer:
     songs = []
+    channels = []
 
     def __init__(self, songs, num_channels=8):
         pygame.mixer.init(buffer=1024)
@@ -12,22 +13,36 @@ class MultiTrackMusicPlayer:
         for song in songs:
             self.songs.append(pygame.mixer.Sound(song))
 
-    def play_song(self, song_index, volume, pos=0.0, loops=-1, channel=0):
-        self.stop_music(channel=channel)
+        for i in range(num_channels):
+            self.channels.append(pygame.mixer.Channel(i))
 
-        music = pygame.mixer.Channel(channel)
+    def play_song(self, song_index, volume, pos=0.0, loops=-1, channel_num=0):
+        channel = self.channels[channel_num]
+        channel.stop()
 
-        music.play(self.songs[song_index], loops=loops)
-        music.set_volume(volume)
+        channel.play(self.songs[song_index], loops=loops)
+        channel.set_volume(volume)
 
-    def is_still_playing(self):
+    def queue_song(self, song_index, channel_num=0):
+        channel = self.channels[channel_num]
+        channel.queue(self.songs[song_index], loops=0)
+
+    def queue_temp_song(self, song_path, volume, pos=0.0, loops=-1, channel_num=0):
+        channel = self.channels[channel_num]
+        sound = pygame.mixer.Sound(song_path)
+        channel.queue(sound, loops=loops)
+
+    def is_still_playing(self, channel_num=0):
+        channel = self.channels[channel_num]
         try:
-            return pygame.mixer.music.get_busy() == True
+            return channel.get_busy() is True
+            # return pygame.mixer.music.get_busy() == True
         except:
             return False
 
     def stop_music(self, channel=0):
-        pygame.mixer.Channel(channel).stop()
+        channel = self.channels[channel]
+        channel.stop()
 
     def set_volume(self, channel, amount):
-        pygame.mixer.Channel(channel).set_volume(amount)
+        channel = self.channels[channel].set_volume(amount)

@@ -153,7 +153,7 @@ class GhostScaleMachine(object):
         for data in events:
             if data and data["event"]:
                 event = data["event"]
-                if event == EVENT_CARD_FOUND or event == EVENT_CARD_REMOVED or event == EVENT_FINISHED_BOOT:
+                if event == EVENT_CARD_FOUND or event == EVENT_CARD_REMOVED or event == EVENT_FINISHED_BOOT or event == EVENT_WRITE_NFC:
                     reader_name = data["reader"]
                     if reader_name in [SCALE_ONE, SCALE_TWO]:
                         print("Got MQTT Event", event)

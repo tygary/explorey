@@ -247,7 +247,8 @@ class GhostScaleMachine(object):
         print("Ready to play")
         if self.mode is not MODE_READY_TO_PLAY:
             self.mode = MODE_READY_TO_PLAY
-            self.next_reset_time = time.time() + TIME_BEFORE_RESETTING
+            self.next_reset_time = 0
+            # self.next_reset_time = time.time() + TIME_BEFORE_RESETTING
             # Play sounds to start playing
             self.buttonOne.flash_light()
             self.buttonTwo.flash_light()
@@ -313,8 +314,12 @@ class GhostScaleMachine(object):
             self.reset()
         if self.rfid_one_timeout_time > 0 and self.rfid_one_timeout_time < time.time():
             self.current_rfid_one = None
+            if self.mode in [MODE_READY_TO_PLAY]:
+                self.start_scanning()
         if self.rfid_two_timeout_time > 0 and self.rfid_two_timeout_time < time.time():
             self.current_rfid_two = None
+            if self.mode in [MODE_READY_TO_PLAY]:
+                self.start_scanning()
         if self.mode in [MODE_SCANNING, MODE_READY_TO_PLAY] and not self.current_rfid_one and not self.current_rfid_two:
             self.mode = MODE_OFF
             self.reset()

@@ -47,6 +47,7 @@ class Button(object):
         self.is_flashing = False
 
     def flash_light(self, flash_length=0.5):
+        print("Flashing Button")
         self.flash_length = flash_length
         self.is_flashing = True
         self._set_light(True)

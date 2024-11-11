@@ -15,6 +15,7 @@ EVENT_CARD_REMOVED = "cardRemoved"
 EVENT_FINISHED_BOOT = "finishedBoot"
 EVENT_GHOST_UPDATE = "ghostUpdate"
 EVENT_RESET_COMMAND = "reset"
+EVENT_WRITE_NFC = "writeNfc"
 
 EVENT_SET_RUNNING = "setRunning"
 EVENT_SET_FINISHED = "setFinished"
@@ -163,7 +164,11 @@ class GhostScaleMachine(object):
                         elif event == EVENT_CARD_REMOVED:
                             self.__on_card_removed(reader_name)
                         elif event == EVENT_FINISHED_BOOT:
-                            pass
+                            self.reset()
+                        elif event == EVENT_WRITE_NFC:
+                            card_id = data["card"]
+                            power_level = data["power"]
+                            self.__on_card_detected(card_id, reader_name, power_level)
                             # Nothing yet
         # except Exception as e:
         #     print("Artifact Failed parsing event", event, e)
@@ -184,7 +189,7 @@ class GhostScaleMachine(object):
                     self.start_ready_to_play()
                 else:
                     self.start_scanning()
-            self._update_light_routines()
+        self._update_light_routines()
 
     def __on_card_removed(self, reader_name):
         print("card removed")

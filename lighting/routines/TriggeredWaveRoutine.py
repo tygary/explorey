@@ -82,14 +82,15 @@ class TriggeredWaveRoutine(TimeRoutine):
                     light.mode = LIGHT_FADE
                     wave.update_next_event_time()
                 else:
+                    print("removing wave")
                     self.current_waves.remove(wave)
             for light in wave.lights:
                 Light.update_color(light, self.now)
                 prev_value = pixels[light.address]
                 pixels[light.address] = [
-                    max(prev_value[0] + light.currentValue[0], 255),
-                    max(prev_value[1] + light.currentValue[1], 255),
-                    max(prev_value[2] + light.currentValue[2], 255),
+                    min(prev_value[0] + light.currentValue[0], 255),
+                    min(prev_value[1] + light.currentValue[1], 255),
+                    min(prev_value[2] + light.currentValue[2], 255),
                 ]
         for i, address in enumerate(self.addresses):
             self.pixels.setColor(address, pixels[i])

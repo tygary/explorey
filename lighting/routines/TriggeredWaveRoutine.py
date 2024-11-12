@@ -76,7 +76,7 @@ class TriggeredWaveRoutine(TimeRoutine):
     def tick(self):
         super().tick()
         pixels = [[0, 0, 0] for _ in range(0, len(self.addresses))]
-        # print("Current Waves", len(self.current_waves))
+        print("Current Waves", len(self.current_waves))
         for wave in self.current_waves:
             if self.now > wave.next_event_time:
                 wave.current_index += 1

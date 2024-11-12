@@ -19,7 +19,7 @@ class Wave(object):
         self.update_next_event_time()
 
     def update_next_event_time(self):
-        self.next_event_time = time.time() * 1000 + WAVE_PIXEL_SPEED * self.speed
+        self.next_event_time = time.time() * 1000 + (WAVE_PIXEL_SPEED / self.speed)
     
     def update_addresses(self, addresses):
         old_lights = self.lights
@@ -73,7 +73,7 @@ class TriggeredWaveRoutine(TimeRoutine):
                     print("Adding index to wave", wave.current_index, wave.speed)
                     light = wave.lights[wave.current_index]
                     light.intendedColor = wave.color[:]
-                    light.duration = min(self.pixel_fade_time * wave.speed, 100)
+                    light.duration = min(self.pixel_fade_time / wave.speed, 100)
                     light.iterations = randrange(1, 3)
                     light.up = True
                     light.timestamp = self.now

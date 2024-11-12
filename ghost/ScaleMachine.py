@@ -121,8 +121,8 @@ class GhostScaleMachine(object):
                     Routines.ColorRoutine(self.pixels, left, Colors.green, brightness=0.3),
                     Routines.ColorRoutine(self.pixels, right, Colors.red, brightness=0.3),
                 ]
-                self.left_triggered_wave_routine = Routines.TriggeredWaveRoutine(self.pixels, POWER_BOARD_PIXELS, should_override=True, brightness=0.3)
-                self.right_triggered_wave_routine = Routines.TriggeredWaveRoutine(self.pixels, POWER_BOARD_PIXELS, should_override=True, brightness=0.3)
+                self.left_triggered_wave_routine = Routines.TriggeredWaveRoutine(self.pixels, left, should_override=True, brightness=0.3)
+                self.right_triggered_wave_routine = Routines.TriggeredWaveRoutine(self.pixels, right, should_override=True, brightness=0.3)
             else:
                 self.light_routines[0].update_addresses(left)
                 self.light_routines[1].update_addresses(right)
@@ -152,7 +152,7 @@ class GhostScaleMachine(object):
         elif self.mode is MODE_PLAYING:
             self.current_balance += 1
             print("Updated Balance", self.current_balance)
-            self.left_triggered_wave_routine.trigger(Colors.green, 1.0)
+            self.left_triggered_wave_routine.trigger(Colors.green, 2.0)
             self._update_light_routines()
             # Play sound
 
@@ -163,7 +163,7 @@ class GhostScaleMachine(object):
         elif self.mode is MODE_PLAYING:
             self.current_balance -= 1
             print("Updated Balance", self.current_balance)
-            self.right_triggered_wave_routine.trigger(Colors.red, 1.0)
+            self.right_triggered_wave_routine.trigger(Colors.red, 2.0)
             self._update_light_routines()
             # play sound
 

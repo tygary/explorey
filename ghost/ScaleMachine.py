@@ -332,11 +332,12 @@ class GhostScaleMachine(object):
             self.oscillation_start_time_ms = now_ms + self.oscillation_period_ms
             self.oscillation_going_up = not self.oscillation_going_up
             print("oscillation flipping", self.oscillation_going_up)
+            print("percent of game", percent_of_game)
             self.oscillation_magnitude = random.randrange(5, round(percent_of_game * 20 + 5))
             self.oscillation_period_ms = random.randrange(500, 2000)
             print("oscillation magnitude", self.oscillation_magnitude)
             print("oscillation period", self.oscillation_period_ms)
-            print("percent of game", percent_of_game)
+            
         if self.oscillation_going_up:
             self.oscillated_balance = self.current_balance + round(math.sin(math.pi * (now_ms - self.oscillation_start_time_ms) / self.oscillation_period_ms) * self.oscillation_magnitude)
         else:

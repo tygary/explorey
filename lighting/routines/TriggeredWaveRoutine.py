@@ -58,7 +58,6 @@ class TriggeredWaveRoutine(TimeRoutine):
 
     def update_addresses(self, addresses):
         TimeRoutine.update_addresses(self, addresses)
-        print("Updating addresses", addresses)
         for wave in self.current_waves:
             wave.update_addresses(addresses)
 
@@ -69,7 +68,7 @@ class TriggeredWaveRoutine(TimeRoutine):
     def tick(self):
         TimeRoutine.tick(self)
 
-        pixels = [[0, 0, 0] for _ in range(len(self.addresses))]
+        pixels = [[0, 0, 0] for _ in range(0, len(self.addresses))]
 
         for wave in self.current_waves:
             if self.now > wave.next_event_time:
@@ -93,6 +92,7 @@ class TriggeredWaveRoutine(TimeRoutine):
                 light = wave.lights[i]
                 Light.update_color(light, self.now)
                 print("Light", i, light.address, light.currentValue)
+                print("Pixels", pixels)
                 prev_value = pixels[i]
                 pixels[i] = [
                     min(prev_value[0] + light.currentValue[0], 255),

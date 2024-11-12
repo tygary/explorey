@@ -29,8 +29,10 @@ class Wave(object):
 
         for i, address in enumerate(addresses):
             if i < len(old_lights) and light_by_address.get(address):
+                print("reusing light", i, address)
                 self.lights.append(light_by_address[address])
             else:
+                print("creating new light", i, address)
                 self.lights.append(Light(address))
 
 

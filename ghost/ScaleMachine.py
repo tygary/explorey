@@ -319,6 +319,10 @@ class GhostScaleMachine(object):
         })
 
     def update_oscillation(self):
+        if self.mode is not MODE_PLAYING:
+            self.oscillated_balance = self.current_balance
+            self.oscillation_start_time = 0
+            return
         now = time.time() * 1000
         if self.oscillation_start_time < now:
             self.oscillation_start_time = now + self.oscillation_period_s
@@ -327,8 +331,6 @@ class GhostScaleMachine(object):
             self.oscillated_balance = self.current_balance + math.sin(math.pi * (now - self.oscillation_start_time) / self.oscillation_period_s) * self.oscillation_magnitude
         else:
             self.oscillated_balance = self.current_balance - math.sin(math.pi * (now - self.oscillation_start_time) / self.oscillation_period_s) * self.oscillation_magnitude
-
-
 
     def start_end_game(self):
         print("Game Over")

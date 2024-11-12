@@ -55,6 +55,7 @@ class GhostScaleMachine(object):
     light_routines = []
     game_end_time = 0
     next_reset_time = 0
+    previous_mode = MODE_OFF
     mode = MODE_OFF
 
     current_balance = 50
@@ -72,8 +73,8 @@ class GhostScaleMachine(object):
 
     def _update_light_routines(self):
         num_pixels = POWER_BOARD_NUM_PIXELS // 2
-        if self.mode is MODE_OFF:
 
+        if self.mode is MODE_OFF:
             self.light_routines = [
                 # Routines.ColorRoutine(self.pixels, POWER_BOARD_PIXELS, [0, 50, 100], brightness=0.2),
                 Routines.WaveRoutine(self.pixels, POWER_BOARD_PIXELS, [Colors.blue, Colors.mixed_blue, Colors.purple], wave_wait_time=10, pixel_wait_time=0, should_override=True, brightness=0.8, can_reverse=False),
@@ -108,10 +109,15 @@ class GhostScaleMachine(object):
             middle = round((self.current_balance / 100) * num_pixels)
             left = POWER_BOARD_PIXELS[0:middle]
             right = POWER_BOARD_PIXELS[middle:]
-            self.light_routines = [
-                Routines.ColorRoutine(self.pixels, left, Colors.green),
-                Routines.ColorRoutine(self.pixels, right, Colors.red),
-            ]
+
+            if self.mode is not self.previous_mode:
+                self.light_routines = [
+                    Routines.ColorRoutine(self.pixels, left, Colors.green),
+                    Routines.ColorRoutine(self.pixels, right, Colors.red),
+                ]
+            else:
+                self.light_routines[0].update_addresses(left)
+                self.light_routines[1].update_addresses(right)
         elif self.mode is MODE_FINISHED:
             middle = round(num_pixels / 2)
             left = POWER_BOARD_PIXELS[0:middle]
@@ -134,6 +140,7 @@ class GhostScaleMachine(object):
         elif self.mode is MODE_PLAYING:
             self.current_balance += 1
             print("Updated Balance", self.current_balance)
+            self._update_light_routines()
             # Play sound
 
     def button_two_pressed(self):
@@ -143,6 +150,7 @@ class GhostScaleMachine(object):
         elif self.mode is MODE_PLAYING:
             self.current_balance -= 1
             print("Updated Balance", self.current_balance)
+            self._update_light_routines()
             # play sound
 
     def __parse_mqtt_event(self, event):
@@ -327,6 +335,8 @@ class GhostScaleMachine(object):
             self.update_game_balance()
             if (self.game_end_time > 0 and self.game_end_time < time.time()) or self.current_balance <= 0 or self.current_balance >= 100:
                 self.start_end_game()
+            else:
+                self._update_light_routines()
 
         for routine in self.light_routines:
             routine.tick()

@@ -3,14 +3,14 @@ from random import randrange
 from lighting.Light import Light
 from lighting.routines.BleuRoutine import LIGHT_FADE
 from lighting.routines.TimeRoutine import TimeRoutine
-
+from lighting.Colors import Colors
 
 class WaveRoutine(TimeRoutine):
     def __init__(
         self,
         pixels,
         addresses,
-        colors,
+        colors=[Colors.red],
         starting_color=None,
         delay=0,
         wave_wait_time=10000,

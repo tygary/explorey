@@ -125,12 +125,12 @@ class GhostScaleMachine(object):
                         Routines.ColorRoutine(self.pixels, left, Colors.green, brightness=0.3),
                         Routines.ColorRoutine(self.pixels, right, Colors.red, brightness=0.3),
                     ]
-                    self.left_triggered_wave_routine = Routines.TriggeredWaveRoutine(self.pixels, left, should_override=True, brightness=0.3)
+                    # self.left_triggered_wave_routine = Routines.TriggeredWaveRoutine(self.pixels, left, should_override=True, brightness=0.3)
                     self.right_triggered_wave_routine = Routines.TriggeredWaveRoutine(self.pixels, right, should_override=True, brightness=0.3)
                 else:
                     self.light_routines[0].update_addresses(left)
                     self.light_routines[1].update_addresses(right)
-                    self.left_triggered_wave_routine.update_addresses(left)
+                    # self.left_triggered_wave_routine.update_addresses(left)
                     self.right_triggered_wave_routine.update_addresses(right)
         elif self.mode is MODE_FINISHED:
             self.left_triggered_wave_routine = None
@@ -158,7 +158,7 @@ class GhostScaleMachine(object):
             self.current_balance += 1
             print("Updated Balance", self.current_balance)
             self._update_light_routines()
-            self.left_triggered_wave_routine.trigger(Colors.green, 2.0)
+            # self.left_triggered_wave_routine.trigger(Colors.green, 2.0)
             # Play sound
 
     def button_two_pressed(self):

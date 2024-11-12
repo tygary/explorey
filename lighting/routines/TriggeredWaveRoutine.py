@@ -31,6 +31,7 @@ class Wave(object):
         light_by_address = {
             light.address: light for light in self.lights
         }
+        self.lights = []
         for i, address in enumerate(addresses):
             if light_by_address.get(address):
                 self.lights.append(light_by_address[address])

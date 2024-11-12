@@ -81,6 +81,7 @@ class TriggeredWaveRoutine(TimeRoutine):
             if self.now > wave.next_event_time:
                 wave.current_index += 1
                 print("Current Index", wave.current_index)
+                print("Length of lights", len(wave.lights))
                 if wave.current_index < len(wave.lights) and wave.is_done is False:
                     print("Adding index to wave", wave.current_index, wave.speed)
                     light = wave.lights[wave.current_index]

@@ -14,7 +14,6 @@ class FireRoutine(Routine):
         super().__init__(pixels, addresses, should_override, brightness)
         self.current_magnitudes = []
         self.values = []
-        colors = [Colors.red]
         self.pixel_colors = []
         if colors:
             self.colors = colors

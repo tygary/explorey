@@ -26,13 +26,12 @@ class WaveRoutine(TimeRoutine):
         self.lights = []
         self.next_action = 0
         self.pixel_fade_time = 1000
-        self.colors = None
         self.color_index = 0
         self.starting_color = None
         self.next_index = 0
         self.prev_index = 0
         self.running = True
-        delay = 0
+
         self.delay = delay
         self.wave_wait_time = wave_wait_time
         self.pixel_wait_time = pixel_wait_time

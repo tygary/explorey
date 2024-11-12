@@ -332,6 +332,7 @@ class GhostScaleMachine(object):
             self.oscillated_balance = self.current_balance + round(math.sin(math.pi * (now - self.oscillation_start_time) / self.oscillation_period_ms) * self.oscillation_magnitude)
         else:
             self.oscillated_balance = self.current_balance - math.sin(math.pi * (now - self.oscillation_start_time) / self.oscillation_period_ms) * self.oscillation_magnitude
+        print("oscillated balance", self.oscillated_balance)
 
     def start_end_game(self):
         print("Game Over")

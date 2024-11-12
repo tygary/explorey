@@ -152,8 +152,8 @@ class GhostScaleMachine(object):
         elif self.mode is MODE_PLAYING:
             self.current_balance += 1
             print("Updated Balance", self.current_balance)
-            self.left_triggered_wave_routine.trigger(Colors.green, 2.0)
             self._update_light_routines()
+            self.left_triggered_wave_routine.trigger(Colors.green, 2.0)
             # Play sound
 
     def button_two_pressed(self):
@@ -163,8 +163,8 @@ class GhostScaleMachine(object):
         elif self.mode is MODE_PLAYING:
             self.current_balance -= 1
             print("Updated Balance", self.current_balance)
-            self.right_triggered_wave_routine.trigger(Colors.red, 2.0)
             self._update_light_routines()
+            self.right_triggered_wave_routine.trigger(Colors.red, 2.0)
             # play sound
 
     def __parse_mqtt_event(self, event):

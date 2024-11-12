@@ -34,6 +34,8 @@ class Wave(object):
                 self.lights.append(light_by_address[address])
             else:
                 self.lights.append(Light(address))
+        if self.current_index >= len(self.lights):
+            self.current_index = len(self.lights) - 1
 
 
 class TriggeredWaveRoutine(TimeRoutine):

@@ -91,8 +91,13 @@ class TriggeredWaveRoutine(TimeRoutine):
                     light.mode = LIGHT_FADE
                     wave.update_next_event_time()
                 else:
-                    print("removing wave")
-                    self.current_waves.remove(wave)
+                    is_done = True
+                    for light in wave.lights:
+                        if light.iterations > 0:
+                            is_done = False
+                    if is_done:
+                        print("removing wave")
+                        self.current_waves.remove(wave)
             for i in range(0, len(pixels)):
                 if i < len(wave.lights):
                     light = wave.lights[i]

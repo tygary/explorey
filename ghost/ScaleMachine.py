@@ -104,7 +104,7 @@ class GhostScaleMachine(object):
             #     Routines.BlackoutRoutine(self.pixels, POWER_BOARD_PIXELS),
             # ]
         elif self.mode is MODE_SCANNING or self.mode is MODE_READY_TO_PLAY:
-            middle = round(num_pixels / 2)
+            middle = round(num_pixels)
             left = POWER_BOARD_PIXELS[0:middle]
             right = POWER_BOARD_PIXELS[middle:]
             right.reverse()
@@ -126,7 +126,7 @@ class GhostScaleMachine(object):
             self.left_triggered_wave_routine = None
             self.right_triggered_wave_routine = None
         elif self.mode is MODE_PLAYING:
-            middle = round((self.oscillated_balance / 100) * num_pixels)
+            middle = round((self.oscillated_balance / 100) * POWER_BOARD_NUM_PIXELS)
             if middle != self.previous_middle:
                 print("middle is ", middle)
                 self.previous_middle = middle
@@ -149,7 +149,7 @@ class GhostScaleMachine(object):
         elif self.mode is MODE_FINISHED:
             self.left_triggered_wave_routine = None
             self.right_triggered_wave_routine = None
-            middle = round(num_pixels / 2)
+            middle = round(num_pixels)
             left = POWER_BOARD_PIXELS[0:middle]
             right = POWER_BOARD_PIXELS[middle:]
             if self.current_balance > 50:
@@ -360,7 +360,7 @@ class GhostScaleMachine(object):
             self.oscillated_balance = self.current_balance + round(math.sin(math.pi * (now_ms - self.oscillation_start_time_ms) / self.oscillation_period_ms) * self.oscillation_magnitude)
         else:
             self.oscillated_balance = self.current_balance - round(math.sin(math.pi * (now_ms - self.oscillation_start_time_ms) / self.oscillation_period_ms) * self.oscillation_magnitude)
-        print("oscillated balance", self.oscillated_balance)
+        # print("oscillated balance", self.oscillated_balance)
 
     def start_end_game(self):
         print("Game Over")

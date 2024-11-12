@@ -53,6 +53,8 @@ class GhostScaleMachine(object):
     ghost_two_power_level = 0
 
     light_routines = []
+    left_triggered_wave_routine = None
+    right_triggered_wave_routine = None
     game_end_time = 0
     next_reset_time = 0
     previous_mode = MODE_OFF
@@ -81,6 +83,8 @@ class GhostScaleMachine(object):
                 Routines.MushroomRoutine(self.pixels, POWER_BOARD_PIXELS, brightness=1.0),
                 # Routines.RainbowRoutine(self.pixels, POWER_BOARD_PIXELS),
             ]
+            self.left_triggered_wave_routine = None
+            self.right_triggered_wave_routine = None
 
             # self.light_routines = [
             #     Routines.BlackoutRoutine(self.pixels, POWER_BOARD_PIXELS),
@@ -102,9 +106,11 @@ class GhostScaleMachine(object):
             self.light_routines = [
                 Routines.FireRoutine(self.pixels, powered_left, [Colors.green]),
                 Routines.BlackoutRoutine(self.pixels, unpowered_left),
-                Routines.FireRoutine(self.pixels, powered_right, [Colors.red]),
+                Routines.FireRoutine(self.pixels, powered_right, [Colors.blue]),
                 Routines.BlackoutRoutine(self.pixels, unpowered_right),
             ]
+            self.left_triggered_wave_routine = None
+            self.right_triggered_wave_routine = None
         elif self.mode is MODE_PLAYING:
             middle = round((self.current_balance / 100) * num_pixels)
             left = POWER_BOARD_PIXELS[0:middle]
@@ -115,10 +121,16 @@ class GhostScaleMachine(object):
                     Routines.ColorRoutine(self.pixels, left, Colors.green),
                     Routines.ColorRoutine(self.pixels, right, Colors.red),
                 ]
+                self.left_triggered_wave_routine = Routines.TriggeredWaveRoutine(self.pixels, POWER_BOARD_PIXELS, should_override=True, brightness=0.3)
+                self.right_triggered_wave_routine = Routines.TriggeredWaveRoutine(self.pixels, POWER_BOARD_PIXELS, should_override=True, brightness=0.3)
             else:
                 self.light_routines[0].update_addresses(left)
                 self.light_routines[1].update_addresses(right)
+                self.left_triggered_wave_routine.update_addresses(left)
+                self.right_triggered_wave_routine.update_addresses(right)
         elif self.mode is MODE_FINISHED:
+            self.left_triggered_wave_routine = None
+            self.right_triggered_wave_routine = None
             middle = round(num_pixels / 2)
             left = POWER_BOARD_PIXELS[0:middle]
             right = POWER_BOARD_PIXELS[middle:]
@@ -140,6 +152,7 @@ class GhostScaleMachine(object):
         elif self.mode is MODE_PLAYING:
             self.current_balance += 1
             print("Updated Balance", self.current_balance)
+            self.left_triggered_wave_routine.trigger(Colors.green, 1.0)
             self._update_light_routines()
             # Play sound
 
@@ -150,6 +163,7 @@ class GhostScaleMachine(object):
         elif self.mode is MODE_PLAYING:
             self.current_balance -= 1
             print("Updated Balance", self.current_balance)
+            self.right_triggered_wave_routine.trigger(Colors.red, 1.0)
             self._update_light_routines()
             # play sound
 
@@ -267,6 +281,7 @@ class GhostScaleMachine(object):
         self.rfid_one_timeout_time = 0
         self.rfid_two_timeout_time = 0
         self._update_light_routines()
+        # self.game_end_time = time.time() + GAME_LENGTH_TIME
         self.current_balance = 50
         self.last_game_balance_update = time.time()
         self.buttonOne.flash_light()

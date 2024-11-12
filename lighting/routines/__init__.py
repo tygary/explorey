@@ -14,6 +14,7 @@ from lighting.routines.RandomPulseRoutine import RandomPulseRoutine
 from lighting.routines.SpeedGaugeRoutine import SpeedGaugeRoutine
 from lighting.routines.TimeRoutine import TimeRoutine
 from lighting.routines.WaveRoutine import WaveRoutine
+from lighting.routines.TriggeredWaveRoutine import TriggeredWaveRoutine
 
 
 class _Routines(object):
@@ -33,6 +34,7 @@ class _Routines(object):
     SpeedGaugeRoutine = SpeedGaugeRoutine
     TimeRoutine = TimeRoutine
     WaveRoutine = WaveRoutine
+    TriggeredWaveRoutine = TriggeredWaveRoutine
 
 
 Routines = _Routines()

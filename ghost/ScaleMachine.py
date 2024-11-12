@@ -45,7 +45,7 @@ POWER_BOARD_PIXELS = list(range(POWER_BOARD, POWER_BOARD + POWER_BOARD_NUM_PIXEL
 SCALE_ONE = "scaleOne"
 SCALE_TWO = "scaleTwo"
 
-BUTTON_TIMEOUT = 3
+BUTTON_TIMEOUT_MS = 500
 
 
 class GhostScaleMachine(object):
@@ -169,7 +169,7 @@ class GhostScaleMachine(object):
         if self.mode is MODE_READY_TO_PLAY:
             self.start_playing()
         elif self.mode is MODE_PLAYING:
-            if time.time() - self.last_button_one_press > BUTTON_TIMEOUT:
+            if ((time.time() - self.last_button_one_press) * 1000) > BUTTON_TIMEOUT_MS:
                 self.last_button_one_press = time.time()    
                 self.current_balance += 1
                 self.buttonOne.set_light(False)
@@ -183,7 +183,7 @@ class GhostScaleMachine(object):
         if self.mode is MODE_READY_TO_PLAY:
             self.start_playing()
         elif self.mode is MODE_PLAYING:
-            if time.time() - self.last_button_two_press > BUTTON_TIMEOUT:
+            if ((time.time() - self.last_button_two_press) * 1000) > BUTTON_TIMEOUT_MS:
                 self.last_button_two_press = time.time()
                 self.current_balance -= 1
                 self.buttonTwo.set_light(False)
@@ -419,10 +419,10 @@ class GhostScaleMachine(object):
             self.mode = MODE_OFF
             self.reset()
         if self.mode in [MODE_PLAYING]:
-            if self.last_button_one_press > 0 and self.last_button_one_press + BUTTON_TIMEOUT < time.time():
+            if self.last_button_one_press > 0 and self.last_button_one_press + BUTTON_TIMEOUT_MS < time.time():
                 self.buttonOne.set_light(True)
                 self.last_button_one_press = 0
-            if self.last_button_two_press > 0 and self.last_button_two_press + BUTTON_TIMEOUT < time.time():
+            if self.last_button_two_press > 0 and self.last_button_two_press + BUTTON_TIMEOUT_MS < time.time():
                 self.buttonTwo.set_light(True)
                 self.last_button_two_press = 0
             self.update_game_balance()

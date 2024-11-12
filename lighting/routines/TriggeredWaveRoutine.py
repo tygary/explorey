@@ -77,14 +77,10 @@ class TriggeredWaveRoutine(TimeRoutine):
     def tick(self):
         super().tick()
         pixels = [[0, 0, 0] for _ in range(0, len(self.addresses))]
-        print("Current Waves", len(self.current_waves))
         for wave in self.current_waves:
             if self.now > wave.next_event_time:
                 wave.current_index += 1
-                print("Current Index", wave.current_index)
-                print("Length of lights", len(wave.lights))
                 if wave.current_index < len(wave.lights) and wave.is_done is False:
-                    print("Adding index to wave", wave.current_index, wave.speed)
                     light = wave.lights[wave.current_index]
                     # print("light address", light.address)
                     light.intendedColor = wave.color[:]

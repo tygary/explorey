@@ -109,6 +109,7 @@ class TriggeredWaveRoutine(TimeRoutine):
                         min(prev_value[2] + light.currentValue[2], 255),
                     ]
         print("Updating addresses", self.addresses)
+        print("pixels", pixels)
         for i, address in enumerate(self.addresses):
             if i < len(pixels):
                 self.pixels.setColor(address, pixels[i])

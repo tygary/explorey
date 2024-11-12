@@ -45,6 +45,8 @@ POWER_BOARD_PIXELS = list(range(POWER_BOARD, POWER_BOARD + POWER_BOARD_NUM_PIXEL
 SCALE_ONE = "scaleOne"
 SCALE_TWO = "scaleTwo"
 
+BUTTON_TIMEOUT = 3
+
 
 class GhostScaleMachine(object):
     current_rfid_one = None
@@ -71,6 +73,9 @@ class GhostScaleMachine(object):
     oscillation_start_time_ms = 0
     oscillation_going_up = True
     oscillation_magnitude = 10
+
+    last_button_one_press = 0
+    last_button_two_press = 0
 
     def __init__(self):
         GPIO.setmode(GPIO.BCM)
@@ -164,22 +169,28 @@ class GhostScaleMachine(object):
         if self.mode is MODE_READY_TO_PLAY:
             self.start_playing()
         elif self.mode is MODE_PLAYING:
-            self.current_balance += 1
-            print("Updated Balance", self.current_balance)
-            self._update_light_routines()
-            self.left_triggered_wave_routine.trigger(Colors.green, 2.0)
-            # Play sound
+            if time.time() - self.last_button_one_press > BUTTON_TIMEOUT:
+                self.last_button_one_press = time.time()    
+                self.current_balance += 1
+                self.buttonOne.set_light(False)
+                print("Updated Balance", self.current_balance)
+                self._update_light_routines()
+                self.left_triggered_wave_routine.trigger(Colors.green, 2.0)
+                # Play sound
 
     def button_two_pressed(self):
         print("Button two pressed")
         if self.mode is MODE_READY_TO_PLAY:
             self.start_playing()
         elif self.mode is MODE_PLAYING:
-            self.current_balance -= 1
-            print("Updated Balance", self.current_balance)
-            self._update_light_routines()
-            self.right_triggered_wave_routine.trigger(Colors.red, 2.0)
-            # play sound
+            if time.time() - self.last_button_two_press > BUTTON_TIMEOUT:
+                self.last_button_two_press = time.time()
+                self.current_balance -= 1
+                self.buttonTwo.set_light(False)
+                print("Updated Balance", self.current_balance)
+                self._update_light_routines()
+                self.right_triggered_wave_routine.trigger(Colors.red, 2.0)
+                # play sound
 
     def __parse_mqtt_event(self, event):
         # try:
@@ -300,12 +311,14 @@ class GhostScaleMachine(object):
         self.previous_middle = 0
         self.rfid_one_timeout_time = 0
         self.rfid_two_timeout_time = 0
+        self.last_button_one_press = 0
+        self.last_button_two_press = 0
         self._update_light_routines()
         self.game_end_time = time.time() + GAME_LENGTH_TIME
         self.current_balance = 50
         self.last_game_balance_update = time.time()
-        self.buttonOne.flash_light()
-        self.buttonTwo.flash_light()
+        self.buttonOne.set_light(True)
+        self.buttonTwo.set_light(True)
         self.mqtt.queue_in_batch_publish({
             "event": EVENT_GHOST_UPDATE,
             "reader": SCALE_ONE,
@@ -339,11 +352,10 @@ class GhostScaleMachine(object):
             # print("now", now)
             # print("game end time", self.game_end_time)
             # print("percent of game", percent_of_game)
-            self.oscillation_magnitude = random.randrange(5, round(percent_of_game * 30) + 10 + 3 * ghost_power)
+            self.oscillation_magnitude = random.randrange(5, round(percent_of_game * 30) + 10 + 5 * ghost_power)
             self.oscillation_period_ms = random.randrange(500, 2000)
             # print("oscillation magnitude", self.oscillation_magnitude)
             # print("oscillation period", self.oscillation_period_ms)
-            
         if self.oscillation_going_up:
             self.oscillated_balance = self.current_balance + round(math.sin(math.pi * (now_ms - self.oscillation_start_time_ms) / self.oscillation_period_ms) * self.oscillation_magnitude)
         else:
@@ -407,6 +419,12 @@ class GhostScaleMachine(object):
             self.mode = MODE_OFF
             self.reset()
         if self.mode in [MODE_PLAYING]:
+            if self.last_button_one_press > 0 and self.last_button_one_press + BUTTON_TIMEOUT < time.time():
+                self.buttonOne.set_light(True)
+                self.last_button_one_press = 0
+            if self.last_button_two_press > 0 and self.last_button_two_press + BUTTON_TIMEOUT < time.time():
+                self.buttonTwo.set_light(True)
+                self.last_button_two_press = 0
             self.update_game_balance()
             self.update_oscillation()
             if (self.game_end_time > 0 and self.game_end_time < time.time()) or self.current_balance <= 0 or self.current_balance >= 100:

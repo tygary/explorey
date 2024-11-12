@@ -1,6 +1,7 @@
 import json
 import time
 import RPi.GPIO as GPIO
+import math
 
 from lighting.PixelControl import OverlayedPixelControl, PixelControl
 from lighting.Colors import Colors
@@ -61,8 +62,14 @@ class GhostScaleMachine(object):
     previous_mode = MODE_OFF
     mode = MODE_OFF
 
+    oscillated_balance = 50
     current_balance = 50
     last_game_balance_update = 0
+
+    oscillation_period_s = 1
+    oscillation_start_time = 0
+    oscillation_going_up = True
+    oscillation_magnitude = 1
 
     def __init__(self):
         GPIO.setmode(GPIO.BCM)
@@ -113,7 +120,7 @@ class GhostScaleMachine(object):
             self.left_triggered_wave_routine = None
             self.right_triggered_wave_routine = None
         elif self.mode is MODE_PLAYING:
-            middle = round((self.current_balance / 100) * num_pixels)
+            middle = round((self.oscillated_balance / 100) * num_pixels)
             if middle != self.previous_middle:
                 print("middle is ", middle)
                 self.previous_middle = middle
@@ -311,6 +318,18 @@ class GhostScaleMachine(object):
             "command": EVENT_SET_RUNNING,
         })
 
+    def update_oscillation(self):
+        now = time.time() * 1000
+        if self.oscillation_start_time < now:
+            self.oscillation_start_time = now + self.oscillation_period_s
+            self.oscillation_going_up = not self.oscillation_going_up
+        if self.oscillation_going_up:
+            self.oscillated_balance = self.current_balance + math.sin(math.pi * (now - self.oscillation_start_time) / self.oscillation_period_s) * self.oscillation_magnitude
+        else:
+            self.oscillated_balance = self.current_balance - math.sin(math.pi * (now - self.oscillation_start_time) / self.oscillation_period_s) * self.oscillation_magnitude
+
+
+
     def start_end_game(self):
         print("Game Over")
         print("End Balance", self.current_balance)
@@ -369,6 +388,7 @@ class GhostScaleMachine(object):
             self.reset()
         if self.mode in [MODE_PLAYING]:
             self.update_game_balance()
+            self.update_oscillation()
             if (self.game_end_time > 0 and self.game_end_time < time.time()) or self.current_balance <= 0 or self.current_balance >= 100:
                 self.start_end_game()
             else:

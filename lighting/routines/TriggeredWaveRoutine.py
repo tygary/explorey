@@ -25,18 +25,14 @@ class Wave(object):
     def update_addresses(self, addresses):
         if len(addresses) == len(self.addresses):
             return
-        print("Updating addresses in wave", addresses)
         self.addresses = addresses
         light_by_address = {
             light.address: light for light in self.lights
         }
-
         for i, address in enumerate(addresses):
             if light_by_address.get(address):
-                print("reusing light", i, address)
                 self.lights.append(light_by_address[address])
             else:
-                print("creating new light", i, address)
                 self.lights.append(Light(address))
 
 

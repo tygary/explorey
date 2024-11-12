@@ -14,6 +14,7 @@ class Wave(object):
         self.speed = speed
         self.current_index = 0
         self.lights = []
+        self.addresses = addresses
         for address in addresses:
             self.lights.append(Light(address))
         self.update_next_event_time()
@@ -22,15 +23,15 @@ class Wave(object):
         self.next_event_time = time.time() * 1000 + (WAVE_PIXEL_SPEED / self.speed)
 
     def update_addresses(self, addresses):
-        if len(addresses) == len(self.lights):
+        if len(addresses) == len(self.addresses):
             return
-        old_lights = self.lights
+        self.addresses = addresses
         light_by_address = {
             light.address: light for light in self.lights
         }
 
         for i, address in enumerate(addresses):
-            if i < len(old_lights) and light_by_address.get(address):
+            if light_by_address.get(address):
                 print("reusing light", i, address)
                 self.lights.append(light_by_address[address])
             else:

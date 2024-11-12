@@ -80,6 +80,7 @@ class TriggeredWaveRoutine(TimeRoutine):
                 if wave.current_index < len(wave.lights):
                     print("Adding index to wave", wave.current_index, wave.speed)
                     light = wave.lights[wave.current_index]
+                    print("light address", light.address)
                     light.intendedColor = wave.color[:]
                     light.duration = min(self.pixel_fade_time / wave.speed, 100)
                     light.iterations = randrange(1, 3)
@@ -102,6 +103,7 @@ class TriggeredWaveRoutine(TimeRoutine):
                         min(prev_value[1] + light.currentValue[1], 255),
                         min(prev_value[2] + light.currentValue[2], 255),
                     ]
+        print("Updating addresses", self.addresses)
         for i, address in enumerate(self.addresses):
             if i < len(pixels):
                 self.pixels.setColor(address, pixels[i])

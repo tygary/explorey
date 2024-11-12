@@ -335,7 +335,7 @@ class GhostScaleMachine(object):
             print("now", now)
             print("game end time", self.game_end_time)
             print("percent of game", percent_of_game)
-            self.oscillation_magnitude = random.randrange(5, round(percent_of_game * 20 + 5))
+            self.oscillation_magnitude = random.randrange(5, round(percent_of_game * 20) + 6)
             self.oscillation_period_ms = random.randrange(500, 2000)
             print("oscillation magnitude", self.oscillation_magnitude)
             print("oscillation period", self.oscillation_period_ms)

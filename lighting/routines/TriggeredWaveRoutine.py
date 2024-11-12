@@ -91,8 +91,6 @@ class TriggeredWaveRoutine(TimeRoutine):
             for i in range(0, len(self.addresses)):
                 light = wave.lights[i]
                 Light.update_color(light, self.now)
-                print("Light", i, light.address, light.currentValue)
-                print("Pixels", pixels)
                 prev_value = pixels[i]
                 pixels[i] = [
                     min(prev_value[0] + light.currentValue[0], 255),

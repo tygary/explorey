@@ -21,7 +21,7 @@ class WaveRoutine(TimeRoutine):
         can_reverse=True,
         pixel_multiplier=1,
     ):
-        TimeRoutine.__init__(self, pixels, addresses, should_override, brightness)
+        super().__init__(self, pixels, addresses, should_override, brightness)
         self.colors = colors
         self.lights = []
         self.next_action = 0
@@ -52,7 +52,7 @@ class WaveRoutine(TimeRoutine):
         light.currentValue = self.starting_color[:]
 
     def update_addresses(self, addresses):
-        TimeRoutine.update_addresses(self, addresses)
+        super().update_addresses(self, addresses)
         old_lights = self.lights
         self.lights = []
         for i, address in enumerate(addresses):
@@ -62,7 +62,7 @@ class WaveRoutine(TimeRoutine):
                 self.__initialize_light(address)
 
     def tick(self):
-        TimeRoutine.tick(self)
+        super().tick(self)
         if self.running:
             if self.delay > 0:
                 self.next_action = self.now + self.delay

@@ -3,7 +3,7 @@ from lighting.routines.Routine import Routine
 
 class RainbowRoutine(Routine):
     def __init__(self, pixels, addresses, brightness=1.0, speed=5):
-        Routine.__init__(self, pixels, addresses, should_override=False, brightness=brightness)
+        super().__init__(self, pixels, addresses, should_override=False, brightness=brightness)
         self.values = {}
         self.speed = speed
         for i in self.addresses:

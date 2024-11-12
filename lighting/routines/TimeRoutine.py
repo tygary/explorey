@@ -5,7 +5,7 @@ from lighting.routines.Routine import Routine
 
 class TimeRoutine(Routine):
     def __init__(self, pixels, addresses, should_override=False, brightness=1.0):
-        Routine.__init__(self, pixels, addresses, should_override, brightness)
+        super().__init__(self, pixels, addresses, should_override, brightness)
         self.update_now()
 
     def tick(self):

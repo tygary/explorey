@@ -11,7 +11,7 @@ class PowerGaugeRoutine(TimeRoutine):
     prev_breakpoint = 0
 
     def __init__(self, pixels, addresses, color=[255, 0, 0]):
-        TimeRoutine.__init__(self, pixels, addresses)
+        super().__init__(self, pixels, addresses)
         self.color = color
 
     def update_percentage(self, percentage):

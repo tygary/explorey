@@ -3,7 +3,7 @@ from lighting.routines.Routine import Routine
 
 class PulseRoutine(Routine):
     def __init__(self, pixels, addresses, color, rate=0.05, should_override=False, brightness=1.0):
-        Routine.__init__(self, pixels, addresses, should_override, brightness)
+        super().__init__(self, pixels, addresses, should_override, brightness)
         self.going_up = True
         self.ratio = 0
         self.values = []
@@ -19,7 +19,7 @@ class PulseRoutine(Routine):
         self.color = color
 
     def update_addresses(self, addresses):
-        Routine.update_addresses(self, addresses)
+        super().update_addresses(self, addresses)
         old_values = self.values
         self.values = []
         last_value = [0, 0, 0]

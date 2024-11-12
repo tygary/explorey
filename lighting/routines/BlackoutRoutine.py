@@ -4,7 +4,7 @@ from lighting.routines.Routine import Routine
 class BlackoutRoutine(Routine):
 
     def __init__(self, pixels, addresses, should_override=False):
-        Routine.__init__(self, pixels, addresses, should_override)
+        super().__init__(self, pixels, addresses, should_override)
 
     def tick(self):
         for i in self.addresses:

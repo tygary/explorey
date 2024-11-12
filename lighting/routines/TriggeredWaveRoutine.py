@@ -19,7 +19,7 @@ class Wave(object):
         self.update_next_event_time()
 
     def update_next_event_time(self):
-        self.next_event_time = time.time()*1000 + WAVE_PIXEL_SPEED * self.speed
+        self.next_event_time = time.time() * 1000 + WAVE_PIXEL_SPEED * self.speed
     
     def update_addresses(self, addresses):
         old_lights = self.lights
@@ -50,29 +50,15 @@ class TriggeredWaveRoutine(TimeRoutine):
         brightness=1.0,
     ):
         TimeRoutine.__init__(self, pixels, addresses, should_override, brightness)
-        self.lights = []
         self.starting_color = [0, 0, 0, 0]
-        for i, address in enumerate(addresses):
-            self.__initialize_light(address)
-
-    def __initialize_light(self, address):
-        light = Light(address)
-        self.lights.append(light)
-        light.intendedColor = self.starting_color[:]
-        light.currentValue = self.starting_color[:]
 
     def update_addresses(self, addresses):
         TimeRoutine.update_addresses(self, addresses)
-        old_lights = self.lights
-        self.lights = []
-        for i, address in enumerate(addresses):
-            if i < len(old_lights):
-                self.lights.append(old_lights[i])
-            else:
-                self.__initialize_light(address)
+        for wave in self.current_waves:
+            wave.update_addresses(addresses)
 
     def trigger(self, color, speed):
-        self.current_waves.append(Wave(color, speed))
+        self.current_waves.append(Wave(color, speed, self.addresses))
 
     def tick(self):
         TimeRoutine.tick(self)

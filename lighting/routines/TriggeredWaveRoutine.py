@@ -53,6 +53,7 @@ class TriggeredWaveRoutine(TimeRoutine):
         brightness=1.0,
     ):
         TimeRoutine.__init__(self, pixels, addresses, should_override, brightness)
+        print("addresses", addresses, len(addresses))
         self.starting_color = [0, 0, 0, 0]
 
     def update_addresses(self, addresses):
@@ -88,7 +89,8 @@ class TriggeredWaveRoutine(TimeRoutine):
                 else:
                     print("removing wave")
                     self.current_waves.remove(wave)
-            for i, light in enumerate(wave.lights):
+            for i in range(0, len(wave.lights)):
+                light = wave.lights[i]
                 Light.update_color(light, self.now)
                 print("Light", i, light.address, light.currentValue)
                 prev_value = pixels[i]

@@ -115,6 +115,7 @@ class GhostScaleMachine(object):
             middle = round((self.current_balance / 100) * num_pixels)
             left = POWER_BOARD_PIXELS[0:middle]
             right = POWER_BOARD_PIXELS[middle:]
+            right.reverse()
 
             if self.mode is not self.previous_mode:
                 self.light_routines = [

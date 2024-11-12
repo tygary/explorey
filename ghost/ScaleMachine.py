@@ -325,7 +325,7 @@ class GhostScaleMachine(object):
             self.oscillation_start_time = 0
             return
         now = time.time() * 1000
-        percent_of_game = (now - (self.game_end_time - GAME_LENGTH_TIME)) / GAME_LENGTH_TIME
+        percent_of_game = 1 - (self.game_end_time - now / GAME_LENGTH_TIME)
 
         if self.oscillation_start_time < now:
             self.oscillation_start_time = now + self.oscillation_period_ms

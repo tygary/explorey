@@ -419,10 +419,10 @@ class GhostScaleMachine(object):
             self.mode = MODE_OFF
             self.reset()
         if self.mode in [MODE_PLAYING]:
-            if self.last_button_one_press > 0 and self.last_button_one_press + BUTTON_TIMEOUT_MS < time.time():
+            if self.last_button_one_press > 0 and (self.last_button_one_press * 1000) + BUTTON_TIMEOUT_MS < (time.time() * 1000):
                 self.buttonOne.set_light(True)
                 self.last_button_one_press = 0
-            if self.last_button_two_press > 0 and self.last_button_two_press + BUTTON_TIMEOUT_MS < time.time():
+            if self.last_button_two_press > 0 and (self.last_button_two_press * 1000) + BUTTON_TIMEOUT_MS < (time.time() * 1000):
                 self.buttonTwo.set_light(True)
                 self.last_button_two_press = 0
             self.update_game_balance()

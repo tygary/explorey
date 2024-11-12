@@ -8,7 +8,7 @@ from lighting.routines.TimeRoutine import TimeRoutine
 
 class RandomPulseRoutine(TimeRoutine):
     def __init__(self, pixels, addresses, should_override=False, brightness=1.0):
-        TimeRoutine.__init__(self, pixels, addresses, should_override, brightness=brightness)
+        super().__init__(pixels, addresses, should_override, brightness=brightness)
         self.lights = []
         for address in addresses:
             light = Light(address)
@@ -39,7 +39,7 @@ class RandomPulseRoutine(TimeRoutine):
         light.on_finish = on_finish_mode
 
     def tick(self):
-        TimeRoutine.tick(self)
+        super().tick()
         for light in self.lights:
             Light.update_color(light, self.now)
             self.pixels.setColor(light.address, light.currentValue)

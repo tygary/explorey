@@ -11,7 +11,7 @@ MAX_CHANGE = 5
 
 class FireRoutine(Routine):
     def __init__(self, pixels, addresses, colors=None, should_override=False, brightness=1.0):
-        super().__init__(self, pixels, addresses, should_override, brightness)
+        super().__init__(pixels, addresses, should_override, brightness)
         self.current_magnitudes = []
         self.values = []
         colors = [Colors.red]

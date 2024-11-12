@@ -9,7 +9,7 @@ class SpeedGaugeRoutine(TimeRoutine):
     active = False
 
     def __init__(self, pixels, addresses, color=[255, 0, 0]):
-        TimeRoutine.__init__(self, pixels, addresses)
+        TimeRoutine.__init__(pixels, addresses)
         self.color = color
 
     def update_active(self, active):

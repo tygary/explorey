@@ -104,9 +104,9 @@ class GhostScaleMachine(object):
             unpowered_right = right[right_power_index:]
 
             self.light_routines = [
-                Routines.FireRoutine(self.pixels, powered_left, [Colors.green]),
+                Routines.FireRoutine(self.pixels, powered_left, [Colors.light_green]),
                 Routines.BlackoutRoutine(self.pixels, unpowered_left),
-                Routines.FireRoutine(self.pixels, powered_right, [Colors.blue]),
+                Routines.FireRoutine(self.pixels, powered_right, [Colors.soft_blue]),
                 Routines.BlackoutRoutine(self.pixels, unpowered_right),
             ]
             self.left_triggered_wave_routine = None
@@ -118,8 +118,8 @@ class GhostScaleMachine(object):
 
             if self.mode is not self.previous_mode:
                 self.light_routines = [
-                    Routines.ColorRoutine(self.pixels, left, Colors.green),
-                    Routines.ColorRoutine(self.pixels, right, Colors.red),
+                    Routines.ColorRoutine(self.pixels, left, Colors.green, brightness=0.3),
+                    Routines.ColorRoutine(self.pixels, right, Colors.red, brightness=0.3),
                 ]
                 self.left_triggered_wave_routine = Routines.TriggeredWaveRoutine(self.pixels, POWER_BOARD_PIXELS, should_override=True, brightness=0.3)
                 self.right_triggered_wave_routine = Routines.TriggeredWaveRoutine(self.pixels, POWER_BOARD_PIXELS, should_override=True, brightness=0.3)
@@ -355,6 +355,10 @@ class GhostScaleMachine(object):
 
         for routine in self.light_routines:
             routine.tick()
+        if self.left_triggered_wave_routine:
+            self.left_triggered_wave_routine.tick()
+        if self.right_triggered_wave_routine:
+            self.right_triggered_wave_routine.tick()
         self.buttonOne.tick()
         self.buttonTwo.tick()
         self.pixels.render()

@@ -376,10 +376,8 @@ class GhostScaleMachine(object):
         for routine in self.light_routines:
             routine.tick()
         if self.left_triggered_wave_routine:
-            print("tick in left")
             self.left_triggered_wave_routine.tick()
         if self.right_triggered_wave_routine:
-            print("tick in right")
             self.right_triggered_wave_routine.tick()
         self.buttonOne.tick()
         self.buttonTwo.tick()

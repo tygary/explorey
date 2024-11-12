@@ -288,6 +288,7 @@ class GhostScaleMachine(object):
     def start_playing(self):
         print("Start Playing")
         self.mode = MODE_PLAYING
+        self.previous_middle = 0
         self.rfid_one_timeout_time = 0
         self.rfid_two_timeout_time = 0
         self._update_light_routines()

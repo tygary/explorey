@@ -14,7 +14,7 @@ class Wave(object):
         self.speed = speed
         self.current_index = 0
         self.lights = []
-        for i, address in enumerate(addresses):
+        for address in addresses:
             self.lights.append(Light(address))
         self.update_next_event_time()
 
@@ -62,6 +62,7 @@ class TriggeredWaveRoutine(TimeRoutine):
 
     def update_addresses(self, addresses):
         TimeRoutine.update_addresses(self, addresses)
+        print("Updating addresses")
         for wave in self.current_waves:
             wave.update_addresses(addresses)
 

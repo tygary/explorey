@@ -68,7 +68,7 @@ class GhostScaleMachine(object):
     last_game_balance_update = 0
 
     oscillation_period_ms = 1000
-    oscillation_start_time = 0
+    oscillation_start_time_ms = 0
     oscillation_going_up = True
     oscillation_magnitude = 10
 
@@ -322,13 +322,14 @@ class GhostScaleMachine(object):
     def update_oscillation(self):
         if self.mode is not MODE_PLAYING:
             self.oscillated_balance = self.current_balance
-            self.oscillation_start_time = 0
+            self.oscillation_start_time_ms = 0
             return
-        now = time.time() * 1000
+        now = time.time()
         percent_of_game = 1 - (self.game_end_time - now / GAME_LENGTH_TIME)
+        now_ms = now * 1000
 
-        if self.oscillation_start_time < now:
-            self.oscillation_start_time = now + self.oscillation_period_ms
+        if self.oscillation_start_time_ms < now_ms:
+            self.oscillation_start_time_ms = now_ms + self.oscillation_period_ms
             self.oscillation_going_up = not self.oscillation_going_up
             print("oscillation flipping", self.oscillation_going_up)
             self.oscillation_magnitude = random.randrange(5, round(percent_of_game * 20 + 5))
@@ -337,9 +338,9 @@ class GhostScaleMachine(object):
             print("oscillation period", self.oscillation_period_ms)
             print("percent of game", percent_of_game)
         if self.oscillation_going_up:
-            self.oscillated_balance = self.current_balance + round(math.sin(math.pi * (now - self.oscillation_start_time) / self.oscillation_period_ms) * self.oscillation_magnitude)
+            self.oscillated_balance = self.current_balance + round(math.sin(math.pi * (now_ms - self.oscillation_start_time_ms) / self.oscillation_period_ms) * self.oscillation_magnitude)
         else:
-            self.oscillated_balance = self.current_balance - round(math.sin(math.pi * (now - self.oscillation_start_time) / self.oscillation_period_ms) * self.oscillation_magnitude)
+            self.oscillated_balance = self.current_balance - round(math.sin(math.pi * (now_ms - self.oscillation_start_time_ms) / self.oscillation_period_ms) * self.oscillation_magnitude)
         print("oscillated balance", self.oscillated_balance)
 
     def start_end_game(self):

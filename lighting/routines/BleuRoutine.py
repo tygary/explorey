@@ -43,31 +43,28 @@ CAVE_COLOR_SCHEME_GREENS = [[178, 255, 158], [29, 211, 176], [60, 22, 66], [175,
 
 
 class BleuRoutine(Routine):
-    now = None
-
-    cave_panel_lights = None
-
-    cavePanelCurrentColor = [0, 0, 255]
-    cavePanelNextColor = [0, 0, 255]
-    cavePanelFlashColor = [0, 0, 0]
-    cavePanelColorTimestamp = 0
-    cavePanelColorDuration = 0
-    cavePanelColorSchemeIndex = 0
-    cavePanelColorSchemeIndexNew = 0
-    cavePanelColorTransitioning = False
-
-    cavePanelColorSchemes = [
-        CAVE_COLOR_SCHEME_BLUES,
-        CAVE_COLOR_SCHEME_BLUE_GREEN_PURPLE,
-        CAVE_COLOR_SCHCME_RED_ORANGE_YELLOW_GREEN,
-        CAVE_COLOR_SCHEME_PINKS,
-        CAVE_COLOR_SCHEME_BLUE_ORANGE_YELLOW,
-        CAVE_COLOR_SCHEME_COTTON_CANDY,
-        CAVE_COLOR_SCHEME_GREENS
-    ]
-
     def __init__(self, pixels, addresses, should_override=False, brightness=1.0, color_schemes=None):
         Routine.__init__(self, pixels, addresses, should_override, brightness)
+
+        self.now = None
+        self.cavePanelCurrentColor = [0, 0, 255]
+        self.cavePanelNextColor = [0, 0, 255]
+        self.cavePanelFlashColor = [0, 0, 0]
+        self.cavePanelColorTimestamp = 0
+        self.cavePanelColorDuration = 0
+        self.cavePanelColorSchemeIndex = 0
+        self.cavePanelColorSchemeIndexNew = 0
+        self.cavePanelColorTransitioning = False
+
+        self.cavePanelColorSchemes = [
+            CAVE_COLOR_SCHEME_BLUES,
+            CAVE_COLOR_SCHEME_BLUE_GREEN_PURPLE,
+            CAVE_COLOR_SCHCME_RED_ORANGE_YELLOW_GREEN,
+            CAVE_COLOR_SCHEME_PINKS,
+            CAVE_COLOR_SCHEME_BLUE_ORANGE_YELLOW,
+            CAVE_COLOR_SCHEME_COTTON_CANDY,
+            CAVE_COLOR_SCHEME_GREENS
+        ]
         self.cave_panel_lights = [Light] * len(addresses)
         if color_schemes is not None:
             self.cavePanelColorSchemes = color_schemes

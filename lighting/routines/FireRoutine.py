@@ -10,13 +10,12 @@ MAX_CHANGE = 5
 
 
 class FireRoutine(Routine):
-    current_magnitudes = []
-    values = []
-    colors = [Colors.red]
-    pixel_colors = []
-
     def __init__(self, pixels, addresses, colors=None, should_override=False, brightness=1.0):
         Routine.__init__(self, pixels, addresses, should_override, brightness)
+        self.current_magnitudes = []
+        self.values = []
+        colors = [Colors.red]
+        self.pixel_colors = []
         if colors:
             self.colors = colors
         for i, address in enumerate(self.addresses):

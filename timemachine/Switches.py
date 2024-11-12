@@ -6,9 +6,6 @@ from lighting.routines import Routines
 
 
 class TwoWaySwitch(object):
-    pin = -1
-    callback = None
-
     def __init__(self, pin, callback=None):
         self.pin = pin
         self.callback = callback
@@ -76,10 +73,6 @@ class GameTwoWaySwitch(TwoWaySwitch):
 
 
 class ThreeWaySwitch(object):
-    pin_a = -1
-    pin_b = -1
-    callback = None
-
     def __init__(self, pin_a, pin_b, callback=None):
         print("pin_a", pin_a)
         print("pin_b", pin_b)

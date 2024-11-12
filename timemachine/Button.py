@@ -10,17 +10,13 @@ WAIT_TIME = 0.2
 
 
 class Button(object):
-    button_pin = -1
-    button_light_pin = -1
-    callback = None
-    light_on = False
-    is_flashing = False
-    flash_length = 0.5
-    next_flash = 0
-
-    waiting = 0
-
     def __init__(self, button_pin, button_light_pin=-1, callback=None, pullup=False):
+        self.light_on = False
+        self.is_flashing = False
+        self.flash_length = 0.5
+        self.next_flash = 0
+
+        self.waiting = 0
         self.button_pin = button_pin
         self.button_light_pin = button_light_pin
         self.callback = callback

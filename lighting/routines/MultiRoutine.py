@@ -2,7 +2,6 @@ from lighting.routines.Routine import Routine
 
 
 class MultiRoutine(Routine):
-    routines = []
 
     def __init__(self, routines):
         Routine.__init__(self, None, [])

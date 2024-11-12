@@ -6,9 +6,6 @@ BLUE = 2
 
 
 class Routine(object):
-    addresses = []
-    pixels = None
-
     def __init__(self, pixels, addresses, should_override=False, brightness=1.0):
         if isinstance(pixels, OverlayedPixelControl):
             self.pixels = pixels.get_sub_pixels_for_routine(self, should_override, brightness)

@@ -4,14 +4,12 @@ from lighting.routines.Routine import Routine
 
 
 class CyclingMultiRoutine(Routine):
-    duration = 10000
-    next_change = 0
-    current_routine = None
-    current_routine_index = 0
-    routines = []
 
     def __init__(self, routinesWithDuration):
         Routine.__init__(self, None, [])
+        self.duration = 10000
+        self.next_change = 0
+        self.current_routine_index = 0
         self.current_routine = routinesWithDuration[self.current_routine_index][0]
         self.duration = routinesWithDuration[self.current_routine_index][1]
         self.next_change = int(round(time.time() * 1000)) + self.duration

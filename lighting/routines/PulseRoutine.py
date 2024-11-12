@@ -2,14 +2,11 @@ from lighting.routines.Routine import Routine
 
 
 class PulseRoutine(Routine):
-    going_up = True
-    color = None
-    ratio = 0
-    values = []
-    rate = 0.05
-
     def __init__(self, pixels, addresses, color, rate=0.05, should_override=False, brightness=1.0):
         Routine.__init__(self, pixels, addresses, should_override, brightness)
+        self.going_up = True
+        self.ratio = 0
+        self.values = []
         self.color = color
         self.rate = rate
         for i, address in enumerate(self.addresses):

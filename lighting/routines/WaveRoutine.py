@@ -6,19 +6,6 @@ from lighting.routines.TimeRoutine import TimeRoutine
 
 
 class WaveRoutine(TimeRoutine):
-    next_action = 0
-    pixel_wait_time = 100
-    wave_wait_time = 10000
-    pixel_fade_time = 1000
-    colors = None
-    color_index = 0
-    starting_color = None
-    lights = None
-    next_index = 0
-    prev_index = 0
-    running = True
-    delay = 0
-
     def __init__(
         self,
         pixels,
@@ -36,6 +23,15 @@ class WaveRoutine(TimeRoutine):
         TimeRoutine.__init__(self, pixels, addresses, should_override, brightness)
         self.colors = colors[:]
         self.lights = []
+        self.next_action = 0
+        self.pixel_fade_time = 1000
+        self.colors = None
+        self.color_index = 0
+        self.starting_color = None
+        self.next_index = 0
+        self.prev_index = 0
+        self.running = True
+        delay = 0
         self.delay = delay
         self.wave_wait_time = wave_wait_time
         self.pixel_wait_time = pixel_wait_time

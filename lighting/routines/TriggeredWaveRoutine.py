@@ -57,6 +57,7 @@ class TriggeredWaveRoutine(TimeRoutine):
 
     def update_addresses(self, addresses):
         TimeRoutine.update_addresses(self, addresses)
+        print("Updating addresses", addresses)
         for wave in self.current_waves:
             wave.update_addresses(addresses)
 

@@ -44,7 +44,7 @@ CAVE_COLOR_SCHEME_GREENS = [[178, 255, 158], [29, 211, 176], [60, 22, 66], [175,
 
 class BleuRoutine(Routine):
     def __init__(self, pixels, addresses, should_override=False, brightness=1.0, color_schemes=None):
-        super().__init__(self, pixels, addresses, should_override, brightness)
+        super().__init__(pixels, addresses, should_override, brightness)
 
         self.now = None
         self.cavePanelCurrentColor = [0, 0, 255]

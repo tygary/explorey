@@ -6,7 +6,7 @@ from lighting.routines.Routine import Routine
 class CyclingMultiRoutine(Routine):
 
     def __init__(self, routinesWithDuration):
-        super().__init__(self, None, [])
+        super().__init__(None, [])
         self.duration = 10000
         self.next_change = 0
         self.current_routine_index = 0

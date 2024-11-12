@@ -61,10 +61,10 @@ class TriggeredWaveRoutine(TimeRoutine):
 
     def update_addresses(self, addresses):
         super().update_addresses(self.addresses)
-        # self.addresses = addresses
-        # print("Updating addresses")
-        # for wave in self.current_waves:
-        #     wave.update_addresses(addresses)
+        self.addresses = addresses
+        print("Updating addresses")
+        for wave in self.current_waves:
+            wave.update_addresses(addresses)
 
     def trigger(self, color, speed=1.0):
         print("Launching Wave")

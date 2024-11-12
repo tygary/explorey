@@ -2,6 +2,7 @@ import json
 import time
 import RPi.GPIO as GPIO
 import math
+import random
 
 from lighting.PixelControl import OverlayedPixelControl, PixelControl
 from lighting.Colors import Colors
@@ -300,7 +301,7 @@ class GhostScaleMachine(object):
         self.rfid_one_timeout_time = 0
         self.rfid_two_timeout_time = 0
         self._update_light_routines()
-        # self.game_end_time = time.time() + GAME_LENGTH_TIME
+        self.game_end_time = time.time() + GAME_LENGTH_TIME
         self.current_balance = 50
         self.last_game_balance_update = time.time()
         self.buttonOne.flash_light()
@@ -324,10 +325,14 @@ class GhostScaleMachine(object):
             self.oscillation_start_time = 0
             return
         now = time.time() * 1000
+        percent_of_game = (now - (self.game_end_time - GAME_LENGTH_TIME)) / GAME_LENGTH_TIME
+
         if self.oscillation_start_time < now:
             self.oscillation_start_time = now + self.oscillation_period_ms
             self.oscillation_going_up = not self.oscillation_going_up
             print("oscillation flipping", self.oscillation_going_up)
+            self.oscillation_magnitude = random.randrange(5, percent_of_game * 20 + 5)
+            self.oscillation_period_ms = random.randrange(500, 2000)
         if self.oscillation_going_up:
             self.oscillated_balance = self.current_balance + round(math.sin(math.pi * (now - self.oscillation_start_time) / self.oscillation_period_ms) * self.oscillation_magnitude)
         else:

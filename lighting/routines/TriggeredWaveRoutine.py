@@ -58,7 +58,6 @@ class TriggeredWaveRoutine(TimeRoutine):
         brightness=1.0,
     ):
         super().__init__(pixels, addresses, should_override, brightness)
-        print("addresses", addresses, len(addresses))
         self.starting_color = [0, 0, 0, 0]
 
     def update_addresses(self, addresses):
@@ -74,11 +73,8 @@ class TriggeredWaveRoutine(TimeRoutine):
 
     def tick(self):
         super().tick()
-        print("tick address length", len(self.addresses))
         pixels = [[0, 0, 0] for _ in range(0, len(self.addresses))]
-
         for wave in self.current_waves:
-            print("wave address length", len(wave.addresses))
             if self.now > wave.next_event_time:
                 wave.current_index += 1
                 if wave.current_index < len(wave.lights):

@@ -58,6 +58,7 @@ class TriggeredWaveRoutine(TimeRoutine):
             wave.update_addresses(addresses)
 
     def trigger(self, color, speed=1.0):
+        print("Launching Wave")
         self.current_waves.append(Wave(color, speed, self.addresses))
 
     def tick(self):
@@ -69,6 +70,7 @@ class TriggeredWaveRoutine(TimeRoutine):
             if self.now > wave.next_event_time:
                 wave.current_index += 1
                 if wave.current_index < len(wave.lights):
+                    print("Adding index to wave", wave.current_index, wave.speed)
                     light = wave.lights[wave.current_index]
                     light.intendedColor = wave.color[:]
                     light.duration = min(self.pixel_fade_time * wave.speed, 100)

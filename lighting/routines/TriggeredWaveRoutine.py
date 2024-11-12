@@ -23,10 +23,13 @@ class Wave(object):
     
     def update_addresses(self, addresses):
         old_lights = self.lights
-        self.lights = []
+        light_by_address = {
+            light.address: light for light in self.lights
+        }
+
         for i, address in enumerate(addresses):
-            if i < len(old_lights):
-                self.lights.append(old_lights[i])
+            if i < len(old_lights) and light_by_address.get(address):
+                self.lights.append(light_by_address[address])
             else:
                 self.lights.append(Light(address))
 

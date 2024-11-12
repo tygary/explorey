@@ -53,6 +53,7 @@ class GhostScaleMachine(object):
     ghost_two_power_level = 0
 
     light_routines = []
+    previous_middle = 0
     left_triggered_wave_routine = None
     right_triggered_wave_routine = None
     game_end_time = 0
@@ -113,22 +114,24 @@ class GhostScaleMachine(object):
             self.right_triggered_wave_routine = None
         elif self.mode is MODE_PLAYING:
             middle = round((self.current_balance / 100) * num_pixels)
-            left = POWER_BOARD_PIXELS[0:middle]
-            right = POWER_BOARD_PIXELS[middle:]
-            right.reverse()
+            if middle != self.previous_middle:
+                self.previous_middle = middle
+                left = POWER_BOARD_PIXELS[0:middle]
+                right = POWER_BOARD_PIXELS[middle:]
+                right.reverse()
 
-            if self.mode is not self.previous_mode:
-                self.light_routines = [
-                    Routines.ColorRoutine(self.pixels, left, Colors.green, brightness=0.3),
-                    Routines.ColorRoutine(self.pixels, right, Colors.red, brightness=0.3),
-                ]
-                self.left_triggered_wave_routine = Routines.TriggeredWaveRoutine(self.pixels, left, should_override=True, brightness=0.3)
-                self.right_triggered_wave_routine = Routines.TriggeredWaveRoutine(self.pixels, right, should_override=True, brightness=0.3)
-            else:
-                self.light_routines[0].update_addresses(left)
-                self.light_routines[1].update_addresses(right)
-                self.left_triggered_wave_routine.update_addresses(left)
-                self.right_triggered_wave_routine.update_addresses(right)
+                if self.mode is not self.previous_mode:
+                    self.light_routines = [
+                        Routines.ColorRoutine(self.pixels, left, Colors.green, brightness=0.3),
+                        Routines.ColorRoutine(self.pixels, right, Colors.red, brightness=0.3),
+                    ]
+                    self.left_triggered_wave_routine = Routines.TriggeredWaveRoutine(self.pixels, left, should_override=True, brightness=0.3)
+                    self.right_triggered_wave_routine = Routines.TriggeredWaveRoutine(self.pixels, right, should_override=True, brightness=0.3)
+                else:
+                    self.light_routines[0].update_addresses(left)
+                    self.light_routines[1].update_addresses(right)
+                    self.left_triggered_wave_routine.update_addresses(left)
+                    self.right_triggered_wave_routine.update_addresses(right)
         elif self.mode is MODE_FINISHED:
             self.left_triggered_wave_routine = None
             self.right_triggered_wave_routine = None

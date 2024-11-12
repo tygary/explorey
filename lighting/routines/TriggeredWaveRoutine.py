@@ -94,7 +94,7 @@ class TriggeredWaveRoutine(TimeRoutine):
                 else:
                     print("removing wave")
                     self.current_waves.remove(wave)
-            for i in range(0, len(self.addresses)):
+            for i in range(0, len(wave.lights)):
                 light = wave.lights[i]
                 Light.update_color(light, self.now)
                 prev_value = pixels[i]

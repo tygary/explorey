@@ -40,15 +40,6 @@ class Wave(object):
 
 
 class TriggeredWaveRoutine(TimeRoutine):
-    next_action = 0
-    pixel_wait_time = 100
-    wave_wait_time = 10000
-    pixel_fade_time = 1000
-    lights = None
-    running = True
-    delay = 0
-
-    current_waves = []
 
     def __init__(
         self,
@@ -59,6 +50,14 @@ class TriggeredWaveRoutine(TimeRoutine):
     ):
         super().__init__(pixels, addresses, should_override, brightness)
         self.starting_color = [0, 0, 0, 0]
+        self.current_waves = []
+        self.next_action = 0
+        self.lights = None
+        self.running = True
+        self.pixel_wait_time = 100
+        self.wave_wait_time = 10000
+        self.pixel_fade_time = 1000
+        self.delay = 0
 
     def update_addresses(self, addresses):
         super().update_addresses(self.addresses)

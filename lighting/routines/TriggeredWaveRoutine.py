@@ -20,8 +20,10 @@ class Wave(object):
 
     def update_next_event_time(self):
         self.next_event_time = time.time() * 1000 + (WAVE_PIXEL_SPEED / self.speed)
-    
+
     def update_addresses(self, addresses):
+        if len(addresses) == len(self.lights):
+            return
         old_lights = self.lights
         light_by_address = {
             light.address: light for light in self.lights

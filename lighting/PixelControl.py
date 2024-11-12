@@ -75,7 +75,6 @@ class SubPixelControl(object):
         self.pixels = [(0, 0, 0, 0) for i in range(num_pixels)]
 
     def setColor(self, channel, color):
-        print("Set color", color, channel)
         color = (int(color[0] * self.brighness), int(color[1] * self.brighness), int(color[2] * self.brighness))
         self.pixels[channel] = (color[0], color[1], color[2], 0)
         self.add_pending_change(self)

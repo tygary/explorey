@@ -69,7 +69,7 @@ class GhostScaleMachine(object):
     oscillation_period_s = 1
     oscillation_start_time = 0
     oscillation_going_up = True
-    oscillation_magnitude = 1
+    oscillation_magnitude = 2
 
     def __init__(self):
         GPIO.setmode(GPIO.BCM)
@@ -327,8 +327,9 @@ class GhostScaleMachine(object):
         if self.oscillation_start_time < now:
             self.oscillation_start_time = now + self.oscillation_period_s
             self.oscillation_going_up = not self.oscillation_going_up
+            print("oscillation flipping", self.oscillation_going_up)
         if self.oscillation_going_up:
-            self.oscillated_balance = self.current_balance + math.sin(math.pi * (now - self.oscillation_start_time) / self.oscillation_period_s) * self.oscillation_magnitude
+            self.oscillated_balance = self.current_balance + round(math.sin(math.pi * (now - self.oscillation_start_time) / self.oscillation_period_s) * self.oscillation_magnitude)
         else:
             self.oscillated_balance = self.current_balance - math.sin(math.pi * (now - self.oscillation_start_time) / self.oscillation_period_s) * self.oscillation_magnitude
 

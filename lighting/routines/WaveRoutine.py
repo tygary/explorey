@@ -5,6 +5,7 @@ from lighting.routines.BleuRoutine import LIGHT_FADE
 from lighting.routines.TimeRoutine import TimeRoutine
 from lighting.Colors import Colors
 
+
 class WaveRoutine(TimeRoutine):
     def __init__(
         self,
@@ -21,7 +22,7 @@ class WaveRoutine(TimeRoutine):
         pixel_multiplier=1,
     ):
         TimeRoutine.__init__(self, pixels, addresses, should_override, brightness)
-        self.colors = colors[:]
+        self.colors = colors
         self.lights = []
         self.next_action = 0
         self.pixel_fade_time = 1000

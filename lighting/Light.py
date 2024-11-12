@@ -36,6 +36,8 @@ class Light(object):
 
     @staticmethod
     def update_color(light, now):
+        if light.mode == LIGHT_UNSET:
+            return
         if light.wait:
             if now > light.nextActionTime:
                 light.nextActionTime = now + light.duration

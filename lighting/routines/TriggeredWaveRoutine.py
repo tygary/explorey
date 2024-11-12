@@ -2,7 +2,7 @@ from random import randrange
 import time
 
 from lighting.Light import Light
-from lighting.routines.BleuRoutine import LIGHT_FADE
+from lighting.routines.BleuRoutine import LIGHT_FADE, LIGHT_UNSET
 from lighting.routines.TimeRoutine import TimeRoutine
 
 WAVE_PIXEL_SPEED = 100
@@ -10,6 +10,7 @@ WAVE_PIXEL_SPEED = 100
 
 class Wave(object):
     def __init__(self, color, speed, addresses):
+        self.is_done = False
         self.color = color
         self.speed = speed
         self.current_index = 0
@@ -33,9 +34,20 @@ class Wave(object):
             if light_by_address.get(address):
                 self.lights.append(light_by_address[address])
             else:
-                self.lights.append(Light(address))
-        if self.current_index >= len(self.lights):
-            self.current_index = len(self.lights) - 1
+                light = Light(address)
+                self.lights.append(light)
+                if self.is_done:
+                    light.intendedColor = [0, 0, 0]
+                    light.currentValue = [0, 0, 0]
+                    light.mode = LIGHT_UNSET
+                    light.iterations = 0
+                    light.duration = 0
+                    light.waitDuration = 0
+                    light.nextActionTime = 0
+                    light.timestamp = 0
+                    light.up = False
+        # if self.current_index >= len(self.lights):
+        #     self.current_index = len(self.lights) - 1
 
 
 class TriggeredWaveRoutine(TimeRoutine):
@@ -59,10 +71,14 @@ class TriggeredWaveRoutine(TimeRoutine):
         self.delay = 0
 
     def update_addresses(self, addresses):
+        old_addresses = self.addresses
         super().update_addresses(addresses)
-        print("Updating addresses")
+        # print("Updating addresses")
+        removed_adddresses = list(set(old_addresses) - set(addresses))
         for wave in self.current_waves:
             wave.update_addresses(addresses)
+        for address in removed_adddresses:
+            self.pixels.setColor(address, [0, 0, 0])
 
     def trigger(self, color, speed=1.0):
         print("Launching Wave")
@@ -89,6 +105,7 @@ class TriggeredWaveRoutine(TimeRoutine):
                     light.mode = LIGHT_FADE
                     wave.update_next_event_time()
                 else:
+                    wave.is_done = True
                     is_done = True
                     for light in wave.lights:
                         if light.iterations > 0:

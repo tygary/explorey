@@ -28,7 +28,7 @@ class Wave(object):
             if i < len(old_lights):
                 self.lights.append(old_lights[i])
             else:
-                self.__initialize_light(address)
+                self.lights.append(Light(address))
 
 
 class TriggeredWaveRoutine(TimeRoutine):
@@ -84,10 +84,10 @@ class TriggeredWaveRoutine(TimeRoutine):
                 else:
                     print("removing wave")
                     self.current_waves.remove(wave)
-            for light in wave.lights:
+            for i, light in enumerate(wave.lights):
                 Light.update_color(light, self.now)
-                prev_value = pixels[light.address]
-                pixels[light.address] = [
+                prev_value = pixels[i]
+                pixels[i] = [
                     min(prev_value[0] + light.currentValue[0], 255),
                     min(prev_value[1] + light.currentValue[1], 255),
                     min(prev_value[2] + light.currentValue[2], 255),

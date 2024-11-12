@@ -203,10 +203,12 @@ class GhostScaleMachine(object):
             current_rfid = self.current_rfid_one
             self.current_rfid_one = card
             self.ghost_one_power_level = power_level
+            self.rfid_one_timeout_time = 0
         elif reader_name == SCALE_TWO:
             current_rfid = self.current_rfid_two
             self.current_rfid_two = card
             self.ghost_two_power_level = power_level
+            self.rfid_two_timeout_time = 0
         if current_rfid != card:
             if self.mode not in [MODE_PLAYING, MODE_FINISHED]:
                 if self.current_rfid_one and self.current_rfid_two:
@@ -338,11 +340,13 @@ class GhostScaleMachine(object):
             print("Timed out, resetting")
             self.reset()
         if self.rfid_one_timeout_time > 0 and self.rfid_one_timeout_time < time.time():
+            self.rfid_one_timeout_time = 0
             self.current_rfid_one = None
             if self.mode in [MODE_READY_TO_PLAY]:
                 self.start_scanning()
         if self.rfid_two_timeout_time > 0 and self.rfid_two_timeout_time < time.time():
             self.current_rfid_two = None
+            self.rfid_two_timeout_time = 0
             if self.mode in [MODE_READY_TO_PLAY]:
                 self.start_scanning()
         if self.mode in [MODE_SCANNING, MODE_READY_TO_PLAY] and not self.current_rfid_one and not self.current_rfid_two:

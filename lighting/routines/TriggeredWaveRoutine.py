@@ -34,18 +34,7 @@ class Wave(object):
             if light_by_address.get(address):
                 self.lights.append(light_by_address[address])
             else:
-                light = Light(address)
-                self.lights.append(light)
-                if self.is_done:
-                    light.intendedColor = [0, 0, 0]
-                    light.currentValue = [0, 0, 0]
-                    light.mode = LIGHT_UNSET
-                    light.iterations = 0
-                    light.duration = 0
-                    light.waitDuration = 0
-                    light.nextActionTime = 0
-                    light.timestamp = 0
-                    light.up = False
+                self.lights.append(Light(address))
         # if self.current_index >= len(self.lights):
         #     self.current_index = len(self.lights) - 1
 
@@ -91,13 +80,14 @@ class TriggeredWaveRoutine(TimeRoutine):
         for wave in self.current_waves:
             if self.now > wave.next_event_time:
                 wave.current_index += 1
+                print("Current Index", wave.current_index)
                 if wave.current_index < len(wave.lights):
-                    # print("Adding index to wave", wave.current_index, wave.speed)
+                    print("Adding index to wave", wave.current_index, wave.speed)
                     light = wave.lights[wave.current_index]
                     # print("light address", light.address)
                     light.intendedColor = wave.color[:]
                     light.duration = min(self.pixel_fade_time / wave.speed, 100)
-                    light.iterations = randrange(1, 2)
+                    light.iterations = 1
                     light.up = True
                     light.timestamp = self.now
                     light.waitDuration = randrange(10, 100)

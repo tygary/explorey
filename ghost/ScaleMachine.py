@@ -330,7 +330,7 @@ class GhostScaleMachine(object):
         if self.oscillation_start_time_ms < now_ms:
             self.oscillation_start_time_ms = now_ms + self.oscillation_period_ms
             self.oscillation_going_up = not self.oscillation_going_up
-            percent_of_game = 1 - ((self.game_end_time - now) / GAME_LENGTH_TIME)
+            percent_of_game = 1 - (round(self.game_end_time - now) / GAME_LENGTH_TIME)
             print("oscillation flipping", self.oscillation_going_up)
             print("now", now)
             print("game end time", self.game_end_time)

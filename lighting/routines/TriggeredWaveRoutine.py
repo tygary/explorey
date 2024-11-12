@@ -26,6 +26,7 @@ class Wave(object):
     def update_addresses(self, addresses):
         if len(addresses) == len(self.addresses):
             return
+        print("address lengths new old", len(addresses), len(self.addresses))
         self.addresses = addresses
         light_by_address = {
             light.address: light for light in self.lights
@@ -35,6 +36,7 @@ class Wave(object):
                 self.lights.append(light_by_address[address])
             else:
                 self.lights.append(Light(address))
+        print("New lights", len(self.lights))
         # if self.current_index >= len(self.lights):
         #     self.current_index = len(self.lights) - 1
 

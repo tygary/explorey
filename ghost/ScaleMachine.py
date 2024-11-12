@@ -145,6 +145,7 @@ class GhostScaleMachine(object):
                     Routines.BlackoutRoutine(self.pixels, left),
                     Routines.RainbowRoutine(self.pixels, right),
                 ]
+        self.previous_mode = self.mode
 
     def button_one_pressed(self):
         print("Button one pressed")

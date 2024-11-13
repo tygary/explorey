@@ -9,6 +9,7 @@ from lighting.Colors import Colors
 from lighting.routines import Routines
 from mqtt.MqttClient import MqttClient
 from ghost.GhostScaleSoundSystem import GhostScaleSoundSystem
+from ghost.GhostVideo import GhostVideo
 
 from timemachine.Button import Button
 
@@ -86,6 +87,7 @@ class GhostScaleMachine(object):
         self.mqtt.listen(self.__parse_mqtt_event)
         self.pixels = OverlayedPixelControl(led_count=POWER_BOARD_NUM_PIXELS)
         self.sound = GhostScaleSoundSystem()
+        self.video = GhostVideo()
         self.reset()
         self._update_light_routines()
 
@@ -373,6 +375,7 @@ class GhostScaleMachine(object):
         print("Game Over")
         print("End Balance", self.current_balance)
         self.sound.play_ending()
+        self.video.play()
         if self.current_balance > 50:
             print("Ghost One Wins")
         else:

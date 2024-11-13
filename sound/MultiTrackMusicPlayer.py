@@ -7,7 +7,7 @@ class MultiTrackMusicPlayer:
     channels = []
 
     def __init__(self, songs, num_channels=8):
-        pygame.mixer.init(buffer=1024)
+        pygame.mixer.init(buffer=1024, devicename='bcm2835 Headphones, bcm2835 Headphones')
         pygame.mixer.set_num_channels(num_channels)
 
         for song in songs:

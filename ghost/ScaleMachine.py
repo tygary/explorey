@@ -8,6 +8,7 @@ from lighting.PixelControl import OverlayedPixelControl, PixelControl
 from lighting.Colors import Colors
 from lighting.routines import Routines
 from mqtt.MqttClient import MqttClient
+from ghost.GhostScaleSoundSystem import GhostScaleSoundSystem
 
 from timemachine.Button import Button
 
@@ -84,6 +85,7 @@ class GhostScaleMachine(object):
         self.buttonTwo = Button(BUTTON_TWO_PIN, BUTTON_TWO_LIGHT_PIN, callback=self.button_two_pressed, pullup=True)
         self.mqtt.listen(self.__parse_mqtt_event)
         self.pixels = OverlayedPixelControl(led_count=POWER_BOARD_NUM_PIXELS)
+        self.sound = GhostScaleSoundSystem()
         self.reset()
         self._update_light_routines()
 
@@ -170,9 +172,10 @@ class GhostScaleMachine(object):
             self.start_playing()
         elif self.mode is MODE_PLAYING:
             if ((time.time() - self.last_button_one_press) * 1000) > BUTTON_TIMEOUT_MS:
-                self.last_button_one_press = time.time()    
+                self.last_button_one_press = time.time()
                 self.current_balance += 1
                 self.buttonOne.set_light(False)
+                self.sound.play_hit(left=True)
                 print("Updated Balance", self.current_balance)
                 self._update_light_routines()
                 self.left_triggered_wave_routine.trigger(Colors.green, 2.0)
@@ -187,6 +190,7 @@ class GhostScaleMachine(object):
                 self.last_button_two_press = time.time()
                 self.current_balance -= 1
                 self.buttonTwo.set_light(False)
+                self.sound.play_hit(left=False)
                 print("Updated Balance", self.current_balance)
                 self._update_light_routines()
                 self.right_triggered_wave_routine.trigger(Colors.red, 2.0)
@@ -299,6 +303,7 @@ class GhostScaleMachine(object):
         print("Ready to play")
         if self.mode is not MODE_READY_TO_PLAY:
             self.mode = MODE_READY_TO_PLAY
+            self.sound.play_ready()
             self.next_reset_time = 0
             # self.next_reset_time = time.time() + TIME_BEFORE_RESETTING
             # Play sounds to start playing
@@ -308,6 +313,8 @@ class GhostScaleMachine(object):
     def start_playing(self):
         print("Start Playing")
         self.mode = MODE_PLAYING
+        self.sound.play_startup()
+        self.sound.play_background()
         self.previous_middle = 0
         self.rfid_one_timeout_time = 0
         self.rfid_two_timeout_time = 0
@@ -365,6 +372,7 @@ class GhostScaleMachine(object):
     def start_end_game(self):
         print("Game Over")
         print("End Balance", self.current_balance)
+        self.sound.play_ending()
         if self.current_balance > 50:
             print("Ghost One Wins")
         else:

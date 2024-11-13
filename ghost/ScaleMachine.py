@@ -132,7 +132,7 @@ class GhostScaleMachine(object):
         elif self.mode is MODE_PLAYING:
             middle = round((self.oscillated_balance / 100) * POWER_BOARD_NUM_PIXELS)
             if middle != self.previous_middle:
-                print("middle is ", middle)
+                # print("middle is ", middle)
                 self.previous_middle = middle
                 left = POWER_BOARD_PIXELS[0:middle]
                 right = POWER_BOARD_PIXELS[middle:]

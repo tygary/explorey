@@ -68,6 +68,8 @@ class GhostScaleSoundSystem(object):
         if left:
             self.player.stop_music(CHANNEL_SOUNDS_A)
             self.player.play_song(random.randint(HIT_0, HIT_3), 0.5, channel_num=CHANNEL_SOUNDS_A, loops=0)
+            self.player.channels[CHANNEL_SOUNDS_A].set_volume(1.0, 0.0)
         else:
             self.player.stop_music(CHANNEL_SOUNDS_B)
             self.player.play_song(random.randint(HIT_4, HIT_7), 0.5, channel_num=CHANNEL_SOUNDS_B, loops=0)
+            self.player.channels[CHANNEL_SOUNDS_B].set_volume(0.0, 1.0)

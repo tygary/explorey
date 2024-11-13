@@ -214,7 +214,10 @@ class GhostAudioSoundSystem(object):
     def play_ghost_story(self, rfid):
         print("Playing Ghost Story")
         self.stop_all()
-        story = GHOST_STORIES_BY_RFID["test"]
+        story = GHOST_STORIES_BY_RFID.get(rfid)
+        if story is None:
+            print("No story found for RFID", rfid)
+            return
         self.player.play_temp_song(story, 1, channel_num=CHANNEL_VOICE, loops=0)
 
     def set_next_event_callbacks(self, callbacks):
@@ -279,4 +282,50 @@ class GhostAudioSoundSystem(object):
 
 GHOST_STORIES_BY_RFID = {
     "test": '/home/admin/explorey/sound/GhostAudio-story_1.ogg',
+    "4b541366080104e0": '/home/admin/explorey/sound/GhostAudio-story_2.ogg',
+    "234c1366080104e0": '/home/admin/explorey/sound/GhostAudio-story_3.ogg',
+    "d3401366080104e0": '/home/admin/explorey/sound/GhostAudio-story_4.ogg',
+    "6d351366080104e0": '/home/admin/explorey/sound/GhostAudio-story_5.ogg',
+    "e92e1366080104e0": '/home/admin/explorey/sound/GhostAudio-story_6.ogg',
+    "f9251366080104e0": '/home/admin/explorey/sound/GhostAudio-story_7.ogg',
+    "b31f1366080104e0": '/home/admin/explorey/sound/GhostAudio-story_8.ogg',
+    "9f451366080104e0": '/home/admin/explorey/sound/GhostAudio-story_9.ogg',
+    "b0371366080104e0": '/home/admin/explorey/sound/GhostAudio-story_10.ogg',
+    "d12a1366080104e0": '/home/admin/explorey/sound/GhostAudio-story_11.ogg',
+    "df861366080104e0": '/home/admin/explorey/sound/GhostAudio-story_13.ogg',
+    "7da31366080104e0": '/home/admin/explorey/sound/GhostAudio-story_14.ogg',
+    "3961366080104": '/home/admin/explorey/sound/GhostAudio-story_15.ogg',
+    "f1891366080104e0": '/home/admin/explorey/sound/GhostAudio-story_16.ogg',
+    "51b81366080104e0": '/home/admin/explorey/sound/GhostAudio-story_17.ogg',
+    "f17e1366080104e0": '/home/admin/explorey/sound/GhostAudio-story_18.ogg',
+    "16f81366080104e0": '/home/admin/explorey/sound/GhostAudio-story_20.ogg',
+    "503b1566080104e0": '/home/admin/explorey/sound/GhostAudio-story_21.ogg',
+    "e0661366080104e0": '/home/admin/explorey/sound/GhostAudio-story_22.ogg',
+    "2a5e1366080104e0": '/home/admin/explorey/sound/GhostAudio-story_23.ogg',
+    "1eb11466080104e0": '/home/admin/explorey/sound/GhostAudio-story_24.ogg',
+    "36c81466080104e0": '/home/admin/explorey/sound/GhostAudio-story_25.ogg',
+    "bebc1466080104e0": '/home/admin/explorey/sound/GhostAudio-story_25.ogg',
+    "0dd31466080104e0": '/home/admin/explorey/sound/GhostAudio-story_25.ogg',
+    "d1e81466080104e0": '/home/admin/explorey/sound/GhostAudio-story_26.ogg',
+    "e2de1466080104e0": '/home/admin/explorey/sound/GhostAudio-story_28.ogg',
+    "9bee1466080104e0": '/home/admin/explorey/sound/GhostAudio-story_30.ogg',
+    "82421466080104": '/home/admin/explorey/sound/GhostAudio-story_31.ogg',
+    "1a351466080104e0": '/home/admin/explorey/sound/GhostAudio-story_32.ogg',
+    "a61a1566080104e0": '/home/admin/explorey/sound/GhostAudio-story_33.ogg',
+    "9d291466080104e0": '/home/admin/explorey/sound/GhostAudio-story_34.ogg',
+    "1ed81366080104e0": '/home/admin/explorey/sound/GhostAudio-story_35.ogg',
+    "c0ed1366080104e0": '/home/admin/explorey/sound/GhostAudio-story_35.ogg',
+    "d8f91366080104e0": '/home/admin/explorey/sound/GhostAudio-story_35.ogg',
+    "e4e21366080104e0": '/home/admin/explorey/sound/GhostAudio-story_35.ogg',
+    "28051466080104e0": '/home/admin/explorey/sound/GhostAudio-story_35.ogg',
+    "02dd1466080104e0": '/home/admin/explorey/sound/GhostAudio-story_36.ogg',
+    "94f41466080104e0": '/home/admin/explorey/sound/GhostAudio-story_36.ogg',
+    "58031466080104e0": '/home/admin/explorey/sound/GhostAudio-story_36.ogg',
+    "38d11466080104e0": '/home/admin/explorey/sound/GhostAudio-story_36.ogg',
+    "780d1566080104e0": '/home/admin/explorey/sound/GhostAudio-story_37.ogg',
+    "dc251566080104e0": '/home/admin/explorey/sound/GhostAudio-story_39.ogg',
+    "553b1566080104e0": '/home/admin/explorey/sound/GhostAudio-story_40.ogg',
+    "622d1566080104e0": '/home/admin/explorey/sound/GhostAudio-story_41.ogg',
+    "553b1566080104e0": '/home/admin/explorey/sound/GhostAudio-story_42.ogg',
+    "3efe1466080104e0": '/home/admin/explorey/sound/GhostAudio-story_43.ogg',
 }

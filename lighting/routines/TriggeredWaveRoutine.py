@@ -72,6 +72,8 @@ class TriggeredWaveRoutine(TimeRoutine):
 
     def trigger(self, color, speed=1.0):
         print("Launching Wave")
+        if len(self.current_waves) > 10:
+            self.current_waves.pop()
         self.current_waves.append(Wave(color, speed, self.addresses))
 
     def tick(self):

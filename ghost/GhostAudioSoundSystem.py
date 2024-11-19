@@ -37,7 +37,7 @@ MACHINE_SCANNING = 23
 STARTUP_TIME = 10
 
 songs = [
-    '/home/admin/explorey/sound/GhostAudio-intro_scan.ogg',
+    '/home/admin/explorey/sound/GhostAudio-IntroNew.ogg',
     '/home/admin/explorey/sound/GhostAudio-engage_numinosity.ogg',
     '/home/admin/explorey/sound/GhostAudio-initiate_flux.ogg',
     '/home/admin/explorey/sound/GhostAudio-increase_auraral.ogg',
@@ -150,7 +150,7 @@ class GhostAudioSoundSystem(object):
         print("Playing Game Over")
         self.stop_all()
         self.player.play_song(GAME_OVER, 1, channel_num=CHANNEL_VOICE, loops=0)
-        self.player.play_song(SPIN_DOWN, 1, channel_num=CHANNEL_FX, loops=0)
+        self.player.play_song(SPIN_DOWN, 0.5, channel_num=CHANNEL_FX, loops=0)
 
     def play_you_win(self):
         print("Playing You Win")
@@ -169,19 +169,19 @@ class GhostAudioSoundSystem(object):
         if not self.is_playing_ambient:
             # self.player.play_song(AMBIENT, 1, channel=AMBIENT)
             self.is_playing_ambient = True
-            self.player.play_song(AMBIENT, 0.5, channel_num=CHANNEL_AMBIENT, loops=-1)
+            self.player.play_song(AMBIENT, 0.3, channel_num=CHANNEL_AMBIENT, loops=-1)
 
     def play_game_backround(self):
         if not self.is_playing_game_background:
             print("Playing game background")
             self.stop_all()
-            self.player.play_song(GAME_BACKGROUND, 0.5, channel_num=CHANNEL_AMBIENT, loops=-1)
+            self.player.play_song(GAME_BACKGROUND, 0.3, channel_num=CHANNEL_AMBIENT, loops=-1)
             self.is_playing_game_background = True
 
     def play_running_out_of_time(self):
         if not self.is_playing_running_out_of_time:
             print("Playing Running out of time")
-            self.player.play_song(OUT_OF_TIME, 1, channel_num=CHANNEL_OUT_OF_TIME, loops=-1)
+            self.player.play_song(OUT_OF_TIME, 1.0, channel_num=CHANNEL_OUT_OF_TIME, loops=-1)
             self.is_playing_running_out_of_time = True
 
     def stop_running_out_of_time(self):
@@ -192,24 +192,24 @@ class GhostAudioSoundSystem(object):
 
     def play_objective_completed(self):
         print("Playing Objective Completed")
-        self.player.play_song(OBJECTIVE_COMPLETED, 1, channel_num=CHANNEL_FX, loops=0)
+        self.player.play_song(OBJECTIVE_COMPLETED, 0.5, channel_num=CHANNEL_FX, loops=0)
 
     def play_spin_down(self):
         print("Playing Spin Down")
-        self.player.play_song(SPIN_DOWN, 1, channel_num=CHANNEL_FX_2, loops=0)
+        self.player.play_song(SPIN_DOWN, 0.3, channel_num=CHANNEL_FX_2, loops=0)
 
     def play_startup(self):
         print("Playing Startup")
-        self.player.play_song(STARTUP, 0.5, channel_num=CHANNEL_FX_2, loops=0)
+        self.player.play_song(STARTUP, 0.3, channel_num=CHANNEL_FX_2, loops=0)
 
     def play_scanning(self):
         print("Playing Scanning")
-        self.player.play_song(MACHINE_SCANNING, 0.5, channel_num=CHANNEL_FX_2, loops=0)
+        self.player.play_song(MACHINE_SCANNING, 0.3, channel_num=CHANNEL_FX_2, loops=0)
 
     def play_story_intro_sounds(self):
         print("Playing Story Intro Sounds")
         self.stop_all()
-        self.player.play_song(STORY_INTRO_SOUNDS, 0.5, channel_num=CHANNEL_VOICE, loops=0)
+        self.player.play_song(STORY_INTRO_SOUNDS, 0.3, channel_num=CHANNEL_VOICE, loops=0)
 
     def play_ghost_story(self, rfid):
         print("Playing Ghost Story")
@@ -324,8 +324,14 @@ GHOST_STORIES_BY_RFID = {
     "38d11466080104e0": '/home/admin/explorey/sound/GhostAudio-story_36.ogg',
     "780d1566080104e0": '/home/admin/explorey/sound/GhostAudio-story_37.ogg',
     "dc251566080104e0": '/home/admin/explorey/sound/GhostAudio-story_39.ogg',
-    "553b1566080104e0": '/home/admin/explorey/sound/GhostAudio-story_40.ogg',
+    "85511566080104e0": '/home/admin/explorey/sound/GhostAudio-story_40.ogg',
     "622d1566080104e0": '/home/admin/explorey/sound/GhostAudio-story_41.ogg',
     "553b1566080104e0": '/home/admin/explorey/sound/GhostAudio-story_42.ogg',
     "3efe1466080104e0": '/home/admin/explorey/sound/GhostAudio-story_43.ogg',
+    "3a221566080104e0": '/home/admin/explorey/sound/GhostAudio-44.ogg',
+    "d2331466080104e0": '/home/admin/explorey/sound/GhostAudio-45.ogg',
+    "4d281466080104e0": '/home/admin/explorey/sound/GhostAudio-46.ogg',
+    "c61c1466080104e0": '/home/admin/explorey/sound/GhostAudio-47.ogg',
+    "fe161566080104e0": '/home/admin/explorey/sound/GhostAudio-48.ogg',
+    "ad0b1566080104e0": '/home/admin/explorey/sound/GhostAudio-49.ogg',
 }

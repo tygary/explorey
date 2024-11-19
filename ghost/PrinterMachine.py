@@ -35,7 +35,7 @@ MODE_FINISHED = 3
 
 TIME_BEFORE_READY_TO_PRINT = 10
 TIME_BEFORE_RESETTING = 10
-PRINT_READY_TIMEOUT_TIME = 10
+PRINT_READY_TIMEOUT_TIME = 20
 
 
 TUBE_INNER_START_PIXEL = 0
@@ -70,6 +70,7 @@ class PrinterMachine(object):
     next_event_time = 0
     next_reset_time = 0
     mode = MODE_OFF
+    rfid_present = False
 
     def __init__(self):
         GPIO.setmode(GPIO.BCM)
@@ -79,6 +80,7 @@ class PrinterMachine(object):
         self.mqtt.listen(self.__parse_mqtt_event)
         self.pixels = OverlayedPixelControl(led_count=DIORAMA_FIBER_START_PIXEL + DIORAMA_FIBER_NUM_PIXELS, led_brightness=255)
         self._update_light_routines()
+        self.reset()
 
     def _update_light_routines(self):
         if self.mode is MODE_OFF:
@@ -134,8 +136,6 @@ class PrinterMachine(object):
             self.mode = MODE_FINISHED
             self.next_reset_time = time.time() + TIME_BEFORE_RESETTING
             self._update_light_routines()
-            self.printer.print_ghost(self.current_rfid)
-            self.current_rfid = None
             self.button.set_light(False)
             self.mqtt.queue_in_batch_publish({
                 "event": EVENT_GHOST_UPDATE,
@@ -143,6 +143,11 @@ class PrinterMachine(object):
                 "id": self.id,
                 "command": EVENT_SET_FINISHED,
             })
+            try:
+                self.printer.print_ghost(self.current_rfid)
+            except Exception as e:
+                print("Faile to print", e)
+            self.current_rfid = None
 
     def __parse_mqtt_event(self, event):
         try:
@@ -172,6 +177,7 @@ class PrinterMachine(object):
         if self.current_rfid != card:
             self.current_rfid = card
             self.mode = MODE_SCANNING
+            self.rfid_present = True
             print("Scanning trash")
             self.next_event_time = time.time() + TIME_BEFORE_READY_TO_PRINT
             self.button.set_light(False)
@@ -187,14 +193,16 @@ class PrinterMachine(object):
 
     def __on_card_removed(self):
         print("card removed")
-        if self.mode not in [MODE_OFF, MODE_SCANNING, MODE_FINISHED]:
-            self.next_reset_time = time.time() + PRINT_READY_TIMEOUT_TIME
+        # if self.mode not in [MODE_OFF, MODE_SCANNING, MODE_FINISHED, MODE_READY_TO_PRINT]:
+        self.next_reset_time = time.time() + PRINT_READY_TIMEOUT_TIME
+        self.rfid_present = False
         # self.current_rfid = None
         # self.mode = MODE_OFF
         # self.next_event_time = 0
         # self.button.set_light(False)
 
     def reset(self):
+        print("Resetting")
         self.mode = MODE_OFF
         self.current_rfid = None
         self.next_event_time = 0
@@ -216,8 +224,8 @@ class PrinterMachine(object):
             print("Ready to print")
             self.mode = MODE_READY_TO_PRINT
             self.next_event_time = 0
-            self.next_reset_time = 0
-            # self.next_reset_time = time.time() + PRINT_READY_TIMEOUT_TIME
+            if self.next_reset_time > 0:
+                self.next_reset_time = time.time() + PRINT_READY_TIMEOUT_TIME
             self.button.flash_light()
             self.mqtt.queue_in_batch_publish({
                 "event": EVENT_GHOST_UPDATE,

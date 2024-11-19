@@ -17,8 +17,9 @@ class Colors(object):
     soft_white = [20, 20, 20, 100]
 
     mid_green = [150, 250, 0, 50]
-    light_green = [0, 250, 0, 100]
+    light_green = [0, 80, 0, 100]
 
+    light_blue = [0, 0, 155, 0]
     soft_blue = [2, 221, 255, 0]
     mixed_blue = [0, 50, 255, 100, 0]
 

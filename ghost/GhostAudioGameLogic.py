@@ -24,7 +24,7 @@ GAME_MODE_LOSE = 6
 
 GAME_WAIT_TIMEOUT = 20
 GAME_STARTUP_TIME = 8
-ROUND_TIME = 10
+ROUND_TIME = 16
 ROUND_START_TIME = 2
 LOW_ENERGY_LEVEL_TIME_S = 3
 GAME_OVER_TIME = 10
@@ -72,7 +72,7 @@ class GhostAudioGameLogic(object):
 
     def _get_next_objective(self):
         print("Updating Objectives")
-        options = [OBJECTIVE_SWITCH_A, OBJECTIVE_SWITCH_B, OBJECTIVE_POWER_SWITCH, OBJECTIVE_RED_BUTTON, OBJECTIVE_GREEN_BUTTON, OBJECTIVE_SWITCHBOARD, OBJECTIVE_ELEVATOR_BUTTONS]
+        options = [OBJECTIVE_SWITCH_A, OBJECTIVE_SWITCH_B, OBJECTIVE_RED_BUTTON, OBJECTIVE_GREEN_BUTTON, OBJECTIVE_SWITCHBOARD, OBJECTIVE_ELEVATOR_BUTTONS, OBJECTIVE_POWER_SWITCH] 
         if self.current_objective != OBJECTIVE_SWITCHBOARD and self.current_objective != OBJECTIVE_ELEVATOR_BUTTONS:
             options = [x for x in options if x != self.current_objective]
         self.current_objective = random.choice(options)
@@ -180,12 +180,13 @@ class GhostAudioGameLogic(object):
             self.next_round_start_time = time.time() + ROUND_START_TIME
             self._turn_off_inputs()
             self.playing_running_out_of_time = False
+            self.game_round_length = ROUND_TIME - self.current_round
             self.game_timeout_time = 0
             self.sound.play_game_backround()
         elif new_mode == GAME_MODE_RUNNING:
             print("Game Running")
             self._get_next_objective()
-            self.round_end_time = time.time() + ROUND_TIME
+            self.round_end_time = time.time() + self.game_round_length
         elif new_mode == GAME_MODE_WIN:
             print("Game Win!")
             self.sound.stop_running_out_of_time()
@@ -272,7 +273,7 @@ class GhostAudioGameLogic(object):
                 print("Ran out of time")
                 self._change_game_mode(GAME_MODE_LOSE)
                 return
-            if now >= self.round_end_time - LOW_ENERGY_LEVEL_TIME_S and not self.playing_running_out_of_time:
+            if now >= self.round_end_time - (self.game_round_length / 2) and not self.playing_running_out_of_time:
                 print("Running low on time")
                 # self.sound.play_running_out_of_time()
                 self.playing_running_out_of_time = True

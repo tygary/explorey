@@ -5,84 +5,84 @@ import random
 ENCOUNTERS = [
     [
         "The Yeti's Challenge",
-        'In the snowy peaks, your hero stumbles upon a Yeti challenging travelers to a test of strength.',
-        'Beat the Yeti in an arm wrestling contest',
-        'Use a clever trick or item to outwit the Yeti.',
-        'Success: Your hero impresses the Yeti, who grants safe passage and a valuable icy treasure.',
-        'Failure: The Yeti bests your hero in the challenge, resulting in a hasty and embarrassing retreat down the mountain.',
-        'To win this encounter, your hero must either:'
+        "In the snowy peaks, your hero stumbles upon a Yeti challenging travelers to a test of strength.",
+        "Beat the Yeti in an arm wrestling contest",
+        "Use a clever trick or item to outwit the Yeti.",
+        "Success: Your hero impresses the Yeti, who grants safe passage and a valuable icy treasure.",
+        "Failure: The Yeti bests your hero in the challenge, resulting in a hasty and embarrassing retreat down the mountain.",
+        "To win this encounter, your hero must either:"
     ],
     [
-        'The Penguin Parade Puzzle',
-        'Your hero discovers a parade of penguins guarding a secret path to a hidden ice cave.',
-        'Sneak past the penguins and get into the hidden ice cave without them noticing.',
-        'Use a special ability or item to communicate with the penguins and gain their trust.',
-        'Success: The penguins reveal the hidden path, leading to ancient artifacts and knowledge.',
-        'Failure: The penguins become suspicious and block the path, leaving your hero to find another way.',
-        'To win this encounter, your hero must either:'
+        "The Penguin Parade Puzzle",
+        "Your hero discovers a parade of penguins guarding a secret path to a hidden ice cave.",
+        "Sneak past the penguins and get into the hidden ice cave without them noticing.",
+        "Use a special ability or item to communicate with the penguins and gain their trust.",
+        "Success: The penguins reveal the hidden path, leading to ancient artifacts and knowledge.",
+        "Failure: The penguins become suspicious and block the path, leaving your hero to find another way.",
+        "To win this encounter, your hero must either:"
     ],
     [
         "The Mysterious Woodcutter's Request",
         "A mysterious woodcutter in the frosty forest asks for your hero's help in a dangerous task, rescuing their pet penguin from a yeti's cave.",
-        'Convince the woodcutter to move on and get a new pet, because that penguin is yeti food.',
-        'Assist the woodcutter and save the penguin from the Yetis cave.',
-        'Success: The woodcutter rewards your hero with rare enchanted lumber and a map to a hidden treasure.',
-        'Failure: The task proves too difficult, causing an accident and leaving the hero in a difficult predicament.',
-        'To win this encounter, your hero must either:'
+        "Convince the woodcutter to move on and get a new pet, because that penguin is yeti food.",
+        "Assist the woodcutter and save the penguin from the Yetis cave.",
+        "Success: The woodcutter rewards your hero with rare enchanted lumber and a map to a hidden treasure.",
+        "Failure: The task proves too difficult, causing an accident and leaving the hero in a difficult predicament.",
+        "To win this encounter, your hero must either:"
     ],
     [
         "The Abominable Snowman's Labyrinth",
-        'Your hero enters a labyrinth of ice, home to the elusive Abominable Snowman.',
-        'Have a Sneakiness score higher than 12',
+        "Your hero enters a labyrinth of ice, home to the elusive Abominable Snowman.",
+        "Have a Sneakiness score higher than 12",
         "Solve the labyrinth's puzzle with an enchanted compass or clever wit.",
-        'Success: Navigating the maze leads to a hidden trove of treasures and ancient lore.',
-        'Failure: Getting lost in the maze results in a chilling encounter with the Snowman.',
-        'To win this encounter, your hero must either:'
+        "Success: Navigating the maze leads to a hidden trove of treasures and ancient lore.",
+        "Failure: Getting lost in the maze results in a chilling encounter with the Snowman.",
+        "To win this encounter, your hero must either:"
     ],
     [
         "The Polar Bear's Dilemma",
-        'A mother polar bear blocks your path, protecting her cubs and looking for food.',
-        'Have a Craftiness score higher than 9',
-        'Use a food item or a distraction to safely bypass the bear family.',
-        'Success: The bear allows safe passage, and your hero finds a rare ice crystal.',
-        'Failure: The bear becomes aggressive, leading to a dangerous situation.',
-        'To win this encounter, your hero must either:'
+        "A mother polar bear blocks your path, protecting her cubs and looking for food.",
+        "Have a Craftiness score higher than 9",
+        "Use a food item or a distraction to safely bypass the bear family.",
+        "Success: The bear allows safe passage, and your hero finds a rare ice crystal.",
+        "Failure: The bear becomes aggressive, leading to a dangerous situation.",
+        "To win this encounter, your hero must either:"
     ],
     [
         "The Reindeer's Request",
         "A magical reindeer asks for your hero's help in retrieving a lost mystical antler.",
-        'Have a Scrappiness score higher than 9',
-        'Use a special ability or item to track and recover the antler.',
-        'Success: The grateful reindeer rewards your hero with a speedy journey and a protective charm.',
-        'Failure: Failing to find the antler leaves your hero stranded in the cold wilderness.',
-        'To win this encounter, your hero must either:'
+        "Have a Scrappiness score higher than 9",
+        "Use a special ability or item to track and recover the antler.",
+        "Success: The grateful reindeer rewards your hero with a speedy journey and a protective charm.",
+        "Failure: Failing to find the antler leaves your hero stranded in the cold wilderness.",
+        "To win this encounter, your hero must either:"
     ],
     [
         "The Frost Giant's Game",
-        'A playful Frost Giant challenges your hero to a game of wits and riddles.',
-        'Have a Fabulousness score higher than 8',
-        'Use charm and intelligence to outsmart the Frost Giant.',
-        'Success: Winning the game earns a magical frost weapon or artifact.',
+        "A playful Frost Giant challenges your hero to a game of wits and riddles.",
+        "Have a Fabulousness score higher than 8",
+        "Use charm and intelligence to outsmart the Frost Giant.",
+        "Success: Winning the game earns a magical frost weapon or artifact.",
         "Failure: Losing the game incurs the Giant's laughter and a minor curse.",
-        'To win this encounter, your hero must either:'
+        "To win this encounter, your hero must either:"
     ],
     [
         "The Ice Witch's Riddle",
-        'An Ice Witch blocks your path, offering passage only to those who solve her riddle.',
-        'Have a Craftiness score higher than 8',
-        'Decipher the riddle using knowledge or a mystical item.',
-        'Success: Solving the riddle reveals a shortcut and a potion of frost resistance.',
-        'Failure: Incorrect answers result in a temporary freeze spell.',
-        'To win this encounter, your hero must either:'
+        "An Ice Witch blocks your path, offering passage only to those who solve her riddle.",
+        "Have a Craftiness score higher than 8",
+        "Decipher the riddle using knowledge or a mystical item.",
+        "Success: Solving the riddle reveals a shortcut and a potion of frost resistance.",
+        "Failure: Incorrect answers result in a temporary freeze spell.",
+        "To win this encounter, your hero must either:"
     ],
     [
         "The Snow Owl's Secret",
-        'A mystical snow owl offers to guide your hero to a hidden shrine, but at a price.',
-        'Have a Fabulousness score higher than 14',
-        'Perform a dance or song to entertain the owl.',
-        'Success: The owl leads to a shrine with ancient wisdom and artifacts.',
-        'Failure: A displeased owl leads your hero astray, causing delays and hardships.',
-        'To win this encounter, your hero must either:'
+        "A mystical snow owl offers to guide your hero to a hidden shrine, but at a price.",
+        "Have a Fabulousness score higher than 14",
+        "Perform a dance or song to entertain the owl.",
+        "Success: The owl leads to a shrine with ancient wisdom and artifacts.",
+        "Failure: A displeased owl leads your hero astray, causing delays and hardships.",
+        "To win this encounter, your hero must either:"
     ],
     [
         "The Frozen Fortress",

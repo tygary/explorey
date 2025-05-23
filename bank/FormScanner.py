@@ -26,9 +26,12 @@ def write_image_for_contour(contour, image, path):
     cv2.imwrite(path, roi)
 
 
-def detect_contours(form, form_w, form_h, error_margin=0.2):
+def detect_contours(form, form_w, form_h, error_margin=0.2, form_type=None):
     """Helper function to detect contours in the form."""
-    account_number_size = form_w // 3
+    if form_type == "withdraw":
+        account_number_size = (form_w * 2) // 3
+    else:
+        account_number_size = form_w // 3
     amount_box_width = form_w // 3
     amount_box_height = form_h // 10
     name_box_width = (form_w * 2) // 3
@@ -46,6 +49,7 @@ def detect_contours(form, form_w, form_h, error_margin=0.2):
         ar = w / float(h)
         peri = cv2.arcLength(c, True)
         approx = cv2.approxPolyDP(c, 0.02 * peri, True)
+        print(f"Contour: {c}, Area: {cv2.contourArea(c)}, Width: {w}, Height: {h}, Aspect Ratio: {ar:.2f}")
         
         if len(approx) == 4 and abs(account_number_size - w) < error_margin * account_number_size and abs(account_number_size - h) < error_margin * account_number_size and ar >= 0.9 and ar <= 1.1:
             account_number_contours.append(c)
@@ -137,7 +141,7 @@ def find_account_number(area, grayscale_image, paper=None):
 
     return filled_quadrants_decimal
 
-def parse_form_image(image_path):
+def parse_form_image(image_path, form_type=None):
     # load the image, convert it to grayscale, blur it
     # slightly, then find edges
     image = cv2.imread(image_path)
@@ -158,7 +162,18 @@ def parse_form_image(image_path):
     
     # Sort contours by area in descending order
     cnts = sorted(cnts, key=cv2.contourArea, reverse=True)
-    
+
+    if form_type == "withdraw":
+        aspect_min = 1.4
+        aspect_max = 1.8
+        black_ratio_min = 0.3
+        black_ratio_max = 0.8
+    else:
+        aspect_min = 1.4
+        aspect_max = 1.8
+        black_ratio_min = 0.1
+        black_ratio_max = 0.5
+
     # Look for the form (largest white rectangle with content)
     form_contour = None
     for c in cnts:
@@ -175,7 +190,8 @@ def parse_form_image(image_path):
         
         # Check aspect ratio (approximately 5:8)
         aspect_ratio = w / float(h)
-        if not (1.4 <= aspect_ratio <= 1.8):
+        print(f"Aspect Ratio: {aspect_ratio:.2f}")
+        if not (aspect_min <= aspect_ratio <= aspect_max):
             continue
             
         # Extract the ROI
@@ -186,10 +202,12 @@ def parse_form_image(image_path):
         black_pixels = cv2.countNonZero(roi)
         total_pixels = w * h
         black_ratio = black_pixels / float(total_pixels)
+
+        print(f"Black Ratio: {black_ratio:.2f}")
         
         # The form should have between 10% and 50% black pixels
         # (too few means it's just white paper, too many means it's not a form)
-        if black_ratio < 0.1 or black_ratio > 0.5:
+        if black_ratio < black_ratio_min or black_ratio > black_ratio_max:
             continue
             
         # Found a good candidate
@@ -217,7 +235,7 @@ def parse_form_image(image_path):
     (form_x, form_y, form_w, form_h) = cv2.boundingRect(form)
     
     # Initial contour detection
-    account_number_contours, amount_box_contours, name_box_countours = detect_contours(form, form_w, form_h)
+    account_number_contours, amount_box_contours, name_box_countours = detect_contours(form, form_w, form_h, form_type=form_type)
 
     # Check if form is upside down and rotate if needed
     needs_rotation = False
@@ -262,7 +280,7 @@ def parse_form_image(image_path):
         print("Found Open Account Form")
         name_path = "/home/admin/temp_name.jpg"
         write_image_for_contour(name_box_countours[0], warped, name_path)
-        print("Name: ", name)
+
         return FormInfo(FORM_OPEN_ACCOUNT, name_file_path=name_path)
     elif (len(account_number_contours) == 1 and len(amount_box_contours) == 0 and len(name_box_countours) == 0):
         print("Found Teller Form")
@@ -336,34 +354,34 @@ class FormScanner(object):
     def update(self):
         if self.is_scanning:
             # Capture frame-by-frame
-                ret, frame = self.camera.read()
-                if not ret:
-                    print("Failed to grab frame")
-                    return
-                
-                # Save the frame temporarily
-                temp_image = "/home/admin/temp_image.jpg"
-                cv2.imwrite(temp_image, frame)
-                
-                # Try to parse the account number
-                new_form_data = parse_form_image(temp_image)
-                if new_form_data and (self.form_type == None or new_form_data.type == self.form_type):
-                    if self.form_data is not None and self.form_data.to_account_number == new_form_data.to_account_number and self.form_data.from_account_number == new_form_data.from_account_number:
-                        self.form_match_count += 1
-                        print(f"Detected account number: {new_form_data.to_account_number}")
-                        if self.form_match_count >= NUM_FORM_MATCHES:
-                            print(f"Accepting form")
-                            if self.callback:
-                                self.callback(new_form_data)
-                            self.stop_scanning()
-                            return
-                    else:
-                        self.form_data = new_form_data
-                        self.form_match_count = 0
-                        print(f"Detected Form: {new_form_data.type} with account number: {new_form_data.to_account_number}")
-                
-                # Display the frame
-                cv2.imshow('ATM Camera', frame)
+            ret, frame = self.camera.read()
+            if not ret:
+                print("Failed to grab frame")
+                return
+            
+            # Save the frame temporarily
+            temp_image = "/home/admin/temp_image.jpg"
+            cv2.imwrite(temp_image, frame)
+            
+            # Try to parse the account number
+            new_form_data = parse_form_image(temp_image, self.form_type)
+            if new_form_data and (self.form_type == None or new_form_data.type == self.form_type):
+                if self.form_data is not None and self.form_data.to_account_number == new_form_data.to_account_number and self.form_data.from_account_number == new_form_data.from_account_number:
+                    self.form_match_count += 1
+                    print(f"Detected account number: {new_form_data.to_account_number}")
+                    if self.form_match_count >= NUM_FORM_MATCHES:
+                        print(f"Accepting form")
+                        if self.callback:
+                            self.callback(new_form_data)
+                        self.stop_scanning()
+                        return
+                else:
+                    self.form_data = new_form_data
+                    self.form_match_count = 0
+                    print(f"Detected Form: {new_form_data.type} with account number: {new_form_data.to_account_number}")
+            
+            # Display the frame
+            cv2.imshow('ATM Camera', frame)
 
 def start():
     scanner = FormScanner()

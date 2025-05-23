@@ -1,5 +1,6 @@
 from pysondb import db
-
+import random
+import os
 
 class Account(object):
     def __init__(self, account_number, name_file_path, balance=0, is_teller=False):
@@ -25,10 +26,15 @@ class Account(object):
             "is_teller": self.is_teller
         }
     
+DEFAULT_NEW_ACCOUNT_BALANCE = 100
+DEFAULT_WITHDRAWL_AMOUNT = 20
+
 
 class ATM(object):
     def __init__(self):
         self.db = db.getDb("bank/ATM.json")
+        self.starting_balance = DEFAULT_NEW_ACCOUNT_BALANCE
+        self.withdrawl_amount = DEFAULT_WITHDRAWL_AMOUNT
 
     def get_account(self, account_number):
         account_json = self.db.getBy({"account_number": account_number})
@@ -46,13 +52,16 @@ class ATM(object):
         else:
             print(f"Account {account.account_number} not found.")
 
-    def create_account(self, account_number, name_file_path):
-        new_account = Account(account_number, name_file_path)
-        if self.db.getBy({"account_number": account_number}):
-            print(f"Account {account_number} already exists.")
-            return
+    def create_account(self, name_file_path):
+        account_number = random.randint(1, 65536)
+        while self.db.getBy({"account_number": account_number}):
+            account_number = random.randint(1, 65536)
+
+        new_account = Account(account_number, name_file_path, balance=self.starting_balance)
         self.db.add(new_account.to_json())
         print(f"Account created: {new_account.to_json()}")
+        os.rename(name_file_path, f"/home/admin/explorey/images/atm/{account_number}.jpg")
+        return account_number
 
     def make_teller(self, account_number):
         account = self.get_account(account_number)
@@ -74,7 +83,8 @@ class ATM(object):
             print(f"Account {account_number} not found.")
 
 
-    def withdraw(self, account_number, amount):
+    def withdraw(self, account_number):
+        amount = self.withdrawl_amount
         account = self.get_account(account_number)
         if account:
             account.balance -= amount

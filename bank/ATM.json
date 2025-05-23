@@ -1,1 +1,18 @@
-{"data": []}
+{
+   "data": [
+      {
+         "account_number": 15572,
+         "name_file_path": "/home/admin/temp_name.jpg",
+         "balance": 100,
+         "is_teller": false,
+         "id": 148124034660415373
+      },
+      {
+         "account_number": 62246,
+         "name_file_path": "/home/admin/temp_name.jpg",
+         "balance": 100,
+         "is_teller": false,
+         "id": 136937660108259389
+      }
+   ]
+}

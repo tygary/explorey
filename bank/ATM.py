@@ -56,11 +56,12 @@ class ATM(object):
         account_number = random.randint(1, 65536)
         while self.db.getBy({"account_number": account_number}):
             account_number = random.randint(1, 65536)
-
-        new_account = Account(account_number, name_file_path, balance=self.starting_balance)
+        new_name_path = f"/home/admin/explorey/images/atm/{account_number}.jpg"
+        os.rename(name_file_path, new_name_path)
+        new_account = Account(account_number, name_file_path=new_name_path, balance=self.starting_balance)
         self.db.add(new_account.to_json())
         print(f"Account created: {new_account.to_json()}")
-        os.rename(name_file_path, f"/home/admin/explorey/images/atm/{account_number}.jpg")
+        
         return account_number
 
     def make_teller(self, account_number):

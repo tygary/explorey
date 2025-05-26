@@ -49,8 +49,7 @@ def detect_contours(form, form_w, form_h, error_margin=0.2, form_type=None):
         ar = w / float(h)
         peri = cv2.arcLength(c, True)
         approx = cv2.approxPolyDP(c, 0.02 * peri, True)
-        print(f"Contour: {c}, Area: {cv2.contourArea(c)}, Width: {w}, Height: {h}, Aspect Ratio: {ar:.2f}")
-        
+        # print(f"Contour: {c}, Area: {cv2.contourArea(c)}, Width: {w}, Height: {h}, Aspect Ratio: {ar:.2f}")
         if len(approx) == 4 and abs(account_number_size - w) < error_margin * account_number_size and abs(account_number_size - h) < error_margin * account_number_size and ar >= 0.9 and ar <= 1.1:
             account_number_contours.append(c)
         elif len(approx) == 4 and abs(amount_box_width - w) < error_margin * amount_box_width and abs(amount_box_height - h) < error_margin * amount_box_height and ar > 4 and ar <= 4.5:
@@ -190,7 +189,7 @@ def parse_form_image(image_path, form_type=None):
         
         # Check aspect ratio (approximately 5:8)
         aspect_ratio = w / float(h)
-        print(f"Aspect Ratio: {aspect_ratio:.2f}")
+        # print(f"Aspect Ratio: {aspect_ratio:.2f}")
         if not (aspect_min <= aspect_ratio <= aspect_max):
             continue
             
@@ -203,7 +202,7 @@ def parse_form_image(image_path, form_type=None):
         total_pixels = w * h
         black_ratio = black_pixels / float(total_pixels)
 
-        print(f"Black Ratio: {black_ratio:.2f}")
+        # print(f"Black Ratio: {black_ratio:.2f}")
         
         # The form should have between 10% and 50% black pixels
         # (too few means it's just white paper, too many means it's not a form)

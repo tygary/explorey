@@ -37,7 +37,7 @@ class AccountPrinter(object):
         self.conn.printFile(self.printer_name, self.tmpAccountPrintoutPath, "account", {})
 
 
-    def __create_account_printout(self, account_number, balance):
+    def __create_account_printout(self, account_number, balance, name_file_path):
         self.logger.log("Printer: creating account pdf")
         try:
             os.remove(self.tmpAccountPrintoutPath)
@@ -51,7 +51,7 @@ class AccountPrinter(object):
         pdf.set_margins(left=16, top=0, right=0)
         pdf.set_auto_page_break(False)
 
-        pdf.add_page(orientation="P", format=(90, 100))
+        pdf.add_page(orientation="P", format=(90, 115))
         pdf.set_font("Arial", "B", 16)
         pdf.multi_cell(0, 10, f"Account Details", align="C")
         pdf.set_font("Arial", "", 12)
@@ -62,6 +62,8 @@ class AccountPrinter(object):
         # Render image and insert it
         grid_path = self.render_balanced_star_grid(account_number)
         pdf.image(grid_path, x=27, y=25, w=50)  # Adjust w/h/x/y as needed for scales
+
+        pdf.image(name_file_path, x=27, y=85, w=50)  # Adjust w/h/x/y as needed for scales
 
         pdf.output(self.tmpAccountPrintoutPath, "F")
 
@@ -129,13 +131,13 @@ class AccountPrinter(object):
         )
         self.ready_to_print = True
 
-    def printAccount(self, account_number, balance):
+    def printAccount(self, account_number, balance, name_file_path):
         self.logger.log(
             "Printer: trying to print account with ready status %s"
             % (self.ready_to_print)
         )
         if self.ready_to_print:
-            self.__create_account_printout(account_number, balance)
+            self.__create_account_printout(account_number, balance, name_file_path)
             self.__print_account()
             self.ready_to_print = False
             t = threading.Timer(1.0, self.__ready_to_print)

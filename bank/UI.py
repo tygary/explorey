@@ -335,7 +335,7 @@ class UiApp(App):
             show_toast(self.openAccount, "Failed to create account", 2)
             return
         account_balance = account.balance
-        self.printer.printAccount(account_number, account_balance)
+        self.printer.printAccount(account_number, account_balance, account.name_file_path)
         self.change_screen('dashboard')
         show_toast(self.dashboard, f"Account created, get receipt below.", 2)
 

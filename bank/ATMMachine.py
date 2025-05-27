@@ -11,6 +11,7 @@ from bank.ATM import ATM
 from bank.UI import UiApp
 from bank.FormScanner import FormScanner, FormInfo
 from bank.AccountPrinter import AccountPrinter
+from timemachine.Button import Button
 
 MQTT_EVENT_LEVERS_CHANGED = "levers_changed"
 
@@ -22,6 +23,8 @@ BOTTOM_PIXELS = range(0, 50)
 
 TIME_BETWEEN_INTEREST_S = 30
 
+BEAN_CHUTE_PIN = 6
+
 class ATMMachine(object):
     id = "atm_machine"
 
@@ -31,12 +34,14 @@ class ATMMachine(object):
         self.mode = MODE_READY
         self.is_scanning = False
         self.next_interest_time = 0
+        self.beans_deposited = 0
         
         self.mqtt = MqttClient()
         self.mqtt.listen(self.__parse_mqtt_event)
         self.printer = AccountPrinter()
         self.atm = ATM()
         self.scanner = FormScanner()
+        self.bean_chute_trigger = Button(BEAN_CHUTE_PIN, callback=self._bean_detected, delay=0)
         self.ui = UiApp(self.atm, self.printer, self.start_scan, self.cancel_scan)
         # self.pixels = OverlayedPixelControl(led_count=LED_COUNT, led_brightness=255)
         # self._update_light_routines()
@@ -72,6 +77,11 @@ class ATMMachine(object):
         self.scan_success_cb(form_info)   
         self.scan_failure_cb = None
         self.scan_success_cb = None
+
+    def _bean_detected(self):
+        print("Bean detected in chute", self.beans_deposited)
+        self.beans_deposited += 1
+        
 
     def _update_light_routines(self):
         if self.mode is MODE_READY:
@@ -122,6 +132,7 @@ class ATMMachine(object):
 
     def update(self):
         self.scanner.update()
+        self.bean_chute_trigger.tick()
         # for routine in self.light_routines:
         #     routine.tick() 
         # self.pixels.render()

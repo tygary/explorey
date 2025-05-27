@@ -10,11 +10,12 @@ WAIT_TIME = 0.2
 
 
 class Button(object):
-    def __init__(self, button_pin, button_light_pin=-1, callback=None, pullup=False):
+    def __init__(self, button_pin, button_light_pin=-1, callback=None, pullup=False, delay=WAIT_TIME):
         self.light_on = False
         self.is_flashing = False
         self.flash_length = 0.5
         self.next_flash = 0
+        self.delay = delay
 
         self.waiting = 0
         self.button_pin = button_pin
@@ -28,8 +29,8 @@ class Button(object):
 
     def _on_press(self, value):
         now = time.time()
-        if now > self.waiting:
-            self.waiting = time.time() + WAIT_TIME
+        if now > self.waiting or self.delay <= 0:
+            self.waiting = time.time() + self.delay
             if self.callback:
                 self.callback()
 

@@ -25,39 +25,31 @@ class FormInfo(object):
 def write_image_for_contour(contour, image, path):
     x, y, w, h = cv2.boundingRect(contour)
     roi = image[y:y+h, x:x+w]
+    # Enhance contrast by normalizing to full range
+    roi = cv2.normalize(roi, None, 0, 255, cv2.NORM_MINMAX)
     cv2.imwrite(path, roi)
 
-def is_contour_contained(inner_contour, outer_contour, margin_percent=0.1):
-    """Check if inner_contour is contained within outer_contour by checking if each corner
-    is within margin_percent of the outer contour's boundaries.
+def is_contour_contained(contour1, contour2, margin_percent=0.1):
+    """Check if two contours overlap by checking if they share any area.
     
     Args:
-        inner_contour: The contour to check if it's contained
-        outer_contour: The contour to check against
-        margin_percent: The percentage of the outer contour's dimensions to use as margin (default 10%)
+        contour1: First contour to check
+        contour2: Second contour to check
+        margin_percent: Not used in this version
     """
-    # Get the corners of the inner contour
-    peri = cv2.arcLength(inner_contour, True)
-    inner_corners = cv2.approxPolyDP(inner_contour, 0.02 * peri, True)
+    # Create a blank image to draw contours on
+    img = np.zeros((1000, 1000), dtype=np.uint8)
     
-    # Get the bounding rectangle of the outer contour
-    x2, y2, w2, h2 = cv2.boundingRect(outer_contour)
+    # Draw first contour
+    cv2.drawContours(img, [contour1], -1, 255, -1)  # Fill first contour
+    area1 = cv2.countNonZero(img)
     
-    # Calculate margins
-    x_margin = int(w2 * margin_percent)
-    y_margin = int(h2 * margin_percent)
+    # Draw second contour
+    cv2.drawContours(img, [contour2], -1, 255, -1)  # Fill second contour
+    area2 = cv2.countNonZero(img)
     
-    # Check if each corner of the inner contour is within the outer contour's bounds
-    for corner in inner_corners:
-        x, y = corner[0]
-        # Check if the point is within margin_percent of the outer contour's boundaries
-        if (abs(x - x2) > x_margin and 
-            abs(x - (x2 + w2)) > x_margin and 
-            abs(y - y2) > y_margin and 
-            abs(y - (y2 + h2)) > y_margin):
-            return False
-    
-    return True
+    # If the total area is less than the sum of individual areas, they overlap
+    return area2 < (area1 + cv2.contourArea(contour2))
 
 def detect_contours(form, form_w, form_h, error_margin=0.2, form_type=None):
     """Helper function to detect contours in the form."""
@@ -92,11 +84,11 @@ def detect_contours(form, form_w, form_h, error_margin=0.2, form_type=None):
         area = cv2.contourArea(approx)
         if area < min_area:
             continue
-        debug_img = form.copy()
-        cv2.drawContours(debug_img, [c], -1, (0, 255, 0), 3)
-        cv2.imshow("Detected Form Contour", debug_img)
-        cv2.waitKey(500)  # Show for 0.5 seconds
-        cv2.destroyWindow("Detected Form Contour")
+        # debug_img = form.copy()
+        # cv2.drawContours(debug_img, [c], -1, (0, 255, 0), 3)
+        # cv2.imshow("Detected Form Contour", debug_img)
+        # cv2.waitKey(500)  # Show for 0.5 seconds
+        # cv2.destroyWindow("Detected Form Contour")
         
         if len(approx) == 4 and abs(account_number_size - w) < error_margin * account_number_size and abs(account_number_size - h) < error_margin * account_number_size and ar >= 0.8 and ar <= 1.2:
             # Check if this contour is contained within any existing account number contours
@@ -112,7 +104,7 @@ def detect_contours(form, form_w, form_h, error_margin=0.2, form_type=None):
                 account_number_contours.append(c)
         elif amount_box_width > 0 and len(approx) == 4 and abs(amount_box_width - w) < error_margin * amount_box_width and abs(amount_box_height - h) < error_margin * amount_box_height and ar > 3 and ar <= 5:
             amount_box_contours.append(c)
-        elif len(approx) == 4 and abs(name_box_width - w) < error_margin * name_box_width and abs(name_box_height - h) < error_margin * name_box_height and 7 < ar <= 9:
+        elif len(approx) == 4 and abs(name_box_width - w) < error_margin * name_box_width and abs(name_box_height - h) < 3 * error_margin * name_box_height and 6 < ar <= 9:
             name_box_countours.append(c)
 
     return account_number_contours, amount_box_contours, name_box_countours
@@ -130,41 +122,47 @@ def find_account_number(area, grayscale_image, paper=None):
 
     # Extract the entire grid region
     grid_roi = grayscale_image[y:y+h, x:x+w]
+
+    # cv2.imshow("Thresholded Grid", grid_roi)
+    # cv2.waitKey(1000)  # Show for 1 second
+    # cv2.destroyWindow("Thresholded Grid")
     
     # Enhanced preprocessing
     # 1. Apply bilateral filter to reduce noise while preserving edges
     grid_roi = cv2.bilateralFilter(grid_roi, 9, 75, 75)
+
+    # cv2.imshow("Thresholded Grid", grid_roi)
+    # cv2.waitKey(1000)  # Show for 1 second
+    # cv2.destroyWindow("Thresholded Grid")
     
-    # 2. Enhance contrast using CLAHE (Contrast Limited Adaptive Histogram Equalization)
-    clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
-    grid_roi = clahe.apply(grid_roi)
-    
-    # 3. Apply Gaussian blur to reduce noise
+    # 2. Apply Gaussian blur to reduce noise
     grid_roi = cv2.GaussianBlur(grid_roi, (3, 3), 0)
+
+    # cv2.imshow("Thresholded Grid", grid_roi)
+    # cv2.waitKey(1000)  # Show for 1 second
+    # cv2.destroyWindow("Thresholded Grid")
     
-    # 4. Use adaptive thresholding with larger block size and constant
-    binary_grid = cv2.adaptiveThreshold(
+    # 3. Use simple thresholding with dynamic threshold value
+    min_val = np.min(grid_roi)
+    max_val = np.max(grid_roi)
+    threshold = (min_val + max_val) // 2
+    # print(f"Dynamic threshold: {threshold} (min: {min_val}, max: {max_val})")
+    _, binary_grid = cv2.threshold(
         grid_roi,
-        255,
-        cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
-        cv2.THRESH_BINARY_INV,
-        21,  # Larger block size
-        10   # Larger constant
+        threshold,  # Dynamic threshold value
+        255,  # Maximum value
+        cv2.THRESH_BINARY_INV  # Invert so filled areas are white
     )
+
+    # cv2.imshow("Thresholded Grid", binary_grid)
+    # cv2.waitKey(1000)  # Show for 1 second
+    # cv2.destroyWindow("Thresholded Grid")
     
     # 5. Clean up small artifacts using morphological operations
     kernel = np.ones((3,3), np.uint8)
     binary_grid = cv2.morphologyEx(binary_grid, cv2.MORPH_OPEN, kernel)
     binary_grid = cv2.morphologyEx(binary_grid, cv2.MORPH_CLOSE, kernel)
     
-    # 6. Remove very small connected components
-    num_labels, labels, stats, centroids = cv2.connectedComponentsWithStats(binary_grid, connectivity=8)
-    min_size = 50  # Minimum size of connected component to keep
-    binary_grid = np.zeros_like(binary_grid)
-    for i in range(1, num_labels):  # Skip background (0)
-        if stats[i, cv2.CC_STAT_AREA] >= min_size:
-            binary_grid[labels == i] = 255
-
     # Create a copy of the grayscale image for visualization
     vis_image = cv2.cvtColor(grayscale_image, cv2.COLOR_GRAY2BGR)
     
@@ -189,22 +187,22 @@ def find_account_number(area, grayscale_image, paper=None):
             cell = (cell_x, cell_y, cell_w, cell_h)
             cells.append(cell)
 
-    # Display the thresholded image
-    cv2.imshow("Thresholded Grid", binary_grid)
-    cv2.waitKey(1000)  # Show for 1 second
-    cv2.destroyWindow("Thresholded Grid")
-    # Visualize the grayscale image with cell contours
-    vis_grid = cv2.cvtColor(grid_roi, cv2.COLOR_GRAY2BGR)
-    for i, (cx, cy, cw, ch) in enumerate(cells):
-        # Draw rectangle for each cell
-        cv2.rectangle(vis_grid, (cx, cy), (cx + cw, cy + ch), (0, 255, 0), 2)
-        # Add cell number
-        cv2.putText(vis_grid, str(i), (cx + 5, cy + 20), 
-                   cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1)
+    # # Display the thresholded image
+    # cv2.imshow("Thresholded Grid", binary_grid)
+    # cv2.waitKey(1000)  # Show for 1 second
+    # cv2.destroyWindow("Thresholded Grid")
+    # # Visualize the grayscale image with cell contours
+    # vis_grid = cv2.cvtColor(grid_roi, cv2.COLOR_GRAY2BGR)
+    # for i, (cx, cy, cw, ch) in enumerate(cells):
+    #     # Draw rectangle for each cell
+    #     cv2.rectangle(vis_grid, (cx, cy), (cx + cw, cy + ch), (0, 255, 0), 2)
+    #     # Add cell number
+    #     cv2.putText(vis_grid, str(i), (cx + 5, cy + 20), 
+    #                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1)
     
-    cv2.imshow("Grid with Cell Contours", vis_grid)
-    cv2.waitKey(1000)  # Show for 1 second
-    cv2.destroyWindow("Grid with Cell Contours")
+    # cv2.imshow("Grid with Cell Contours", vis_grid)
+    # cv2.waitKey(1000)  # Show for 1 second
+    # cv2.destroyWindow("Grid with Cell Contours")
 
     # determine which quadrants are filled
     filled_quadrants = []
@@ -212,14 +210,23 @@ def find_account_number(area, grayscale_image, paper=None):
         # Extract the cell from the already thresholded grid
         binary_quad = binary_grid[cy:cy+ch, cx:cx+cw]
         
-        # Visualize the binary quadrant
-        # cv2.imshow(f"Binary Quadrant {i}", binary_quad)
-        # cv2.waitKey(100)  # Show for 0.1 seconds
+        # # Extract the cell from the original grayscale image
+        # grayscale_quad = grid_roi[cy:cy+ch, cx:cx+cw]
+        
+        # # Debug prints for pixel values
+        # print(f"\nCell {i} stats:")
+        # print(f"Grayscale min: {np.min(grayscale_quad)}, max: {np.max(grayscale_quad)}, mean: {np.mean(grayscale_quad):.2f}")
+        # print(f"Binary unique values: {np.unique(binary_quad)}")
         
         # Count non-zero pixels in the binarized quadrant
         non_zero_count = cv2.countNonZero(binary_quad)
-        percentage_filled = (non_zero_count / (cw * ch)) * 100
-        # print(f"Quadrant {i}: {percentage_filled:.2f}% filled")
+        percentage_filled = (non_zero_count / binary_quad.size) * 100
+        # print(f"Cell {i}: {percentage_filled:.2f}% filled")
+        
+        # Create a side-by-side visualization of binary and grayscale
+        # vis_quad = np.hstack((grayscale_quad, binary_quad))
+        # cv2.imshow(f"Cell {i} - Grayscale | Binary", vis_quad)
+        # cv2.waitKey(100)  # Show for 0.1 seconds
         
         # If more than 40% black pixels (non-zero after inversion), consider it filled
         if percentage_filled > 40:
@@ -228,11 +235,11 @@ def find_account_number(area, grayscale_image, paper=None):
             # cv2.rectangle(vis_image, (x+cx-margin, y+cy-margin), 
             #             (x+cx+cw+margin, y+cy+ch+margin), (0, 255, 0), 2)
         # else:
-            # Draw a red rectangle around empty cells
-            # cv2.rectangle(vis_image, (x+cx-margin, y+cy-margin), 
-            #             (x+cx+cw+margin, y+cy+ch+margin), (0, 0, 255), 2)
+        #     # Draw a red rectangle around empty cells
+        #     cv2.rectangle(vis_image, (x+cx-margin, y+cy-margin), 
+        #                 (x+cx+cw+margin, y+cy+ch+margin), (0, 0, 255), 2)
         
-        # cv2.destroyWindow(f"Binary Quadrant {i}")
+        # cv2.destroyWindow(f"Cell {i} - Grayscale | Binary")
 
     # Save the visualization
     # cv2.imwrite("account_number_visualization.jpg", vis_image)
@@ -534,4 +541,4 @@ def start():
     scanner.stop_scanning()
 
 
-# start()
+start()

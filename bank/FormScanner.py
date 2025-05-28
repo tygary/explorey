@@ -12,6 +12,8 @@ FORM_DEPOSIT = 'deposit'
 FORM_TRANSFER = 'transfer'
 FORM_WITHDRAW = 'withdraw'
 
+ROOT_SAVE_PATH = "./"
+
 class FormInfo(object):
     def __init__(self, type, to_account_number=None, from_account_number=None, amount_file_path=None, name_file_path=None):
         self.type = type
@@ -25,17 +27,55 @@ def write_image_for_contour(contour, image, path):
     roi = image[y:y+h, x:x+w]
     cv2.imwrite(path, roi)
 
+def is_contour_contained(inner_contour, outer_contour, margin_percent=0.1):
+    """Check if inner_contour is contained within outer_contour by checking if each corner
+    is within margin_percent of the outer contour's boundaries.
+    
+    Args:
+        inner_contour: The contour to check if it's contained
+        outer_contour: The contour to check against
+        margin_percent: The percentage of the outer contour's dimensions to use as margin (default 10%)
+    """
+    # Get the corners of the inner contour
+    peri = cv2.arcLength(inner_contour, True)
+    inner_corners = cv2.approxPolyDP(inner_contour, 0.02 * peri, True)
+    
+    # Get the bounding rectangle of the outer contour
+    x2, y2, w2, h2 = cv2.boundingRect(outer_contour)
+    
+    # Calculate margins
+    x_margin = int(w2 * margin_percent)
+    y_margin = int(h2 * margin_percent)
+    
+    # Check if each corner of the inner contour is within the outer contour's bounds
+    for corner in inner_corners:
+        x, y = corner[0]
+        # Check if the point is within margin_percent of the outer contour's boundaries
+        if (abs(x - x2) > x_margin and 
+            abs(x - (x2 + w2)) > x_margin and 
+            abs(y - y2) > y_margin and 
+            abs(y - (y2 + h2)) > y_margin):
+            return False
+    
+    return True
 
 def detect_contours(form, form_w, form_h, error_margin=0.2, form_type=None):
     """Helper function to detect contours in the form."""
     if form_type == "withdraw":
         account_number_size = (form_w * 2) // 3
+        name_box_width = (form_w * 2) // 3
+        name_box_height = form_h // 20
+        amount_box_width = -1
+        amount_box_height = -1
+        min_area = name_box_width * name_box_height * 0.5
+        error_margin = 0.1
     else:
         account_number_size = form_w // 3
-    amount_box_width = form_w // 3
-    amount_box_height = form_h // 10
-    name_box_width = (form_w * 2) // 3
-    name_box_height = form_h // 10
+        name_box_width = (form_w * 2) // 3
+        name_box_height = form_h // 10
+        amount_box_width = form_w // 3
+        amount_box_height = form_h // 10
+        min_area = amount_box_width * amount_box_height * 0.5
 
     contours = imutils.grab_contours(cv2.findContours(form.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE))
     innerCnts = sorted(contours, key=cv2.contourArea, reverse=True)
@@ -49,12 +89,28 @@ def detect_contours(form, form_w, form_h, error_margin=0.2, form_type=None):
         ar = w / float(h)
         peri = cv2.arcLength(c, True)
         approx = cv2.approxPolyDP(c, 0.02 * peri, True)
-        # print(f"Contour: {c}, Area: {cv2.contourArea(c)}, Width: {w}, Height: {h}, Aspect Ratio: {ar:.2f}")
-        if len(approx) == 4 and abs(account_number_size - w) < error_margin * account_number_size and abs(account_number_size - h) < error_margin * account_number_size and ar >= 0.9 and ar <= 1.1:
-            account_number_contours.append(c)
-        elif len(approx) == 4 and abs(amount_box_width - w) < error_margin * amount_box_width and abs(amount_box_height - h) < error_margin * amount_box_height and ar > 4 and ar <= 4.5:
+        area = cv2.contourArea(approx)
+        if area < min_area:
+            continue
+        # debug_img = form.copy()
+        # cv2.drawContours(debug_img, [c], -1, (0, 255, 0), 3)
+        # cv2.imshow("Detected Form Contour", debug_img)
+        # cv2.waitKey(500)  # Show for 0.5 seconds
+        # cv2.destroyWindow("Detected Form Contour")
+        
+        if len(approx) == 4 and abs(account_number_size - w) < error_margin * account_number_size and abs(account_number_size - h) < error_margin * account_number_size and ar >= 0.8 and ar <= 1.2:
+            # Check if this contour is contained within any existing account number contours
+            is_contained = False
+            for existing_contour in account_number_contours:
+                if is_contour_contained(c, existing_contour):
+                    is_contained = True
+                    break
+            
+            if not is_contained:
+                account_number_contours.append(c)
+        elif amount_box_width > 0 and len(approx) == 4 and abs(amount_box_width - w) < error_margin * amount_box_width and abs(amount_box_height - h) < error_margin * amount_box_height and ar > 3 and ar <= 5:
             amount_box_contours.append(c)
-        elif len(approx) == 4 and abs(name_box_width - w) < error_margin * name_box_width and abs(name_box_height - h) < error_margin * name_box_height and 8 < ar <= 9:
+        elif len(approx) == 4 and abs(name_box_width - w) < error_margin * name_box_width and abs(name_box_height - h) < error_margin * name_box_height and 7 < ar <= 9:
             name_box_countours.append(c)
 
     return account_number_contours, amount_box_contours, name_box_countours
@@ -73,14 +129,39 @@ def find_account_number(area, grayscale_image, paper=None):
     # Extract the entire grid region
     grid_roi = grayscale_image[y:y+h, x:x+w]
     
-    # Enhance contrast
-    grid_roi = cv2.equalizeHist(grid_roi)
+    # Enhanced preprocessing
+    # 1. Apply bilateral filter to reduce noise while preserving edges
+    grid_roi = cv2.bilateralFilter(grid_roi, 9, 75, 75)
     
-    # Light blur to reduce noise
+    # 2. Enhance contrast using CLAHE (Contrast Limited Adaptive Histogram Equalization)
+    clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
+    grid_roi = clahe.apply(grid_roi)
+    
+    # 3. Apply Gaussian blur to reduce noise
     grid_roi = cv2.GaussianBlur(grid_roi, (3, 3), 0)
     
-    # Apply Otsu's thresholding
-    _, binary_grid = cv2.threshold(grid_roi, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
+    # 4. Use adaptive thresholding with larger block size and constant
+    binary_grid = cv2.adaptiveThreshold(
+        grid_roi,
+        255,
+        cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
+        cv2.THRESH_BINARY_INV,
+        21,  # Larger block size
+        10   # Larger constant
+    )
+    
+    # 5. Clean up small artifacts using morphological operations
+    kernel = np.ones((3,3), np.uint8)
+    binary_grid = cv2.morphologyEx(binary_grid, cv2.MORPH_OPEN, kernel)
+    binary_grid = cv2.morphologyEx(binary_grid, cv2.MORPH_CLOSE, kernel)
+    
+    # 6. Remove very small connected components
+    num_labels, labels, stats, centroids = cv2.connectedComponentsWithStats(binary_grid, connectivity=8)
+    min_size = 50  # Minimum size of connected component to keep
+    binary_grid = np.zeros_like(binary_grid)
+    for i in range(1, num_labels):  # Skip background (0)
+        if stats[i, cv2.CC_STAT_AREA] >= min_size:
+            binary_grid[labels == i] = 255
 
     # Create a copy of the grayscale image for visualization
     vis_image = cv2.cvtColor(grayscale_image, cv2.COLOR_GRAY2BGR)
@@ -94,7 +175,7 @@ def find_account_number(area, grayscale_image, paper=None):
     cell_height = h // num_rows
 
     # Calculate margins to avoid grid lines
-    margin = int(min(cell_width, cell_height) * 0.15)  # 15% margin
+    margin = int(min(cell_width, cell_height) * 0.18)  # 18% margin
 
     cells = []
     for row in range(num_rows):
@@ -106,11 +187,32 @@ def find_account_number(area, grayscale_image, paper=None):
             cell = (cell_x, cell_y, cell_w, cell_h)
             cells.append(cell)
 
+    # # Display the thresholded image
+    # cv2.imshow("Thresholded Grid", binary_grid)
+    # cv2.waitKey(1000)  # Show for 1 second
+    # cv2.destroyWindow("Thresholded Grid")
+    # # Visualize the grayscale image with cell contours
+    # vis_grid = cv2.cvtColor(grid_roi, cv2.COLOR_GRAY2BGR)
+    # for i, (cx, cy, cw, ch) in enumerate(cells):
+    #     # Draw rectangle for each cell
+    #     cv2.rectangle(vis_grid, (cx, cy), (cx + cw, cy + ch), (0, 255, 0), 2)
+    #     # Add cell number
+    #     cv2.putText(vis_grid, str(i), (cx + 5, cy + 20), 
+    #                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1)
+    
+    # cv2.imshow("Grid with Cell Contours", vis_grid)
+    # cv2.waitKey(1000)  # Show for 1 second
+    # cv2.destroyWindow("Grid with Cell Contours")
+
     # determine which quadrants are filled
     filled_quadrants = []
     for i, (cx, cy, cw, ch) in enumerate(cells):
         # Extract the cell from the already thresholded grid
         binary_quad = binary_grid[cy:cy+ch, cx:cx+cw]
+        
+        # Visualize the binary quadrant
+        # cv2.imshow(f"Binary Quadrant {i}", binary_quad)
+        # cv2.waitKey(100)  # Show for 0.1 seconds
         
         # Count non-zero pixels in the binarized quadrant
         non_zero_count = cv2.countNonZero(binary_quad)
@@ -124,9 +226,11 @@ def find_account_number(area, grayscale_image, paper=None):
             # cv2.rectangle(vis_image, (x+cx-margin, y+cy-margin), 
             #             (x+cx+cw+margin, y+cy+ch+margin), (0, 255, 0), 2)
         # else:
-        #     # Draw a red rectangle around empty cells
-        #     cv2.rectangle(vis_image, (x+cx-margin, y+cy-margin), 
-        #                 (x+cx+cw+margin, y+cy+ch+margin), (0, 0, 255), 2)
+            # Draw a red rectangle around empty cells
+            # cv2.rectangle(vis_image, (x+cx-margin, y+cy-margin), 
+            #             (x+cx+cw+margin, y+cy+ch+margin), (0, 0, 255), 2)
+        
+        # cv2.destroyWindow(f"Binary Quadrant {i}")
 
     # Save the visualization
     # cv2.imwrite("account_number_visualization.jpg", vis_image)
@@ -144,6 +248,14 @@ def parse_form_image(image_path, form_type=None):
     # load the image, convert it to grayscale, blur it
     # slightly, then find edges
     image = cv2.imread(image_path)
+    # Crop 20% from left/right and 10% from top/bottom
+    h, w = image.shape[:2]
+    left = int(0.22 * w)
+    right = int(0.76 * w)
+    top = int(0.23 * h)
+    bottom = int(0.88 * h)
+    image = image[top:bottom, left:right]
+
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     blurred = cv2.GaussianBlur(gray, (5, 5), 0)
     
@@ -162,56 +274,66 @@ def parse_form_image(image_path, form_type=None):
     # Sort contours by area in descending order
     cnts = sorted(cnts, key=cv2.contourArea, reverse=True)
 
-    if form_type == "withdraw":
-        aspect_min = 1.4
-        aspect_max = 1.8
-        black_ratio_min = 0.3
-        black_ratio_max = 0.8
-    else:
-        aspect_min = 1.4
-        aspect_max = 1.8
-        black_ratio_min = 0.1
-        black_ratio_max = 0.5
+    # --- Improved Form Detection ---
+    # Use Canny edge detection for better contour detection
+    edges = cv2.Canny(blurred, 50, 150)
+    kernel = np.ones((5, 5), np.uint8)
+    edges = cv2.dilate(edges, kernel, iterations=2)
+    edges = cv2.erode(edges, kernel, iterations=1)
 
-    # Look for the form (largest white rectangle with content)
+    # Find contours from edges
+    canny_cnts = cv2.findContours(edges.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    canny_cnts = imutils.grab_contours(canny_cnts)
+    canny_cnts = sorted(canny_cnts, key=cv2.contourArea, reverse=True)
+
     form_contour = None
-    for c in cnts:
-        # Approximate the contour
+    image_area = image.shape[0] * image.shape[1]
+    for c in canny_cnts:
         peri = cv2.arcLength(c, True)
         approx = cv2.approxPolyDP(c, 0.02 * peri, True)
-        
-        # Must be a quadrilateral
-        if len(approx) != 4:
-            continue
-            
-        # Get the bounding rectangle
-        x, y, w, h = cv2.boundingRect(approx)
-        
-        # Check aspect ratio (approximately 5:8)
-        aspect_ratio = w / float(h)
-        # print(f"Aspect Ratio: {aspect_ratio:.2f}")
-        if not (aspect_min <= aspect_ratio <= aspect_max):
-            continue
-            
-        # Extract the ROI
-        roi = binary[y:y+h, x:x+w]
-        
-        # The form should have significant content inside
-        # Count the number of black pixels (form content)
-        black_pixels = cv2.countNonZero(roi)
-        total_pixels = w * h
-        black_ratio = black_pixels / float(total_pixels)
+        if len(approx) == 4:
+            x, y, w, h = cv2.boundingRect(approx)
+            aspect_ratio = w / float(h)
+            area = cv2.contourArea(approx)
+            if area < 100000:
+                continue
+            # debug_img = image.copy()
+            # cv2.drawContours(debug_img, [c], -1, (0, 255, 0), 3)
+            # cv2.imshow("Detected Contour", debug_img)
+            # cv2.waitKey(500)  # Show for 0.5 seconds
+            # cv2.destroyWindow("Detected Contour")
+            # Check aspect ratio and area (form should be large and roughly rectangular)
+            # if 1.2 < aspect_ratio < 1.8 and area > 0.1 * image_area:
+            form_contour = approx
+            break
 
-        # print(f"Black Ratio: {black_ratio:.2f}")
-        
-        # The form should have between 10% and 50% black pixels
-        # (too few means it's just white paper, too many means it's not a form)
-        if black_ratio < black_ratio_min or black_ratio > black_ratio_max:
-            continue
-            
-        # Found a good candidate
-        form_contour = approx
-        break
+    # Debug visualization: draw detected contour
+    # if form_contour is not None:
+    #     debug_img = image.copy()
+    #     cv2.drawContours(debug_img, [form_contour], -1, (0, 255, 0), 3)
+    #     cv2.imshow("Detected Form Contour", debug_img)
+    #     cv2.waitKey(500)  # Show for 0.5 seconds
+    #     cv2.destroyWindow("Detected Form Contour")
+    # If not found, fallback to old method
+    # if form_contour is None:
+    #     # Old method: adaptive thresholding and area/black ratio checks
+    #     for c in cnts:
+    #         peri = cv2.arcLength(c, True)
+    #         approx = cv2.approxPolyDP(c, 0.02 * peri, True)
+    #         if len(approx) != 4:
+    #             continue
+    #         x, y, w, h = cv2.boundingRect(approx)
+    #         aspect_ratio = w / float(h)
+    #         if not (aspect_min <= aspect_ratio <= aspect_max):
+    #             continue
+    #         roi = binary[y:y+h, x:x+w]
+    #         black_pixels = cv2.countNonZero(roi)
+    #         total_pixels = w * h
+    #         black_ratio = black_pixels / float(total_pixels)
+    #         if black_ratio < black_ratio_min or black_ratio > black_ratio_max:
+    #             continue
+    #         form_contour = approx
+    #         break
 
     if form_contour is None:
         print("No form found")
@@ -224,8 +346,17 @@ def parse_form_image(image_path, form_type=None):
     warped = four_point_transform(gray, form_contour.reshape(4, 2))
 
     # Convert warped image to pure black and white
-    warped_binary = cv2.adaptiveThreshold(warped, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, 
-                                        cv2.THRESH_BINARY_INV, 11, 2)
+    # Apply median blur to remove salt-and-pepper noise
+    warped_denoised = cv2.medianBlur(warped, 3)
+    
+    # Apply adaptive thresholding with adjusted parameters
+    warped_binary = cv2.adaptiveThreshold(warped_denoised, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, 
+                                        cv2.THRESH_BINARY_INV, 15, 5)
+    
+    # Clean up small noise using morphological operations
+    kernel = np.ones((2,2), np.uint8)
+    warped_binary = cv2.morphologyEx(warped_binary, cv2.MORPH_OPEN, kernel)
+    warped_binary = cv2.morphologyEx(warped_binary, cv2.MORPH_CLOSE, kernel)
     
     # apply Otsu's thresholding method to binarize the warped
     # piece of paper
@@ -240,7 +371,7 @@ def parse_form_image(image_path, form_type=None):
     needs_rotation = False
     
     # For account number forms, check if account numbers are in top 20%
-    if len(account_number_contours) > 0:
+    if len(account_number_contours) > 0 and form_type != "withdraw":
         for contour in account_number_contours:
             (x, y, w, h) = cv2.boundingRect(contour)
             if y > form_h * 0.2:  # If top of contour is below top 20%
@@ -251,7 +382,7 @@ def parse_form_image(image_path, form_type=None):
     elif len(name_box_countours) > 0:
         for contour in name_box_countours:
             (x, y, w, h) = cv2.boundingRect(contour)
-            if y > form_h * 0.2:  # If top of name box is below top 20%
+            if (form_type == "withdraw" and y < form_h * 0.5) or (form_type != "withdraw" and y > form_h * 0.5):  # If top of name box is below top 50%
                 needs_rotation = True
                 break
     
@@ -277,7 +408,7 @@ def parse_form_image(image_path, form_type=None):
 
     if (len(account_number_contours) == 0 and len(amount_box_contours) == 0 and len(name_box_countours) > 0):
         print("Found Open Account Form")
-        name_path = "/home/admin/temp_name.jpg"
+        name_path = f"{ROOT_SAVE_PATH}temp_name.jpg"
         write_image_for_contour(name_box_countours[0], warped, name_path)
 
         return FormInfo(FORM_OPEN_ACCOUNT, name_file_path=name_path)
@@ -289,7 +420,7 @@ def parse_form_image(image_path, form_type=None):
     elif (len(account_number_contours) == 1 and len(amount_box_contours) >= 1 and len(name_box_countours) == 0):
         print("Found Deposit Form")
         account_num = find_account_number(account_number_contours[0], warped)
-        amount_path = "/home/admin/temp_amount.jpg"
+        amount_path = f"{ROOT_SAVE_PATH}temp_amount.jpg"
         write_image_for_contour(amount_box_contours[0], warped, amount_path)
         print("Account Number: ", account_num)
         return FormInfo(FORM_DEPOSIT, to_account_number=account_num, amount_file_path=amount_path)
@@ -301,11 +432,11 @@ def parse_form_image(image_path, form_type=None):
             sorted_account_number_contours = [account_number_contours[1], account_number_contours[0]]
         from_account_num = find_account_number(sorted_account_number_contours[0], warped)
         to_account_num = find_account_number(sorted_account_number_contours[1], warped)
-        amount_path = "/home/admin/temp_amount.jpg"
+        amount_path = f"{ROOT_SAVE_PATH}temp_amount.jpg"
         write_image_for_contour(amount_box_contours[0], warped, amount_path)
         print("From Account Number: ", from_account_num, " To Account Number: ", to_account_num)
         return FormInfo(FORM_TRANSFER, from_account_number=from_account_num, to_account_number=to_account_num, amount_file_path=amount_path)
-    elif (len(account_number_contours) == 1 and len(amount_box_contours) == 0 and len(name_box_countours) == 0):
+    elif (len(account_number_contours) == 1 and len(amount_box_contours) == 0 and len(name_box_countours) == 1):
         print("Found Withdraw Form")
         account_num = find_account_number(account_number_contours[0], warped)
         print("Account Number: ", account_num)
@@ -359,7 +490,7 @@ class FormScanner(object):
                 return
             
             # Save the frame temporarily
-            temp_image = "/home/admin/temp_image.jpg"
+            temp_image = f"{ROOT_SAVE_PATH}temp_image.jpg"
             cv2.imwrite(temp_image, frame)
             
             # Try to parse the account number
@@ -380,14 +511,17 @@ class FormScanner(object):
                     print(f"Detected Form: {new_form_data.type} with account number: {new_form_data.to_account_number}")
             
             # Display the frame
-            cv2.imshow('ATM Camera', frame)
+            # cv2.imshow('ATM Camera', frame)
 
 def start():
     scanner = FormScanner()
-    scanner.start_scanning()
+    scanner.start_scanning() # 'withdraw'
     while True:
         scanner.update()
         time.sleep(0.1)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
     scanner.stop_scanning()
+
+
+# start()

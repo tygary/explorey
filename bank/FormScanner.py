@@ -92,21 +92,23 @@ def detect_contours(form, form_w, form_h, error_margin=0.2, form_type=None):
         area = cv2.contourArea(approx)
         if area < min_area:
             continue
-        # debug_img = form.copy()
-        # cv2.drawContours(debug_img, [c], -1, (0, 255, 0), 3)
-        # cv2.imshow("Detected Form Contour", debug_img)
-        # cv2.waitKey(500)  # Show for 0.5 seconds
-        # cv2.destroyWindow("Detected Form Contour")
+        debug_img = form.copy()
+        cv2.drawContours(debug_img, [c], -1, (0, 255, 0), 3)
+        cv2.imshow("Detected Form Contour", debug_img)
+        cv2.waitKey(500)  # Show for 0.5 seconds
+        cv2.destroyWindow("Detected Form Contour")
         
         if len(approx) == 4 and abs(account_number_size - w) < error_margin * account_number_size and abs(account_number_size - h) < error_margin * account_number_size and ar >= 0.8 and ar <= 1.2:
             # Check if this contour is contained within any existing account number contours
             is_contained = False
             for existing_contour in account_number_contours:
                 if is_contour_contained(c, existing_contour):
+                    print(f"Skipping Contour is contained within an existing account number contour")
                     is_contained = True
                     break
             
             if not is_contained:
+                print(f"Found account number contour")
                 account_number_contours.append(c)
         elif amount_box_width > 0 and len(approx) == 4 and abs(amount_box_width - w) < error_margin * amount_box_width and abs(amount_box_height - h) < error_margin * amount_box_height and ar > 3 and ar <= 5:
             amount_box_contours.append(c)
@@ -187,22 +189,22 @@ def find_account_number(area, grayscale_image, paper=None):
             cell = (cell_x, cell_y, cell_w, cell_h)
             cells.append(cell)
 
-    # # Display the thresholded image
-    # cv2.imshow("Thresholded Grid", binary_grid)
-    # cv2.waitKey(1000)  # Show for 1 second
-    # cv2.destroyWindow("Thresholded Grid")
-    # # Visualize the grayscale image with cell contours
-    # vis_grid = cv2.cvtColor(grid_roi, cv2.COLOR_GRAY2BGR)
-    # for i, (cx, cy, cw, ch) in enumerate(cells):
-    #     # Draw rectangle for each cell
-    #     cv2.rectangle(vis_grid, (cx, cy), (cx + cw, cy + ch), (0, 255, 0), 2)
-    #     # Add cell number
-    #     cv2.putText(vis_grid, str(i), (cx + 5, cy + 20), 
-    #                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1)
+    # Display the thresholded image
+    cv2.imshow("Thresholded Grid", binary_grid)
+    cv2.waitKey(1000)  # Show for 1 second
+    cv2.destroyWindow("Thresholded Grid")
+    # Visualize the grayscale image with cell contours
+    vis_grid = cv2.cvtColor(grid_roi, cv2.COLOR_GRAY2BGR)
+    for i, (cx, cy, cw, ch) in enumerate(cells):
+        # Draw rectangle for each cell
+        cv2.rectangle(vis_grid, (cx, cy), (cx + cw, cy + ch), (0, 255, 0), 2)
+        # Add cell number
+        cv2.putText(vis_grid, str(i), (cx + 5, cy + 20), 
+                   cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1)
     
-    # cv2.imshow("Grid with Cell Contours", vis_grid)
-    # cv2.waitKey(1000)  # Show for 1 second
-    # cv2.destroyWindow("Grid with Cell Contours")
+    cv2.imshow("Grid with Cell Contours", vis_grid)
+    cv2.waitKey(1000)  # Show for 1 second
+    cv2.destroyWindow("Grid with Cell Contours")
 
     # determine which quadrants are filled
     filled_quadrants = []
@@ -248,13 +250,20 @@ def parse_form_image(image_path, form_type=None):
     # load the image, convert it to grayscale, blur it
     # slightly, then find edges
     image = cv2.imread(image_path)
+    # cv2.imshow("orginal image", image)
+    # cv2.waitKey(500)  # Show for 0.5 seconds
+    # cv2.destroyWindow("orginal image")
     # Crop 20% from left/right and 10% from top/bottom
     h, w = image.shape[:2]
-    left = int(0.22 * w)
-    right = int(0.76 * w)
-    top = int(0.23 * h)
-    bottom = int(0.88 * h)
+    left = int(0.14 * w)
+    right = int(0.85 * w)
+    top = int(0.18 * h)
+    bottom = int(0.87 * h)
     image = image[top:bottom, left:right]
+
+    # cv2.imshow("Detected image", image)
+    # cv2.waitKey(500)  # Show for 0.5 seconds
+    # cv2.destroyWindow("Detected image")
 
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     blurred = cv2.GaussianBlur(gray, (5, 5), 0)
@@ -295,7 +304,8 @@ def parse_form_image(image_path, form_type=None):
             x, y, w, h = cv2.boundingRect(approx)
             aspect_ratio = w / float(h)
             area = cv2.contourArea(approx)
-            if area < 100000:
+            # print("contour area: ", area, " aspect ratio: ", aspect_ratio, "min image area: ", 0.1 * image_area)
+            if area < (0.1 * image_area):
                 continue
             # debug_img = image.copy()
             # cv2.drawContours(debug_img, [c], -1, (0, 255, 0), 3)

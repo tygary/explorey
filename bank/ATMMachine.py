@@ -23,7 +23,7 @@ BOTTOM_PIXELS = range(0, 50)
 
 TIME_BETWEEN_INTEREST_S = 30
 
-BEAN_CHUTE_PIN = 6
+BEAN_CHUTE_PIN = 17
 
 class ATMMachine(object):
     id = "atm_machine"
@@ -41,7 +41,7 @@ class ATMMachine(object):
         self.printer = AccountPrinter()
         self.atm = ATM()
         self.scanner = FormScanner()
-        self.bean_chute_trigger = Button(BEAN_CHUTE_PIN, callback=self._bean_detected, delay=0)
+        self.bean_chute_trigger = Button(BEAN_CHUTE_PIN, callback=self._bean_detected, delay=0, pullup=True)
         self.ui = UiApp(self.atm, self.printer, self.start_scan, self.cancel_scan)
         # self.pixels = OverlayedPixelControl(led_count=LED_COUNT, led_brightness=255)
         # self._update_light_routines()

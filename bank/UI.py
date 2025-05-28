@@ -288,6 +288,7 @@ class AmountConfirmationScreen(Screen):
             show_toast(self, "Please enter a valid amount", 2)
             return
         print(f"Withdrawing: {amount}")
+        self.amount_input.text = ''
         if self.on_complete:
             self.on_complete(amount)
         # You can validate and trigger next actions here

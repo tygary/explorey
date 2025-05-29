@@ -8,8 +8,7 @@ from lighting.Colors import Colors, get_grb_color
 from lighting.routines import Routines
 from mqtt.MqttClient import MqttClient
 from bank.FoundersBoxSoundSystem import FoundersBoxSoundSystem
-
-from timemachine.Levers import *
+from timemachine.Levers import Levers
 # from timemachine.Button import Button
 
 
@@ -27,6 +26,7 @@ BOTTOM_PIXELS = range(0, 50)
 UNLOCK_TIMEOUT_S = 10
 
 LOCK_PIN = 20
+
 
 class FoundersBox(object):
     id = "founders_box"

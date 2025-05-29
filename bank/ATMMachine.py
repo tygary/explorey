@@ -19,8 +19,10 @@ MQTT_EVENT_LEVERS_CHANGED = "levers_changed"
 MODE_READY = "ready"
 MODE_SCANNING = "scanning"
 
-LED_COUNT = 50
-BOTTOM_PIXELS = range(0, 50)
+LED_COUNT = 210
+SIGN_PIXEL_WIDTH = 25
+
+BOTTOM_PIXELS = range(200, 210)
 
 TIME_BETWEEN_INTEREST_S = 30
 
@@ -38,7 +40,6 @@ class ATMMachine(object):
         self.next_interest_time = 0
         self.beans_deposited = 0
         self.deposit_success_cb = None
-        
         self.mqtt = MqttClient()
         self.mqtt.listen(self.__parse_mqtt_event)
         self.printer = AccountPrinter()
@@ -47,8 +48,7 @@ class ATMMachine(object):
         self.scanner = FormScanner()
         self.bean_chute_trigger = Button(BEAN_CHUTE_PIN, callback=self._bean_detected, delay=0, pullup=True)
         self.ui = UiApp(self.atm, self.printer, start_scan=self.start_scan, cancel_scan=self.cancel_scan, start_deposit=self.start_deposit, cancel_deposit=self.cancel_deposit, dispense_beans=self.dispense_beans, get_interest_rate=self.get_interest_rate, get_exchange_rate=self.get_exchange_rate)
-        # self.pixels = OverlayedPixelControl(led_count=LED_COUNT, led_brightness=255)
-        # self._update_light_routines()
+        self.pixels = OverlayedPixelControl(led_count=LED_COUNT, led_brightness=255)
         self.reset()
 
     def start_scan(self, document_type, on_success, on_failure):
@@ -56,6 +56,8 @@ class ATMMachine(object):
             print("Already scanning")
             self.scanner.stop_scanning()
         self.mode = MODE_SCANNING
+        self._update_light_routines()
+        self.render_lights()
         self.scan_success_cb = on_success
         self.scan_failure_cb = on_failure
         print("Starting scan for document type:", document_type)
@@ -67,6 +69,8 @@ class ATMMachine(object):
         if self.mode == MODE_SCANNING:
             self.scanner.stop_scanning()
             self.mode = MODE_READY
+            self._update_light_routines()
+            self.render_lights()
             self.scan_failure_cb = None
             self.scan_success_cb = None
             # self._update_light_routines()
@@ -77,13 +81,14 @@ class ATMMachine(object):
     def finish_scanning(self, form_info: FormInfo):
         self.mode = MODE_READY
         self.scanner.stop_scanning()
+        self._update_light_routines()
+        self.render_lights()
         # self._update_light_routines()
         print("Finished scanning", form_info)
         if self.scan_success_cb:
             self.scan_success_cb(form_info)   
         self.scan_failure_cb = None
         self.scan_success_cb = None
-
 
     def start_deposit(self, success_cb, failure_cb):
         self.deposit_success_cb = success_cb
@@ -109,15 +114,31 @@ class ATMMachine(object):
         self.dispenser.dispense(1)
         print(f"Dispensing {amount} beans in {lumps} lumps...")
 
+    def render_lights(self):
+        percentage = (self.lever_magnitudes[1] + 1000) / 2000
+        self.light_routines[1].tick()
+        for routine in self.light_routines[0].routines:
+            routine.update_percentage(percentage)
+            routine.tick()
+        self.pixels.render()
+
     def _update_light_routines(self):
+        self.light_routines = [
+            Routines.MultiRoutine([
+                Routines.GaugeRoutine(self.pixels, range(0, SIGN_PIXEL_WIDTH)),
+                Routines.GaugeRoutine(self.pixels, range(SIGN_PIXEL_WIDTH, 2 * SIGN_PIXEL_WIDTH)),
+                Routines.GaugeRoutine(self.pixels, range(2 * SIGN_PIXEL_WIDTH, 3 * SIGN_PIXEL_WIDTH)),
+                Routines.GaugeRoutine(self.pixels, range(3 * SIGN_PIXEL_WIDTH, 4 * SIGN_PIXEL_WIDTH)),
+                Routines.GaugeRoutine(self.pixels, range(4 * SIGN_PIXEL_WIDTH, 5 * SIGN_PIXEL_WIDTH)),
+                Routines.GaugeRoutine(self.pixels, range(5 * SIGN_PIXEL_WIDTH, 6 * SIGN_PIXEL_WIDTH)),
+                Routines.GaugeRoutine(self.pixels, range(7 * SIGN_PIXEL_WIDTH, 7 * SIGN_PIXEL_WIDTH)),
+                Routines.GaugeRoutine(self.pixels, range(7 * SIGN_PIXEL_WIDTH, 8 * SIGN_PIXEL_WIDTH)),
+            ])
+        ]
         if self.mode is MODE_READY:
-            self.light_routines = [
-                Routines.BlackoutRoutine(self.pixels, BOTTOM_PIXELS),
-            ]
+            self.light_routines.append(Routines.BlackoutRoutine(self.pixels, BOTTOM_PIXELS))
         elif self.mode is MODE_SCANNING:
-            self.light_routines = [
-                Routines.ColorRoutine(self.pixels, BOTTOM_PIXELS, color=Colors.white),
-            ]
+            self.light_routines.append(Routines.ColorRoutine(self.pixels, BOTTOM_PIXELS, color=Colors.white))
         print("Updated light routines", self.mode)
 
     def __parse_mqtt_event(self, event):
@@ -132,12 +153,13 @@ class ATMMachine(object):
                     if event == MQTT_EVENT_LEVERS_CHANGED:
                         self.lever_magnitudes = data["magnitude"]
                         print("Lever magnitudes", self.lever_magnitudes)
+                        self.render_lights()
                         # self._update_light_routines()
         except Exception as e:
             print("ATM Machine Failed parsing event", event, e)
 
     def get_interest_rate(self):
-        magnitude = self.lever_magnitudes[0]
+        magnitude = self.lever_magnitudes[1]
         max_interest_rate = 0.05
         min_interest_rate = -0.02
 
@@ -155,6 +177,8 @@ class ATMMachine(object):
     def reset(self):
         print("Resetting")
         self.mode = MODE_READY
+        self._update_light_routines()
+        self.render_lights()
         self.lever_magnitudes = [0, 0, 0]
         self.next_interest_time = time.time() + TIME_BETWEEN_INTEREST_S
         # self._update_light_routines()

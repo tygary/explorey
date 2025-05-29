@@ -14,6 +14,35 @@ FORM_WITHDRAW = 'withdraw'
 
 ROOT_SAVE_PATH = "./"
 
+def center_window(window_name, image=None):
+    """Center a named window on the screen based on the image dimensions.
+    
+    Args:
+        window_name: The name of the window to center
+        image: The image being displayed (optional), used to determine window dimensions
+    """
+    # Estimate screen resolution - adjust these values based on your target screen
+    screen_width = 1920  # Default screen width
+    screen_height = 1080  # Default screen height
+    
+    # If image is provided, use its dimensions, otherwise use default size
+    if isinstance(image, np.ndarray):
+        height, width = image.shape[:2]
+    else:
+        width, height = 640, 480  # Default window size
+    
+    # Calculate center position
+    x_pos = (screen_width - width) // 2
+    y_pos = (screen_height - height) // 2
+    
+    # Ensure window is not positioned off-screen
+    x_pos = max(0, x_pos)
+    y_pos = max(0, y_pos)
+    
+    # Set window to normal mode so it can be moved and resized
+    cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
+    cv2.moveWindow(window_name, x_pos, y_pos)
+
 class FormInfo(object):
     def __init__(self, type, to_account_number=None, from_account_number=None, amount_file_path=None, name_file_path=None):
         self.type = type
@@ -61,6 +90,10 @@ def detect_contours(form, form_w, form_h, error_margin=0.2, form_type=None):
         amount_box_height = -1
         min_area = name_box_width * name_box_height * 0.5
         error_margin = 0.1
+        print("Using custom parameters for withdraw form detection", 
+              f"account_number_size: {account_number_size}, "
+              f"name_box_width: {name_box_width}, name_box_height: {name_box_height}, "
+              f"min_area: {min_area}")
     else:
         account_number_size = form_w // 3
         name_box_width = (form_w * 2) // 3
@@ -84,6 +117,7 @@ def detect_contours(form, form_w, form_h, error_margin=0.2, form_type=None):
         area = cv2.contourArea(approx)
         if area < min_area:
             continue
+        # print(f"Contour found with area: {area}, width: {w}, height: {h}, aspect ratio: {ar:.2f}")
         # debug_img = form.copy()
         # cv2.drawContours(debug_img, [c], -1, (0, 255, 0), 3)
         # cv2.imshow("Detected Form Contour", debug_img)
@@ -104,21 +138,21 @@ def detect_contours(form, form_w, form_h, error_margin=0.2, form_type=None):
                 account_number_contours.append(c)
         elif amount_box_width > 0 and len(approx) == 4 and abs(amount_box_width - w) < error_margin * amount_box_width and abs(amount_box_height - h) < error_margin * amount_box_height and ar > 3 and ar <= 5:
             amount_box_contours.append(c)
-        elif len(approx) == 4 and abs(name_box_width - w) < error_margin * name_box_width and abs(name_box_height - h) < 3 * error_margin * name_box_height and 6 < ar <= 9:
+        elif len(approx) == 4 and abs(name_box_width - w) < error_margin * name_box_width and abs(name_box_height - h) < 5 * error_margin * name_box_height and 5 < ar <= 9:
             name_box_countours.append(c)
 
     return account_number_contours, amount_box_contours, name_box_countours
 
-def find_account_number(area, grayscale_image, paper=None):
+def find_account_number(area, grayscale_image, paper=None, form_type=None):
     # split into 16 quadrants
     # (4 rows, 4 columns)
     x, y, w, h = cv2.boundingRect(area)
 
     # trim off the outer edges
-    x += 10
-    y += 10
-    w -= 20
-    h -= 20
+    x += int(w * .05)
+    y += int(h * .05)
+    w -= int(w * .1)
+    h -= int(h * .1)
 
     # Extract the entire grid region
     grid_roi = grayscale_image[y:y+h, x:x+w]
@@ -210,8 +244,8 @@ def find_account_number(area, grayscale_image, paper=None):
         # Extract the cell from the already thresholded grid
         binary_quad = binary_grid[cy:cy+ch, cx:cx+cw]
         
-        # # Extract the cell from the original grayscale image
-        # grayscale_quad = grid_roi[cy:cy+ch, cx:cx+cw]
+        # Extract the cell from the original grayscale image
+        grayscale_quad = grid_roi[cy:cy+ch, cx:cx+cw]
         
         # # Debug prints for pixel values
         # print(f"\nCell {i} stats:")
@@ -221,15 +255,17 @@ def find_account_number(area, grayscale_image, paper=None):
         # Count non-zero pixels in the binarized quadrant
         non_zero_count = cv2.countNonZero(binary_quad)
         percentage_filled = (non_zero_count / binary_quad.size) * 100
-        # print(f"Cell {i}: {percentage_filled:.2f}% filled")
+        print(f"Cell {i}: {percentage_filled:.2f}% filled")
         
         # Create a side-by-side visualization of binary and grayscale
         # vis_quad = np.hstack((grayscale_quad, binary_quad))
         # cv2.imshow(f"Cell {i} - Grayscale | Binary", vis_quad)
-        # cv2.waitKey(100)  # Show for 0.1 seconds
+        # center_window(f"Cell {i} - Grayscale | Binary", vis_quad)
+        # cv2.waitKey(1000)  # Show for 0.1 seconds
         
         # If more than 40% black pixels (non-zero after inversion), consider it filled
-        if percentage_filled > 40:
+        threshold = 60 if form_type == "withdraw" else 30
+        if percentage_filled > 30:
             filled_quadrants.append(i)
             # Draw a green rectangle around filled cells
             # cv2.rectangle(vis_image, (x+cx-margin, y+cy-margin), 
@@ -273,6 +309,8 @@ def parse_form_image(image_path, form_type=None):
     # cv2.destroyWindow("Detected image")
 
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    # Enhance contrast by normalizing to full range
+    # gray = cv2.normalize(gray, None, 0, 255, cv2.NORM_MINMAX)
     blurred = cv2.GaussianBlur(gray, (5, 5), 0)
     
     # Convert to pure black and white using adaptive thresholding
@@ -455,9 +493,9 @@ def parse_form_image(image_path, form_type=None):
         return FormInfo(FORM_TRANSFER, from_account_number=from_account_num, to_account_number=to_account_num, amount_file_path=amount_path)
     elif (len(account_number_contours) == 1 and len(amount_box_contours) == 0 and len(name_box_countours) == 1):
         print("Found Withdraw Form")
-        account_num = find_account_number(account_number_contours[0], warped)
+        account_num = find_account_number(account_number_contours[0], warped, "withdraw")
         print("Account Number: ", account_num)
-        return FormInfo(FORM_WITHDRAW, to_account_number=account_num)
+        return FormInfo(FORM_WITHDRAW, from_account_number=account_num, to_account_number=account_num)
     else:
         print("Form not recognized")
         return None
@@ -479,6 +517,8 @@ class FormScanner(object):
 
     def start_scanning(self, form_type = None, callback = None):
         self.callback = callback
+        if form_type is "teller":
+            form_type = "withdraw"
         self.form_type = form_type
         if self.is_scanning and self.camera is not None:
             print("Already scanning")
@@ -541,4 +581,4 @@ def start():
     scanner.stop_scanning()
 
 
-start()
+# start()

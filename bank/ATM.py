@@ -74,14 +74,16 @@ class ATM(object):
             print(f"Account {account_number} not found.")
 
 
-    def deposit(self, account_number, amount):
+    def deposit(self, account_number, amount: int):
         account = self.get_account(account_number)
         if account:
-            account.balance += amount
+            account.balance += int(amount)
             self.update_account(account)
             print(f"Deposited {amount} to account {account_number}. New balance: {account.balance}")
+            return account
         else:
             print(f"Account {account_number} not found.")
+            return None
 
 
     def withdraw(self, account_number):
@@ -91,8 +93,29 @@ class ATM(object):
             account.balance -= amount
             self.update_account(account)
             print(f"Withdrew {amount} from account {account_number}. New balance: {account.balance}")
+            return (account, amount)
         else:
             print(f"Account {account_number} not found.")
+            return (None, 0)
+        
+    def transfer(self, from_account_number, to_account_number, amount):
+        from_account = self.get_account(from_account_number)
+        to_account = self.get_account(to_account_number)
+        
+        if from_account and to_account:
+            if from_account.balance >= amount:
+                from_account.balance -= amount
+                to_account.balance += amount
+                self.update_account(from_account)
+                self.update_account(to_account)
+                print(f"Transferred {amount} from account {from_account_number} to account {to_account_number}.")
+                return (from_account, to_account)
+            else:
+                 
+                return (None, None)
+        else:
+            print(f"One or both accounts not found: {from_account_number}, {to_account_number}.")
+            return (None, None)
 
     def process_interest(self, interest_rate):
         accounts = self.db.getAll()

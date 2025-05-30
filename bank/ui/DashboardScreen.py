@@ -64,7 +64,7 @@ class DashboardScreen(Screen):
             self.teller_section.add_widget(Button(text=f"Current Teller: {teller.account_number}", size_hint_y=None, height=40, background_color=(0,0,0,0), color=(1,1,1,1)))
             self.teller_section.add_widget(Image(source=teller.name_file_path, size_hint_y=None, height=120, allow_stretch=True, keep_ratio=True))
         sign_in_btn = Button(text="Sign In Teller", size_hint_y=None, height=40, font_size='18sp')
-        sign_in_btn.bind(on_press=self.go_to_become_teller)
+        sign_in_btn.bind(on_press=self.go_to_teller_signin)
         self.teller_section.add_widget(sign_in_btn)
 
     def go_to_deposit(self, instance):
@@ -78,6 +78,9 @@ class DashboardScreen(Screen):
     
     def go_to_transfer(self, instance):
         self.manager.current = 'transfer'
+
+    def go_to_teller_signin(self, instance):
+        self.manager.current = 'teller_signin_scanning'
 
     def go_to_become_teller(self, instance):
         self.manager.current = 'teller_signup'

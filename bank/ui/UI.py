@@ -85,6 +85,14 @@ class UiApp(App):
             on_finish_scan=self.on_finish_teller_signup,
             form_type='withdraw'
         )
+        self.tellerSigninScanning = ScanningScreen(
+            name='teller_signin_scanning',
+            scanning_message='Scan your Account Details receipt to sign in...',
+            start_scan=self.start_scan,
+            cancel_scan=lambda _: self.change_screen('dashboard'),
+            on_finish_scan=self.on_finish_teller_signin,
+            form_type='withdraw'
+        )
 
         self.manager.add_widget(self.dashboard)
         self.manager.add_widget(self.deposit)
@@ -96,6 +104,7 @@ class UiApp(App):
         self.manager.add_widget(self.transferConfirm)
         self.manager.add_widget(self.tellerSignup)
         self.manager.add_widget(self.tellerSignupScanning)
+        self.manager.add_widget(self.tellerSigninScanning)
         
         # Add the screen manager to the content layout
         content_layout.add_widget(self.manager)
@@ -214,3 +223,14 @@ class UiApp(App):
         self.dashboard.update_teller_section()
         self.change_screen('dashboard')
         show_toast(self.dashboard, "You have successfully signed up as a teller.")
+
+    def on_finish_teller_signin(self, form_info):
+        account = self.atm.get_account(form_info.from_account_number)
+        if account is None:
+            self.change_screen('dashboard')
+            show_toast(self.dashboard, "Failed to sign in as a teller. Account not found.")
+            return
+        self.atm.set_current_teller(form_info.from_account_number)
+        self.dashboard.update_teller_section()
+        self.change_screen('dashboard')
+        show_toast(self.dashboard, f"Signed in as teller: {form_info.from_account_number}")

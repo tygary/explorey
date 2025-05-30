@@ -55,7 +55,7 @@ class ATMMachine(object):
         self.dispenser = BeanDispenser(pin=BEAN_DISPENSER_PIN)
         self.scanner = FormScanner()
         self.bean_chute_trigger = Button(BEAN_CHUTE_PIN, callback=self._bean_detected, delay=0, pullup=True)
-        self.ui = UiApp(self.atm, self.printer, start_scan=self.start_scan, cancel_scan=self.cancel_scan, start_deposit=self.start_deposit, cancel_deposit=self.cancel_deposit, dispense_beans=self.dispense_beans, get_interest_rate=self.get_interest_rate, get_exchange_rate=self.get_exchange_rate)
+        self.ui = UiApp(self.atm, self.printer, start_scan=self.start_scan, cancel_scan=self.cancel_scan, start_deposit=self.start_deposit, cancel_deposit=self.cancel_deposit, dispense_beans=self.dispense_beans, get_interest_rate=self.get_interest_rate, get_exchange_rate=self.get_exchange_rate, get_debt_interest_rate=self.get_debt_interest_rate)
         self.pixels = OverlayedPixelControl(led_count=LED_COUNT, led_brightness=255)
         self.reset()
 

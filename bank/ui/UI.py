@@ -25,7 +25,7 @@ from bank.ui.EconomyOverviewScreen import EconomyOverviewScreen
 
 # Main App with ScreenManager
 class UiApp(App):
-    def __init__(self, atm: ATM, printer: AccountPrinter, start_scan, cancel_scan, start_deposit, cancel_deposit, dispense_beans, get_interest_rate, get_exchange_rate, **kwargs):
+    def __init__(self, atm: ATM, printer: AccountPrinter, start_scan, cancel_scan, start_deposit, cancel_deposit, dispense_beans, get_interest_rate, get_debt_interest_rate, get_exchange_rate, **kwargs):
         super(UiApp, self).__init__(**kwargs)
         self.start_scan = start_scan
         self.cancel_scan = cancel_scan
@@ -33,6 +33,7 @@ class UiApp(App):
         self.cancel_deposit = cancel_deposit
         self.dispense_beans = dispense_beans
         self.get_interest_rate = get_interest_rate
+        self.get_debt_interest_rate = get_debt_interest_rate
         self.get_exchange_rate = get_exchange_rate
         self.atm = atm
         self.printer = printer

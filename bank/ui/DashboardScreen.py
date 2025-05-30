@@ -93,9 +93,9 @@ class DashboardScreen(Screen):
             teller_label = Button(
                 text=f"Current Teller: {teller.account_number}",
                 size_hint=(1, None),
-                height=40,
+                height=20,
                 background_color=(0, 0, 0, 0),
-                color=(0, 0, 0, 1),
+                color=(1, 1, 1, 1),
                 font_size="16sp",
             )
             teller_image = Image(

@@ -2,10 +2,11 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.uix.relativelayout import RelativeLayout
+from kivy.uix.screenmanager import Screen
 from bank.ui.ScanningScreen import ScanningScreen
 from bank.ui.Toast import show_toast
 
-class TellerSignupScreen(FloatLayout):
+class TellerSignupScreen(Screen):
     def __init__(self, on_agree, on_cancel, **kwargs):
         super(TellerSignupScreen, self).__init__(**kwargs)
 

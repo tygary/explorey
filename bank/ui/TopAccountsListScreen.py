@@ -22,11 +22,9 @@ class TopAccountsListScreen(Screen):
 
         for account in accounts[:20]:  # Top 20 accounts
             account_item = BoxLayout(orientation='horizontal', size_hint_y=None, height=50, spacing=10)
-            account_image = Image(source=account['image'], size_hint=(None, None), size=(50, 50))
-            account_name = Label(text=account['name'], size_hint=(0.6, 1), font_size="16sp")
-            account_balance = Label(text=f"${account['balance']:.2f}", size_hint=(0.4, 1), font_size="16sp")
+            account_image = Image(source=account.name_file_path, size_hint=(None, None), size=(200, 50))
+            account_balance = Label(text=f"${account.balance:.2f}", size_hint=(0.4, 1), font_size="16sp")
             account_item.add_widget(account_image)
-            account_item.add_widget(account_name)
             account_item.add_widget(account_balance)
             account_list.add_widget(account_item)
 

@@ -32,8 +32,9 @@ class Toast(Label):
             size=(500, 500),
             halign='center',
             valign='middle',
-            font_size='18sp',
+            font_size='20sp',  # Increased from 18sp
             color=(1, 1, 1, 1),
+            text_size=(500, None),  # Enable text wrapping by setting text_size to match width
             **kwargs
         )
         self.opacity = 0.95
@@ -140,7 +141,7 @@ class DashboardScreen(Screen):
         right_layout.add_widget(Widget(size_hint_y=1))
         button_labels = ['Open Account', 'Withdraw', 'Deposit', 'Transfer', 'Become a Teller']
         for label in button_labels:
-            btn = Button(text=label, size_hint=(1, None), height=80)
+            btn = Button(text=label, size_hint=(1, None), height=80, font_size='22sp')  # Increased font size
             if label == 'Deposit':
                 btn.bind(on_press=self.go_to_deposit)
             elif label == 'Open Account':
@@ -186,7 +187,7 @@ class ScanningScreen(Screen):
         left_layout = FloatLayout(size_hint=(0.66, 1))
         label = Label(
             text=scanning_message,
-            font_size='24sp',
+            font_size='26sp',  # Increased from 24sp
             halign='center',
             valign='middle',
             size_hint=(1, 1),
@@ -243,7 +244,7 @@ class DepositScreen(Screen):
         left_layout = FloatLayout(size_hint=(0.66, 1))
         label = Label(
             text=f"Place your beans in the deposit chute now...",
-            font_size='24sp',
+            font_size='26sp',  # Increased from 24sp
             halign='center',
             valign='middle',
             text_size=(None, None),
@@ -255,7 +256,7 @@ class DepositScreen(Screen):
         left_layout.add_widget(label)
         self.amount_label = Label(
             text="0 beans deposited",
-            font_size='24sp',
+            font_size='26sp',  # Increased from 24sp
             halign='center',
             valign='middle',
             text_size=(None, None),
@@ -343,7 +344,7 @@ class AmountConfirmationScreen(Screen):
             hint_text='Enter amount to confirm',
             multiline=False,
             input_filter='float',
-            font_size='24sp',
+            font_size='26sp',  # Increased from 24sp
             size_hint=(1, None),
             height=60
         )
@@ -353,7 +354,8 @@ class AmountConfirmationScreen(Screen):
         self.confirmation = Button(
             text=action_text,
             size_hint=(1, None),
-            height=80
+            height=80,
+            font_size='26sp'  # Increased font size
         )
         self.confirmation.bind(on_press=self.on_confirmation)
         left_layout.add_widget(self.confirmation)

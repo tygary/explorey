@@ -36,6 +36,7 @@ class UiApp(App):
         self.get_debt_interest_rate = get_debt_interest_rate
         self.get_exchange_rate = get_exchange_rate
         self.atm = atm
+        self.get_sign_on_bonus = atm.get_sign_on_bonus
         self.printer = printer
         
         # Set window to maximized to cover entire screen

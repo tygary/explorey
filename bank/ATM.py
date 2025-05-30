@@ -133,3 +133,38 @@ class ATM(object):
             account.balance += account.balance * interest_rate
             self.update_account(account)
             print(f"Applied interest to account {account.account_number}. New balance: {account.balance}")
+
+    def get_top_accounts(self):
+        """
+        Returns the top 20 accounts with the highest balance.
+        """
+        accounts = [Account.from_json(acc) for acc in self.db.getAll()]
+        return sorted(accounts, key=lambda acc: acc.balance, reverse=True)[:20]
+
+    def get_bankruptcy_roll(self):
+        """
+        Returns the top 20 accounts with the most debt (negative balance).
+        """
+        accounts = [Account.from_json(acc) for acc in self.db.getAll()]
+        return sorted([acc for acc in accounts if acc.balance < 0], key=lambda acc: acc.balance)[:20]
+    
+    def get_sign_on_bonus(self):
+        """
+        Returns the current sign-on bonus for new accounts.
+        """
+        return self.starting_balance
+
+    def apply_interest(self, interest_rate, debt_interest_rate):
+        """
+        Applies interest to all accounts based on their balance.
+        Positive balances get the interest rate, negative balances get the debt interest rate.
+        """
+        accounts = self.db.getAll()
+        for account_json in accounts:
+            account = Account.from_json(account_json)
+            if account.balance >= 0:
+                account.balance += account.balance * (1 + interest_rate)
+            else:
+                account.balance += account.balance * (1 + debt_interest_rate)
+            self.update_account(account)
+            print(f"Applied interest to account {account.account_number}. New balance: {account.balance}")

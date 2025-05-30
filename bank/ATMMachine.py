@@ -29,7 +29,7 @@ SIGN_TOP_PIXELS = range(512, 1024)
 
 BOTTOM_PIXELS = range(NUM_SIGN_PIXELS, NUM_SIGN_PIXELS + 10)
 
-TIME_BETWEEN_INTEREST_S = 30
+TIME_BETWEEN_INTEREST_S = 15
 
 BEAN_CHUTE_PIN = 17
 BEAN_DISPENSER_PIN = 4
@@ -45,6 +45,9 @@ class ATMMachine(object):
         self.next_interest_time = 0
         self.beans_deposited = 0
         self.deposit_success_cb = None
+        self.interest_rate = 0.05
+        self.debt_interest_rate = 0.05
+        self.exchange_rate = 2
         self.mqtt = MqttClient()
         self.mqtt.listen(self.__parse_mqtt_event)
         self.printer = AccountPrinter()
@@ -150,26 +153,42 @@ class ATMMachine(object):
                     if event == MQTT_EVENT_LEVERS_CHANGED:
                         self.lever_magnitudes = data["magnitudes"]
                         print("Lever magnitudes", self.lever_magnitudes)
+                        self.update_economy(self.lever_magnitudes)
                         self.render_lights()
                         # self._update_light_routines()
         except Exception as e:
             print("ATM Machine Failed parsing event", event, e)
 
-    def get_interest_rate(self):
-        magnitude = self.lever_magnitudes[1]
+    def update_economy(self, lever_magnitudes):
+        magnitude = lever_magnitudes[1]
+        magnitude_normalized = (magnitude + 1000) / 2000
+
+        self.atm.starting_balance = 100 + (magnitude_normalized * 200)  # Between 20 and 100
+
+        self.atm.withdrawl_amount = 20 + (magnitude_normalized * 80)  # Between 20 and 200
+
         max_interest_rate = 0.05
         min_interest_rate = -0.02
+        self.interest_rate = min_interest_rate + (max_interest_rate - min_interest_rate) * magnitude_normalized
 
-        # TODO - get interest rate from lever
-        return 0.05
+        max_exchange_rate = 5
+        min_exchange_rate = 1
+        self.exchange_rate = min_exchange_rate + (max_exchange_rate - min_exchange_rate) * (1 - magnitude_normalized)
+
+        max_debt_interest_rate = 0.10
+        min_debt_interest_rate = 0.01
+        self.debt_interest_rate = min_debt_interest_rate + (max_debt_interest_rate - min_debt_interest_rate) * (1 - magnitude_normalized)
+
+
+    def get_interest_rate(self):
+        return self.interest_rate
+    
+    def get_debt_interest_rate(self):
+        return self.debt_interest_rate
 
     # Rate of exchange of X bean bucks to 1 bean
     def get_exchange_rate(self):
-        magnitude = self.lever_magnitudes[1]
-        max_exchange_rate = 5
-        min_exchange_rate = 1
-        # TODO - get exchange rate from lever
-        return 2
+        return self.exchange_rate
   
     def reset(self):
         print("Resetting")
@@ -184,6 +203,10 @@ class ATMMachine(object):
         self.ui.start(self.update)
 
     def update(self):
+        if time.time() >= self.next_interest_time:
+            self.next_interest_time = time.time() + TIME_BETWEEN_INTEREST_S
+            print("Applying interest rate", self.interest_rate)
+            self.atm.apply_interest(self.interest_rate, self.debt_interest_rate)
         self.scanner.update()
         self.bean_chute_trigger.tick()
         self.dispenser.update()

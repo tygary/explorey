@@ -78,6 +78,40 @@ class DashboardScreen(Screen):
         self.add_widget(layout)
         self.update_teller_section()
 
+        # Add Leaderboard and Bankruptcy Roll buttons to the left layout
+        leaderboard_btn = Button(
+            text="Leaderboard",
+            size_hint=(0.5, None),
+            height=50,
+            pos_hint={'center_x': 0.25, 'y': 0},
+            font_size="16sp",
+        )
+        leaderboard_btn.bind(on_press=self.go_to_leaderboard)
+
+        bankruptcy_roll_btn = Button(
+            text="Bankruptcy Roll",
+            size_hint=(0.5, None),
+            height=50,
+            pos_hint={'center_x': 0.75, 'y': 0},
+            font_size="16sp",
+        )
+        bankruptcy_roll_btn.bind(on_press=self.go_to_bankruptcy_roll)
+
+        left_layout.add_widget(leaderboard_btn)
+        left_layout.add_widget(bankruptcy_roll_btn)
+
+        # Add Economy Overview button alongside Leaderboard button
+        economy_overview_btn = Button(
+            text="Economy Overview",
+            size_hint=(0.5, None),
+            height=50,
+            pos_hint={'center_x': 0.5, 'y': 0},
+            font_size="16sp",
+        )
+        economy_overview_btn.bind(on_press=self.go_to_economy_overview)
+
+        left_layout.add_widget(economy_overview_btn)
+
     def update_teller_section(self):
         self.teller_content.clear_widgets()
 
@@ -134,3 +168,12 @@ class DashboardScreen(Screen):
 
     def go_to_become_teller(self, instance):
         self.manager.current = 'teller_signup'
+
+    def go_to_leaderboard(self, instance):
+        self.manager.current = 'leaderboard'
+
+    def go_to_bankruptcy_roll(self, instance):
+        self.manager.current = 'bankruptcy_roll'
+
+    def go_to_economy_overview(self, instance):
+        self.manager.current = 'economy_overview'

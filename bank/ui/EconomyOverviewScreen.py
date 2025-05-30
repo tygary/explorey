@@ -1,0 +1,86 @@
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.button import Button
+from kivy.uix.label import Label
+from kivy.uix.screenmanager import Screen
+from kivy.clock import Clock
+
+class EconomyOverviewScreen(Screen):
+    def __init__(self, get_exchange_rate, get_interest_rate, get_debt_interest_rate, get_sign_on_bonus, **kwargs):
+        super(EconomyOverviewScreen, self).__init__(**kwargs)
+        self.get_exchange_rate = get_exchange_rate
+        self.get_interest_rate = get_interest_rate
+        self.get_debt_interest_rate = get_debt_interest_rate
+        self.get_sign_on_bonus = get_sign_on_bonus
+
+        layout = BoxLayout(orientation='vertical', padding=10, spacing=10)
+
+        # Display exchange rate
+        self.exchange_rate_label = Label(
+            text=f"Current BeanBucks to Bean Exchange Rate: {self.get_exchange_rate()} BeanBucks = 1 Bean",
+            font_size="16sp",
+            size_hint=(1, None),
+            height=50
+        )
+        layout.add_widget(self.exchange_rate_label)
+
+        # Display interest rate
+        self.interest_rate_label = Label(
+            text=f"Current Interest Rate: {self.get_interest_rate() * 100:.2f}%\n(This rate is applied compounding every 10 minutes)",
+            font_size="16sp",
+            size_hint=(1, None),
+            height=70
+        )
+        layout.add_widget(self.interest_rate_label)
+
+        # Display debt interest rate
+        self.debt_interest_rate_label = Label(
+            text=f"Current Debt Interest Rate: {self.get_debt_interest_rate() * 100:.2f}%\n(This rate is applied to negative balances compounding every 10 minutes)",
+            font_size="16sp",
+            size_hint=(1, None),
+            height=70
+        )
+        layout.add_widget(self.debt_interest_rate_label)
+
+        # Display current sign-on bonus
+        self.sign_on_bonus_label = Label(
+            text=f"Current Sign-on Bonus: {self.get_sign_on_bonus()} Beans",
+            font_size="16sp",
+            size_hint=(1, None),
+            height=50
+        )
+        layout.add_widget(self.sign_on_bonus_label)
+
+        # Back button
+        back_btn = Button(
+            text="Back",
+            size_hint=(None, None),
+            size=(100, 50),
+            pos_hint={'x': 0, 'y': 0}
+        )
+        back_btn.bind(on_press=self.go_back)
+        layout.add_widget(back_btn)
+
+        self.add_widget(layout)
+
+        # Schedule periodic updates for the rates
+        self.update_event = Clock.schedule_interval(self.update_rates, 5)
+
+    def update_rates(self, dt):
+        # Update exchange rate
+        self.exchange_rate_label.text = f"Current BeanBucks to Bean Exchange Rate: {self.get_exchange_rate()} BeanBucks = 1 Bean"
+
+        # Update interest rate
+        self.interest_rate_label.text = f"Current Interest Rate: {self.get_interest_rate() * 100:.2f}%\n(This rate is applied compounding every 10 minutes)"
+
+        # Update debt interest rate
+        self.debt_interest_rate_label.text = f"Current Debt Interest Rate: {self.get_debt_interest_rate() * 100:.2f}%\n(This rate is applied to negative balances compounding every 10 minutes)"
+
+        # Update sign-on bonus
+        self.sign_on_bonus_label.text = f"Current Sign-on Bonus: {self.get_sign_on_bonus()} Beans"
+
+    def on_leave(self):
+        # Unschedule updates when leaving the screen
+        Clock.unschedule(self.update_event)
+
+    def go_back(self, instance):
+        self.manager.current = 'dashboard'

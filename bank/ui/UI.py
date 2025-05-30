@@ -19,6 +19,8 @@ from bank.ui.DashboardScreen import DashboardScreen
 from bank.ui.DepositScreen import DepositScreen
 from bank.ui.ScanningScreen import ScanningScreen
 from bank.ui.TellerSignup import TellerSignupScreen
+from bank.ui.TopAccountsListScreen import TopAccountsListScreen
+from bank.ui.EconomyOverviewScreen import EconomyOverviewScreen
 
 
 # Main App with ScreenManager
@@ -93,6 +95,23 @@ class UiApp(App):
             on_finish_scan=self.on_finish_teller_signin,
             form_type='withdraw'
         )
+        self.leaderboard = TopAccountsListScreen(
+            accounts=self.atm.get_top_accounts(),
+            is_leaderboard=True,
+            name='leaderboard'
+        )
+        self.bankruptcyRoll = TopAccountsListScreen(
+            accounts=self.atm.get_bankruptcy_roll(),
+            is_leaderboard=False,
+            name='bankruptcy_roll'
+        )
+        self.economyOverview = EconomyOverviewScreen(
+            get_exchange_rate=self.get_exchange_rate,
+            get_interest_rate=self.get_interest_rate,
+            get_debt_interest_rate=self.get_debt_interest_rate,
+            get_sign_on_bonus=self.get_sign_on_bonus,
+            name='economy_overview'
+        )
 
         self.manager.add_widget(self.dashboard)
         self.manager.add_widget(self.deposit)
@@ -105,6 +124,9 @@ class UiApp(App):
         self.manager.add_widget(self.tellerSignup)
         self.manager.add_widget(self.tellerSignupScanning)
         self.manager.add_widget(self.tellerSigninScanning)
+        self.manager.add_widget(self.leaderboard)
+        self.manager.add_widget(self.bankruptcyRoll)
+        self.manager.add_widget(self.economyOverview)
         
         # Add the screen manager to the content layout
         content_layout.add_widget(self.manager)
@@ -229,6 +251,10 @@ class UiApp(App):
         if account is None:
             self.change_screen('dashboard')
             show_toast(self.dashboard, "Failed to sign in as a teller. Account not found.")
+            return
+        if not account.is_teller:
+            self.change_screen('dashboard')
+            show_toast(self.dashboard, "This account is not a teller account. Sign up first.")
             return
         self.atm.set_current_teller(form_info.from_account_number)
         self.dashboard.update_teller_section()

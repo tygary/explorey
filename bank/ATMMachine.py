@@ -8,7 +8,7 @@ from lighting.Colors import Colors, get_grb_color
 from lighting.routines import Routines
 from mqtt.MqttClient import MqttClient
 from bank.ATM import ATM
-from bank.UI import UiApp
+from bank.ui.UI import UiApp
 from bank.FormScanner import FormScanner, FormInfo
 from bank.AccountPrinter import AccountPrinter
 from timemachine.Button import Button

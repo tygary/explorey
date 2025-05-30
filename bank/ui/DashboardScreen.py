@@ -37,9 +37,11 @@ class DashboardScreen(Screen):
         right_layout.add_widget(Widget(size_hint_y=0.2))
         # Teller section with background and border
         self.teller_section = RelativeLayout(size_hint_y=None, height=100)
-        with self.teller_section.canvas.before:
+        # Add background and border ONCE here
+        with self.teller_section.canvas:
             Color(0.93, 0.93, 0.93, 1)  # Light gray background
             self.teller_bg = RoundedRectangle(radius=[10], pos=self.teller_section.pos, size=self.teller_section.size)
+        with self.teller_section.canvas.after:
             Color(0.7, 0.7, 0.7, 1)  # Gray border
             self.teller_border = RoundedRectangle(radius=[10], pos=self.teller_section.pos, size=self.teller_section.size, width=2)
         def update_bg(*args):
@@ -80,7 +82,9 @@ class DashboardScreen(Screen):
         if teller:
             section_layout.add_widget(Button(text=f"Current Teller: {teller.account_number}", size_hint_y=None, height=28, background_color=(0,0,0,0), color=(0,0,0,1), font_size='16sp'))
             section_layout.add_widget(Image(source=teller.name_file_path, size_hint_y=None, height=60, allow_stretch=True, keep_ratio=True))
-        sign_in_btn = Button(text="Replace Active Teller", size_hint_y=None, height=28, font_size='16sp')
+            sign_in_btn = Button(text="Sign in Teller", size_hint_y=None, height=28, font_size='16sp')
+        else:
+            sign_in_btn = Button(text="Replace Active Teller", size_hint_y=None, height=28, font_size='16sp')
         sign_in_btn.bind(on_press=self.go_to_teller_signin)
         section_layout.add_widget(sign_in_btn)
         self.teller_section.add_widget(section_layout)

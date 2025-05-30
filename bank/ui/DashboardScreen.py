@@ -42,6 +42,8 @@ class DashboardScreen(Screen):
                 btn.bind(on_press=self.go_to_withdraw)
             elif label == 'Transfer':
                 btn.bind(on_press=self.go_to_transfer)
+            elif label == 'Become a Teller':
+                btn.bind(on_press=self.go_to_become_teller)
 
             right_layout.add_widget(btn)
         right_layout.add_widget(Widget(size_hint_y=1))
@@ -61,3 +63,6 @@ class DashboardScreen(Screen):
     
     def go_to_transfer(self, instance):
         self.manager.current = 'transfer'
+
+    def go_to_become_teller(self, instance):
+        self.manager.current = 'teller_signup'

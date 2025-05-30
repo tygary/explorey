@@ -37,7 +37,7 @@ class DashboardScreen(Screen):
         # Teller section with background and border
         self.teller_section = RelativeLayout(size_hint_y=None, height=100)
         with self.teller_section.canvas.before:
-            Color(0.3, 0.3, 0.3, 1)  # Light gray background
+            Color(0.93, 0.93, 0.93, 1)  # Light gray background
             self.teller_bg = RoundedRectangle(radius=[10], pos=self.teller_section.pos, size=self.teller_section.size)
             Color(0.7, 0.7, 0.7, 1)  # Gray border
             self.teller_border = RoundedRectangle(radius=[10], pos=self.teller_section.pos, size=self.teller_section.size, width=2)
@@ -75,21 +75,6 @@ class DashboardScreen(Screen):
     def update_teller_section(self):
         self.teller_section.clear_widgets()
         teller = self.atm.get_current_teller() if self.atm else None
-        # Add a background and border to the teller section
-        self.teller_section.canvas.before.clear()
-        from kivy.graphics import Color, RoundedRectangle
-        with self.teller_section.canvas.before:
-            Color(0.93, 0.93, 0.93, 1)  # Light gray background
-            RoundedRectangle(pos=self.teller_section.pos, size=self.teller_section.size, radius=[10])
-            Color(0.7, 0.7, 0.7, 1)  # Gray border
-            RoundedRectangle(pos=self.teller_section.pos, size=self.teller_section.size, radius=[10], width=2)
-        def update_bg(*args):
-            for instr in self.teller_section.canvas.before.children:
-                if isinstance(instr, RoundedRectangle):
-                    instr.pos = self.teller_section.pos
-                    instr.size = self.teller_section.size
-        self.teller_section.bind(pos=update_bg, size=update_bg)
-        # ...existing code for adding widgets...
         if teller:
             self.teller_section.add_widget(Button(text=f"Current Teller: {teller.account_number}", size_hint_y=None, height=20, background_color=(0,0,0,0), color=(1,1,1,1)))
             self.teller_section.add_widget(Image(source=teller.name_file_path, size_hint_y=None, height=40, allow_stretch=True, keep_ratio=True))

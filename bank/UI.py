@@ -66,9 +66,20 @@ class Toast(Label):
         if self.parent:
             self.parent.remove_widget(self)
             
-    def on_touch_down(self, touch, other):
+    def on_touch_down(self, touch, other=None):
+        # Add a short delay before the Toast starts responding to touch events
+        self.touch_enabled = False
+        Clock.schedule_once(lambda dt: setattr(self, 'touch_enabled', True), 0.5)
+
+        if not getattr(self, 'touch_enabled', True):
+            # print("Toast touch disabled temporarily to avoid residual events.")
+            return True
+
+        # Log touch position and Toast bounds for debugging
+        print(f"Touch position: {touch.pos}, Toast bounds: {self.pos}, {self.size}")
         if self.collide_point(*touch.pos):
             if self.parent:
+                print("Toast clicked, removing it")
                 self.parent.remove_widget(self)
             return True
         return super(Toast, self).on_touch_down(touch)
@@ -196,6 +207,7 @@ class ScanningScreen(Screen):
         )
         cancel_btn.bind(on_press=self.go_back)
         right_layout.add_widget(cancel_btn)
+        right_layout.add_widget(Label(size_hint=(1, 0.1)))  # Spacer
 
         layout.add_widget(left_layout)
         layout.add_widget(right_layout)
@@ -207,7 +219,7 @@ class ScanningScreen(Screen):
 
     def on_scan_fail(self, message):
         # Handle scan failure
-        show_toast(self, message, 2)
+        show_toast(self, message)
         self.manager.current = 'dashboard'
 
     def go_back(self, instance):
@@ -267,6 +279,7 @@ class DepositScreen(Screen):
         )
         cancel_btn.bind(on_press=self.go_back)
         right_layout.add_widget(cancel_btn)
+        right_layout.add_widget(Label(size_hint=(1, 0.1)))  # Spacer
 
         layout.add_widget(left_layout)
         layout.add_widget(right_layout)
@@ -292,7 +305,7 @@ class DepositScreen(Screen):
 
     def on_deposit_fail(self, message):
         # Handle deposit failure
-        show_toast(self, message, 2)
+        show_toast(self, message)
         self.manager.current = 'dashboard'
 
     def go_back(self, instance):
@@ -393,6 +406,7 @@ class AmountConfirmationScreen(Screen):
         )
         cancel_btn.bind(on_press=self.go_back)
         right_layout.add_widget(cancel_btn)
+        right_layout.add_widget(Label(size_hint=(1, 0.1)))  # Spacer
 
         layout.add_widget(left_layout)
         layout.add_widget(right_layout)
@@ -415,7 +429,7 @@ class AmountConfirmationScreen(Screen):
     def on_confirmation(self, instance):
         amount = self.amount_input.text.strip()
         if not amount or not amount.isdigit() or float(amount) <= 0:
-            show_toast(self, "Please enter a valid amount", 2)
+            show_toast(self, "Please enter a valid amount", 5)
             return
         print(f"{self.action_text}: {amount}")
         self.amount_input.text = ''
@@ -517,12 +531,12 @@ class UiApp(App):
         account = self.atm.get_account(account_number)
         if not account:
             self.change_screen('dashboard')
-            show_toast(self.dashboard, "Failed to create account", 2)
+            show_toast(self.dashboard, "Failed to create account")
             return
         account_balance = account.balance
         self.printer.printAccount(account_number, account_balance, account.name_file_path)
         self.change_screen('dashboard')
-        show_toast(self.dashboard, f"Account created, get receipt below.", 2)
+        show_toast(self.dashboard, f"Account created, get receipt below.")
 
     
     def on_finish_scanning_deposit(self, form_info: FormInfo):

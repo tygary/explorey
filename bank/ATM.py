@@ -80,7 +80,7 @@ class ATM(object):
             account.balance += int(amount)
             self.update_account(account)
             print(f"Deposited {amount} to account {account_number}. New balance: {account.balance}")
-            return account
+            return self.get_account(account_number)
         else:
             print(f"Account {account_number} not found.")
             return None
@@ -93,7 +93,7 @@ class ATM(object):
             account.balance -= amount
             self.update_account(account)
             print(f"Withdrew {amount} from account {account_number}. New balance: {account.balance}")
-            return (account, amount)
+            return (self.get_account(account_number), amount)
         else:
             print(f"Account {account_number} not found.")
             return (None, 0)
@@ -109,7 +109,7 @@ class ATM(object):
                 self.update_account(from_account)
                 self.update_account(to_account)
                 print(f"Transferred {amount} from account {from_account_number} to account {to_account_number}.")
-                return (from_account, to_account)
+                return (self.get_account(from_account_number), self.get_account(to_account_number))
             else:
                  
                 return (None, None)

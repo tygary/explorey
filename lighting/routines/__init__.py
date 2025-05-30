@@ -3,7 +3,7 @@ from lighting.routines.BleuRoutine import BleuRoutine
 from lighting.routines.ColorRoutine import ColorRoutine
 from lighting.routines.CyclingMultiRoutine import CyclingMultiRoutine
 from lighting.routines.FireRoutine import FireRoutine
-from lighting.routines.GaugeRoutine import GaugeRoutine
+from lighting.routines.GaugeRoutine import GaugeRoutine, ArrowGaugeRoutine
 from lighting.routines.ModeRoutine import ModeRoutine
 from lighting.routines.ModeSwitchRoutine import ModeSwitchRoutine
 from lighting.routines.MultiRoutine import MultiRoutine
@@ -25,6 +25,7 @@ class _Routines(object):
     CyclingMultiRoutine = CyclingMultiRoutine
     FireRoutine = FireRoutine
     GaugeRoutine = GaugeRoutine
+    ArrowGaugeRoutine = ArrowGaugeRoutine
     ModeRoutine = ModeRoutine
     ModeSwitchRoutine = ModeSwitchRoutine
     MultiRoutine = MultiRoutine

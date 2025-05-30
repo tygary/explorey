@@ -14,15 +14,20 @@ from bank.AccountPrinter import AccountPrinter
 from timemachine.Button import Button
 from bank.BeanDispenser import BeanDispenser
 
-MQTT_EVENT_LEVERS_CHANGED = "levers_changed"
+MQTT_EVENT_LEVERS_CHANGED = "economy_changed"
 
 MODE_READY = "ready"
 MODE_SCANNING = "scanning"
 
-LED_COUNT = 210
-SIGN_PIXEL_WIDTH = 25
+LED_COUNT = 1050
+SIGN_PIXEL_WIDTH = 64
+SIGN_PIXEL_HEIGHT = 8
+NUM_SIGN_PIXELS = 1024
 
-BOTTOM_PIXELS = range(200, 210)
+SIGN_BOTTOM_PIXELS = range(0, 512)
+SIGN_TOP_PIXELS = range(512, 1024)
+
+BOTTOM_PIXELS = range(NUM_SIGN_PIXELS, NUM_SIGN_PIXELS + 10)
 
 TIME_BETWEEN_INTEREST_S = 30
 
@@ -62,7 +67,6 @@ class ATMMachine(object):
         self.scan_failure_cb = on_failure
         print("Starting scan for document type:", document_type)
         self.scanner.start_scanning(document_type, self.finish_scanning)
-        # self._update_light_routines()
         print("Starting scan")
 
     def cancel_scan(self):
@@ -73,7 +77,6 @@ class ATMMachine(object):
             self.render_lights()
             self.scan_failure_cb = None
             self.scan_success_cb = None
-            # self._update_light_routines()
             print("Cancelled scan")
         else:
             print("Not scanning, cannot cancel")
@@ -83,7 +86,6 @@ class ATMMachine(object):
         self.scanner.stop_scanning()
         self._update_light_routines()
         self.render_lights()
-        # self._update_light_routines()
         print("Finished scanning", form_info)
         if self.scan_success_cb:
             self.scan_success_cb(form_info)   
@@ -115,7 +117,8 @@ class ATMMachine(object):
         print(f"Dispensing {amount} beans in {lumps} lumps...")
 
     def render_lights(self):
-        percentage = (self.lever_magnitudes[1] + 1000) / 2000
+        percentage = (1000 - self.lever_magnitudes[1]) / 2000
+        print("Rendering lights", self.mode, self.lever_magnitudes, percentage)
         self.light_routines[1].tick()
         for routine in self.light_routines[0].routines:
             routine.update_percentage(percentage)
@@ -125,14 +128,8 @@ class ATMMachine(object):
     def _update_light_routines(self):
         self.light_routines = [
             Routines.MultiRoutine([
-                Routines.GaugeRoutine(self.pixels, range(0, SIGN_PIXEL_WIDTH)),
-                Routines.GaugeRoutine(self.pixels, range(SIGN_PIXEL_WIDTH, 2 * SIGN_PIXEL_WIDTH)),
-                Routines.GaugeRoutine(self.pixels, range(2 * SIGN_PIXEL_WIDTH, 3 * SIGN_PIXEL_WIDTH)),
-                Routines.GaugeRoutine(self.pixels, range(3 * SIGN_PIXEL_WIDTH, 4 * SIGN_PIXEL_WIDTH)),
-                Routines.GaugeRoutine(self.pixels, range(4 * SIGN_PIXEL_WIDTH, 5 * SIGN_PIXEL_WIDTH)),
-                Routines.GaugeRoutine(self.pixels, range(5 * SIGN_PIXEL_WIDTH, 6 * SIGN_PIXEL_WIDTH)),
-                Routines.GaugeRoutine(self.pixels, range(7 * SIGN_PIXEL_WIDTH, 7 * SIGN_PIXEL_WIDTH)),
-                Routines.GaugeRoutine(self.pixels, range(7 * SIGN_PIXEL_WIDTH, 8 * SIGN_PIXEL_WIDTH)),
+                Routines.GaugeRoutine(self.pixels, SIGN_TOP_PIXELS, color=[0, 50, 0]),
+                Routines.GaugeRoutine(self.pixels, SIGN_BOTTOM_PIXELS, color=[0, 50, 0]),
             ])
         ]
         if self.mode is MODE_READY:
@@ -151,7 +148,7 @@ class ATMMachine(object):
                     event = data["event"]
                     print("Got Event", event, data)
                     if event == MQTT_EVENT_LEVERS_CHANGED:
-                        self.lever_magnitudes = data["magnitude"]
+                        self.lever_magnitudes = data["magnitudes"]
                         print("Lever magnitudes", self.lever_magnitudes)
                         self.render_lights()
                         # self._update_light_routines()

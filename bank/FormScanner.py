@@ -88,12 +88,12 @@ def detect_contours(form, form_w, form_h, error_margin=0.2, form_type=None):
         name_box_height = form_h // 20
         amount_box_width = -1
         amount_box_height = -1
-        min_area = name_box_width * name_box_height * 0.5
-        error_margin = 0.1
-        print("Using custom parameters for withdraw form detection", 
-              f"account_number_size: {account_number_size}, "
-              f"name_box_width: {name_box_width}, name_box_height: {name_box_height}, "
-              f"min_area: {min_area}")
+        min_area = name_box_width * name_box_height * 0.4
+        error_margin = 0.2
+        # print("Using custom parameters for withdraw form detection", 
+        #       f"account_number_size: {account_number_size}, "
+        #       f"name_box_width: {name_box_width}, name_box_height: {name_box_height}, "
+        #       f"min_area: {min_area}")
     else:
         account_number_size = form_w // 3
         name_box_width = (form_w * 2) // 3
@@ -156,8 +156,11 @@ def find_account_number(area, grayscale_image, paper=None, form_type=None):
 
     # Extract the entire grid region
     grid_roi = grayscale_image[y:y+h, x:x+w]
+    # Enhance contrast by normalizing to full range
+    grid_roi = cv2.normalize(grid_roi, None, 0, 255, cv2.NORM_MINMAX)
 
     # cv2.imshow("Thresholded Grid", grid_roi)
+    # center_window(f"Thresholded Grid", grid_roi)
     # cv2.waitKey(1000)  # Show for 1 second
     # cv2.destroyWindow("Thresholded Grid")
     
@@ -166,6 +169,7 @@ def find_account_number(area, grayscale_image, paper=None, form_type=None):
     grid_roi = cv2.bilateralFilter(grid_roi, 9, 75, 75)
 
     # cv2.imshow("Thresholded Grid", grid_roi)
+    # center_window(f"Thresholded Grid", grid_roi)
     # cv2.waitKey(1000)  # Show for 1 second
     # cv2.destroyWindow("Thresholded Grid")
     
@@ -173,13 +177,14 @@ def find_account_number(area, grayscale_image, paper=None, form_type=None):
     grid_roi = cv2.GaussianBlur(grid_roi, (3, 3), 0)
 
     # cv2.imshow("Thresholded Grid", grid_roi)
+    # center_window(f"Thresholded Grid", grid_roi)
     # cv2.waitKey(1000)  # Show for 1 second
     # cv2.destroyWindow("Thresholded Grid")
     
     # 3. Use simple thresholding with dynamic threshold value
     min_val = np.min(grid_roi)
     max_val = np.max(grid_roi)
-    threshold = (min_val + max_val) // 2
+    threshold = (int(min_val) + int(max_val)) // 2
     # print(f"Dynamic threshold: {threshold} (min: {min_val}, max: {max_val})")
     _, binary_grid = cv2.threshold(
         grid_roi,
@@ -189,6 +194,7 @@ def find_account_number(area, grayscale_image, paper=None, form_type=None):
     )
 
     # cv2.imshow("Thresholded Grid", binary_grid)
+    # center_window("Thresholded Grid", binary_grid)
     # cv2.waitKey(1000)  # Show for 1 second
     # cv2.destroyWindow("Thresholded Grid")
     
@@ -221,8 +227,9 @@ def find_account_number(area, grayscale_image, paper=None, form_type=None):
             cell = (cell_x, cell_y, cell_w, cell_h)
             cells.append(cell)
 
-    # # Display the thresholded image
+    # Display the thresholded image
     # cv2.imshow("Thresholded Grid", binary_grid)
+    # center_window(f"Thresholded Grid", binary_grid)
     # cv2.waitKey(1000)  # Show for 1 second
     # cv2.destroyWindow("Thresholded Grid")
     # # Visualize the grayscale image with cell contours
@@ -255,7 +262,7 @@ def find_account_number(area, grayscale_image, paper=None, form_type=None):
         # Count non-zero pixels in the binarized quadrant
         non_zero_count = cv2.countNonZero(binary_quad)
         percentage_filled = (non_zero_count / binary_quad.size) * 100
-        print(f"Cell {i}: {percentage_filled:.2f}% filled")
+        # print(f"Cell {i}: {percentage_filled:.2f}% filled")
         
         # Create a side-by-side visualization of binary and grayscale
         # vis_quad = np.hstack((grayscale_quad, binary_quad))
@@ -300,12 +307,13 @@ def parse_form_image(image_path, form_type=None):
     h, w = image.shape[:2]
     left = int(0.14 * w)
     right = int(0.85 * w)
-    top = int(0.18 * h)
-    bottom = int(0.87 * h)
+    top = int(0.10 * h)
+    bottom = int(0.84 * h)
     image = image[top:bottom, left:right]
 
     # cv2.imshow("Detected image", image)
     # cv2.waitKey(500)  # Show for 0.5 seconds
+    # center_window("Detected image", image)
     # cv2.destroyWindow("Detected image")
 
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -369,34 +377,12 @@ def parse_form_image(image_path, form_type=None):
     #     cv2.imshow("Detected Form Contour", debug_img)
     #     cv2.waitKey(500)  # Show for 0.5 seconds
     #     cv2.destroyWindow("Detected Form Contour")
-    # If not found, fallback to old method
-    # if form_contour is None:
-    #     # Old method: adaptive thresholding and area/black ratio checks
-    #     for c in cnts:
-    #         peri = cv2.arcLength(c, True)
-    #         approx = cv2.approxPolyDP(c, 0.02 * peri, True)
-    #         if len(approx) != 4:
-    #             continue
-    #         x, y, w, h = cv2.boundingRect(approx)
-    #         aspect_ratio = w / float(h)
-    #         if not (aspect_min <= aspect_ratio <= aspect_max):
-    #             continue
-    #         roi = binary[y:y+h, x:x+w]
-    #         black_pixels = cv2.countNonZero(roi)
-    #         total_pixels = w * h
-    #         black_ratio = black_pixels / float(total_pixels)
-    #         if black_ratio < black_ratio_min or black_ratio > black_ratio_max:
-    #             continue
-    #         form_contour = approx
-    #         break
 
     if form_contour is None:
-        print("No form found")
+        print("No form contour detected.")
         return None
 
-    # apply a four point perspective transform to both the
-    # original image and grayscale image to obtain a top-down
-    # birds eye view of the paper
+    # Apply a four-point perspective transform to get a top-down view of the paper
     paper = four_point_transform(image, form_contour.reshape(4, 2))
     warped = four_point_transform(gray, form_contour.reshape(4, 2))
 
@@ -471,7 +457,7 @@ def parse_form_image(image_path, form_type=None):
         print("Found Teller Form")
         account_num = find_account_number(account_number_contours[0], warped)
         print("Account Number: ", account_num)
-        return FormInfo(FORM_TELLER, to_account_number=account_num)
+        return FormInfo(FORM_WITHDRAW, from_account_number=account_num, to_account_number=account_num)
     elif (len(account_number_contours) == 1 and len(amount_box_contours) >= 1 and len(name_box_countours) == 0):
         print("Found Deposit Form")
         account_num = find_account_number(account_number_contours[0], warped)
@@ -552,7 +538,7 @@ class FormScanner(object):
             
             # Try to parse the account number
             new_form_data = parse_form_image(temp_image, self.form_type)
-            if new_form_data and (self.form_type == None or new_form_data.type == self.form_type):
+            if new_form_data and (self.form_type == None or new_form_data.type == self.form_type or (self.form_type == "withdraw" and new_form_data.type == FORM_TELLER)):
                 if self.form_data is not None and self.form_data.to_account_number == new_form_data.to_account_number and self.form_data.from_account_number == new_form_data.from_account_number:
                     self.form_match_count += 1
                     print(f"Detected account number: {new_form_data.to_account_number}")

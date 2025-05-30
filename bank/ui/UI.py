@@ -64,7 +64,7 @@ class UiApp(App):
             Color(0.1, 0.1, 0.1, 1)  # background
             RoundedRectangle(size=content_layout.size, pos=(0, 0))
 
-        self.dashboard = DashboardScreen(name='dashboard')       
+        self.dashboard = DashboardScreen(name='dashboard', atm=self.atm)       
         self.deposit = ScanningScreen(name='deposit', scanning_message='Scan your deposit form now...', start_scan=self.start_scan, cancel_scan=self.cancel_scan, on_finish_scan=self.on_finish_scanning_deposit) 
         self.depositConfirm = AmountConfirmationScreen(name='deposit_confirm', action_text='Confirm Deposit')
         self.depositBeans = DepositScreen(name='deposit_beans', start_deposit=self.start_deposit, cancel_deposit=self.cancel_deposit, on_finish_deposit=self.on_complete_deposit)
@@ -210,5 +210,7 @@ class UiApp(App):
             show_toast(self.dashboard, "Failed to sign up as a teller. Account not found.")
             return
         self.atm.make_teller(form_info.from_account_number)
+        self.atm.set_current_teller(form_info.from_account_number)
+        self.dashboard.update_teller_section()
         self.change_screen('dashboard')
         show_toast(self.dashboard, "You have successfully signed up as a teller.")

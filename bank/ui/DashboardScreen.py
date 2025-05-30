@@ -8,8 +8,9 @@ from kivy.uix.floatlayout import FloatLayout
 
 
 class DashboardScreen(Screen):
-    def __init__(self, **kwargs):
+    def __init__(self, atm=None, **kwargs):
         super(DashboardScreen, self).__init__(**kwargs)
+        self.atm = atm
         layout = BoxLayout(orientation='horizontal')
 
         # Left area with logo
@@ -30,7 +31,10 @@ class DashboardScreen(Screen):
             padding=10,
             spacing=15
         )
-        right_layout.add_widget(Widget(size_hint_y=1))
+        right_layout.add_widget(Widget(size_hint_y=0.2))
+        self.teller_section = BoxLayout(orientation='vertical', size_hint_y=None, height=200)
+        right_layout.add_widget(self.teller_section)
+        right_layout.add_widget(Widget(size_hint_y=0.1))
         button_labels = ['Open Account', 'Withdraw', 'Deposit', 'Transfer', 'Become a Teller']
         for label in button_labels:
             btn = Button(text=label, size_hint=(1, None), height=80, font_size='22sp')  # Increased font size
@@ -51,6 +55,17 @@ class DashboardScreen(Screen):
         layout.add_widget(left_layout)
         layout.add_widget(right_layout)
         self.add_widget(layout)
+        self.update_teller_section()
+
+    def update_teller_section(self):
+        self.teller_section.clear_widgets()
+        teller = self.atm.get_current_teller() if self.atm else None
+        if teller:
+            self.teller_section.add_widget(Button(text=f"Current Teller: {teller.account_number}", size_hint_y=None, height=40, background_color=(0,0,0,0), color=(1,1,1,1)))
+            self.teller_section.add_widget(Image(source=teller.name_file_path, size_hint_y=None, height=120, allow_stretch=True, keep_ratio=True))
+        sign_in_btn = Button(text="Sign In Teller", size_hint_y=None, height=40, font_size='18sp')
+        sign_in_btn.bind(on_press=self.go_to_become_teller)
+        self.teller_section.add_widget(sign_in_btn)
 
     def go_to_deposit(self, instance):
         self.manager.current = 'deposit'

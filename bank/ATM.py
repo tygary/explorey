@@ -35,6 +35,15 @@ class ATM(object):
         self.db = db.getDb("bank/ATM.json")
         self.starting_balance = DEFAULT_NEW_ACCOUNT_BALANCE
         self.withdrawl_amount = DEFAULT_WITHDRAWL_AMOUNT
+        self.current_teller_account_number = None  # Store the currently signed-in teller
+
+    def set_current_teller(self, account_number):
+        self.current_teller_account_number = account_number
+
+    def get_current_teller(self):
+        if self.current_teller_account_number:
+            return self.get_account(self.current_teller_account_number)
+        return None
 
     def get_account(self, account_number):
         account_json = self.db.getBy({"account_number": account_number})
@@ -124,4 +133,3 @@ class ATM(object):
             account.balance += account.balance * interest_rate
             self.update_account(account)
             print(f"Applied interest to account {account.account_number}. New balance: {account.balance}")
-        

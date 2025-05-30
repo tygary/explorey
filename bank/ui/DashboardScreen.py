@@ -38,10 +38,9 @@ class DashboardScreen(Screen):
         # Teller section with background and border
         self.teller_section = RelativeLayout(size_hint_y=None, height=100)
         # Add background and border ONCE here
-        with self.teller_section.canvas:
-            Color(0.93, 0.93, 0.93, 1)  # Light gray background
+        with self.teller_section.canvas.before:
+            Color(0.3, 0.3, 0.3, 1)
             self.teller_bg = RoundedRectangle(radius=[10], pos=self.teller_section.pos, size=self.teller_section.size)
-        with self.teller_section.canvas.after:
             Color(0.7, 0.7, 0.7, 1)  # Gray border
             self.teller_border = RoundedRectangle(radius=[10], pos=self.teller_section.pos, size=self.teller_section.size, width=2)
         def update_bg(*args):
@@ -50,6 +49,10 @@ class DashboardScreen(Screen):
             self.teller_border.pos = self.teller_section.pos
             self.teller_border.size = self.teller_section.size
         self.teller_section.bind(pos=update_bg, size=update_bg)
+
+        # Ensure widgets are added above the background
+        self.teller_content = BoxLayout(orientation='vertical', padding=10, spacing=8, size_hint=(1, 1))
+        self.teller_section.add_widget(self.teller_content)
 
         right_layout.add_widget(self.teller_section)
         right_layout.add_widget(Widget(size_hint_y=0.1))
@@ -76,18 +79,15 @@ class DashboardScreen(Screen):
         self.update_teller_section()
 
     def update_teller_section(self):
-        self.teller_section.clear_widgets()
+        self.teller_content.clear_widgets()
         teller = self.atm.get_current_teller() if self.atm else None
-        section_layout = BoxLayout(orientation='vertical', padding=10, spacing=8, size_hint=(1, 1))
+        button_text = "Sign In as Teller" if not teller else "Replace Active Teller"
         if teller:
-            section_layout.add_widget(Button(text=f"Current Teller: {teller.account_number}", size_hint_y=None, height=28, background_color=(0,0,0,0), color=(0,0,0,1), font_size='16sp'))
-            section_layout.add_widget(Image(source=teller.name_file_path, size_hint_y=None, height=60, allow_stretch=True, keep_ratio=True))
-            sign_in_btn = Button(text="Sign in Teller", size_hint_y=None, height=28, font_size='16sp')
-        else:
-            sign_in_btn = Button(text="Replace Active Teller", size_hint_y=None, height=28, font_size='16sp')
+            self.teller_content.add_widget(Button(text=f"Current Teller: {teller.account_number}", size_hint_y=None, height=28, background_color=(0,0,0,0), color=(0,0,0,1), font_size='16sp'))
+            self.teller_content.add_widget(Image(source=teller.name_file_path, size_hint_y=None, height=60, allow_stretch=True, keep_ratio=True))
+        sign_in_btn = Button(text=button_text, size_hint_y=None, height=28, font_size='16sp')
         sign_in_btn.bind(on_press=self.go_to_teller_signin)
-        section_layout.add_widget(sign_in_btn)
-        self.teller_section.add_widget(section_layout)
+        self.teller_content.add_widget(sign_in_btn)
 
     def go_to_deposit(self, instance):
         self.manager.current = 'deposit'

@@ -7,7 +7,7 @@ from bank.ui.Toast import show_toast
 
 class TellerSignupScreen(FloatLayout):
     def __init__(self, on_agree, on_cancel, **kwargs):
-        super().__init__(**kwargs)
+        super(TellerSignupScreen, self).__init__(**kwargs)
 
         # Left side content
         left_layout = RelativeLayout(size_hint=(0.7, 1), pos_hint={'x': 0, 'y': 0})

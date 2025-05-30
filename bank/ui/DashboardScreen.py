@@ -7,6 +7,7 @@ from kivy.uix.widget import Widget
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.relativelayout import RelativeLayout
 from kivy.graphics import Color, RoundedRectangle
+from kivy.uix.boxlayout import BoxLayout
 
 
 class DashboardScreen(Screen):
@@ -75,12 +76,14 @@ class DashboardScreen(Screen):
     def update_teller_section(self):
         self.teller_section.clear_widgets()
         teller = self.atm.get_current_teller() if self.atm else None
+        section_layout = BoxLayout(orientation='vertical', padding=10, spacing=8, size_hint=(1, 1))
         if teller:
-            self.teller_section.add_widget(Button(text=f"Current Teller: {teller.account_number}", size_hint_y=None, height=20, background_color=(0,0,0,0), color=(1,1,1,1)))
-            self.teller_section.add_widget(Image(source=teller.name_file_path, size_hint_y=None, height=40, allow_stretch=True, keep_ratio=True))
-        sign_in_btn = Button(text="Replace Active Teller", size_hint_y=None, height=20, font_size='18sp')
+            section_layout.add_widget(Button(text=f"Current Teller: {teller.account_number}", size_hint_y=None, height=28, background_color=(0,0,0,0), color=(0,0,0,1), font_size='16sp'))
+            section_layout.add_widget(Image(source=teller.name_file_path, size_hint_y=None, height=60, allow_stretch=True, keep_ratio=True))
+        sign_in_btn = Button(text="Replace Active Teller", size_hint_y=None, height=28, font_size='16sp')
         sign_in_btn.bind(on_press=self.go_to_teller_signin)
-        self.teller_section.add_widget(sign_in_btn)
+        section_layout.add_widget(sign_in_btn)
+        self.teller_section.add_widget(section_layout)
 
     def go_to_deposit(self, instance):
         self.manager.current = 'deposit'

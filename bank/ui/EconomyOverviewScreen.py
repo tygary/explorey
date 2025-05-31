@@ -6,12 +6,13 @@ from kivy.uix.widget import Widget
 from kivy.clock import Clock
 
 class EconomyOverviewScreen(Screen):
-    def __init__(self, get_exchange_rate, get_interest_rate, get_debt_interest_rate, get_sign_on_bonus, **kwargs):
+    def __init__(self, get_exchange_rate, get_interest_rate, get_debt_interest_rate, get_sign_on_bonus, get_withdrawl_amount, **kwargs):
         super(EconomyOverviewScreen, self).__init__(**kwargs)
         self.get_exchange_rate = get_exchange_rate
         self.get_interest_rate = get_interest_rate
         self.get_debt_interest_rate = get_debt_interest_rate
         self.get_sign_on_bonus = get_sign_on_bonus
+        self.get_withdrawl_amount = get_withdrawl_amount
 
         width = 700
 
@@ -71,6 +72,20 @@ class EconomyOverviewScreen(Screen):
         self.sign_on_bonus_label.valign = 'top'
         self.sign_on_bonus_label.text_size = self.sign_on_bonus_label.size
         layout.add_widget(self.sign_on_bonus_label)
+
+        # Display current sign-on bonus
+        self.withdrawl_amount_label = Label(
+            text=f"Current Withdrawl Amount: {self.get_withdrawl_amount()} Beans",
+            font_size="22sp",
+            size_hint=(1, None),
+            height=50,
+            width=width
+        )
+        self.withdrawl_amount_label.halign = 'left'
+        self.withdrawl_amount_label.valign = 'top'
+        self.withdrawl_amount_label.text_size = self.withdrawl_amount_label.size
+        layout.add_widget(self.withdrawl_amount_label)
+
         # Spacer to push content up
         layout.add_widget(Widget(size_hint_y=1))
         # Back button

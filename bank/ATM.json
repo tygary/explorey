@@ -10,14 +10,14 @@
       {
          "account_number": 22891,
          "name_file_path": "/home/admin/explorey/images/atm/22891.jpg",
-         "balance": 100,
+         "balance": 101,
          "is_teller": false,
          "id": 187112984169371027
       },
       {
          "account_number": 41630,
          "name_file_path": "/home/admin/explorey/images/atm/41630.jpg",
-         "balance": 100,
+         "balance": 102,
          "is_teller": false,
          "id": 151920640105828526
       },
@@ -31,35 +31,35 @@
       {
          "account_number": 49582,
          "name_file_path": "/home/admin/explorey/images/atm/49582.jpg",
-         "balance": -100,
+         "balance": -104,
          "is_teller": false,
          "id": 203313257511341922
       },
       {
          "account_number": 17897,
          "name_file_path": "/home/admin/explorey/images/atm/17897.jpg",
-         "balance": 100,
+         "balance": 103,
          "is_teller": false,
          "id": 227470906775982990
       },
       {
          "account_number": 49739,
          "name_file_path": "/home/admin/explorey/images/atm/49739.jpg",
-         "balance": -100,
+         "balance": -105,
          "is_teller": false,
          "id": 935809045066356936
       },
       {
          "account_number": 5826,
          "name_file_path": "/home/admin/explorey/images/atm/5826.jpg",
-         "balance": 100,
+         "balance": 106,
          "is_teller": false,
          "id": 128026204074474376
       },
       {
          "account_number": 56698,
          "name_file_path": "/home/admin/explorey/images/atm/56698.jpg",
-         "balance": 100,
+         "balance": 107,
          "is_teller": false,
          "id": 225463001233356972
       }

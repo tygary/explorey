@@ -9,9 +9,9 @@ class BankruptcyConfirmationScreen(Screen):
     def __init__(self, on_finalize_bankruptcy, **kwargs):
         super(BankruptcyConfirmationScreen, self).__init__(**kwargs)
         self.on_finalize_bankruptcy = on_finalize_bankruptcy
-        # Adjusted layout to horizontally center content and ensure proper vertical order
-        self.layout = BoxLayout(orientation='vertical', padding=10, spacing=10, size_hint=(None, None), width=400)
-        self.layout.pos_hint = {'center_x': 0.5, 'center_y': 0.5}
+        # # Adjusted layout to horizontally center content and ensure proper vertical order
+        # self.layout = BoxLayout(orientation='vertical', padding=10, spacing=10, size_hint=(None, None), width=400)
+        # self.layout.pos_hint = {'center_x': 0.5, 'center_y': 0.5}
 
         # Updated left layout to center content and adjust spacing
         self.left_layout = BoxLayout(orientation='vertical', size_hint=(0.7, 1), padding=10, spacing=20)
@@ -25,12 +25,12 @@ class BankruptcyConfirmationScreen(Screen):
             size_hint=(1, None),
             text_size=(400, None),
             width=400,
-            height=600,
             halign="left",
             valign="middle"
         )
+        self.instructions_label.bind(size=self.instructions_label.setter('text_size'))
 
-        agree_button = Button(text="I Agree to File for Bankruptcy", size_hint=(1, None), height=50, pos_hint={'center_x': 0.5})
+        agree_button = Button(text="I Agree to File for Bankruptcy", size_hint=(0.5, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.05})
         agree_button.on_press = self.on_confirm
 
         # Add widgets in the correct order
@@ -47,9 +47,8 @@ class BankruptcyConfirmationScreen(Screen):
         right_layout.add_widget(BoxLayout(size_hint_y=1))  # Spacer
         right_layout.add_widget(cancel_button)
 
-        self.layout.add_widget(self.left_layout)
-        self.layout.add_widget(right_layout)
-        self.add_widget(self.layout)
+        self.add_widget(self.left_layout)
+        self.add_widget(right_layout)
 
     def on_confirm(self):
         self.on_finalize_bankruptcy(self.account)

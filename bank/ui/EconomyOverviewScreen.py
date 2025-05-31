@@ -112,6 +112,9 @@ class EconomyOverviewScreen(Screen):
 
         # Update sign-on bonus
         self.sign_on_bonus_label.text = f"Current Sign-on Bonus: {self.get_sign_on_bonus()} Beans"
+
+        # Update withdrawl amount
+        self.withdrawl_amount_label.text = f"Current Withdrawl Amount: {self.get_withdrawl_amount()} Beans"
     
     def on_enter(self):
         # Schedule periodic updates for the rates

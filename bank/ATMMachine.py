@@ -117,7 +117,7 @@ class ATMMachine(object):
             print("Invalid amount to dispense:", amount)
             return
         lumps = math.ceil(amount / 20)
-        self.dispenser.dispense(1)
+        self.dispenser.dispense(lumps)
         print(f"Dispensing {amount} beans in {lumps} lumps...")
 
     def render_lights(self):

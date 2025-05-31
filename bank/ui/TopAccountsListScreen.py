@@ -15,24 +15,33 @@ class TopAccountsListScreen(Screen):
         title_label = Label(text=title_text, font_size="20sp", size_hint=(1, None), height=50)
         layout.add_widget(title_label)
 
-        # Scrollable list of accounts
+        # Adjust layout for centering and spacing
         scroll_view = ScrollView()
-        account_list = BoxLayout(orientation='vertical', size_hint_y=None, spacing=10)
+        account_list = BoxLayout(orientation='vertical', size_hint_y=None, spacing=5, padding=[20, 20, 20, 20])
         account_list.bind(minimum_height=account_list.setter('height'))
 
         for account in accounts[:20]:  # Top 20 accounts
-            account_item = BoxLayout(orientation='horizontal', size_hint_y=None, height=50, spacing=10)
-            account_image = Image(source=account.name_file_path, size_hint=(None, None), size=(200, 50))
-            account_balance = Label(text=f"${account.balance:.2f}", size_hint=(0.4, 1), font_size="16sp")
+            account_item = BoxLayout(orientation='horizontal', size_hint_y=None, height=50, spacing=10, padding=[10, 0, 10, 0])
+            account_image = Image(source=account['image'], size_hint=(None, None), size=(50, 50))
+            account_name = Label(text=account['name'], size_hint=(0.6, 1), font_size="16sp", halign='left', valign='middle')
+            account_name.text_size = account_name.size
+            account_balance = Label(text=f"${account['balance']:.2f}", size_hint=(0.4, 1), font_size="16sp", halign='right', valign='middle')
+            account_balance.text_size = account_balance.size
             account_item.add_widget(account_image)
+            account_item.add_widget(account_name)
             account_item.add_widget(account_balance)
             account_list.add_widget(account_item)
 
         scroll_view.add_widget(account_list)
         layout.add_widget(scroll_view)
 
-        # Back button
-        back_btn = Button(text="Back", size_hint=(None, None), size=(100, 50), pos_hint={'x': 0, 'y': 0})
+        # Move back button to bottom right
+        back_btn = Button(
+            text="Back",
+            size_hint=(None, None),
+            size=(150, 50),
+            pos_hint={'right': 1, 'bottom': 1}
+        )
         back_btn.bind(on_press=self.go_back)
         layout.add_widget(back_btn)
 

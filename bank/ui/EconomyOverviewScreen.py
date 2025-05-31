@@ -17,45 +17,57 @@ class EconomyOverviewScreen(Screen):
         # Display exchange rate
         self.exchange_rate_label = Label(
             text=f"Current BeanBucks to Bean Exchange Rate: {self.get_exchange_rate()} BeanBucks = 1 Bean",
-            font_size="16sp",
+            font_size="20sp",
             size_hint=(1, None),
             height=50
         )
+        self.exchange_rate_label.halign = 'left'
+        self.exchange_rate_label.valign = 'middle'
+        self.exchange_rate_label.text_size = self.exchange_rate_label.size
         layout.add_widget(self.exchange_rate_label)
 
         # Display interest rate
         self.interest_rate_label = Label(
             text=f"Current Interest Rate: {self.get_interest_rate() * 100:.2f}%\n(This rate is applied compounding every 10 minutes)",
-            font_size="16sp",
+            font_size="20sp",
             size_hint=(1, None),
             height=70
         )
+        self.interest_rate_label.halign = 'left'
+        self.interest_rate_label.valign = 'middle'
+        self.interest_rate_label.text_size = self.interest_rate_label.size
         layout.add_widget(self.interest_rate_label)
 
         # Display debt interest rate
         self.debt_interest_rate_label = Label(
             text=f"Current Debt Interest Rate: {self.get_debt_interest_rate() * 100:.2f}%\n(This rate is applied to negative balances compounding every 10 minutes)",
-            font_size="16sp",
+            font_size="20sp",
             size_hint=(1, None),
             height=70
         )
+        self.debt_interest_rate_label.halign = 'left'
+        self.debt_interest_rate_label.valign = 'middle'
+        self.debt_interest_rate_label.text_size = self.debt_interest_rate_label.size
         layout.add_widget(self.debt_interest_rate_label)
 
         # Display current sign-on bonus
         self.sign_on_bonus_label = Label(
             text=f"Current Sign-on Bonus: {self.get_sign_on_bonus()} Beans",
-            font_size="16sp",
+            font_size="20sp",
             size_hint=(1, None),
             height=50
         )
+        self.sign_on_bonus_label.halign = 'left'
+        self.sign_on_bonus_label.valign = 'middle'
+        self.sign_on_bonus_label.text_size = self.sign_on_bonus_label.size
         layout.add_widget(self.sign_on_bonus_label)
 
         # Back button
         back_btn = Button(
             text="Back",
             size_hint=(None, None),
-            size=(100, 50),
-            pos_hint={'x': 0, 'y': 0}
+            size=(150, 50),
+            pos_hint={'right': 1, 'bottom': 1}
         )
         back_btn.bind(on_press=self.go_back)
         layout.add_widget(back_btn)

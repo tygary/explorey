@@ -14,7 +14,7 @@ class BankruptcyConfirmationScreen(Screen):
         self.layout.pos_hint = {'center_x': 0.5, 'center_y': 0.5}
 
         # Updated left layout to center content and adjust spacing
-        self.left_layout = BoxLayout(orientation='vertical', size_hint=(1, None), padding=10, spacing=20)
+        self.left_layout = BoxLayout(orientation='vertical', size_hint=(0.7, 1), padding=10, spacing=20)
 
         # Adjusted widgets to ensure proper vertical order
         self.account_image = Image(size_hint=(1, None), height=200, allow_stretch=True, keep_ratio=True)
@@ -24,6 +24,8 @@ class BankruptcyConfirmationScreen(Screen):
             font_size="16sp",
             size_hint=(1, None),
             text_size=(400, None),
+            width=400,
+            height=600,
             halign="left",
             valign="middle"
         )
@@ -38,7 +40,15 @@ class BankruptcyConfirmationScreen(Screen):
         self.left_layout.add_widget(Widget(size_hint_y=0.2))
         self.left_layout.add_widget(agree_button)
 
+         # Right side layout
+        right_layout = BoxLayout(orientation='vertical', size_hint=(0.3, 1), padding=10, spacing=10)
+        cancel_button = Button(text="Cancel", size_hint=(1, None), height=50)
+        cancel_button.on_press = self.cancel
+        right_layout.add_widget(BoxLayout(size_hint_y=1))  # Spacer
+        right_layout.add_widget(cancel_button)
+
         self.layout.add_widget(self.left_layout)
+        self.layout.add_widget(right_layout)
         self.add_widget(self.layout)
 
     def on_confirm(self):
@@ -49,5 +59,5 @@ class BankruptcyConfirmationScreen(Screen):
         self.account_image.source = account.name_file_path
         self.beans_owed_label.text = f"Beans Owed: {-1 * account.balance}"
 
-    def cancel(self, instance):
+    def cancel(self):
         self.manager.current = 'dashboard'

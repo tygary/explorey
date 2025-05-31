@@ -125,6 +125,14 @@ class UiApp(App):
             form_type='withdraw'
         )
         self.bankruptcyConfirm = BankruptcyConfirmationScreen(name='bankruptcy_confirm', on_finalize_bankruptcy=self.on_bankruptcy_confirmed)
+        self.checkBalance = ScanningScreen(
+            name='check_balance',
+            scanning_message='Scan your account receipt now...',
+            start_scan=self.start_scan,
+            cancel_scan=lambda _: self.change_screen('dashboard'),
+            on_finish_scan=self.on_check_balance,
+            form_type='withdraw'
+        )
 
         self.manager.add_widget(self.dashboard)
         self.manager.add_widget(self.deposit)
@@ -301,4 +309,13 @@ class UiApp(App):
         
         self.change_screen('dashboard')
         show_toast(self.dashboard, f"Account {account.account_number} has filed for bankruptcy and now has 1 bean.")
+
+    def on_check_balance(self, form_info: FormInfo):
+        account = self.atm.get_account(form_info.from_account_number)
+        if not account:
+            self.change_screen('dashboard')
+            show_toast(self.dashboard, "Failed to find account for balance check.")
+            return
+        show_toast(self.dashboard, f"Account {account.account_number} {'is a teller and ' if account.is_teller else ''}has a balance of {account.balance} beans.")
+        self.change_screen('dashboard')
         

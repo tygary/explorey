@@ -2,6 +2,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.uix.screenmanager import Screen
+from kivy.uix.widget import Widget
 from kivy.clock import Clock
 
 class EconomyOverviewScreen(Screen):
@@ -12,7 +13,12 @@ class EconomyOverviewScreen(Screen):
         self.get_debt_interest_rate = get_debt_interest_rate
         self.get_sign_on_bonus = get_sign_on_bonus
 
+        width = 600
+
         layout = BoxLayout(orientation='vertical', padding=10, spacing=10)
+        
+        # Spacer to push content down
+        layout.add_widget(Widget(size_hint_y=1))
 
         # Display exchange rate
         self.exchange_rate_label = Label(
@@ -20,7 +26,7 @@ class EconomyOverviewScreen(Screen):
             font_size="20sp",
             size_hint=(1, None),
             height=50,
-            width=400  # Set a fixed width for better alignment
+            width=width
         )
         self.exchange_rate_label.halign = 'left'
         self.exchange_rate_label.valign = 'top'
@@ -33,7 +39,7 @@ class EconomyOverviewScreen(Screen):
             font_size="20sp",
             size_hint=(1, None),
             height=70,
-            width=400  # Set a fixed width for better alignment
+            width=width
         )
         self.interest_rate_label.halign = 'left'
         self.interest_rate_label.valign = 'top'
@@ -46,7 +52,7 @@ class EconomyOverviewScreen(Screen):
             font_size="20sp",
             size_hint=(1, None),
             height=70,
-            width=400  # Set a fixed width for better alignment
+            width=width
         )
         self.debt_interest_rate_label.halign = 'left'
         self.debt_interest_rate_label.valign = 'top'
@@ -59,13 +65,14 @@ class EconomyOverviewScreen(Screen):
             font_size="20sp",
             size_hint=(1, None),
             height=50,
-            width=400  # Set a fixed width for better alignment
+            width=width
         )
         self.sign_on_bonus_label.halign = 'left'
         self.sign_on_bonus_label.valign = 'top'
         self.sign_on_bonus_label.text_size = self.sign_on_bonus_label.size
         layout.add_widget(self.sign_on_bonus_label)
-
+        # Spacer to push content up
+        layout.add_widget(Widget(size_hint_y=1))
         # Back button
         back_btn = Button(
             text="Back",

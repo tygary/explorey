@@ -98,12 +98,12 @@ class UiApp(App):
             form_type='withdraw'
         )
         self.leaderboard = TopAccountsListScreen(
-            accounts=self.atm.get_top_accounts(),
+            get_accounts=self.atm.get_top_accounts,
             is_leaderboard=True,
             name='leaderboard'
         )
         self.bankruptcyRoll = TopAccountsListScreen(
-            accounts=self.atm.get_bankruptcy_roll(),
+            get_accounts=self.atm.get_bankruptcy_roll,
             is_leaderboard=False,
             name='bankruptcy_roll'
         )

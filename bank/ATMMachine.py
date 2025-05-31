@@ -1,5 +1,4 @@
 import json
-import random
 import time
 import math
 import RPi.GPIO as GPIO
@@ -121,13 +120,16 @@ class ATMMachine(object):
         print(f"Dispensing {amount} beans in {lumps} lumps...")
 
     def render_lights(self):
-        percentage = (1000 - self.lever_magnitudes[1]) / 2000
-        print("Rendering lights", self.mode, self.lever_magnitudes, percentage)
-        self.light_routines[1].tick()
-        for routine in self.light_routines[0].routines:
-            routine.update_percentage(percentage)
-            routine.tick()
-        self.pixels.render()
+        try:
+            percentage = (1000 - self.lever_magnitudes[1]) / 2000
+            print("Rendering lights", self.mode, self.lever_magnitudes, percentage)
+            self.light_routines[1].tick()
+            for routine in self.light_routines[0].routines:
+                routine.update_percentage(percentage)
+                routine.tick()
+            self.pixels.render()
+        except Exception as e:
+            print("ATM Machine Failed rendering lights", e)
 
     def _update_light_routines(self):
         self.light_routines = [
@@ -178,6 +180,7 @@ class ATMMachine(object):
         max_exchange_rate = 5
         min_exchange_rate = 1
         self.exchange_rate = round(min_exchange_rate + (max_exchange_rate - min_exchange_rate) * (1 - magnitude_normalized), 2)
+        self.atm.set_exchange_rate(self.exchange_rate)
         print("Setting exchange rate to", self.exchange_rate)
 
         max_debt_interest_rate = 0.10
@@ -209,14 +212,17 @@ class ATMMachine(object):
         self.ui.start(self.update)
 
     def update(self):
-        if time.time() >= self.next_interest_time:
-            self.next_interest_time = time.time() + TIME_BETWEEN_INTEREST_S
-            print("Applying interest rate", self.interest_rate)
-            self.atm.apply_interest(self.interest_rate, self.debt_interest_rate)
-        self.scanner.update()
-        self.bean_chute_trigger.tick()
-        self.dispenser.update()
-        # for routine in self.light_routines:
-        #     routine.tick() 
-        # self.pixels.render()
+        try:
+            if time.time() >= self.next_interest_time:
+                self.next_interest_time = time.time() + TIME_BETWEEN_INTEREST_S
+                print("Applying interest rate", self.interest_rate)
+                self.atm.apply_interest(self.interest_rate, self.debt_interest_rate)
+        except Exception as e:
+            print("Error applying interest rate", e)
+        try:
+            self.scanner.update()
+            self.bean_chute_trigger.tick()
+            self.dispenser.update()
+        except Exception as e:
+            print("Error updating scanner or bean chute trigger", e)
         self.mqtt.publish_batch()

@@ -525,36 +525,39 @@ class FormScanner(object):
         cv2.destroyAllWindows()
 
     def update(self):
-        if self.is_scanning:
-            # Capture frame-by-frame
-            ret, frame = self.camera.read()
-            if not ret:
-                print("Failed to grab frame")
-                return
-            
-            # Save the frame temporarily
-            temp_image = f"{ROOT_SAVE_PATH}temp_image.jpg"
-            cv2.imwrite(temp_image, frame)
-            
-            # Try to parse the account number
-            new_form_data = parse_form_image(temp_image, self.form_type)
-            if new_form_data and (self.form_type == None or new_form_data.type == self.form_type or (self.form_type == "withdraw" and new_form_data.type == FORM_TELLER)):
-                if self.form_data is not None and self.form_data.to_account_number == new_form_data.to_account_number and self.form_data.from_account_number == new_form_data.from_account_number:
-                    self.form_match_count += 1
-                    print(f"Detected account number: {new_form_data.to_account_number}")
-                    if self.form_match_count >= NUM_FORM_MATCHES:
-                        print(f"Accepting form")
-                        if self.callback:
-                            self.callback(new_form_data)
-                        self.stop_scanning()
-                        return
-                else:
-                    self.form_data = new_form_data
-                    self.form_match_count = 0
-                    print(f"Detected Form: {new_form_data.type} with account number: {new_form_data.to_account_number}")
-            
-            # Display the frame
-            # cv2.imshow('ATM Camera', frame)
+        try:
+            if self.is_scanning:
+                # Capture frame-by-frame
+                ret, frame = self.camera.read()
+                if not ret:
+                    print("Failed to grab frame")
+                    return
+                
+                # Save the frame temporarily
+                temp_image = f"{ROOT_SAVE_PATH}temp_image.jpg"
+                cv2.imwrite(temp_image, frame)
+                
+                # Try to parse the account number
+                new_form_data = parse_form_image(temp_image, self.form_type)
+                if new_form_data and (self.form_type == None or new_form_data.type == self.form_type or (self.form_type == "withdraw" and new_form_data.type == FORM_TELLER)):
+                    if self.form_data is not None and self.form_data.to_account_number == new_form_data.to_account_number and self.form_data.from_account_number == new_form_data.from_account_number:
+                        self.form_match_count += 1
+                        print(f"Detected account number: {new_form_data.to_account_number}")
+                        if self.form_match_count >= NUM_FORM_MATCHES:
+                            print(f"Accepting form")
+                            if self.callback:
+                                self.callback(new_form_data)
+                            self.stop_scanning()
+                            return
+                    else:
+                        self.form_data = new_form_data
+                        self.form_match_count = 0
+                        print(f"Detected Form: {new_form_data.type} with account number: {new_form_data.to_account_number}")
+                
+                # Display the frame
+                # cv2.imshow('ATM Camera', frame)
+        except Exception as e:
+            print(f"Error during scanning: {e}")
 
 def start():
     scanner = FormScanner()

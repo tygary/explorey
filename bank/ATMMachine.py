@@ -1,6 +1,7 @@
 import json
 import random
 import time
+import math
 import RPi.GPIO as GPIO
 
 from lighting.PixelControl import OverlayedPixelControl
@@ -115,7 +116,7 @@ class ATMMachine(object):
         if amount <= 0:
             print("Invalid amount to dispense:", amount)
             return
-        lumps = amount // 20
+        lumps = math.ceil(amount / 20)
         self.dispenser.dispense(1)
         print(f"Dispensing {amount} beans in {lumps} lumps...")
 
@@ -166,7 +167,7 @@ class ATMMachine(object):
         self.atm.set_starting_balance(int(100 + (magnitude_normalized * 200)))  # Between 20 and 100
         print("Setting starting balance to", self.atm.starting_balance)
 
-        self.atm.set_withdrawl_amount(int(20 + (magnitude_normalized * 80)))  # Between 20 and 200
+        self.atm.set_withdrawl_amount(int(20 + (magnitude_normalized * 80)))  # Between 20 and 100
         print("Setting withdrawl amount to", self.atm.withdrawl_amount)
 
         max_interest_rate = 0.05

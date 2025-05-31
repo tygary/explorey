@@ -37,6 +37,7 @@ class UiApp(App):
         self.get_exchange_rate = get_exchange_rate
         self.atm = atm
         self.get_sign_on_bonus = atm.get_sign_on_bonus
+        self.get_withdrawl_amount = atm.get_withdrawl_amount
         self.printer = printer
         
         # Set window to maximized to cover entire screen
@@ -112,7 +113,7 @@ class UiApp(App):
             get_interest_rate=self.get_interest_rate,
             get_debt_interest_rate=self.get_debt_interest_rate,
             get_sign_on_bonus=self.get_sign_on_bonus,
-            get_withdrawl_amount=self.atm.get_withdrawl_amount,
+            get_withdrawl_amount=self.get_withdrawl_amount,
             name='economy_overview'
         )
         self.bankruptcyScanning = ScanningScreen(

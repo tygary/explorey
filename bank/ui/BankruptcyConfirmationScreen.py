@@ -49,7 +49,7 @@ class BankruptcyConfirmationScreen(Screen):
         right_layout.add_widget(cancel_button)
         
 
-    def on_confirm(self):
+    def on_confirm(self, instance=None):
         self.on_finalize_bankruptcy(self.account)
 
     def set_account(self, account):
@@ -57,5 +57,5 @@ class BankruptcyConfirmationScreen(Screen):
         self.account_image.source = account.name_file_path
         self.beans_owed_label.text = f"Beans Owed: {-1 * account.balance}"
 
-    def cancel(self):
+    def cancel(self, instance=None):
         self.manager.current = 'dashboard'

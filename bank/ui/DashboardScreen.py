@@ -82,7 +82,7 @@ class DashboardScreen(Screen):
             text="Economy Overview",
             size_hint=(0.25, None),
             height=50,
-            pos_hint={'center_x': 0.5, 'y': 0},
+            pos_hint={'center_x': 0.5, 'y': 0.2},
             font_size="16sp",
         )
         economy_overview_btn.bind(on_press=self.go_to_economy_overview)
@@ -91,7 +91,7 @@ class DashboardScreen(Screen):
             text="Leaderboard",
             size_hint=(0.25, None),
             height=50,
-            pos_hint={'center_x': 0.2, 'y': 0},
+            pos_hint={'center_x': 0.2, 'y': 0.2},
             font_size="16sp",
         )
         leaderboard_btn.bind(on_press=self.go_to_leaderboard)
@@ -100,7 +100,7 @@ class DashboardScreen(Screen):
             text="Bankruptcy Roll",
             size_hint=(0.25, None),
             height=50,
-            pos_hint={'center_x': 0.75, 'y': 0},
+            pos_hint={'center_x': 0.8, 'y': 0.2},
             font_size="16sp",
         )
         bankruptcy_roll_btn.bind(on_press=self.go_to_bankruptcy_roll)

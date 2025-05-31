@@ -13,7 +13,7 @@ class EconomyOverviewScreen(Screen):
         self.get_debt_interest_rate = get_debt_interest_rate
         self.get_sign_on_bonus = get_sign_on_bonus
 
-        width = 600
+        width = 700
 
         layout = BoxLayout(orientation='vertical', padding=10, spacing=10)
         
@@ -23,7 +23,7 @@ class EconomyOverviewScreen(Screen):
         # Display exchange rate
         self.exchange_rate_label = Label(
             text=f"Current BeanBucks to Bean Exchange Rate: {self.get_exchange_rate()} BeanBucks = 1 Bean",
-            font_size="20sp",
+            font_size="22sp",
             size_hint=(1, None),
             height=50,
             width=width
@@ -35,8 +35,8 @@ class EconomyOverviewScreen(Screen):
 
         # Display interest rate
         self.interest_rate_label = Label(
-            text=f"Current Interest Rate: {self.get_interest_rate() * 100:.2f}%\n(This rate is applied compounding every 10 minutes)",
-            font_size="20sp",
+            text=f"Current Interest Rate: {self.get_interest_rate() * 100:.2f}%\n(Applied to positive balances compounding every 10 minutes)",
+            font_size="22sp",
             size_hint=(1, None),
             height=70,
             width=width
@@ -48,8 +48,8 @@ class EconomyOverviewScreen(Screen):
 
         # Display debt interest rate
         self.debt_interest_rate_label = Label(
-            text=f"Current Debt Interest Rate: {self.get_debt_interest_rate() * 100:.2f}%\n(This rate is applied to negative balances compounding every 10 minutes)",
-            font_size="20sp",
+            text=f"Current Debt Interest Rate: {self.get_debt_interest_rate() * 100:.2f}%\n(Applied to negative balances compounding every 10 minutes)",
+            font_size="22sp",
             size_hint=(1, None),
             height=70,
             width=width
@@ -62,7 +62,7 @@ class EconomyOverviewScreen(Screen):
         # Display current sign-on bonus
         self.sign_on_bonus_label = Label(
             text=f"Current Sign-on Bonus: {self.get_sign_on_bonus()} Beans",
-            font_size="20sp",
+            font_size="22sp",
             size_hint=(1, None),
             height=50,
             width=width
@@ -90,10 +90,10 @@ class EconomyOverviewScreen(Screen):
         self.exchange_rate_label.text = f"Current BeanBucks to Bean Exchange Rate: {self.get_exchange_rate()} BeanBucks = 1 Bean"
 
         # Update interest rate
-        self.interest_rate_label.text = f"Current Interest Rate: {self.get_interest_rate() * 100:.2f}%\n(This rate is applied compounding every 10 minutes)"
+        self.interest_rate_label.text = f"Current Interest Rate: {self.get_interest_rate() * 100:.2f}%\n(Applied to positive balances compounding every 10 minutes)"
 
         # Update debt interest rate
-        self.debt_interest_rate_label.text = f"Current Debt Interest Rate: {self.get_debt_interest_rate() * 100:.2f}%\n(This rate is applied to negative balances compounding every 10 minutes)"
+        self.debt_interest_rate_label.text = f"Current Debt Interest Rate: {self.get_debt_interest_rate() * 100:.2f}%\n(Applied to negative balances compounding every 10 minutes)"
 
         # Update sign-on bonus
         self.sign_on_bonus_label.text = f"Current Sign-on Bonus: {self.get_sign_on_bonus()} Beans"

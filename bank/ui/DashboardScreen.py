@@ -84,22 +84,22 @@ class DashboardScreen(Screen):
             text="Economy Overview",
             size_hint=(0.25, None),
             height=50,
-            pos_hint={'center_x': 0.5, 'y': 0.2},
+            pos_hint={'center_x': 0.2, 'y': 0.2},
             font_size="16sp",
         )
         economy_overview_btn.bind(on_press=self.go_to_economy_overview)
         
         leaderboard_btn = Button(
-            text="Leaderboard",
+            text="Highrollers",
             size_hint=(0.25, None),
             height=50,
-            pos_hint={'center_x': 0.2, 'y': 0.2},
+            pos_hint={'center_x': 0.5, 'y': 0.2},
             font_size="16sp",
         )
         leaderboard_btn.bind(on_press=self.go_to_leaderboard)
 
         bankruptcy_roll_btn = Button(
-            text="Bankruptcy Roll",
+            text="Wanted Debtors",
             size_hint=(0.25, None),
             height=50,
             pos_hint={'center_x': 0.8, 'y': 0.2},

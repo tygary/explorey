@@ -15,7 +15,7 @@ class TopAccountsListScreen(Screen):
         self.layout = BoxLayout(orientation='vertical', padding=100, spacing=10)
 
         # Title based on the flag
-        title_text = "Leaderboard" if is_leaderboard else "Bankruptcy Roll"
+        title_text = "Highrollers" if is_leaderboard else "Wanted Debtors"
         title_label = Label(text=title_text, font_size="20sp", size_hint=(1, None), height=50)
         self.layout.add_widget(title_label)
 

@@ -25,7 +25,7 @@ class BankruptcyConfirmationScreen(Screen):
             text="It has come to our attention that you have decided to file for bankruptcy.   While it is unfortunate you have been unable to repay your debts, ACME Bank is very understanding that sometimes people are very bad with money and this does not make them bad people.\n\nIn order to qualify for bankruptcy, you must have completed the bankruptcy form.\n\nDo you swear that you have done one or more of the following:\n\n  * Attempted to work off your debt as a teller\n  * Announced loudly to everyone in the bank that you are bad with beans and apologize\n  * Visited the spank bank and received your corporate punishment by a teller\n\nIf so, then you may file for bankruptcy.  \n\nBy filing for bankruptcy, do you agree to the following:\n\n  * Your debt will be wiped away and replaced by a single bean in your account\n  * You vow to be better with money and not go into debt\n  * You understand that by going into debt a second time that ACME Bank reserves the right to foreclose on any belongings, property, clothes, nicknames, beers in your cooler, or artistic credits you may own.\n\nPress the button below to continue.",
             font_size="18sp",
             size_hint=(1, 0.4),
-            pos_hint={'center_x': 0.5, 'center_y': 0.4},
+            pos_hint={'center_x': 0.5, 'center_y': 0.5},
             text_size=(400, None),
             width=400,
             halign="left",

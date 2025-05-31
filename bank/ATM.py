@@ -35,6 +35,7 @@ class ATM(object):
         self.db = db.getDb("bank/ATM.json")
         self.starting_balance = DEFAULT_NEW_ACCOUNT_BALANCE
         self.withdrawl_amount = DEFAULT_WITHDRAWL_AMOUNT
+        self.exchange_rate = 1.0  # Default exchange rate of 1 bean buck to 1 bean
         self.current_teller_account_number = None  # Store the currently signed-in teller
 
     def set_current_teller(self, account_number):

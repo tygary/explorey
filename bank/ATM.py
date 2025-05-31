@@ -155,8 +155,8 @@ class ATM(object):
         for account_json in accounts:
             account = Account.from_json(account_json)
             if account.balance >= 0:
-                account.balance += account.balance * (interest_rate)
+                account.balance += int(account.balance * (interest_rate))
             else:
-                account.balance += account.balance * (debt_interest_rate)
+                account.balance += int(account.balance * (debt_interest_rate))
             self.update_account(account)
             print(f"Applied interest to account {account.account_number}. New balance: {account.balance}")

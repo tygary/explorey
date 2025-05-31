@@ -83,7 +83,7 @@ class UiApp(App):
         )
         self.tellerSignupScanning = ScanningScreen(
             name='teller_signup_scanning',
-            scanning_message='Scan your account details receipt now to become a teller...',
+            scanning_message='Scan your account details receipt now...',
             start_scan=self.start_scan,  # Use existing scanning logic
             cancel_scan=lambda _: self.change_screen('dashboard'),
             on_finish_scan=self.on_finish_teller_signup,
@@ -91,7 +91,7 @@ class UiApp(App):
         )
         self.tellerSigninScanning = ScanningScreen(
             name='teller_signin_scanning',
-            scanning_message='Scan your Account Details receipt to sign in...',
+            scanning_message='Scan your account details receipt to sign in...',
             start_scan=self.start_scan,
             cancel_scan=lambda _: self.change_screen('dashboard'),
             on_finish_scan=self.on_finish_teller_signin,
@@ -116,7 +116,7 @@ class UiApp(App):
         )
         self.bankruptcyScanning = ScanningScreen(
             name='bankruptcy_scanning',
-            scanning_message='Scan your Account Details receipt now...',
+            scanning_message='Scan your account details receipt now...',
             start_scan=self.start_scan,
             cancel_scan=lambda _: self.change_screen('dashboard'),
             on_finish_scan=self.on_finish_scanning_bankruptcy,
@@ -249,9 +249,14 @@ class UiApp(App):
         self.change_screen('teller_signup_scanning')
 
     def on_finish_teller_signup(self, form_info):
-        if self.atm.get_account(form_info.from_account_number) is None:
+        account = self.atm.get_account(form_info.from_account_number)
+        if not account:
             self.change_screen('dashboard')
             show_toast(self.dashboard, "Failed to sign up as a teller. Account not found.")
+            return
+        if account.is_teller:
+            self.change_screen('dashboard')
+            show_toast(self.dashboard, "You are already a teller. Sign in instead.")
             return
         self.atm.make_teller(form_info.from_account_number)
         self.atm.set_current_teller(form_info.from_account_number)

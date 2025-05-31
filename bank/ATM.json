@@ -24,7 +24,7 @@
       {
          "account_number": 33332,
          "name_file_path": "/home/admin/explorey/images/atm/33332.jpg",
-         "balance": 100,
+         "balance": 80,
          "is_teller": false,
          "id": 297505170774927056
       },

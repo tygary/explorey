@@ -197,21 +197,21 @@ class UiApp(App):
     
     def on_complete_deposit(self, form_info: FormInfo, amount):
         # Handle the completion of the deposit process
-        account = self.atm.deposit(form_info.to_account_number, amount)
+        account, amount, beanbucks, exchange_rate = self.atm.deposit(form_info.to_account_number, amount)
         self.change_screen('dashboard')
         if not account:
             show_toast(self.dashboard, "Failed to deposit into account.  Account not found")
             return
-        show_toast(self.dashboard, f"Deposited {amount} beans into account: {form_info.to_account_number}. Balance: {account.balance}")
+        show_toast(self.dashboard, f"Deposited {amount} beans with exchange rate {exchange_rate} for {beanbucks} BeanBucks into account: {form_info.to_account_number}. New Balance: {account.balance}")
 
     def on_finish_scanning_withdrawl(self, form_info: FormInfo):
-        account, amount = self.atm.withdraw(form_info.from_account_number)
+        account, amount, beanbucks, exchange_rate = self.atm.withdraw(form_info.from_account_number)
         self.change_screen('dashboard')
         if not account:
             show_toast(self.dashboard, "Failed to withdraw from account.  Account not found")
             return
         self.dispense_beans(amount)
-        show_toast(self.dashboard, f"Withdrew {amount} beans from account: {form_info.from_account_number}.  Balance: {account.balance}")
+        show_toast(self.dashboard, f"Withdrew {beanbucks} BeanBucks with exchange rate {exchange_rate} from account: {form_info.from_account_number}.  Dispensing {amount} Beans.  New Balance: {account.balance}")
 
     def on_finish_scanning_transfer(self, form_info: FormInfo):
         def on_amount_confirmation(amount):

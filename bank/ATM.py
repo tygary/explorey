@@ -124,10 +124,10 @@ class ATM(object):
             self.update_account(account)
             print(f"Deposited {amount} converted to {converted_amount} to account {account_number}. New balance: {account.balance}")
             self.pay_teller_based_on_amount(converted_amount)
-            return self.get_account(account_number)
+            return (self.get_account(account_number), amount, converted_amount, self.exchange_rate)
         else:
             print(f"Account {account_number} not found.")
-            return None
+            return (None, 0, 0, self.exchange_rate)
 
 
     def withdraw(self, account_number):
@@ -139,10 +139,10 @@ class ATM(object):
             self.update_account(account)
             print(f"Withdrew {amount} converted to {converted_amount} from account {account_number}. New balance: {account.balance}")
             self.pay_teller_based_on_amount(converted_amount // 2)
-            return (self.get_account(account_number), amount)
+            return (self.get_account(account_number), amount, converted_amount, self.exchange_rate)
         else:
             print(f"Account {account_number} not found.")
-            return (None, 0)
+            return (None, 0, 0, self.exchange_rate)
         
     def transfer(self, from_account_number, to_account_number, amount):
         from_account = self.get_account(from_account_number)

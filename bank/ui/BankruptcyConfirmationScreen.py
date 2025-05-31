@@ -19,13 +19,13 @@ class BankruptcyConfirmationScreen(Screen):
         self.add_widget(self.left_layout)
 
         # Adjusted widgets to ensure proper vertical order
-        self.account_image = Image(size_hint=(1, 0.1), width=400, allow_stretch=True, keep_ratio=True, pos_hint={'center_x': 0.5, 'y': 0.1})
-        self.beans_owed_label = Label(font_size="18sp", size_hint=(1, 0.05), pos_hint={'center_x': 0.5, 'y': 0.3}, halign='center', valign='middle')
+        self.account_image = Image(size_hint=(1, 0.1), width=400, allow_stretch=True, keep_ratio=True, pos_hint={'center_x': 0.5, 'y': 0.9})
+        self.beans_owed_label = Label(font_size="18sp", size_hint=(1, 0.05), pos_hint={'center_x': 0.5, 'y': 0.7}, halign='center', valign='middle')
         self.instructions_label = Label(
             text="It has come to our attention that you have decided to file for bankruptcy.   While it is unfortunate you have been unable to repay your debts, ACME Bank is very understanding that sometimes people are very bad with money and this does not make them bad people.\n\nIn order to qualify for bankruptcy, you must have completed the bankruptcy form.\n\nDo you swear that you have done one or more of the following:\n\n  * Attempted to work off your debt as a teller\n  * Announced loudly to everyone in the bank that you are bad with beans and apologize\n  * Visited the spank bank and received your corporate punishment by a teller\n\nIf so, then you may file for bankruptcy.  \n\nBy filing for bankruptcy, do you agree to the following:\n\n  * Your debt will be wiped away and replaced by a single bean in your account\n  * You vow to be better with money and not go into debt\n  * You understand that by going into debt a second time that ACME Bank reserves the right to foreclose on any belongings, property, clothes, nicknames, beers in your cooler, or artistic credits you may own.\n\nPress the button below to continue.",
             font_size="16sp",
             size_hint=(1, 0.4),
-            pos_hint={'center_x': 0.5, 'y': 0.4},
+            pos_hint={'center_x': 0.5, 'y': 0.6},
             text_size=(400, None),
             width=400,
             halign="left",
@@ -33,7 +33,7 @@ class BankruptcyConfirmationScreen(Screen):
         )
         self.instructions_label.bind(size=self.instructions_label.setter('text_size'))
 
-        agree_button = Button(text="I Agree to File for Bankruptcy", size_hint=(0.5, 0.1), pos_hint={'center_x': 0.5, 'center_y': 0.05})
+        agree_button = Button(text="I Agree to File for Bankruptcy", size_hint=(0.5, 0.1), pos_hint={'center_x': 0.5, 'y': 0.05})
         agree_button.on_press = self.on_confirm
 
         # Add widgets in the correct order

@@ -15,7 +15,7 @@ class BankruptcyConfirmationScreen(Screen):
         # self.layout.pos_hint = {'center_x': 0.5, 'center_y': 0.5}
 
         # Updated left layout to center content and adjust spacing
-        self.left_layout = RelativeLayout(orientation='vertical', size_hint=(0.7, 1), pos_hint={'x': 0.1, 'y': 0})
+        self.left_layout = RelativeLayout(size_hint=(0.7, 1), pos_hint={'x': 0.1, 'y': 0})
         self.add_widget(self.left_layout)
 
         # Adjusted widgets to ensure proper vertical order

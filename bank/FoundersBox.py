@@ -53,7 +53,7 @@ class FoundersBox(object):
             # print(f"Got lever {id} change to {value}")
             modified_value = value * 100 * -1
             modified_prev_value = raw_lever_value * 100 * -1
-            if abs(modified_value - modified_prev_value) > 2:
+            if abs(modified_value - modified_prev_value) > 3:
                 rounded_value = round(modified_value)
                 self.raw_lever_values[lever_id] = value
                 self.magnitudes[lever_id] = rounded_value * 10

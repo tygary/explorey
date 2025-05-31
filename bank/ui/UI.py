@@ -150,6 +150,7 @@ class UiApp(App):
         self.manager.add_widget(self.economyOverview)
         self.manager.add_widget(self.bankruptcyScanning)
         self.manager.add_widget(self.bankruptcyConfirm)
+        self.manager.add_widget(self.checkBalance)
         
         # Add the screen manager to the content layout
         content_layout.add_widget(self.manager)

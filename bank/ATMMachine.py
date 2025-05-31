@@ -163,25 +163,25 @@ class ATMMachine(object):
         magnitude = lever_magnitudes[1]
         magnitude_normalized = (magnitude + 1000) / 2000
 
-        self.atm.starting_balance = 100 + (magnitude_normalized * 200)  # Between 20 and 100
+        self.atm.starting_balance = int(100 + (magnitude_normalized * 200))  # Between 20 and 100
         print("Setting starting balance to", self.atm.starting_balance)
 
-        self.atm.withdrawl_amount = 20 + (magnitude_normalized * 80)  # Between 20 and 200
+        self.atm.withdrawl_amount = int(20 + (magnitude_normalized * 80))  # Between 20 and 200
         print("Setting withdrawl amount to", self.atm.withdrawl_amount)
 
         max_interest_rate = 0.05
         min_interest_rate = -0.02
-        self.interest_rate = min_interest_rate + (max_interest_rate - min_interest_rate) * magnitude_normalized
+        self.interest_rate = round(min_interest_rate + (max_interest_rate - min_interest_rate) * magnitude_normalized, 4)
         print("Setting interest rate to", self.interest_rate)
 
         max_exchange_rate = 5
         min_exchange_rate = 1
-        self.exchange_rate = min_exchange_rate + (max_exchange_rate - min_exchange_rate) * (1 - magnitude_normalized)
+        self.exchange_rate = round(min_exchange_rate + (max_exchange_rate - min_exchange_rate) * (1 - magnitude_normalized), 2)
         print("Setting exchange rate to", self.exchange_rate)
 
         max_debt_interest_rate = 0.10
         min_debt_interest_rate = 0.01
-        self.debt_interest_rate = min_debt_interest_rate + (max_debt_interest_rate - min_debt_interest_rate) * (1 - magnitude_normalized)
+        self.debt_interest_rate = round(min_debt_interest_rate + (max_debt_interest_rate - min_debt_interest_rate) * (1 - magnitude_normalized), 4)
         print("Setting debt interest rate to", self.debt_interest_rate)
 
 

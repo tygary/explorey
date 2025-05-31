@@ -85,10 +85,7 @@ class EconomyOverviewScreen(Screen):
 
         self.add_widget(layout)
 
-        # Schedule periodic updates for the rates
-        self.update_event = Clock.schedule_interval(self.update_rates, 5)
-
-    def update_rates(self, dt):
+    def update_rates(self, dt=None):
         # Update exchange rate
         self.exchange_rate_label.text = f"Current BeanBucks to Bean Exchange Rate: {self.get_exchange_rate()} BeanBucks = 1 Bean"
 
@@ -100,6 +97,11 @@ class EconomyOverviewScreen(Screen):
 
         # Update sign-on bonus
         self.sign_on_bonus_label.text = f"Current Sign-on Bonus: {self.get_sign_on_bonus()} Beans"
+    
+    def on_enter(self):
+        # Schedule periodic updates for the rates
+        self.update_event = Clock.schedule_interval(self.update_rates, 5)
+        self.update_rates()
 
     def on_leave(self):
         # Unschedule updates when leaving the screen

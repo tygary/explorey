@@ -11,9 +11,9 @@ CHANNEL_LEVER = 2
 CHANNEL_OPEN = 3
 
 songs = [
-    '/home/admin/explorey/sound/Scale-background.ogg',
-    '/home/admin/explorey/sound/Scale-hit-0.ogg',
-    '/home/admin/explorey/sound/Scale-ready.ogg',
+    '/home/admin/explorey/sound/VaultAmbient.ogg',
+    '/home/admin/explorey/sound/BoxLever.ogg',
+    '/home/admin/explorey/sound/BoxUnlock.ogg',
 ]
 
 

@@ -163,10 +163,10 @@ class ATMMachine(object):
         magnitude = lever_magnitudes[1]
         magnitude_normalized = (magnitude + 1000) / 2000
 
-        self.atm.starting_balance = int(100 + (magnitude_normalized * 200))  # Between 20 and 100
+        self.atm.set_starting_balance(int(100 + (magnitude_normalized * 200)))  # Between 20 and 100
         print("Setting starting balance to", self.atm.starting_balance)
 
-        self.atm.withdrawl_amount = int(20 + (magnitude_normalized * 80))  # Between 20 and 200
+        self.atm.set_withdrawl_amount(int(20 + (magnitude_normalized * 80)))  # Between 20 and 200
         print("Setting withdrawl amount to", self.atm.withdrawl_amount)
 
         max_interest_rate = 0.05

@@ -40,6 +40,12 @@ class ATM(object):
     def set_current_teller(self, account_number):
         self.current_teller_account_number = account_number
 
+    def set_withdrawl_amount(self, amount):
+        self.withdrawl_amount = amount
+
+    def set_starting_balance(self, amount):
+        self.starting_balance = amount
+
     def get_current_teller(self):
         if self.current_teller_account_number:
             return self.get_account(self.current_teller_account_number)

@@ -43,6 +43,9 @@ class ATM(object):
     def set_withdrawl_amount(self, amount):
         self.withdrawl_amount = amount
 
+    def get_withdrawl_amount(self):
+        return self.withdrawl_amount
+
     def set_starting_balance(self, amount):
         self.starting_balance = amount
 

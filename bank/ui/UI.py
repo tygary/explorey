@@ -112,7 +112,7 @@ class UiApp(App):
             get_interest_rate=self.get_interest_rate,
             get_debt_interest_rate=self.get_debt_interest_rate,
             get_sign_on_bonus=self.get_sign_on_bonus,
-            get_withdrawl_amount=lambda: self.atm.withdrawl_amount,
+            get_withdrawl_amount=self.atm.get_withdrawl_amount,
             name='economy_overview'
         )
         self.bankruptcyScanning = ScanningScreen(

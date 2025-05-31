@@ -50,13 +50,6 @@
          "id": 935809045066356936
       },
       {
-         "account_number": 5826,
-         "name_file_path": "/home/admin/explorey/images/atm/5826.jpg",
-         "balance": 106,
-         "is_teller": false,
-         "id": 128026204074474376
-      },
-      {
          "account_number": 56698,
          "name_file_path": "/home/admin/explorey/images/atm/56698.jpg",
          "balance": 107,

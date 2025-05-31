@@ -40,7 +40,6 @@ class BankruptcyConfirmationScreen(Screen):
         self.left_layout.add_widget(self.account_image)
         self.left_layout.add_widget(self.beans_owed_label)
         self.left_layout.add_widget(self.instructions_label)
-        self.left_layout.add_widget(Widget(size_hint_y=0.2))
         self.left_layout.add_widget(agree_button)
 
          # Right side layout

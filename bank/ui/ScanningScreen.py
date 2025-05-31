@@ -60,6 +60,6 @@ class ScanningScreen(Screen):
         show_toast(self, message)
         self.manager.current = 'dashboard'
 
-    def go_back(self, instance):
+    def go_back(self, instance=None):
         self.cancel_scan()
         self.manager.current = 'dashboard'

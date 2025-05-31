@@ -78,15 +78,15 @@ class UiApp(App):
         self.transfer = ScanningScreen(name='transfer', scanning_message='Scan your transfer form now...', start_scan=self.start_scan, cancel_scan=self.cancel_scan, on_finish_scan=self.on_finish_scanning_transfer)
         self.transferConfirm = AmountConfirmationScreen(name='transfer_confirm', action_text='Confirm Transfer')
         self.tellerSignup = TellerSignupScreen(
-            on_agree=lambda _: self.change_screen('teller_signup_scanning'),
-            on_cancel=lambda _: self.change_screen('dashboard'),
+            on_agree=lambda _=None: self.change_screen('teller_signup_scanning'),
+            on_cancel=lambda _=None: self.change_screen('dashboard'),
             name='teller_signup'
         )
         self.tellerSignupScanning = ScanningScreen(
             name='teller_signup_scanning',
             scanning_message='Scan your account details receipt now...',
             start_scan=self.start_scan,  # Use existing scanning logic
-            cancel_scan=lambda _: self.change_screen('dashboard'),
+            cancel_scan=lambda _=None: self.change_screen('dashboard'),
             on_finish_scan=self.on_finish_teller_signup,
             form_type='withdraw'
         )
@@ -94,7 +94,7 @@ class UiApp(App):
             name='teller_signin_scanning',
             scanning_message='Scan your account details receipt to sign in...',
             start_scan=self.start_scan,
-            cancel_scan=lambda _: self.change_screen('dashboard'),
+            cancel_scan=lambda _=None: self.change_screen('dashboard'),
             on_finish_scan=self.on_finish_teller_signin,
             form_type='withdraw'
         )
@@ -120,7 +120,7 @@ class UiApp(App):
             name='bankruptcy_scanning',
             scanning_message='Scan your account details receipt now...',
             start_scan=self.start_scan,
-            cancel_scan=lambda _: self.change_screen('dashboard'),
+            cancel_scan=lambda _=None: self.change_screen('dashboard'),
             on_finish_scan=self.on_finish_scanning_bankruptcy,
             form_type='withdraw'
         )
@@ -129,7 +129,7 @@ class UiApp(App):
             name='check_balance',
             scanning_message='Scan your account receipt now...',
             start_scan=self.start_scan,
-            cancel_scan=lambda _: self.change_screen('dashboard'),
+            cancel_scan=lambda _=None: self.change_screen('dashboard'),
             on_finish_scan=self.on_check_balance,
             form_type='withdraw'
         )
@@ -168,7 +168,7 @@ class UiApp(App):
     def start(self, update_callback=None):
         if update_callback:
             self.update_callback = update_callback
-            Clock.schedule_interval(lambda dt: update_callback(), 0.1)
+            Clock.schedule_interval(lambda dt=None: update_callback(), 0.1)
         self.run()
 
     def change_screen(self, screen_name):

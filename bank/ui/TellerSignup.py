@@ -11,7 +11,7 @@ class TellerSignupScreen(Screen):
         super(TellerSignupScreen, self).__init__(**kwargs)
 
         # Left side content
-        left_layout = RelativeLayout(size_hint=(0.7, 1), pos_hint={'x': 0, 'y': 0})
+        left_layout = RelativeLayout(size_hint=(0.7, 1), pos_hint={'x': 0, 'y': 0}, padding=50)
         self.add_widget(left_layout)
 
         # Agreement text

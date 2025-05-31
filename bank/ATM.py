@@ -3,12 +3,12 @@ import random
 import os
 
 class Account(object):
-    def __init__(self, account_number, name_file_path, balance=0, is_teller=False):
-    
+    def __init__(self, account_number, name_file_path, balance=0, is_teller=False, is_board=False):
         self.account_number = account_number
         self.name_file_path = name_file_path
-        self.is_teller = False
+        self.is_teller = is_teller
         self.balance = balance
+        self.is_board = is_board
 
     @staticmethod
     def from_json(json_data):
@@ -16,14 +16,16 @@ class Account(object):
         name_file_path = json_data.get("name_file_path")
         balance = json_data.get("balance", 0)
         is_teller = json_data.get("is_teller", False)
-        return Account(account_number, name_file_path, balance, is_teller)
+        is_board = json_data.get("is_board", False) 
+        return Account(account_number, name_file_path, balance, is_teller, is_board)
 
     def to_json(self):
         return {
             "account_number": self.account_number,
             "name_file_path": self.name_file_path,
             "balance": self.balance,
-            "is_teller": self.is_teller
+            "is_teller": self.is_teller,
+            "is_board": self.is_board
         }
     
 DEFAULT_NEW_ACCOUNT_BALANCE = 100

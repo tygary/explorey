@@ -3,99 +3,33 @@
       {
          "account_number": 46793,
          "name_file_path": "/home/admin/explorey/images/atm/founder.jpg",
-         "balance": 115762500,
-         "is_teller": false,
+         "balance": 100000000,
+         "is_teller": true,
+         "is_board": true,
          "id": 148124034660555555
       },
       {
-         "account_number": 22891,
-         "name_file_path": "/home/admin/explorey/images/atm/22891.jpg",
-         "balance": 116,
-         "is_teller": false,
-         "id": 187112984169371027
-      },
-      {
-         "account_number": 41630,
-         "name_file_path": "/home/admin/explorey/images/atm/41630.jpg",
-         "balance": 117,
-         "is_teller": false,
-         "id": 151920640105828526
-      },
-      {
-         "account_number": 33332,
-         "name_file_path": "/home/admin/explorey/images/atm/33332.jpg",
-         "balance": 92,
-         "is_teller": false,
-         "id": 297505170774927056
-      },
-      {
-         "account_number": 49582,
-         "name_file_path": "/home/admin/explorey/images/atm/49582.jpg",
-         "balance": -119,
-         "is_teller": false,
-         "id": 203313257511341922
-      },
-      {
-         "account_number": 17897,
-         "name_file_path": "/home/admin/explorey/images/atm/17897.jpg",
-         "balance": 118,
-         "is_teller": false,
-         "id": 227470906775982990
-      },
-      {
-         "account_number": 49739,
-         "name_file_path": "/home/admin/explorey/images/atm/49739.jpg",
-         "balance": -120,
-         "is_teller": false,
-         "id": 935809045066356936
-      },
-      {
-         "account_number": 56698,
-         "name_file_path": "/home/admin/explorey/images/atm/56698.jpg",
-         "balance": 122,
-         "is_teller": false,
-         "id": 225463001233356972
-      },
-      {
-         "account_number": 60726,
-         "name_file_path": "/home/admin/explorey/images/atm/60726.jpg",
-         "balance": 105,
-         "is_teller": false,
-         "id": 178301138987216504
-      },
-      {
-         "account_number": 20724,
-         "name_file_path": "/home/admin/explorey/images/atm/20724.jpg",
-         "balance": 105,
-         "is_teller": false,
-         "id": 180336639566268184
-      },
-      {
          "account_number": 34001,
-         "name_file_path": "/home/admin/explorey/images/atm/34001.jpg",
-         "balance": 105,
-         "is_teller": false,
+         "name_file_path": "/home/admin/explorey/images/atm/gottard.jpg",
+         "balance": 5000,
+         "is_teller": true,
+         "is_board": true,
          "id": 164001652416421538
       },
       {
          "account_number": 44808,
-         "name_file_path": "/home/admin/explorey/images/atm/44808.jpg",
-         "balance": 100,
-         "is_teller": false,
+         "name_file_path": "/home/admin/explorey/images/atm/squeezy.jpg",
+         "balance": 8000,
+         "is_teller": true,
+         "is_board": true,
          "id": 286763489313633870
       },
       {
-         "account_number": 44176,
-         "name_file_path": "/home/admin/explorey/images/atm/44176.jpg",
-         "balance": 100,
-         "is_teller": false,
-         "id": 545851179421202285
-      },
-      {
          "account_number": 54531,
-         "name_file_path": "/home/admin/explorey/images/atm/54531.jpg",
-         "balance": 100,
-         "is_teller": false,
+         "name_file_path": "/home/admin/explorey/images/atm/gobleena.jpg",
+         "balance": 9000,
+         "is_teller": true,
+         "is_board": true,
          "id": 239905521428498937
       }
    ]

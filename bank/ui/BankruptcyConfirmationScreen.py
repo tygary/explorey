@@ -11,7 +11,7 @@ class BankruptcyConfirmationScreen(Screen):
         self.layout = BoxLayout(orientation='horizontal', padding=10, spacing=10)
 
         # Left side layout
-        self.left_layout = BoxLayout(orientation='vertical', size_hint=(0.7, 1), padding=10, spacing=10)
+        self.left_layout = BoxLayout(orientation='vertical', size_hint=(0.7, 1), padding=50, spacing=10)
         self.account_image = Image(size_hint=(1, None), height=200, allow_stretch=True, keep_ratio=True)
         self.beans_owed_label = Label(font_size="18sp", size_hint=(1, None), height=50)
         self.instructions_label = Label(
@@ -19,8 +19,8 @@ class BankruptcyConfirmationScreen(Screen):
             font_size="16sp",
             size_hint=(1, None),
             height=100,
-            width=500,
-            text_size=(500, None),
+            width=400,
+            text_size=(400, None),
             halign="left",
             valign="middle"
         )
@@ -54,7 +54,7 @@ class BankruptcyConfirmationScreen(Screen):
     def set_account(self, account):
         self.account = account
         self.account_image.source = account.name_file_path
-        self.beans_owed_label.text = f"Beans Owed: {account.beans_owed}"
+        self.beans_owed_label.text = f"Beans Owed: {-1 * account.balance}"
 
     def cancel(self, instance):
         self.manager.current = 'dashboard'

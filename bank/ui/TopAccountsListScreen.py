@@ -4,6 +4,7 @@ from kivy.uix.image import Image
 from kivy.uix.label import Label
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.screenmanager import Screen
+from kivy.core.image import Image as CoreImage
 
 class TopAccountsListScreen(Screen):
     def __init__(self, accounts, is_leaderboard=True, **kwargs):
@@ -22,7 +23,13 @@ class TopAccountsListScreen(Screen):
 
         for account in accounts[:20]:  # Top 20 accounts
             account_item = BoxLayout(orientation='horizontal', size_hint_y=None, height=50, spacing=10)
-            account_image = Image(source=account.name_file_path, size_hint=(None, None), size=(400, 100))
+
+            # Load the image to get its native size
+            core_image = CoreImage(account.name_file_path)
+            native_width, native_height = core_image.size
+
+            # Scale the image to twice its native size
+            account_image = Image(source=account.name_file_path, size_hint=(None, None), size=(native_width * 2, native_height * 2))
             account_balance = Label(text=f"${account.balance:.2f}", size_hint=(0.4, 1), font_size="16sp")
             account_item.add_widget(account_image)
             account_item.add_widget(account_balance)

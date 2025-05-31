@@ -8,13 +8,6 @@
          "id": 148124034660555555
       },
       {
-         "account_number": 2151,
-         "name_file_path": "/home/admin/temp_name.jpg",
-         "balance": 100,
-         "is_teller": false,
-         "id": 148124034660415321
-      },
-      {
          "account_number": 22891,
          "name_file_path": "/home/admin/explorey/images/atm/22891.jpg",
          "balance": 100,

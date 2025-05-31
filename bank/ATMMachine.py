@@ -29,7 +29,7 @@ SIGN_TOP_PIXELS = range(512, 1024)
 
 BOTTOM_PIXELS = range(NUM_SIGN_PIXELS, NUM_SIGN_PIXELS + 10)
 
-TIME_BETWEEN_INTEREST_S = 15
+TIME_BETWEEN_INTEREST_S = 60 * 5
 
 BEAN_CHUTE_PIN = 17
 BEAN_DISPENSER_PIN = 4
@@ -42,7 +42,7 @@ class ATMMachine(object):
         self.lever_magnitudes = [0, 0, 0]
         self.mode = MODE_READY
         self.is_scanning = False
-        self.next_interest_time = 0
+        self.next_interest_time = time.time() + TIME_BETWEEN_INTEREST_S
         self.beans_deposited = 0
         self.deposit_success_cb = None
         self.interest_rate = 0.05

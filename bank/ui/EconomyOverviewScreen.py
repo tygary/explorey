@@ -19,10 +19,11 @@ class EconomyOverviewScreen(Screen):
             text=f"Current BeanBucks to Bean Exchange Rate: {self.get_exchange_rate()} BeanBucks = 1 Bean",
             font_size="20sp",
             size_hint=(1, None),
-            height=50
+            height=50,
+            width=400  # Set a fixed width for better alignment
         )
         self.exchange_rate_label.halign = 'left'
-        self.exchange_rate_label.valign = 'middle'
+        self.exchange_rate_label.valign = 'top'
         self.exchange_rate_label.text_size = self.exchange_rate_label.size
         layout.add_widget(self.exchange_rate_label)
 
@@ -31,10 +32,11 @@ class EconomyOverviewScreen(Screen):
             text=f"Current Interest Rate: {self.get_interest_rate() * 100:.2f}%\n(This rate is applied compounding every 10 minutes)",
             font_size="20sp",
             size_hint=(1, None),
-            height=70
+            height=70,
+            width=400  # Set a fixed width for better alignment
         )
         self.interest_rate_label.halign = 'left'
-        self.interest_rate_label.valign = 'middle'
+        self.interest_rate_label.valign = 'top'
         self.interest_rate_label.text_size = self.interest_rate_label.size
         layout.add_widget(self.interest_rate_label)
 
@@ -43,10 +45,11 @@ class EconomyOverviewScreen(Screen):
             text=f"Current Debt Interest Rate: {self.get_debt_interest_rate() * 100:.2f}%\n(This rate is applied to negative balances compounding every 10 minutes)",
             font_size="20sp",
             size_hint=(1, None),
-            height=70
+            height=70,
+            width=400  # Set a fixed width for better alignment
         )
         self.debt_interest_rate_label.halign = 'left'
-        self.debt_interest_rate_label.valign = 'middle'
+        self.debt_interest_rate_label.valign = 'top'
         self.debt_interest_rate_label.text_size = self.debt_interest_rate_label.size
         layout.add_widget(self.debt_interest_rate_label)
 
@@ -55,10 +58,11 @@ class EconomyOverviewScreen(Screen):
             text=f"Current Sign-on Bonus: {self.get_sign_on_bonus()} Beans",
             font_size="20sp",
             size_hint=(1, None),
-            height=50
+            height=50,
+            width=400  # Set a fixed width for better alignment
         )
         self.sign_on_bonus_label.halign = 'left'
-        self.sign_on_bonus_label.valign = 'middle'
+        self.sign_on_bonus_label.valign = 'top'
         self.sign_on_bonus_label.text_size = self.sign_on_bonus_label.size
         layout.add_widget(self.sign_on_bonus_label)
 

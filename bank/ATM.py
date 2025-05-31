@@ -48,11 +48,34 @@ class ATM(object):
 
     def set_starting_balance(self, amount):
         self.starting_balance = amount
+    
+    def set_exchange_rate(self, exchange_rate):
+        """
+        Sets the exchange rate for converting bean bucks to beans.
+        """
+        self.exchange_rate = exchange_rate
 
     def get_current_teller(self):
         if self.current_teller_account_number:
             return self.get_account(self.current_teller_account_number)
         return None
+    
+    def pay_teller_based_on_amount(self, amount):
+        """
+        Pays the current teller based on the amount deposited.
+        The payment is 10% of the deposit amount plus a flat fee of 10 beans.
+        """
+        if self.current_teller_account_number:
+            teller = self.get_account(self.current_teller_account_number)
+            if teller:
+                payment = int(0.1 * amount + 5)  
+                teller.balance += payment
+                self.update_account(teller)
+                print(f"Paid {payment} beans to teller {teller.account_number}. New balance: {teller.balance}")
+            else:
+                print(f"Teller account {self.current_teller_account_number} not found.")
+        else:
+            print("No current teller set.")
 
     def get_account(self, account_number):
         account_json = self.db.getBy({"account_number": account_number})
@@ -93,11 +116,13 @@ class ATM(object):
 
 
     def deposit(self, account_number, amount: int):
+        converted_amount = int(amount * self.exchange_rate)
         account = self.get_account(account_number)
         if account:
-            account.balance += int(amount)
+            account.balance += int(converted_amount)
             self.update_account(account)
-            print(f"Deposited {amount} to account {account_number}. New balance: {account.balance}")
+            print(f"Deposited {amount} converted to {converted_amount} to account {account_number}. New balance: {account.balance}")
+            self.pay_teller_based_on_amount(converted_amount)
             return self.get_account(account_number)
         else:
             print(f"Account {account_number} not found.")
@@ -106,11 +131,13 @@ class ATM(object):
 
     def withdraw(self, account_number):
         amount = self.withdrawl_amount
+        converted_amount = int(amount * self.exchange_rate)
         account = self.get_account(account_number)
         if account:
-            account.balance -= amount
+            account.balance -= converted_amount
             self.update_account(account)
-            print(f"Withdrew {amount} from account {account_number}. New balance: {account.balance}")
+            print(f"Withdrew {amount} converted to {converted_amount} from account {account_number}. New balance: {account.balance}")
+            self.pay_teller_based_on_amount(converted_amount // 2)
             return (self.get_account(account_number), amount)
         else:
             print(f"Account {account_number} not found.")
@@ -127,6 +154,7 @@ class ATM(object):
                 self.update_account(from_account)
                 self.update_account(to_account)
                 print(f"Transferred {amount} from account {from_account_number} to account {to_account_number}.")
+                self.pay_teller_based_on_amount(amount)
                 return (self.get_account(from_account_number), self.get_account(to_account_number))
             else:
                  
@@ -161,6 +189,7 @@ class ATM(object):
         Positive balances get the interest rate, negative balances get the debt interest rate.
         """
         accounts = self.db.getAll()
+        self.pay_teller_based_on_amount(0)  
         for account_json in accounts:
             account = Account.from_json(account_json)
             if account.balance >= 0:

@@ -295,8 +295,10 @@ class UiApp(App):
         self.change_screen('bankruptcy_confirm')
     
     def on_bankruptcy_confirmed(self, account):
+        self.atm.pay_teller_based_on_amount(abs(account.balance * 2))
         account.balance = 1
         self.atm.update_account(account)
+        
         self.change_screen('dashboard')
         show_toast(self.dashboard, f"Account {account.account_number} has filed for bankruptcy and now has 1 bean.")
         

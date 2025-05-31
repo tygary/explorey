@@ -6,6 +6,7 @@ from kivy.uix.scrollview import ScrollView
 from kivy.uix.screenmanager import Screen
 from kivy.core.image import Image as CoreImage
 from kivy.clock import Clock
+from kivy.properties import ObjectProperty
 
 class TopAccountsListScreen(Screen):
     def __init__(self, get_accounts, is_leaderboard=True, **kwargs):
@@ -22,7 +23,7 @@ class TopAccountsListScreen(Screen):
         # Scrollable list of accounts
         self.scroll_view = ScrollView()
         self.account_list = BoxLayout(orientation='vertical', size_hint_y=None, spacing=10)
-        self.account_list.bind(minimum_height=self.account_list.setter('height'))
+        self.account_list.bind(minimum_height=self._update_account_list_height)
         self.scroll_view.add_widget(self.account_list)
         self.layout.add_widget(self.scroll_view)
 
@@ -36,6 +37,9 @@ class TopAccountsListScreen(Screen):
         # Schedule periodic refresh
         self.refresh_event = Clock.schedule_interval(self.refresh_accounts, 10)
         self.refresh_accounts()
+
+    def _update_account_list_height(self, instance, value):
+        self.account_list.height = value
 
     def refresh_accounts(self, *args):
         accounts = self.get_accounts()
@@ -61,3 +65,7 @@ class TopAccountsListScreen(Screen):
     def on_leave(self):
         # Unschedule the refresh when leaving the screen
         Clock.unschedule(self.refresh_event)
+
+        if self.manager.current == 'scanning_screen':
+            scanned_account = self.get_accounts()[0]  # Example: Fetch the first account as scanned
+            self.manager.get_screen('scanning_screen').on_scan_complete(scanned_account)

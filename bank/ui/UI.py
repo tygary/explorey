@@ -21,7 +21,7 @@ from bank.ui.ScanningScreen import ScanningScreen
 from bank.ui.TellerSignup import TellerSignupScreen
 from bank.ui.TopAccountsListScreen import TopAccountsListScreen
 from bank.ui.EconomyOverviewScreen import EconomyOverviewScreen
-
+from bank.ui.BankruptcyConfirmationScreen import BankruptcyConfirmationScreen
 
 # Main App with ScreenManager
 class UiApp(App):
@@ -114,6 +114,15 @@ class UiApp(App):
             get_sign_on_bonus=self.get_sign_on_bonus,
             name='economy_overview'
         )
+        self.bankruptcyScanning = ScanningScreen(
+            name='bankruptcy_scanning',
+            scanning_message='Scan your Account Details receipt now...',
+            start_scan=self.start_scan,
+            cancel_scan=lambda _: self.change_screen('dashboard'),
+            on_finish_scan=self.on_finish_scanning_bankruptcy,
+            form_type='withdraw'
+        )
+        self.bankruptcyConfirm = BankruptcyConfirmationScreen(name='bankruptcy_confirm', on_finalize_bankruptcy=self.on_bankruptcy_confirmed)
 
         self.manager.add_widget(self.dashboard)
         self.manager.add_widget(self.deposit)
@@ -129,6 +138,8 @@ class UiApp(App):
         self.manager.add_widget(self.leaderboard)
         self.manager.add_widget(self.bankruptcyRoll)
         self.manager.add_widget(self.economyOverview)
+        self.manager.add_widget(self.bankruptcyScanning)
+        self.manager.add_widget(self.bankruptcyConfirm)
         
         # Add the screen manager to the content layout
         content_layout.add_widget(self.manager)
@@ -262,3 +273,23 @@ class UiApp(App):
         self.dashboard.update_teller_section()
         self.change_screen('dashboard')
         show_toast(self.dashboard, f"Signed in as teller: {form_info.from_account_number}")
+
+    def on_finish_scanning_bankruptcy(self, form_info: FormInfo):
+        account = self.atm.get_account(form_info.from_account_number)
+        if not account:
+            self.change_screen('dashboard')
+            show_toast(self.dashboard, "Failed to find account for bankruptcy.")
+            return
+        if account.balance > 0:
+            self.change_screen('dashboard')
+            show_toast(self.dashboard, "This account is not in debt.")
+            return
+        self.bankruptcyConfirm.set_account(account)
+        self.change_screen('bankruptcy_confirm')
+    
+    def on_bankruptcy_confirmed(self, account):
+        account.balance = 1
+        self.atm.update_account(account)
+        self.change_screen('dashboard')
+        show_toast(self.dashboard, f"Account {account.account_number} has filed for bankruptcy and now has 1 bean.")
+        

@@ -20,7 +20,8 @@ class TellerSignupScreen(Screen):
             size_hint=(1, 0.8),
             pos_hint={'x': 0, 'y': 0.2},
             text_size=(500, None),
-            halign="center",
+            width=500,
+            halign="left",
             valign="middle"
         )
         self.agreement_label.bind(size=self.agreement_label.setter('text_size'))

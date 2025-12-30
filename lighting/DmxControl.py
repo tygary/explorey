@@ -1,4 +1,4 @@
-from dmxpy import DmxPy
+from lighting.DmxPy import DmxPy
 import time
 
 
@@ -6,7 +6,7 @@ class DmxControl(object):
     dmx = None
 
     def __init__(self):
-        self.dmx = DmxPy.DmxPy("/dev/ttyUSB0")
+        self.dmx = DmxPy("/dev/ttyUSB0")
 
     def setLight(self, channelStart, color):
         self.dmx.set_channel(channelStart, color[0])

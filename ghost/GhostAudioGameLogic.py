@@ -72,7 +72,7 @@ class GhostAudioGameLogic(object):
 
     def _get_next_objective(self):
         print("Updating Objectives")
-        options = [OBJECTIVE_SWITCH_A, OBJECTIVE_SWITCH_B, OBJECTIVE_RED_BUTTON, OBJECTIVE_GREEN_BUTTON, OBJECTIVE_SWITCHBOARD, OBJECTIVE_ELEVATOR_BUTTONS] # OBJECTIVE_POWER_SWITCH
+        options = [OBJECTIVE_SWITCH_A, OBJECTIVE_SWITCH_B, OBJECTIVE_RED_BUTTON, OBJECTIVE_GREEN_BUTTON, OBJECTIVE_SWITCHBOARD, OBJECTIVE_ELEVATOR_BUTTONS, OBJECTIVE_POWER_SWITCH] 
         if self.current_objective != OBJECTIVE_SWITCHBOARD and self.current_objective != OBJECTIVE_ELEVATOR_BUTTONS:
             options = [x for x in options if x != self.current_objective]
         self.current_objective = random.choice(options)

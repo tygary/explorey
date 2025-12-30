@@ -163,7 +163,7 @@ class AudioMachine(object):
         print("Card detected", card)
         if self.current_rfid != card and self.game.mode not in [game.GAME_MODE_RUNNING, game.GAME_MODE_ROUND_START, game.GAME_MODE_WIN]:
             self.current_rfid = card
-            self.game.start_scanning(self.current_rfid)
+            self.game.start_scanning(self.current_rfid, hard_mode=True)
 
     def __on_card_removed(self):
         print("card removed")

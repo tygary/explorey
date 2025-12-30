@@ -13,7 +13,7 @@ from timemachine.Levers import Levers
 
 MQTT_EVENT_FOUNDER = "founder"
 
-EVENT_LEVERS_CHANGED = "levers_changed"
+EVENT_ECONOMY_CHANGED = "economy_changed"
 
 MODE_CLOSED = 0
 MODE_OPEN = 1
@@ -63,7 +63,7 @@ class FoundersBox(object):
 
     def __on_change_data(self):
         data = {
-            "event": "economy_changed",
+            "event": EVENT_ECONOMY_CHANGED,
             "magnitudes": self.magnitudes
         }
         self.mqtt.publish(json.dumps(data))

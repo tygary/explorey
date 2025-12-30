@@ -36,6 +36,29 @@ class AccountPrinter(object):
         self.conn.cancelAllJobs(self.printer_name)
         self.conn.printFile(self.printer_name, self.tmpAccountPrintoutPath, "account", {})
 
+    def __create_share_printout(self):
+        self.logger.log("Printer: creating share pdf")
+        try:
+            os.remove(self.tmpAccountPrintoutPath)
+            self.logger.log("  Success")
+        except OSError:
+            self.logger.log("  Failure")
+            pass
+
+        pdf = AccountPrintout()
+        pdf.set_line_width(0.2)
+        pdf.set_margins(left=16, top=0, right=0)
+        pdf.set_auto_page_break(False)
+
+        pdf.add_page(orientation="P", format=(90, 90))
+        pdf.set_font("Arial", "B", 16)
+        pdf.multi_cell(0, 10, f"Stock Certificate", align="C")
+        pdf.set_font("Arial", "", 12)
+        pdf.cell(90, 4, ln=1)
+        pdf.multi_cell(0, 10, f"This document certifies ownership of one (1) share of The Leech Mining Company, subject to all rules regulations and bylaws of the corporate charter as well as the stalk trading rules at ACME Bank.", align="C")
+        pdf.cell(90, 4, ln=1)
+        pdf.image("/home/admin/explorey/printer/resources/LeechLogo.jpg", 43, 0, 20, 20)
+        
 
     def __create_account_printout(self, account_number, balance, name_file_path):
         self.logger.log("Printer: creating account pdf")
@@ -138,6 +161,18 @@ class AccountPrinter(object):
         )
         if self.ready_to_print:
             self.__create_account_printout(account_number, balance, name_file_path)
+            self.__print_account()
+            self.ready_to_print = False
+            t = threading.Timer(1.0, self.__ready_to_print)
+            t.start()
+
+    def printShare(self):
+        self.logger.log(
+            "Printer: trying to print share with ready status %s"
+            % (self.ready_to_print)
+        )
+        if self.ready_to_print:
+            self.__create_share_printout()
             self.__print_account()
             self.ready_to_print = False
             t = threading.Timer(1.0, self.__ready_to_print)

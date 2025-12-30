@@ -56,7 +56,7 @@ class DashboardScreen(Screen):
 
         right_layout.add_widget(self.teller_section)
         right_layout.add_widget(Widget(size_hint_y=0.1))
-        button_labels = ['Open Account', 'Withdraw', 'Deposit', 'Transfer', 'Check Balance', 'Become a Teller', 'File for Bankruptcy']
+        button_labels = ['Open Account', 'Withdraw', 'Deposit', 'Transfer', 'Check Balance', 'Become a Teller', 'File for Bankruptcy', 'Buy Shares']
         for label in button_labels:
             btn = Button(text=label, size_hint=(1, None), height=80, font_size='22sp')  # Increased font size
             if label == 'Deposit':
@@ -73,6 +73,8 @@ class DashboardScreen(Screen):
                 btn.bind(on_press=self.go_to_bankruptcy_scanning_screen)
             elif label == 'Check Balance':
                 btn.bind(on_press=self.go_to_check_balance)
+            elif label == 'Buy Shares':
+                btn.bind(on_press=self.go_to_buy_shares)
 
             right_layout.add_widget(btn)
         right_layout.add_widget(Widget(size_hint_y=1))
@@ -185,4 +187,7 @@ class DashboardScreen(Screen):
 
     def go_to_check_balance(self, instance):
         self.manager.current = 'check_balance'
+
+    def go_to_buy_shares(self, instance):
+        self.manager.current = 'buy_shares'
     

@@ -22,6 +22,7 @@ from bank.ui.TellerSignup import TellerSignupScreen
 from bank.ui.TopAccountsListScreen import TopAccountsListScreen
 from bank.ui.EconomyOverviewScreen import EconomyOverviewScreen
 from bank.ui.BankruptcyConfirmationScreen import BankruptcyConfirmationScreen
+from bank.ui.BuyShareScreen import BuyShareScreen
 
 # Main App with ScreenManager
 class UiApp(App):
@@ -133,6 +134,15 @@ class UiApp(App):
             on_finish_scan=self.on_check_balance,
             form_type='withdraw'
         )
+        self.buyShares = BuyShareScreen(name='buy_shares', on_finalize_purchase=self.on_confirm_buying_shares)
+        self.buySharesScanning = ScanningScreen(
+            name='buy_shares_scanning',
+            scanning_message='Scan your account receipt now...',
+            start_scan=self.start_scan,
+            cancel_scan=lambda _=None: self.change_screen('dashboard'),
+            on_finish_scan=self.on_buy_shares,
+            form_type='withdraw'
+        )
 
         self.manager.add_widget(self.dashboard)
         self.manager.add_widget(self.deposit)
@@ -151,6 +161,8 @@ class UiApp(App):
         self.manager.add_widget(self.bankruptcyScanning)
         self.manager.add_widget(self.bankruptcyConfirm)
         self.manager.add_widget(self.checkBalance)
+        self.manager.add_widget(self.buyShares)
+        self.manager.add_widget(self.buySharesScanning)
         
         # Add the screen manager to the content layout
         content_layout.add_widget(self.manager)
@@ -319,4 +331,25 @@ class UiApp(App):
             return
         show_toast(self.dashboard, f"Account {account.account_number} {'is a teller and ' if account.is_teller else ''}has a balance of {account.balance} beans.")
         self.change_screen('dashboard')
+
+    def on_confirm_buying_shares(self):
+        self.change_screen('buy_shares_scanning')
+
+    def on_buy_shares(self, form_info: FormInfo):
+        account = self.atm.get_account(form_info.from_account_number)
+        if not account:
+            self.change_screen('dashboard')
+            show_toast(self.dashboard, "Failed to find account for buying shares.")
+            return
+        if account.balance < 100:
+            self.change_screen('dashboard')
+            show_toast(self.dashboard, "Insufficient funds to buy shares.  You must have at least 100 beans.")
+            return
+        account.balance -= 100
+        self.atm.update_account(account)
+        self.printer.printShare()
+        self.change_screen('dashboard')
+        show_toast(self.dashboard, f"Account {account.account_number} has purchased 1 share of The Leech Mining Company.")
+
+
         

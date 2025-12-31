@@ -99,9 +99,10 @@ class GhostAudioGameLogic(object):
         
         # Filter out objectives that were just completed (except switchboard and elevator buttons can repeat)
         available_options = options.copy()
-        for prev_obj in self.current_objectives:
-            if prev_obj != OBJECTIVE_SWITCHBOARD and prev_obj != OBJECTIVE_ELEVATOR_BUTTONS:
-                available_options = [x for x in available_options if x != prev_obj]
+        if not self.hard_mode:
+            for prev_obj in self.current_objectives:
+                if prev_obj != OBJECTIVE_SWITCHBOARD and prev_obj != OBJECTIVE_ELEVATOR_BUTTONS:
+                    available_options = [x for x in available_options if x != prev_obj]
         
         # Select the required number of objectives
         selected_objectives = []
@@ -228,7 +229,7 @@ class GhostAudioGameLogic(object):
             self.next_round_start_time = time.time() + ROUND_START_TIME
             self._turn_off_inputs()
             self.playing_running_out_of_time = False
-            self.game_round_length = ROUND_TIME - int(self.current_round / 2) 
+            self.game_round_length = ROUND_TIME - int(self.current_round / 1.5) 
             self.game_timeout_time = 0
             self.sound.play_game_backround()
         elif new_mode == GAME_MODE_RUNNING:

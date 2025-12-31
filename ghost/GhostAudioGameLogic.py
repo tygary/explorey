@@ -24,7 +24,7 @@ GAME_MODE_LOSE = 6
 
 GAME_WAIT_TIMEOUT = 20
 GAME_STARTUP_TIME = 8
-ROUND_TIME = 16
+ROUND_TIME = 12
 ROUND_START_TIME = 2
 LOW_ENERGY_LEVEL_TIME_S = 3
 GAME_OVER_TIME = 10
@@ -86,8 +86,10 @@ class GhostAudioGameLogic(object):
             return 2
         elif self.current_round <= 8:
             return 3
-        else:
+        elif self.current_round <= 10:
             return 4
+        else:
+            return 5
 
     def _get_next_objectives(self):
         """Get the next set of objectives based on hard mode progression."""

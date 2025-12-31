@@ -217,6 +217,7 @@ class GhostAudioGameLogic(object):
             self._turn_off_inputs()
             self.sound.play_intro_scan()
             self.green_button.set_pending()
+            self.red_button.set_pending()
             self.game_timeout_time = time.time() + GAME_WAIT_TIMEOUT
         elif new_mode == GAME_MODE_ROUND_START:
             if self.current_round > 0:
@@ -301,8 +302,14 @@ class GhostAudioGameLogic(object):
                 self._change_game_mode(GAME_MODE_RUNNING)
                 return
         elif self.mode == GAME_MODE_READY:
-            if self.green_button.completed and self.next_round_start_time == 0:
-                print("Starting game sequence!")
+            if (self.green_button.completed or self.red_button.completed) and self.next_round_start_time == 0:
+                # Set hard mode based on which button was pressed
+                if self.red_button.completed:
+                    self.hard_mode = True
+                    print("Starting game sequence in HARD MODE!")
+                else:
+                    self.hard_mode = False
+                    print("Starting game sequence in NORMAL MODE!")
                 self.next_round_start_time = now + GAME_STARTUP_TIME
                 self.game_timeout_time = 0
                 self.sound.play_startup()

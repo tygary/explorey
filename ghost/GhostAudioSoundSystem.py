@@ -1,3 +1,4 @@
+import threading
 from sound.MultiTrackMusicPlayer import MultiTrackMusicPlayer
 
 
@@ -86,6 +87,7 @@ class GhostAudioSoundSystem(object):
     def __init__(self):
         """Initialize the sound system and reset available channels."""
         self.available_objective_channels = self.objective_channels.copy()
+        self.objective_sound_delay_counter = 0  # Track delay for staggered playback
     
     def _get_available_objective_channel(self):
         """Get an available channel for objective sounds. Returns None if all channels are in use."""
@@ -117,6 +119,7 @@ class GhostAudioSoundSystem(object):
         for channel in self.objective_channels:
             self.player.stop_music(channel)
         self.available_objective_channels = self.objective_channels.copy()
+        self.objective_sound_delay_counter = 0  # Reset delay counter for new batch
 
     def stop_all(self):
         self.player.stop_music(CHANNEL_AMBIENT)
@@ -136,104 +139,97 @@ class GhostAudioSoundSystem(object):
         self.player.play_song(INTRO_SCAN, 1, channel_num=CHANNEL_VOICE, loops=0)
         self.player.queue_song(ENGAGE_NUMINSITY, channel_num=CHANNEL_VOICE)
     
-    def play_engage_numinsity(self):
-        """Play Engage Numinsity on an available objective channel."""
-        print("Playing Engage Numinsity")
-        channel = self._get_available_objective_channel()
-        if channel is not None:
-            self.player.play_song(ENGAGE_NUMINSITY, 1, channel_num=channel, loops=0)
+    def _play_objective_sound_with_delay(self, song_index, delay_seconds):
+        """Internal method to play an objective sound after a delay."""
+        def play_delayed():
+            channel = self._get_available_objective_channel()
+            if channel is not None:
+                self.player.play_song(song_index, 1, channel_num=channel, loops=0)
+            else:
+                print(f"No available channels for song {song_index}")
+        
+        if delay_seconds > 0:
+            timer = threading.Timer(delay_seconds, play_delayed)
+            timer.start()
         else:
-            print("No available channels for Engage Numinsity")
+            play_delayed()
+
+    def play_engage_numinsity(self):
+        """Play Engage Numinsity on an available objective channel with staggered delay."""
+        print("Playing Engage Numinsity")
+        delay = self.objective_sound_delay_counter * 1.0  # 1 second per sound
+        self.objective_sound_delay_counter += 1
+        self._play_objective_sound_with_delay(ENGAGE_NUMINSITY, delay)
 
     def play_initiate_flux(self):
-        """Play Initiate Flux on an available objective channel."""
+        """Play Initiate Flux on an available objective channel with staggered delay."""
         print("Playing Initiate Flux")
-        channel = self._get_available_objective_channel()
-        if channel is not None:
-            self.player.play_song(INITIATE_FLUX, 1, channel_num=channel, loops=0)
-        else:
-            print("No available channels for Initiate Flux")
+        delay = self.objective_sound_delay_counter * 1.0  # 1 second per sound
+        self.objective_sound_delay_counter += 1
+        self._play_objective_sound_with_delay(INITIATE_FLUX, delay)
     
     def play_increase_auraral(self):
-        """Play Increase Auraral on an available objective channel."""
+        """Play Increase Auraral on an available objective channel with staggered delay."""
         print("Playing Increase Auraral")
-        channel = self._get_available_objective_channel()
-        if channel is not None:
-            self.player.play_song(INCREASE_AURARAL, 1, channel_num=channel, loops=0)
-        else:
-            print("No available channels for Increase Auraral")
+        delay = self.objective_sound_delay_counter * 1.0  # 1 second per sound
+        self.objective_sound_delay_counter += 1
+        self._play_objective_sound_with_delay(INCREASE_AURARAL, delay)
     
     def play_decrease_auraral(self):
-        """Play Decrease Auraral on an available objective channel."""
+        """Play Decrease Auraral on an available objective channel with staggered delay."""
         print("Playing Decrease Auraral")
-        channel = self._get_available_objective_channel()
-        if channel is not None:
-            self.player.play_song(DECREASE_AURARAL, 1, channel_num=channel, loops=0)
-        else:
-            print("No available channels for Decrease Auraral")
+        delay = self.objective_sound_delay_counter * 1.0  # 1 second per sound
+        self.objective_sound_delay_counter += 1
+        self._play_objective_sound_with_delay(DECREASE_AURARAL, delay)
     
     def play_activate_chronometer(self):
-        """Play Activate Chronometer on an available objective channel."""
+        """Play Activate Chronometer on an available objective channel with staggered delay."""
         print("Playing Activate Chronometer")
-        channel = self._get_available_objective_channel()
-        if channel is not None:
-            self.player.play_song(ACTIVATE_CHRONOMETER, 1, channel_num=channel, loops=0)
-        else:
-            print("No available channels for Activate Chronometer")
+        delay = self.objective_sound_delay_counter * 1.0  # 1 second per sound
+        self.objective_sound_delay_counter += 1
+        self._play_objective_sound_with_delay(ACTIVATE_CHRONOMETER, delay)
     
     def play_deactivate_chronometer(self):
-        """Play Deactivate Chronometer on an available objective channel."""
+        """Play Deactivate Chronometer on an available objective channel with staggered delay."""
         print("Playing Deactivate Chronometer")
-        channel = self._get_available_objective_channel()
-        if channel is not None:
-            self.player.play_song(DEACTIVATE_CHRONOMETER, 1, channel_num=channel, loops=0)
-        else:
-            print("No available channels for Deactivate Chronometer")
+        delay = self.objective_sound_delay_counter * 1.0  # 1 second per sound
+        self.objective_sound_delay_counter += 1
+        self._play_objective_sound_with_delay(DEACTIVATE_CHRONOMETER, delay)
     
     def play_increase_insulation(self):
-        """Play Increase Insulation on an available objective channel."""
+        """Play Increase Insulation on an available objective channel with staggered delay."""
         print("Playing Increase Insulation")
-        channel = self._get_available_objective_channel()
-        if channel is not None:
-            self.player.play_song(INCREASE_INSULATION, 1, channel_num=channel, loops=0)
-        else:
-            print("No available channels for Increase Insulation")
+        delay = self.objective_sound_delay_counter * 1.0  # 1 second per sound
+        self.objective_sound_delay_counter += 1
+        self._play_objective_sound_with_delay(INCREASE_INSULATION, delay)
 
     def play_decrease_insulation(self):
-        """Play Decrease Insulation on an available objective channel."""
+        """Play Decrease Insulation on an available objective channel with staggered delay."""
         print("Playing Decrease Insulation")
-        channel = self._get_available_objective_channel()
-        if channel is not None:
-            self.player.play_song(DECREASE_INSULATION, 1, channel_num=channel, loops=0)
-        else:
-            print("No available channels for Decrease Insulation")
+        delay = self.objective_sound_delay_counter * 1.0  # 1 second per sound
+        self.objective_sound_delay_counter += 1
+        self._play_objective_sound_with_delay(DECREASE_INSULATION, delay)
 
     def play_magnetize_matrix(self):
-        """Play Magnetize Matrix on an available objective channel."""
+        """Play Magnetize Matrix on an available objective channel with staggered delay."""
         print("Playing Magnetize Matrix")
-        channel = self._get_available_objective_channel()
-        if channel is not None:
-            self.player.play_song(MAGNETIZE_MATRIX, 1, channel_num=channel, loops=0)
-        else:
-            print("No available channels for Magnetize Matrix")
+        delay = self.objective_sound_delay_counter * 1.0  # 1 second per sound
+        self.objective_sound_delay_counter += 1
+        self._play_objective_sound_with_delay(MAGNETIZE_MATRIX, delay)
 
     def play_increase_accelerator(self):
-        """Play Increase Accelerator on an available objective channel."""
+        """Play Increase Accelerator on an available objective channel with staggered delay."""
         print("Playing Increase Accelerator")
-        channel = self._get_available_objective_channel()
-        if channel is not None:
-            self.player.play_song(INCREASE_ACCELERATOR, 1, channel_num=channel, loops=0)
-        else:
-            print("No available channels for Increase Accelerator")
+        delay = self.objective_sound_delay_counter * 1.0  # 1 second per sound
+        self.objective_sound_delay_counter += 1
+        self._play_objective_sound_with_delay(INCREASE_ACCELERATOR, delay)
 
     def play_determine_accelerator(self):
-        """Play Determine Accelerator on an available objective channel."""
+        """Play Determine Accelerator on an available objective channel with staggered delay."""
         print("Playing Determine Accelerator")
-        channel = self._get_available_objective_channel()
-        if channel is not None:
-            self.player.play_song(DETERMINE_ACCELERATOR, 1, channel_num=channel, loops=0)
-        else:
-            print("No available channels for Determine Accelerator")
+        delay = self.objective_sound_delay_counter * 1.0  # 1 second per sound
+        self.objective_sound_delay_counter += 1
+        self._play_objective_sound_with_delay(DETERMINE_ACCELERATOR, delay)
 
     def play_game_over(self):
         print("Playing Game Over")

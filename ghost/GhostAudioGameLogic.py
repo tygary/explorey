@@ -225,6 +225,7 @@ class GhostAudioGameLogic(object):
             self.red_button.set_pending()
             self.game_timeout_time = time.time() + GAME_WAIT_TIMEOUT
         elif new_mode == GAME_MODE_ROUND_START:
+            self.sound.stop_voice_channel()
             if self.current_round > 0:
                 self.sound.play_objective_completed()
             self.sound.stop_running_out_of_time()
@@ -242,6 +243,7 @@ class GhostAudioGameLogic(object):
             self.round_end_time = time.time() + self.game_round_length
         elif new_mode == GAME_MODE_WIN:
             print("Game Win!")
+            self.sound.stop_voice_channel()
             self.sound.stop_running_out_of_time()
             self.sound.stop_all_objective_sounds()
 

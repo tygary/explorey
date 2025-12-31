@@ -82,14 +82,16 @@ class GhostAudioGameLogic(object):
         # Rounds 9-12: 3 objectives at a time
         if self.current_round <= 2:
             return 1
-        elif self.current_round <= 5:
+        elif self.current_round <= 4:
             return 2
-        elif self.current_round <= 8:
+        elif self.current_round <= 7:
             return 3
-        elif self.current_round <= 10:
+        elif self.current_round <= 9:
             return 4
-        else:
+        elif self.current_round <= 11:
             return 5
+        else:
+            return 6
 
     def _get_next_objectives(self):
         """Get the next set of objectives based on hard mode progression."""
@@ -241,6 +243,7 @@ class GhostAudioGameLogic(object):
         elif new_mode == GAME_MODE_WIN:
             print("Game Win!")
             self.sound.stop_running_out_of_time()
+            self.sound.stop_all_objective_sounds()
 
             def reset():
                 self._change_game_mode(GAME_MODE_OFF)

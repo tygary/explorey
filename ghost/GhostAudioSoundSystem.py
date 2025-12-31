@@ -13,6 +13,7 @@ CHANNEL_OBJECTIVE_2 = 6
 CHANNEL_OBJECTIVE_3 = 7
 CHANNEL_OBJECTIVE_4 = 8
 CHANNEL_OBJECTIVE_5 = 9
+CHANNEL_OBJECTIVE_6 = 10
 
 OFF = -1
 INTRO_SCAN = 0
@@ -82,7 +83,7 @@ class GhostAudioSoundSystem(object):
     next_event_callbacks = None
     
     # Channel management for objective sounds (class constant)
-    objective_channels = [CHANNEL_OBJECTIVE_1, CHANNEL_OBJECTIVE_2, CHANNEL_OBJECTIVE_3, CHANNEL_OBJECTIVE_4, CHANNEL_OBJECTIVE_5]
+    objective_channels = [CHANNEL_OBJECTIVE_1, CHANNEL_OBJECTIVE_2, CHANNEL_OBJECTIVE_3, CHANNEL_OBJECTIVE_4, CHANNEL_OBJECTIVE_5, CHANNEL_OBJECTIVE_6]
     
     def __init__(self):
         """Initialize the sound system and reset available channels."""

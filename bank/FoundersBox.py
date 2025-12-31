@@ -37,7 +37,7 @@ class FoundersBox(object):
     def __init__(self):
         GPIO.setmode(GPIO.BCM)
         self.mqtt = MqttClient()
-        self.levers = Levers(self.__on_lever_change, self.__on_button_change)
+        # self.levers = Levers(self.__on_lever_change, self.__on_button_change)
         self.mqtt.listen(self.__parse_mqtt_event)
         self.sound = FoundersBoxSoundSystem()
         self.pixels = OverlayedPixelControl(led_count=LED_COUNT, led_brightness=70, led_pin=21)
@@ -100,6 +100,7 @@ class FoundersBox(object):
         self.lock_time = time.time() + UNLOCK_TIMEOUT_S
         self.mode = MODE_OPEN
         GPIO.output(LOCK_PIN, GPIO.HIGH)
+        self.sound.play_open()
         self._update_light_routines()
 
     def lock(self):
@@ -108,7 +109,7 @@ class FoundersBox(object):
         self.mode = MODE_CLOSED
         GPIO.output(LOCK_PIN, GPIO.LOW)
         self._update_light_routines()
-        self.sound.play_open()
+        # self.sound.play_open()
 
     def reset(self):
         print("Resetting")
@@ -121,7 +122,7 @@ class FoundersBox(object):
         self.sound.play_background()
 
     def update(self):
-        self.levers.update()
+        # self.levers.update()
         if self.lock_time > 0 and self.lock_time < time.time():
             print("Timed out, locking")
             self.lock()

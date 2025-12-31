@@ -80,12 +80,14 @@ class GhostAudioGameLogic(object):
         # Rounds 1-4: 1 objective at a time
         # Rounds 5-8: 2 objectives at a time
         # Rounds 9-12: 3 objectives at a time
-        if self.current_round <= 4:
+        if self.current_round <= 2:
             return 1
-        elif self.current_round <= 8:
+        elif self.current_round <= 5:
             return 2
-        else:
+        elif self.current_round <= 8:
             return 3
+        else:
+            return 4
 
     def _get_next_objectives(self):
         """Get the next set of objectives based on hard mode progression."""
@@ -116,50 +118,45 @@ class GhostAudioGameLogic(object):
         self.current_objectives = selected_objectives
         print(f"New Objectives: {self.current_objectives}")
         
+        # Stop any previous objective sounds before starting new ones
+        self.sound.stop_all_objective_sounds()
+        
         # Set up each objective
         for objective in self.current_objectives:
             if objective == OBJECTIVE_SWITCH_A:
-                if not self.hard_mode:
-                    if self.switch_a.mode == 0:
-                        self.sound.play_increase_auraral()
-                    else:
-                        self.sound.play_decrease_auraral()
+                if self.switch_a.mode == 0:
+                    self.sound.play_increase_auraral()
+                else:
+                    self.sound.play_decrease_auraral()
                 self.switch_a.set_desired_mode(not self.switch_a.mode)
             elif objective == OBJECTIVE_SWITCH_B:
-                if not self.hard_mode:
-                    if self.switch_b.mode == 0:
-                        self.sound.play_activate_chronometer()
-                    else:
-                        self.sound.play_deactivate_chronometer()
+                if self.switch_b.mode == 0:
+                    self.sound.play_activate_chronometer()
+                else:
+                    self.sound.play_deactivate_chronometer()
                 self.switch_b.set_desired_mode(not self.switch_b.mode)
             elif objective == OBJECTIVE_POWER_SWITCH:
                 if self.power_switch.mode == 1:
                     self.power_switch.set_desired_mode(3)
-                    if not self.hard_mode:
-                        self.sound.play_decrease_insulation()
+                    self.sound.play_decrease_insulation()
                 else:
                     self.power_switch.set_desired_mode(1)
-                    if not self.hard_mode:
-                        self.sound.play_increase_insulation()
+                    self.sound.play_increase_insulation()
             elif objective == OBJECTIVE_RED_BUTTON:
                 self.red_button.set_pending()
-                if not self.hard_mode:
-                    self.sound.play_initiate_flux()
+                self.sound.play_initiate_flux()
             elif objective == OBJECTIVE_GREEN_BUTTON:
                 self.green_button.set_pending()
-                if not self.hard_mode:
-                    self.sound.play_engage_numinsity()
+                self.sound.play_engage_numinsity()
             elif objective == OBJECTIVE_SWITCHBOARD:
                 self.switchboard.request_new_state()
-                if not self.hard_mode:
-                    self.sound.play_magnetize_matrix()
+                self.sound.play_magnetize_matrix()
             elif objective == OBJECTIVE_ELEVATOR_BUTTONS:
                 self.elevator_buttons.set_desired_button(random.choice([1, 3, 4, 7]))
-                if not self.hard_mode:
-                    if self.elevator_buttons.desired_button == 7:
-                        self.sound.play_increase_accelerator()
-                    else:
-                        self.sound.play_determine_accelerator()
+                if self.elevator_buttons.desired_button == 7:
+                    self.sound.play_increase_accelerator()
+                else:
+                    self.sound.play_determine_accelerator()
 
     def _set_party_mode(self):
         self.switchboard.clear()

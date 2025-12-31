@@ -6,6 +6,12 @@ CHANNEL_VOICE = 1
 CHANNEL_FX = 2
 CHANNEL_OUT_OF_TIME = 3
 CHANNEL_FX_2 = 4
+# Objective sound channels (for simultaneous playback)
+CHANNEL_OBJECTIVE_1 = 5
+CHANNEL_OBJECTIVE_2 = 6
+CHANNEL_OBJECTIVE_3 = 7
+CHANNEL_OBJECTIVE_4 = 8
+CHANNEL_OBJECTIVE_5 = 9
 
 OFF = -1
 INTRO_SCAN = 0
@@ -73,6 +79,44 @@ class GhostAudioSoundSystem(object):
     is_playing_game_background = False
 
     next_event_callbacks = None
+    
+    # Channel management for objective sounds (class constant)
+    objective_channels = [CHANNEL_OBJECTIVE_1, CHANNEL_OBJECTIVE_2, CHANNEL_OBJECTIVE_3, CHANNEL_OBJECTIVE_4, CHANNEL_OBJECTIVE_5]
+    
+    def __init__(self):
+        """Initialize the sound system and reset available channels."""
+        self.available_objective_channels = self.objective_channels.copy()
+    
+    def _get_available_objective_channel(self):
+        """Get an available channel for objective sounds. Returns None if all channels are in use."""
+        # Clean up finished channels
+        self._cleanup_finished_channels()
+        
+        if len(self.available_objective_channels) > 0:
+            return self.available_objective_channels.pop(0)
+        return None
+    
+    def _release_objective_channel(self, channel):
+        """Release a channel back to the available pool."""
+        if channel is not None and channel not in self.available_objective_channels:
+            self.available_objective_channels.append(channel)
+    
+    def _cleanup_finished_channels(self):
+        """Check all objective channels and release any that have finished playing."""
+        finished_channels = []
+        for channel in self.objective_channels:
+            if channel not in self.available_objective_channels:
+                if not self.player.is_still_playing(channel):
+                    finished_channels.append(channel)
+        
+        for channel in finished_channels:
+            self._release_objective_channel(channel)
+    
+    def stop_all_objective_sounds(self):
+        """Stop all objective sounds and release their channels."""
+        for channel in self.objective_channels:
+            self.player.stop_music(channel)
+        self.available_objective_channels = self.objective_channels.copy()
 
     def stop_all(self):
         self.player.stop_music(CHANNEL_AMBIENT)
@@ -82,6 +126,7 @@ class GhostAudioSoundSystem(object):
         self.is_playing_ambient = False
         self.is_playing_running_out_of_time = False
         self.is_playing_pending_switchboard = False
+        self.stop_all_objective_sounds()
 
     # ----------------------------
 
@@ -92,59 +137,103 @@ class GhostAudioSoundSystem(object):
         self.player.queue_song(ENGAGE_NUMINSITY, channel_num=CHANNEL_VOICE)
     
     def play_engage_numinsity(self):
+        """Play Engage Numinsity on an available objective channel."""
         print("Playing Engage Numinsity")
-        self.player.stop_music(CHANNEL_VOICE)
-        self.player.play_song(ENGAGE_NUMINSITY, 1, channel_num=CHANNEL_VOICE, loops=0)
+        channel = self._get_available_objective_channel()
+        if channel is not None:
+            self.player.play_song(ENGAGE_NUMINSITY, 1, channel_num=channel, loops=0)
+        else:
+            print("No available channels for Engage Numinsity")
 
     def play_initiate_flux(self):
+        """Play Initiate Flux on an available objective channel."""
         print("Playing Initiate Flux")
-        self.player.stop_music(CHANNEL_VOICE)
-        self.player.play_song(INITIATE_FLUX, 1, channel_num=CHANNEL_VOICE, loops=0)
+        channel = self._get_available_objective_channel()
+        if channel is not None:
+            self.player.play_song(INITIATE_FLUX, 1, channel_num=channel, loops=0)
+        else:
+            print("No available channels for Initiate Flux")
     
     def play_increase_auraral(self):
+        """Play Increase Auraral on an available objective channel."""
         print("Playing Increase Auraral")
-        self.player.stop_music(CHANNEL_VOICE)
-        self.player.play_song(INCREASE_AURARAL, 1, channel_num=CHANNEL_VOICE, loops=0)
+        channel = self._get_available_objective_channel()
+        if channel is not None:
+            self.player.play_song(INCREASE_AURARAL, 1, channel_num=channel, loops=0)
+        else:
+            print("No available channels for Increase Auraral")
     
     def play_decrease_auraral(self):
+        """Play Decrease Auraral on an available objective channel."""
         print("Playing Decrease Auraral")
-        self.player.stop_music(CHANNEL_VOICE)
-        self.player.play_song(DECREASE_AURARAL, 1, channel_num=CHANNEL_VOICE, loops=0)
+        channel = self._get_available_objective_channel()
+        if channel is not None:
+            self.player.play_song(DECREASE_AURARAL, 1, channel_num=channel, loops=0)
+        else:
+            print("No available channels for Decrease Auraral")
     
     def play_activate_chronometer(self):
+        """Play Activate Chronometer on an available objective channel."""
         print("Playing Activate Chronometer")
-        self.player.stop_music(CHANNEL_VOICE)
-        self.player.play_song(ACTIVATE_CHRONOMETER, 1, channel_num=CHANNEL_VOICE, loops=0)
+        channel = self._get_available_objective_channel()
+        if channel is not None:
+            self.player.play_song(ACTIVATE_CHRONOMETER, 1, channel_num=channel, loops=0)
+        else:
+            print("No available channels for Activate Chronometer")
     
     def play_deactivate_chronometer(self):
+        """Play Deactivate Chronometer on an available objective channel."""
         print("Playing Deactivate Chronometer")
-        self.player.stop_music(CHANNEL_VOICE)
-        self.player.play_song(DEACTIVATE_CHRONOMETER, 1, channel_num=CHANNEL_VOICE, loops=0)
+        channel = self._get_available_objective_channel()
+        if channel is not None:
+            self.player.play_song(DEACTIVATE_CHRONOMETER, 1, channel_num=channel, loops=0)
+        else:
+            print("No available channels for Deactivate Chronometer")
     
     def play_increase_insulation(self):
+        """Play Increase Insulation on an available objective channel."""
         print("Playing Increase Insulation")
-        self.player.stop_music(CHANNEL_VOICE)
-        self.player.play_song(INCREASE_INSULATION, 1, channel_num=CHANNEL_VOICE, loops=0)
+        channel = self._get_available_objective_channel()
+        if channel is not None:
+            self.player.play_song(INCREASE_INSULATION, 1, channel_num=channel, loops=0)
+        else:
+            print("No available channels for Increase Insulation")
 
     def play_decrease_insulation(self):
+        """Play Decrease Insulation on an available objective channel."""
         print("Playing Decrease Insulation")
-        self.player.stop_music(CHANNEL_VOICE)
-        self.player.play_song(DECREASE_INSULATION, 1, channel_num=CHANNEL_VOICE, loops=0)
+        channel = self._get_available_objective_channel()
+        if channel is not None:
+            self.player.play_song(DECREASE_INSULATION, 1, channel_num=channel, loops=0)
+        else:
+            print("No available channels for Decrease Insulation")
 
     def play_magnetize_matrix(self):
+        """Play Magnetize Matrix on an available objective channel."""
         print("Playing Magnetize Matrix")
-        self.player.stop_music(CHANNEL_VOICE)
-        self.player.play_song(MAGNETIZE_MATRIX, 1, channel_num=CHANNEL_VOICE, loops=0)
+        channel = self._get_available_objective_channel()
+        if channel is not None:
+            self.player.play_song(MAGNETIZE_MATRIX, 1, channel_num=channel, loops=0)
+        else:
+            print("No available channels for Magnetize Matrix")
 
     def play_increase_accelerator(self):
+        """Play Increase Accelerator on an available objective channel."""
         print("Playing Increase Accelerator")
-        self.player.stop_music(CHANNEL_VOICE)
-        self.player.play_song(INCREASE_ACCELERATOR, 1, channel_num=CHANNEL_VOICE, loops=0)
+        channel = self._get_available_objective_channel()
+        if channel is not None:
+            self.player.play_song(INCREASE_ACCELERATOR, 1, channel_num=channel, loops=0)
+        else:
+            print("No available channels for Increase Accelerator")
 
     def play_determine_accelerator(self):
+        """Play Determine Accelerator on an available objective channel."""
         print("Playing Determine Accelerator")
-        self.player.stop_music(CHANNEL_VOICE)
-        self.player.play_song(DETERMINE_ACCELERATOR, 1, channel_num=CHANNEL_VOICE, loops=0)
+        channel = self._get_available_objective_channel()
+        if channel is not None:
+            self.player.play_song(DETERMINE_ACCELERATOR, 1, channel_num=channel, loops=0)
+        else:
+            print("No available channels for Determine Accelerator")
 
     def play_game_over(self):
         print("Playing Game Over")

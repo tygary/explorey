@@ -114,6 +114,9 @@ class GhostAudioSoundSystem(object):
         
         for channel in finished_channels:
             self._release_objective_channel(channel)
+
+    def stop_voice_channel(self):
+        self.player.stop_music(CHANNEL_VOICE)
     
     def stop_all_objective_sounds(self):
         """Stop all objective sounds and release their channels."""

@@ -186,18 +186,19 @@ class ATM(object):
         """
         return self.starting_balance
 
-    def apply_interest(self, interest_rate, debt_interest_rate):
+    def apply_interest(self, interest_rate, debt_interest_rate, magnitude=0):
         """
         Applies interest to all accounts based on their balance.
         Positive balances get the interest rate, negative balances get the debt interest rate.
         """
         accounts = self.db.getAll()
         self.pay_teller_based_on_amount(0)  
+        taxes = magnitude * 100 if  magnitude < 0.5 else 0
         for account_json in accounts:
             account = Account.from_json(account_json)
             if account.balance >= 0:
-                account.balance += int(account.balance * (interest_rate))
+                account.balance += int(account.balance * (interest_rate) - taxes)
             else:
-                account.balance += int(account.balance * (debt_interest_rate))
+                account.balance += int(account.balance * (debt_interest_rate) - taxes)
             self.update_account(account)
             print(f"Applied interest to account {account.account_number}. New balance: {account.balance}")

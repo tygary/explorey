@@ -82,7 +82,7 @@ class DepositScreen(Screen):
 
     def on_beans_deposited(self, total):
         self.amount_label.text = f"{total} / {self.amount} beans deposited"
-        if abs(total - self.amount) < self.amount * .5 and self.is_waiting:
+        if total > self.amount * .5 and self.is_waiting:
             self.is_waiting = False
             # If the amount is within 50% of the requested amount, proceed
             self.on_finish_deposit(self.form_info, self.amount)

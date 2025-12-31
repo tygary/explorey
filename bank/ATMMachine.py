@@ -29,10 +29,15 @@ SIGN_TOP_PIXELS = range(512, 1024)
 
 BOTTOM_PIXELS = range(NUM_SIGN_PIXELS, NUM_SIGN_PIXELS + 10)
 
-TIME_BETWEEN_INTEREST_S = 60 * 5
+TIME_BETWEEN_INTEREST_S = 60 * 20
 
 BEAN_CHUTE_PIN = 17
 BEAN_DISPENSER_PIN = 4
+
+CHOSEN_LEVER_VALUE = 400
+ECONOMY_UPDATE_INTERVAL = 60 * 2
+
+FOUNDER_UPDATE_TIME_S = 60 * 60
 
 class ATMMachine(object):
     id = "atm_machine"
@@ -48,6 +53,10 @@ class ATMMachine(object):
         self.interest_rate = 0.05
         self.debt_interest_rate = 0.05
         self.exchange_rate = 2
+        self.current_magnitude = 0
+        self.bean_deposit_start = 0
+        self.last_founder_update_time = 0
+        self.last_economy_update = time.time()
         self.mqtt = MqttClient()
         self.mqtt.listen(self.__parse_mqtt_event)
         self.printer = AccountPrinter()
@@ -73,8 +82,8 @@ class ATMMachine(object):
         print("Starting scan")
 
     def cancel_scan(self):
+        self.scanner.stop_scanning()
         if self.mode == MODE_SCANNING:
-            self.scanner.stop_scanning()
             self.mode = MODE_READY
             self._update_light_routines()
             self.render_lights()
@@ -98,10 +107,12 @@ class ATMMachine(object):
     def start_deposit(self, success_cb, failure_cb):
         self.deposit_success_cb = success_cb
         self.deposit_failure_cb = failure_cb
+        self.bean_deposit_start = time.time()
         self.beans_deposited = 0
 
     def cancel_deposit(self):
         self.beans_deposited = 0
+        self.bean_deposit_start = 0
         self.deposit_success_cb = None
         self.deposit_failure_cb = None
 
@@ -157,36 +168,46 @@ class ATMMachine(object):
                         self.lever_magnitudes = data["magnitudes"]
                         print("Lever magnitudes", self.lever_magnitudes)
                         self.update_economy(self.lever_magnitudes)
-                        self.render_lights()
-                        # self._update_light_routines()
         except Exception as e:
             print("ATM Machine Failed parsing event", event, e)
 
     def update_economy(self, lever_magnitudes):
+        print("Lever Values: ", lever_magnitudes)
         magnitude = lever_magnitudes[1]
         magnitude_normalized = (magnitude + 1000) / 2000
+        if (magnitude_normalized > self.current_magnitude):
+            amount = min(abs(magnitude_normalized - self.current_magnitude), 0.1)
+            self.current_magnitude += amount
+        else:
+            amount = min(abs(magnitude_normalized - self.current_magnitude), 0.1)
+            self.current_magnitude -= amount
+        magnitude_normalized = self.current_magnitude
+        magnitude = magnitude_normalized * 2000 - 1000
+        self.lever_magnitudes = [0, magnitude, 0]
+        print("Economy current magnitude: ", self.current_magnitude)
 
-        self.atm.set_starting_balance(int(100 + (magnitude_normalized * 200)))  # Between 20 and 100
+        self.atm.set_starting_balance(int(magnitude_normalized * 50))  # Between 0 and 100
         print("Setting starting balance to", self.atm.starting_balance)
 
-        self.atm.set_withdrawl_amount(int(20 + (magnitude_normalized * 60)))  # Between 20 and 100
+        self.atm.set_withdrawl_amount(int(20 + (magnitude_normalized * 40)))  # Between 20 and 100
         print("Setting withdrawl amount to", self.atm.withdrawl_amount)
 
-        max_interest_rate = 0.05
-        min_interest_rate = -0.02
+        max_interest_rate = 0.03
+        min_interest_rate = -0.07
         self.interest_rate = round(min_interest_rate + (max_interest_rate - min_interest_rate) * magnitude_normalized, 4)
         print("Setting interest rate to", self.interest_rate)
 
         max_exchange_rate = 5
-        min_exchange_rate = 1
+        min_exchange_rate = 0.1
         self.exchange_rate = round(min_exchange_rate + (max_exchange_rate - min_exchange_rate) * (1 - magnitude_normalized), 2)
         self.atm.set_exchange_rate(self.exchange_rate)
         print("Setting exchange rate to", self.exchange_rate)
 
-        max_debt_interest_rate = 0.10
+        max_debt_interest_rate = 0.05
         min_debt_interest_rate = 0.01
         self.debt_interest_rate = round(min_debt_interest_rate + (max_debt_interest_rate - min_debt_interest_rate) * (1 - magnitude_normalized), 4)
         print("Setting debt interest rate to", self.debt_interest_rate)
+        self.render_lights()
 
 
     def get_interest_rate(self):
@@ -202,6 +223,7 @@ class ATMMachine(object):
     def reset(self):
         print("Resetting")
         self.mode = MODE_READY
+        self.atm.apply_interest(self.interest_rate, self.debt_interest_rate)
         self._update_light_routines()
         self.render_lights()
         self.lever_magnitudes = [0, 0, 0]
@@ -213,10 +235,37 @@ class ATMMachine(object):
 
     def update(self):
         try:
-            if time.time() >= self.next_interest_time:
+            now = time.time()
+            if self.bean_deposit_start > 0 and now >= self.bean_deposit_start + 10:
+                self.bean_deposit_start = 0
+                if self.deposit_success_cb:
+                    self.deposit_success_cb(500)
+                    # self.deposit_success_cb(200)
+                    # self.deposit_success_cb(200)
+            if now >= self.next_interest_time:
                 self.next_interest_time = time.time() + TIME_BETWEEN_INTEREST_S
                 print("Applying interest rate", self.interest_rate)
-                self.atm.apply_interest(self.interest_rate, self.debt_interest_rate)
+                self.atm.apply_interest(self.interest_rate, self.debt_interest_rate, self.current_magnitude)
+            if now >= self.last_economy_update + ECONOMY_UPDATE_INTERVAL:
+                self.last_economy_update = now
+                self.update_economy([0, CHOSEN_LEVER_VALUE, 0])
+            if now >= self.last_founder_update_time + FOUNDER_UPDATE_TIME_S:
+                self.last_founder_update_time = now
+                founder = self.atm.get_account(46793)
+                founder.balance = 123456789
+                self.atm.update_account(founder)
+
+                gotturd = self.atm.get_account(34001)
+                gotturd.balance = 252971
+                self.atm.update_account(gotturd)
+
+                squeezy = self.atm.get_account(44808)
+                squeezy.balance = 219211
+                self.atm.update_account(squeezy)
+
+                gobleena = self.atm.get_account(54531)
+                gobleena.balance = 123121
+                self.atm.update_account(gobleena)
         except Exception as e:
             print("Error applying interest rate", e)
         try:

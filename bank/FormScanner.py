@@ -22,18 +22,19 @@ def center_window(window_name, image=None):
         image: The image being displayed (optional), used to determine window dimensions
     """
     # Estimate screen resolution - adjust these values based on your target screen
-    screen_width = 1920  # Default screen width
-    screen_height = 1080  # Default screen height
+    screen_width = 1024  # Default screen width
+    screen_height = 1280  # Default screen height
     
     # If image is provided, use its dimensions, otherwise use default size
     if isinstance(image, np.ndarray):
         height, width = image.shape[:2]
     else:
-        width, height = 640, 480  # Default window size
+        width, height = 0, 0  # Default window size
     
     # Calculate center position
-    x_pos = (screen_width - width) // 2
-    y_pos = (screen_height - height) // 2
+    x_pos = (screen_width) // 2
+    y_pos = (screen_height) // 2
+    # print(y_pos, screen_height, height)
     
     # Ensure window is not positioned off-screen
     x_pos = max(0, x_pos)
@@ -101,6 +102,12 @@ def detect_contours(form, form_w, form_h, error_margin=0.2, form_type=None):
         amount_box_width = form_w // 3
         amount_box_height = form_h // 10
         min_area = amount_box_width * amount_box_height * 0.5
+        error_margin = 0.25
+        # print("Using custom parameters for form detection", 
+        #     f"account_number_size: {account_number_size}, "
+        #     f"name_box_width: {name_box_width}, name_box_height: {name_box_height}, "
+        #     f"amount_box_width: {amount_box_width}, amount_box_height: {amount_box_height}, "
+        #     f"min_area: {min_area}")
 
     contours = imutils.grab_contours(cv2.findContours(form.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE))
     innerCnts = sorted(contours, key=cv2.contourArea, reverse=True)
@@ -121,10 +128,11 @@ def detect_contours(form, form_w, form_h, error_margin=0.2, form_type=None):
         # debug_img = form.copy()
         # cv2.drawContours(debug_img, [c], -1, (0, 255, 0), 3)
         # cv2.imshow("Detected Form Contour", debug_img)
+        # center_window("Detected Form Contour", debug_img)
         # cv2.waitKey(500)  # Show for 0.5 seconds
         # cv2.destroyWindow("Detected Form Contour")
         
-        if len(approx) == 4 and abs(account_number_size - w) < error_margin * account_number_size and abs(account_number_size - h) < error_margin * account_number_size and ar >= 0.8 and ar <= 1.2:
+        if len(approx) == 4 and abs(account_number_size - w) < error_margin * account_number_size and abs(account_number_size - h) < error_margin * account_number_size and ar >= 0.8 and ar <= 1.3:
             # Check if this contour is contained within any existing account number contours
             is_contained = False
             for existing_contour in account_number_contours:
@@ -136,7 +144,7 @@ def detect_contours(form, form_w, form_h, error_margin=0.2, form_type=None):
             if not is_contained:
                 print(f"Found account number contour")
                 account_number_contours.append(c)
-        elif amount_box_width > 0 and len(approx) == 4 and abs(amount_box_width - w) < error_margin * amount_box_width and abs(amount_box_height - h) < error_margin * amount_box_height and ar > 3 and ar <= 5:
+        elif amount_box_width > 0 and len(approx) == 4 and abs(amount_box_width - w) < error_margin * amount_box_width and abs(amount_box_height - h) < error_margin * amount_box_height * 3 and ar > 3 and ar <= 6:
             amount_box_contours.append(c)
         elif len(approx) == 4 and abs(name_box_width - w) < error_margin * name_box_width and abs(name_box_height - h) < 5 * error_margin * name_box_height and 5 < ar <= 9:
             name_box_countours.append(c)
@@ -305,15 +313,16 @@ def parse_form_image(image_path, form_type=None):
     # cv2.destroyWindow("orginal image")
     # Crop 20% from left/right and 10% from top/bottom
     h, w = image.shape[:2]
-    left = int(0.14 * w)
-    right = int(0.85 * w)
-    top = int(0.10 * h)
-    bottom = int(0.84 * h)
+    left = int(0.04 * w)
+    right = int(0.92 * w)
+    top = int(0.1 * h)
+    bottom = int(0.94 * h)
     image = image[top:bottom, left:right]
 
     # cv2.imshow("Detected image", image)
-    # cv2.waitKey(500)  # Show for 0.5 seconds
     # center_window("Detected image", image)
+    # cv2.waitKey(2000)  # Show for 0.5 seconds
+    
     # cv2.destroyWindow("Detected image")
 
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -324,10 +333,23 @@ def parse_form_image(image_path, form_type=None):
     # Convert to pure black and white using adaptive thresholding
     binary = cv2.adaptiveThreshold(blurred, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, 
                                  cv2.THRESH_BINARY_INV, 11, 2)
+
+    # cv2.imshow("Detected image", binary)
+    # center_window("Detected image", binary)
+    # cv2.waitKey(2000)  # Show for 0.5 seconds
+    
+    # cv2.destroyWindow("Detected image")
     
     # Clean up the image to remove small noise
     kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
     cleaned = cv2.morphologyEx(binary, cv2.MORPH_CLOSE, kernel)
+
+    # cv2.imshow("Detected image", cleaned)
+    # center_window("Detected image", cleaned)
+    # cv2.waitKey(2000)  # Show for 0.5 seconds
+    
+    # cv2.destroyWindow("Detected image")
+
     
     # Find all contours
     cnts = cv2.findContours(cleaned.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -340,8 +362,9 @@ def parse_form_image(image_path, form_type=None):
     # Use Canny edge detection for better contour detection
     edges = cv2.Canny(blurred, 50, 150)
     kernel = np.ones((5, 5), np.uint8)
-    edges = cv2.dilate(edges, kernel, iterations=2)
-    edges = cv2.erode(edges, kernel, iterations=1)
+    # edges = cv2.dilate(edges, kernel, iterations=1)
+    # edges = cv2.erode(edges, kernel, iterations=1)
+
 
     # Find contours from edges
     canny_cnts = cv2.findContours(edges.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -357,14 +380,16 @@ def parse_form_image(image_path, form_type=None):
             x, y, w, h = cv2.boundingRect(approx)
             aspect_ratio = w / float(h)
             area = cv2.contourArea(approx)
-            # print("contour area: ", area, " aspect ratio: ", aspect_ratio, "min image area: ", 0.1 * image_area)
-            if area < (0.1 * image_area):
-                continue
+            print("contour area: ", area, " aspect ratio: ", aspect_ratio, "min image area: ", 0.1 * image_area)
             # debug_img = image.copy()
             # cv2.drawContours(debug_img, [c], -1, (0, 255, 0), 3)
             # cv2.imshow("Detected Contour", debug_img)
+            # center_window("Detected Contour", debug_img)
             # cv2.waitKey(500)  # Show for 0.5 seconds
             # cv2.destroyWindow("Detected Contour")
+            if area < (0.1 * image_area):
+                continue
+            
             # Check aspect ratio and area (form should be large and roughly rectangular)
             # if 1.2 < aspect_ratio < 1.8 and area > 0.1 * image_area:
             form_contour = approx
@@ -516,6 +541,7 @@ class FormScanner(object):
         self.reset_form_data()
 
     def stop_scanning(self):
+        print("Stopping scanning")
         self.is_scanning = False
         self.callback = None
         self.reset_form_data()

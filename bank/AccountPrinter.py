@@ -50,14 +50,16 @@ class AccountPrinter(object):
         pdf.set_margins(left=16, top=0, right=0)
         pdf.set_auto_page_break(False)
 
-        pdf.add_page(orientation="P", format=(90, 90))
+        pdf.add_page(orientation="P", format=(90, 115))
         pdf.set_font("Arial", "B", 16)
         pdf.multi_cell(0, 10, f"Stock Certificate", align="C")
         pdf.set_font("Arial", "", 12)
         pdf.cell(90, 4, ln=1)
         pdf.multi_cell(0, 10, f"This document certifies ownership of one (1) share of The Leech Mining Company, subject to all rules regulations and bylaws of the corporate charter as well as the stalk trading rules at ACME Bank.", align="C")
         pdf.cell(90, 4, ln=1)
-        pdf.image("/home/admin/explorey/printer/resources/LeechLogo.jpg", 43, 0, 20, 20)
+        pdf.image("/home/admin/explorey/printer/resources/LeechLogo.jpg", 43, 74, 20, 20)
+
+        pdf.output(self.tmpAccountPrintoutPath, "F")
         
 
     def __create_account_printout(self, account_number, balance, name_file_path):

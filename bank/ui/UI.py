@@ -85,9 +85,9 @@ class UiApp(App):
         )
         self.tellerSignupScanning = ScanningScreen(
             name='teller_signup_scanning',
-            scanning_message='Scan your account details receipt now...',
+            scanning_message='Scan your account details receipt now...\nGo open an account if you do not have one.',
             start_scan=self.start_scan,  # Use existing scanning logic
-            cancel_scan=lambda _=None: self.change_screen('dashboard'),
+            cancel_scan=self.cancel_scan,
             on_finish_scan=self.on_finish_teller_signup,
             form_type='withdraw'
         )
@@ -95,7 +95,7 @@ class UiApp(App):
             name='teller_signin_scanning',
             scanning_message='Scan your account details receipt to sign in...',
             start_scan=self.start_scan,
-            cancel_scan=lambda _=None: self.change_screen('dashboard'),
+            cancel_scan=self.cancel_scan,
             on_finish_scan=self.on_finish_teller_signin,
             form_type='withdraw'
         )
@@ -121,7 +121,7 @@ class UiApp(App):
             name='bankruptcy_scanning',
             scanning_message='Scan your account details receipt now...',
             start_scan=self.start_scan,
-            cancel_scan=lambda _=None: self.change_screen('dashboard'),
+            cancel_scan=self.cancel_scan,
             on_finish_scan=self.on_finish_scanning_bankruptcy,
             form_type='withdraw'
         )
@@ -130,7 +130,7 @@ class UiApp(App):
             name='check_balance',
             scanning_message='Scan your account receipt now...',
             start_scan=self.start_scan,
-            cancel_scan=lambda _=None: self.change_screen('dashboard'),
+            cancel_scan=self.cancel_scan,
             on_finish_scan=self.on_check_balance,
             form_type='withdraw'
         )
@@ -139,7 +139,7 @@ class UiApp(App):
             name='buy_shares_scanning',
             scanning_message='Scan your account receipt now...',
             start_scan=self.start_scan,
-            cancel_scan=lambda _=None: self.change_screen('dashboard'),
+            cancel_scan=self.cancel_scan,
             on_finish_scan=self.on_buy_shares,
             form_type='withdraw'
         )
@@ -237,6 +237,8 @@ class UiApp(App):
     def on_finish_scanning_transfer(self, form_info: FormInfo):
         def on_amount_confirmation(amount):
             # Handle the amount confirmation
+            if form_info.from_account_number == 22900:
+                amount = 10
             print(f"Confirmed transfer of {amount} from account number: {form_info.from_account_number} to {form_info.to_account_number}")
             from_acc = self.atm.get_account(form_info.from_account_number)
             to_acc = self.atm.get_account(form_info.to_account_number)

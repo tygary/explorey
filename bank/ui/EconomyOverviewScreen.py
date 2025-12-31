@@ -36,7 +36,7 @@ class EconomyOverviewScreen(Screen):
 
         # Display interest rate
         self.interest_rate_label = Label(
-            text=f"Current Interest Rate: {self.get_interest_rate() * 100:.2f}%\n(Applied to positive balances compounding every 10 minutes)",
+            text=f"Current Interest Rate: {self.get_interest_rate() * 100:.2f}%\n(Applied to positive balances compounding every 20 minutes)",
             font_size="22sp",
             size_hint=(1, None),
             height=70,
@@ -49,7 +49,7 @@ class EconomyOverviewScreen(Screen):
 
         # Display debt interest rate
         self.debt_interest_rate_label = Label(
-            text=f"Current Debt Interest Rate: {self.get_debt_interest_rate() * 100:.2f}%\n(Applied to negative balances compounding every 10 minutes)",
+            text=f"Current Debt Interest Rate: {self.get_debt_interest_rate() * 100:.2f}%\n(Applied to negative balances compounding every 20 minutes)",
             font_size="22sp",
             size_hint=(1, None),
             height=70,
@@ -105,10 +105,10 @@ class EconomyOverviewScreen(Screen):
         self.exchange_rate_label.text = f"Current BeanBucks to Bean Exchange Rate: {self.get_exchange_rate()} BeanBucks = 1 Bean"
 
         # Update interest rate
-        self.interest_rate_label.text = f"Current Interest Rate: {self.get_interest_rate() * 100:.2f}%\n(Applied to positive balances compounding every 10 minutes)"
+        self.interest_rate_label.text = f"Current Interest Rate: {self.get_interest_rate() * 100:.2f}%\n(Applied to positive balances compounding every 20 minutes)"
 
         # Update debt interest rate
-        self.debt_interest_rate_label.text = f"Current Debt Interest Rate: {self.get_debt_interest_rate() * 100:.2f}%\n(Applied to negative balances compounding every 10 minutes)"
+        self.debt_interest_rate_label.text = f"Current Debt Interest Rate: {self.get_debt_interest_rate() * 100:.2f}%\n(Applied to negative balances compounding every 20 minutes)"
 
         # Update sign-on bonus
         self.sign_on_bonus_label.text = f"Current Sign-on Bonus: {self.get_sign_on_bonus()} Beans"

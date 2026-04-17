@@ -1,5 +1,4 @@
 import adafruit_ssd1306
-import adafruit_ssd1305
 from PIL import Image, ImageDraw, ImageFont
 
 SMALL = "small"
@@ -10,11 +9,8 @@ class I2CDisplay:
     def __init__(self, multiplexor, port: int, size: str = SMALL, addr=0x3C, reset=None):
         self._size = size
         channel = multiplexor.channel(port)
-
-        if size == LARGE:
-            self._oled = adafruit_ssd1305.SSD1305_I2C(128, 64, channel, addr=addr, reset=reset)
-        else:
-            self._oled = adafruit_ssd1306.SSD1306_I2C(128, 32, channel, addr=addr, reset=reset)
+        height = 64 if size == LARGE else 32
+        self._oled = adafruit_ssd1306.SSD1306_I2C(128, height, channel, addr=addr, reset=reset)
 
         self._oled.fill(0)
         self._oled.show()

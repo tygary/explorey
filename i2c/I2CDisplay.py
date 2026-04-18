@@ -13,8 +13,8 @@ _SSD1309_INIT = (
     0x40,        # start line
     0x20, 0x00,  # memory addressing mode: horizontal
     0xA1,        # segment remap
-    0xC8,        # COM scan direction
-    0xDA, 0x02,  # COM pins: sequential (0x12 alternative causes stretch on SSD1309)
+    0xC0,        # COM scan direction: normal top-to-bottom (0xC8 remapped + sequential causes half-swap)
+    0xDA, 0x02,  # COM pins: sequential
     0x81, 0xFF,  # contrast
     0xD9, 0x22,  # pre-charge period
     0xDB, 0x34,  # VCOMH deselect level

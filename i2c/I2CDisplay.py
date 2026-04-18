@@ -9,11 +9,11 @@ _SSD1309_INIT = (
     0xAE,        # display off
     0xD5, 0x80,  # clock divide ratio
     0xA8, 63,    # multiplex ratio (64 rows)
-    0xD3, 0x00,  # display offset
+    0xD3, 0x20,  # display offset
     0x40,        # start line
     0x20, 0x00,  # memory addressing mode: horizontal
     0xA1,        # segment remap
-    0xC0,        # COM scan direction: normal top-to-bottom (0xC8 remapped + sequential causes half-swap)
+    0xC8,        # COM scan direction: normal top-to-bottom (0xC8 remapped + sequential causes half-swap)
     0xDA, 0x02,  # COM pins: sequential
     0x81, 0xFF,  # contrast
     0xD9, 0x22,  # pre-charge period

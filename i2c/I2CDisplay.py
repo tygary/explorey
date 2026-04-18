@@ -10,7 +10,8 @@ class I2CDisplay:
         self._size = size
         channel = multiplexor.channel(port)
         height = 64 if size == LARGE else 32
-        self._oled = adafruit_ssd1306.SSD1306_I2C(128, height, channel, addr=addr, reset=reset)
+        # external_vcc=True changes the init sequence which resolves COM pin ghosting on SSD1309
+        self._oled = adafruit_ssd1306.SSD1306_I2C(128, height, channel, addr=addr, reset=reset, external_vcc=size == LARGE)
 
         self._oled.fill(0)
         self._oled.show()
@@ -32,5 +33,7 @@ class I2CDisplay:
             fill=255,
         )
 
+        self._oled.fill(0)
+        self._oled.show()
         self._oled.image(image)
         self._oled.show()

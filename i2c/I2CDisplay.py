@@ -51,13 +51,20 @@ class I2CDisplay:
         self._oled.fill(0)
         self._oled.show()
 
-    def displayText(self, text: str):
+    def displayText(self, text: str, font_size: int = 0):
         image = Image.new("1", (self._oled.width, self._oled.height))
         draw = ImageDraw.Draw(image)
 
         draw.rectangle((0, 0, self._oled.width, self._oled.height), fill=0)
 
-        font = ImageFont.load_default()
+        if font_size > 0:
+            try:
+                font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", font_size)
+            except OSError:
+                font = ImageFont.load_default()
+        else:
+            font = ImageFont.load_default()
+
         bbox = font.getbbox(text)
         font_width = bbox[2] - bbox[0]
         font_height = bbox[3] - bbox[1]

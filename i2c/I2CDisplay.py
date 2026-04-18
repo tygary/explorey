@@ -14,7 +14,7 @@ _SSD1309_INIT = (
     0x20, 0x00,  # memory addressing mode: horizontal
     0xA1,        # segment remap
     0xC8,        # COM scan direction: normal top-to-bottom (0xC8 remapped + sequential causes half-swap)
-    0xDA, 0x02,  # COM pins: sequential
+    0xDA, 0x12,  # COM pins: alternative
     0x81, 0x8F,  # contrast (reduced from 0xFF to limit bleed)
     0xD9, 0x22,  # pre-charge period
     0xDB, 0x20,  # VCOMH deselect level (lowered from 0x34 to reduce ghost voltage)

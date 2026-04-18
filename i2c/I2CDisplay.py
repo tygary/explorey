@@ -5,29 +5,39 @@ SMALL = "small"
 LARGE = "large"
 
 
+_SSD1309_INIT = (
+    0xAE,        # display off
+    0xD5, 0x80,  # clock divide ratio
+    0xA8, 63,    # multiplex ratio (64 rows)
+    0xD3, 0x00,  # display offset
+    0x40,        # start line
+    0x20, 0x00,  # memory addressing mode: horizontal
+    0xA1,        # segment remap
+    0xC8,        # COM scan direction
+    0xDA, 0x02,  # COM pins: sequential (0x12 alternative causes stretch on SSD1309)
+    0x81, 0xFF,  # contrast
+    0xD9, 0x22,  # pre-charge period
+    0xDB, 0x34,  # VCOMH deselect level
+    0xA4,        # output follows RAM
+    0xA6,        # normal display
+    0xAF,        # display on
+)
+
+
 class _SSD1309_I2C(adafruit_ssd1306.SSD1306_I2C):
-    """SSD1306 subclass that replaces init with correct SSD1309 sequence (no charge pump)."""
+    """SSD1306 subclass with correct SSD1309 init (no charge pump, sequential COM pins)."""
 
     def init_display(self):
-        for cmd in (
-            0xAE,                    # display off
-            0xD5, 0x80,              # clock divide ratio
-            0xA8, self.height - 1,   # multiplex ratio
-            0xD3, 0x00,              # display offset
-            0x40,                    # start line
-            0xA1,                    # segment remap
-            0xC8,                    # COM scan direction
-            0xDA, 0x12,              # COM pins config
-            0x81, 0xFF,              # contrast
-            0xD9, 0x22,              # pre-charge period
-            0xDB, 0x34,              # VCOMH deselect level
-            0xA4,                    # output follows RAM
-            0xA6,                    # normal display
-            0xAF,                    # display on
-        ):
+        for cmd in _SSD1309_INIT:
             self.write_cmd(cmd)
         self.fill(0)
         self.show()
+
+    def __init__(self, width, height, i2c, **kwargs):
+        super().__init__(width, height, i2c, **kwargs)
+        # Belt-and-suspenders: re-send in case init_display isn't called by this library version
+        for cmd in _SSD1309_INIT:
+            self.write_cmd(cmd)
 
 
 class I2CDisplay:

@@ -66,14 +66,9 @@ class I2CDisplay:
             font = ImageFont.load_default()
 
         bbox = font.getbbox(text)
-        font_width = bbox[2] - bbox[0]
-        font_height = bbox[3] - bbox[1]
-        draw.text(
-            (self._oled.width // 2 - font_width // 2, self._oled.height // 2 - font_height // 2),
-            text,
-            font=font,
-            fill=255,
-        )
+        x = (self._oled.width - (bbox[2] - bbox[0])) // 2 - bbox[0]
+        y = (self._oled.height - (bbox[3] - bbox[1])) // 2 - bbox[1]
+        draw.text((x, y), text, font=font, fill=255)
 
         self._oled.image(image)
         self._oled.show()

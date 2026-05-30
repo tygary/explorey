@@ -25,7 +25,9 @@ class MqttClient(object):
     connected = False
     message_batch = []
 
-    def __init__(self):
+    def __init__(self, topic=None, hostname=None):
+        self.topic = topic or TOPIC
+        self.hostname = hostname or get_hostname()
         self.client = mqtt.Client()
         self.client.on_connect = self.__on_connect
         self.client.on_message = self.__on_message
@@ -38,13 +40,13 @@ class MqttClient(object):
                 time.sleep(2)
 
     def connect(self):
-        self.client.connect(get_hostname(), BROKER_PORT, 60)
+        self.client.connect(self.hostname, BROKER_PORT, 60)
         self.client.loop_start()
         self.connected = True
 
     def __on_connect(self, client, userdata, flags, rc):
         print("Connected to MQTT broker with result code: " + str(rc))
-        client.subscribe(TOPIC)
+        client.subscribe(self.topic)
 
     def __on_message(self, client, userdata, message):
         # print("Message received: " + message.payload.decode())
@@ -62,7 +64,7 @@ class MqttClient(object):
 
     def publish(self, message):
         print("MQTT Publishing message:", message)
-        self.client.publish(TOPIC, message)
+        self.client.publish(self.topic, message)
 
     def listen(self, listener):
         self.listeners.append(listener)

@@ -63,7 +63,7 @@ class BabelController:
 
     def start(self):
         logger.info("Starting BabelController (%s)", self._box)
-        self._mqtt = MqttClient(topic=MQTT_TOPIC, hostname="127.0.0.1")
+        self._mqtt = MqttClient(topic=MQTT_TOPIC, hostname="10.0.1.149")
         self._mqtt.listen(self._on_message)
         threading.Thread(target=self._render_loop, daemon=True).start()
 

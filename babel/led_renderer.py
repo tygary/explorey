@@ -1,7 +1,10 @@
 from lighting.PixelControl import PixelControl
 from lighting.Colors import Colors
 from lighting.routines import (
-    BlackoutRoutine, ColorRoutine, PulseRoutine, RainbowRoutine,
+    BlackoutRoutine, ColorRoutine, PulseRoutine,
+)
+from lighting.routines.TwinkleRoutine import (
+    TwinkleRoutine, TWINKLE_DEFAULT_COLORS, TWINKLE_RAINBOW_COLORS,
 )
 
 from babel.config import (
@@ -23,6 +26,13 @@ _PUZZLE_CONST_SEGS = [CONSTELLATION_A, CONSTELLATION_B, CONSTELLATION_C]
 _DECO_CONST_SEGS = [CONSTELLATION_D, CONSTELLATION_E, CONSTELLATION_F,
                     CONSTELLATION_G, CONSTELLATION_H]
 
+_GREEN_COLORS = [
+    [0, 255,  70],
+    [0, 220,  80],
+    [50, 255, 100],
+    [0, 190,  60],
+]
+
 
 def _addrs(seg):
     start, end = seg
@@ -36,8 +46,10 @@ class LedRenderer:
         # ── Stars ─────────────────────────────────────────────────────────────
         star_addrs = _addrs(STAR_BG_1) + _addrs(STAR_BG_2)
         self._stars = {
-            "twinkle": PulseRoutine(self._pixels, star_addrs, color=[200, 200, 255], rate=0.02),
-            "rainbow": RainbowRoutine(self._pixels, star_addrs),
+            "twinkle": TwinkleRoutine(self._pixels, star_addrs,
+                                      colors=TWINKLE_DEFAULT_COLORS, max_brightness=0.3),
+            "rainbow": TwinkleRoutine(self._pixels, star_addrs,
+                                      colors=TWINKLE_RAINBOW_COLORS, max_brightness=0.3),
         }
 
         # ── Display surrounds (one dict per slot) ─────────────────────────────
@@ -55,16 +67,21 @@ class LedRenderer:
         for seg in _PUZZLE_CONST_SEGS:
             addrs = _addrs(seg)
             self._puzzle_constellations.append({
-                "idle":    PulseRoutine(self._pixels, addrs, color=[150, 150, 220], rate=0.015),
-                "correct": PulseRoutine(self._pixels, addrs, color=[255, 200, 0],  rate=0.04),
-                "rainbow": RainbowRoutine(self._pixels, addrs),
+                "idle":    TwinkleRoutine(self._pixels, addrs,
+                                         colors=TWINKLE_DEFAULT_COLORS, max_brightness=0.3),
+                "correct": TwinkleRoutine(self._pixels, addrs,
+                                         colors=_GREEN_COLORS, max_brightness=0.7),
+                "rainbow": TwinkleRoutine(self._pixels, addrs,
+                                         colors=TWINKLE_RAINBOW_COLORS, max_brightness=0.3),
             })
 
         # ── Decorative constellations D–H ─────────────────────────────────────
         deco_addrs = sum((_addrs(seg) for seg in _DECO_CONST_SEGS), [])
         self._deco_constellations = {
-            "idle":    PulseRoutine(self._pixels, deco_addrs, color=[150, 150, 220], rate=0.015),
-            "rainbow": RainbowRoutine(self._pixels, deco_addrs),
+            "idle":    TwinkleRoutine(self._pixels, deco_addrs,
+                                     colors=TWINKLE_DEFAULT_COLORS, max_brightness=0.3),
+            "rainbow": TwinkleRoutine(self._pixels, deco_addrs,
+                                     colors=TWINKLE_RAINBOW_COLORS, max_brightness=0.3),
         }
 
         # ── Pyramid top ───────────────────────────────────────────────────────
@@ -72,7 +89,8 @@ class LedRenderer:
         self._pyramid = {
             "blue":    ColorRoutine(self._pixels, pyramid_addrs, color=Colors.blue),
             "red":     ColorRoutine(self._pixels, pyramid_addrs, color=Colors.red),
-            "rainbow": RainbowRoutine(self._pixels, pyramid_addrs),
+            "rainbow": TwinkleRoutine(self._pixels, pyramid_addrs,
+                                     colors=TWINKLE_RAINBOW_COLORS, max_brightness=0.3),
         }
 
         # ── Inner box ─────────────────────────────────────────────────────────
@@ -86,7 +104,7 @@ class LedRenderer:
         arrow_addrs = _addrs(ARROW)
         self._arrow = {
             "idle":  PulseRoutine(self._pixels, arrow_addrs, color=[150, 150, 150], rate=0.02),
-            "green": ColorRoutine(self._pixels, arrow_addrs, color=Colors.green),
+            "green": PulseRoutine(self._pixels, arrow_addrs, color=Colors.green,   rate=0.03),
         }
 
         # ── Box border ────────────────────────────────────────────────────────

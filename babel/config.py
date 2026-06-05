@@ -1,7 +1,9 @@
 # MQTT
-MQTT_BROKER_HOST = "localhost"
-MQTT_BROKER_PORT = 1883
 MQTT_TOPIC = "ratlantis"
+
+# Box identifiers
+BOX_PIGEON   = "pigeon"
+BOX_ELEPHANT = "elephant"
 
 # LED hardware
 LED_PIN        = 18       # GPIO pin (PWM). Use 10 for SPI (/dev/spidev0.0).
@@ -42,21 +44,23 @@ BOX_BORDER     = (198, 207)      # 10 px — frame around box front
 STAR_BG_2      = (208, 282)      # 75-pixel trailing star field
 
 # ── Constellation puzzle cable→LED mapping ────────────────────────────────────
-# Maps cable name → (display_surround_range, constellation_pixels_range)
 CABLE_CONSTELLATION_MAP = {
     "cable1": (DISPLAY_SURROUND_0, CONSTELLATION_A),
     "cable2": (DISPLAY_SURROUND_1, CONSTELLATION_B),
     "cable3": (DISPLAY_SURROUND_2, CONSTELLATION_C),
 }
 
-# Correct plug value for each cable.
-# These must match the fern.D* numeric constants used in the MicroPython firmware.
+# Correct plug value for each cable — same for both boxes.
+# Must match the fern.D* numeric constants in the MicroPython firmware.
 # fern.D4 = 4, fern.D5 = 5, fern.D6 = 6 — adjust if actual values differ.
 CORRECT_CONNECTIONS = {
     "cable1": 4,   # fern.D4
     "cable2": 6,   # fern.D6
     "cable3": 5,   # fern.D5
 }
+
+# ── Word puzzle ───────────────────────────────────────────────────────────────
+WINNING_COMBO = [2, 2, 2, 1, 1, 1]   # set to actual answer before deployment
 
 # ── Game state constants ──────────────────────────────────────────────────────
 STATE_INIT     = "init"

@@ -1,7 +1,7 @@
 from babel.BabelController import BabelController
 import time
 
-controller = BabelController()
+controller = BabelController(pigeon=True)
 controller.start()
 
 while True:

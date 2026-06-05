@@ -2,21 +2,29 @@
 
 ## Overview
 
-Five devices: four ESP boards (one per puzzle) and a Raspberry Pi. Communication happens via MQTT over WiFi on a shared topic (`ratlantis`). The Time Puzzle ESP acts as the **game master** — it holds the start button and is responsible for broadcasting `gameUpdate` events that advance global state. The Raspberry Pi runs the MQTT broker and handles constellation LED rendering, win celebration lighting, and opening a secret box.
+Two physical puzzle boxes — **Pigeon** and **Elephant** — each contain the same four puzzles. Both boxes must solve their puzzles simultaneously; the game advances to the next phase only when both boxes have completed the current one.
+
+Five device types: four ESP boards per box (eight total), and a Raspberry Pi. The **Raspberry Pi is the game master** — it owns global state, coordinates phase transitions, and responds to any puzzle reboot with a `gameUpdate` that restores that puzzle to the correct state. All devices communicate over MQTT on the shared topic `ratlantis`.
+
+Each puzzle class takes a `pigeon` parameter (`True` for the pigeon box, `False` for the elephant box). This flag controls which image assets are used, which MQTT box identifier is embedded in outgoing messages, and any behaviour that differs between the two boxes.
+
+**Image naming convention:**
+- Pigeon box: `images/p_<word>.bin`
+- Elephant box: `images/E_<word>.bin`
 
 ---
 
 ## Game Flow
 
 ```
-GAME_INIT          → (button press on Puzzle 1) → PUZZLE_1_ACTIVE
-PUZZLE_1_ACTIVE    → (time set correctly)        → PUZZLE_2_ACTIVE
-PUZZLE_2_ACTIVE    → (all artifacts attached)    → PUZZLE_3_ACTIVE
-PUZZLE_3_ACTIVE    → (all cables plugged in)     → PUZZLE_4_ACTIVE
-PUZZLE_4_ACTIVE    → (correct words set)         → GAME_COMPLETE
+GAME_INIT           → (both boxes hold button simultaneously)  → PUZZLE_1_ACTIVE
+PUZZLE_1_ACTIVE     → (pigeon matches elephant's chosen time)  → PUZZLE_2_ACTIVE
+PUZZLE_2_ACTIVE     → (both boxes have all artifacts correct)  → PUZZLE_3_ACTIVE
+PUZZLE_3_ACTIVE     → (all 6 constellation pairs correct)      → PUZZLE_4_ACTIVE
+PUZZLE_4_ACTIVE     → (all 6 words correct across both boxes)  → GAME_COMPLETE
 ```
 
-Reset: hold the button on Puzzle 1 for 5 seconds at any time → `GAME_INIT`
+Reset: hold the button on either box's Time Puzzle for 5 seconds → `GAME_INIT` broadcast from Pi.
 
 ---
 
@@ -38,423 +46,487 @@ Every ESP board uses the same top-level mode constants:
 
 **Topic:** `ratlantis` (all boards and the Pi publish and subscribe to the same topic)
 
-### Game Master → All (from Time Puzzle ESP)
+Every message includes a `box` field: `"pigeon"` or `"elephant"`. The `id` field is the puzzle name (e.g. `"time_puzzle"`). The Pi uses both fields to route and track state.
+
+---
+
+### ESP → Pi (and broadcast to all)
+
+#### finishedBoot
+Sent by any puzzle immediately after WiFi and MQTT connect. The Pi responds with the appropriate `gameUpdate` to restore state.
 
 ```json
-{ "event": "gameUpdate", "state": "<state_string>" }
+{ "event": "finishedBoot", "id": "time_puzzle", "box": "pigeon" }
+```
+
+#### holdButton (Time Puzzle only)
+Sent when the button is held ≥ 1 s. Pi tracks whether both boxes are holding simultaneously.
+
+```json
+{ "event": "holdButton", "id": "time_puzzle", "box": "pigeon", "holding": true }
+{ "event": "holdButton", "id": "time_puzzle", "box": "pigeon", "holding": false }
+```
+
+#### timePuzzleSolved (Pigeon only)
+Sent when the pigeon box sets the correct time and presses the button.
+
+```json
+{ "event": "timePuzzleSolved", "id": "time_puzzle", "box": "pigeon" }
+```
+
+#### artifactPuzzleSolved
+Sent when all three slots on one box are correct.
+
+```json
+{ "event": "artifactPuzzleSolved", "id": "artifact_puzzle", "box": "pigeon" }
+```
+
+#### constellationUpdate
+Sent on every cable connection change while playing.
+
+```json
+{ "event": "constellationUpdate", "id": "constellation_puzzle", "box": "pigeon",
+  "connections": { "cable1": "<plug_pin>", "cable2": null, "cable3": "<plug_pin>" } }
+```
+
+#### constellationPuzzleSolved
+Sent when all three cables on one box are correct (Pi still waits for both).
+
+```json
+{ "event": "constellationPuzzleSolved", "id": "constellation_puzzle", "box": "pigeon" }
+```
+
+#### wordKnobChanged
+Sent when a knob turns. `dial` is the global dial index (0–2 pigeon, 3–5 elephant). Pi rebroadcasts this to all devices so both boxes update their displays.
+
+```json
+{ "event": "wordKnobChanged", "id": "babel_word_puzzle", "box": "pigeon",
+  "dial": 1, "value": 4 }
+```
+
+---
+
+### Pi → All (game master commands)
+
+#### gameUpdate
+The Pi's primary outgoing message. Sent to advance game state and to restore any rebooted puzzle. Includes the full current state so every puzzle can self-correct without extra round-trips.
+
+```json
+{
+  "event": "gameUpdate",
+  "state": "puzzle1Active",
+  "time_target": { "hour": 3, "minute": 7 },
+  "constellation_connections": {
+    "pigeon": { "cable1": null, "cable2": null, "cable3": null },
+    "elephant": { "cable1": null, "cable2": null, "cable3": null }
+  },
+  "word_selections": [0, 0, 0, 0, 0, 0]
+}
 ```
 
 State strings: `"init"`, `"puzzle1Active"`, `"puzzle2Active"`, `"puzzle3Active"`, `"puzzle4Active"`, `"gameComplete"`
 
-The game master also broadcasts `gameStart` when the button is first pressed (before puzzle 1 activates), so all boards can transition out of `MODE_PASSIVE` to `MODE_WAITING`.
+Fields present in each state:
 
-### Individual Puzzle Commands (targeted, any sender)
+| State          | Extra fields present                                             |
+|----------------|------------------------------------------------------------------|
+| `init`         | —                                                                |
+| `puzzle1Active`| `time_target` (null until elephant has chosen, then hour+minute) |
+| `puzzle2Active`| —                                                                |
+| `puzzle3Active`| `constellation_connections`                                      |
+| `puzzle4Active`| `word_selections` (array of 6 ints)                              |
+| `gameComplete` | —                                                                |
 
-```json
-{ "event": "puzzleUpdate", "id": "<puzzle_name>", "command": "reset" | "gameStart" | "gameUpdate" }
-```
-
-### Puzzle 1 (Time) → All
-
-```json
-{ "event": "gameStart", "id": "time_puzzle" }
-{ "event": "timePuzzleSolved", "id": "time_puzzle" }
-```
-
-### Puzzle 2 (Artifact) → All
-
-```json
-{ "event": "artifactSlotUpdate", "id": "artifact_puzzle", "slot": 0, "connected": true, "valid": true }
-{ "event": "artifactPuzzleSolved", "id": "artifact_puzzle" }
-```
-
-### Puzzle 3 (Constellation) → All (including Pi LED renderer)
-
-Sent on every change to cable connections:
-
-```json
-{ "event": "constellationUpdate", "id": "constellation_puzzle",
-  "connections": { "cable1": "<plug_pin>", "cable2": null, "cable3": "<plug_pin>" } }
-```
-
-`null` means that cable is unplugged. Plug values are the `fern.D*` pin constant values.
-
-```json
-{ "event": "constellationPuzzleSolved", "id": "constellation_puzzle" }
-```
-
-### Puzzle 4 (Word) → All
-
-```json
-{ "event": "wordPuzzleCompleted", "id": "babel_word_puzzle" }
-```
+#### wordKnobChanged (relay)
+The Pi rebroadcasts this verbatim so both boxes update their display for that dial.
 
 ---
 
 ## Puzzle 1 — Time Puzzle
 
-**File:** `babel_time_puzzle.py` | **Class:** `BabelTimePuzzle`
+**File:** `babel_time_puzzle.py` | **Class:** `BabelTimePuzzle` | **Param:** `pigeon=True/False`
 
 ### Hardware
 
-| Component               | Connection                                      |
-|-------------------------|-------------------------------------------------|
-| Start/reset button      | `fern.D1`, shorts to GND (active low, PULL_UP) |
-| LargeDisplay            | Direct I2C (no mux), addr `0x3C` via `NoMux`   |
-| RotaryEncoder (hour)    | Direct I2C, addr `0x36`                         |
-| RotaryEncoder (minute)  | Direct I2C, addr `0x37`                         |
-| LED strip               | `LED1_DATA`, 73 LEDs total                      |
+| Component               | Pigeon                                          | Elephant                              |
+|-------------------------|-------------------------------------------------|---------------------------------------|
+| Start/reset button      | `fern.D1`, active low, PULL_UP                  | Same                                  |
+| LargeDisplay            | Direct I2C, addr `0x3C` via `NoMux`             | Same                                  |
+| RotaryEncoder (hour)    | Direct I2C, addr `0x36`                         | **Not present**                       |
+| RotaryEncoder (minute)  | Direct I2C, addr `0x37`                         | **Not present**                       |
+| LED strip               | `LED1_DATA`, 73 LEDs total                      | Same                                  |
 
-The two encoders use different I2C addresses (solder-jumper configured) so no mux or lock is needed. The `LargeDisplay` is wrapped with `NoMux` (from `i2c_mux`) to give the display the same interface as mux-backed displays without the overhead.
+### Behaviour Differences
 
-### LED Layout (73 total)
+**Elephant (`pigeon=False`):**
+- On entering `MODE_PLAYING`: randomly picks `hour` (1–12) and `minute` (0–11) and publishes `timeChosen` to Pi.
+- Displays the chosen time on its own clock face LEDs and LargeDisplay.
+- Has no rotary encoders and no win condition — it waits for `timePuzzleSolved` from the pigeon box.
+- The Pi stores the chosen time in state and includes it in future `gameUpdate` messages.
 
-| LEDs   | Purpose                          | Color                              |
-|--------|----------------------------------|------------------------------------|
-| 0–1    | Minute symbol indicator          | Yellow                             |
-| 2–3    | Hour symbol indicator            | Green                              |
-| 4–5    | Unused                           | —                                  |
-| 6–9    | Surround start button            | Green in `MODE_PASSIVE`, else off  |
-| 10–24  | Ignored                          | Off                                |
-| 25–72  | Analog clock face (12 × 4 LEDs) | See below                          |
+**Pigeon (`pigeon=True`):**
+- Has rotary encoders. User sets hour and minute.
+- Listens for `time_target` in `gameUpdate` to know the target time. Displays the target on its LargeDisplay alongside its own clock face.
+- Win: `hour_position == time_target.hour and minute_position == time_target.minute`. Triggered by button press. Broadcasts `timePuzzleSolved`.
 
-**Clock face segments** — `CLOCK_FACE_START = 25`, each position `h` (0–11):
+### timeChosen Message (Elephant → Pi)
 
-| Segment                  | LEDs                                | Purpose                   |
-|--------------------------|-------------------------------------|---------------------------|
-| `seg_clock[h]`           | `25 + h*4` … `25 + h*4 + 3` (4)    | Full position (minute)    |
-| `seg_clock_inner[h]`     | `25 + h*4 + 2` … `25 + h*4 + 3` (2)| Inner two (hour hand)     |
-| `seg_clock_outer[h]`     | `25 + h*4` … `25 + h*4 + 1` (2)    | Outer two (overlap case)  |
+```json
+{ "event": "timeChosen", "id": "time_puzzle", "box": "elephant",
+  "hour": 3, "minute": 7 }
+```
 
-**Render rules** for hour position `h` and minute position `m`:
-- `h == m` (overlap): outer two = yellow (minute), inner two = green (hour)
-- `pos == h` only: inner two = green
-- `pos == m` only: all four = yellow
-- Otherwise: all four = dim idle pattern (alpha 0.1)
-
-### Display
-
-`LargeDisplay` renders two 64×64 symbol images side by side (left = hour, right = minute). Symbols are P4 PBM files at `symbols/clock_N.pbm` where N is 1–12. Position `0` maps to `clock_12.pbm`.
+Pi stores `time_target = {hour, minute}` and rebroadcasts a `gameUpdate` with `time_target` so the pigeon box and any rebooted device gets it.
 
 ### Button Behaviour
 
-Polled every 50 ms (`BUTTON_POLL_MS = 50`). Active low (pin reads `0` when pressed).
+Polled every 50 ms. Active low.
 
-- **Short press (released before 5 s):** In `MODE_PASSIVE`, broadcasts `gameStart` and transitions to `MODE_PLAYING`.
-- **Hold ≥ 5 s (`BUTTON_HOLD_MS = 5000`):** Broadcasts `gameUpdate` with `state: "init"` and resets all positions to 0.
+- **Both boxes, hold ≥ 5 s:** Pi receives `holdButton` from each; when both are holding simultaneously (within 2 s of each other), Pi broadcasts `gameUpdate` with `state: "puzzle1Active"`. Either box holding alone resets to `GAME_INIT`.
+- **Pigeon, short press, playing:** Checks win. On win → broadcasts `timePuzzleSolved`.
 
-### Winning Condition
+### LED Layout (73 LEDs)
 
-```python
-WINNING_HOUR   = 3   # 3 o'clock
-WINNING_MINUTE = 7   # 7 × 5 = 35 minutes
-```
+Same layout as before; elephant box shows the chosen time as a static display on its clock face.
 
-Win when `hour_position == WINNING_HOUR and minute_position == WINNING_MINUTE`. Broadcasts `timePuzzleSolved`. The game master logic in `_handle_puzzle_solved` then immediately broadcasts `gameUpdate` with `state: "puzzle2Active"`.
+### Display
 
-### Role as Game Master
-
-`_handle_puzzle_solved(event)` listens for all four puzzle completion events and broadcasts the corresponding `gameUpdate`:
-
-```python
-{
-    "timePuzzleSolved":        "puzzle2Active",
-    "artifactPuzzleSolved":    "puzzle3Active",
-    "constellationPuzzleSolved": "puzzle4Active",
-    "wordPuzzleCompleted":     "gameComplete",
-}
-```
+Both boxes use `LargeDisplay` to show two 64×64 pigeon or elephant symbol images side by side. Images at `images/pigeon_N.bin` (pigeon box) or `images/E_N.bin` (elephant box) where N is 1–12.
 
 ---
 
 ## Puzzle 2 — Artifact Puzzle
 
-**File:** `babel_artifact_puzzle.py` | **Class:** `BabelArtifactPuzzle`
+**File:** `babel_artifact_puzzle.py` | **Class:** `BabelArtifactPuzzle` | **Param:** `pigeon=True/False`
 
-### Hardware
+### Behaviour
 
-| Component         | Connection                                    |
-|-------------------|-----------------------------------------------|
-| MediumDisplay × 3 | I2C via MUX, ports 1–3                        |
-| RFID scanner × 3  | I2C via MUX, ports 4–6                        |
-| Magnet × 3        | GPIO pins (passed as `magnet_pins` tuple)     |
-| LED strip         | `LED1_DATA`, 21 LEDs                          |
+Both boxes operate identically to the current design. Each box independently scans three RFID slots. When all three slots on a box are correct, that box broadcasts `artifactPuzzleSolved`. The Pi advances to `puzzle3Active` only when **both** boxes have sent `artifactPuzzleSolved`.
 
-All six I2C devices (3 displays + 3 RFID readers) share the same `I2CMux`. A single `asyncio.Lock()` (`i2c_lock`) is shared across all three `I2cRfidReader` tasks to prevent concurrent mux port switching.
+### Image Assets
 
-### LED Layout (21 total)
+Pigeon box uses `images/p_ship.bin`, `images/p_crab.bin`, `images/p_hole.bin`. Elephant box uses `images/E_ship.bin`, `images/E_crab.bin`, `images/E_hole.bin` (or equivalent elephant-set images). The `pigeon` parameter selects the correct path prefix.
 
-Slots follow a stride-7 pattern: slot `i` starts at LED `7 * i`.
+### State Recovery
 
-| LEDs     | Purpose              |
-|----------|----------------------|
-| 0–3      | Surround display 1   |
-| 4–6      | Surround RFID 1      |
-| 7–10     | Surround display 2   |
-| 11–13    | Surround RFID 2      |
-| 14–17    | Surround display 3   |
-| 18–20    | Surround RFID 3      |
-
-```python
-seg_display[i] = canopy.Segment(0, 7 * i,     4)
-seg_rfid[i]    = canopy.Segment(0, 7 * i + 4, 3)
-```
-
-### `I2cRfidReader`
-
-Lightweight I2C poller (defined in `babel_artifact_puzzle.py`, not imported from anywhere):
-
-```python
-READER_ADDR = 0x60   # PN532-compatible I2C address
-TAG_REG     = 0x10   # register holding the current UID
-TAG_LEN     = 8      # bytes; all-zero = no tag present
-```
-
-Polls every 200 ms. On mux port select → `i2c.readfrom_mem()` → deselect. Fires `on_tag_found(uid_hex_string)` / `on_tag_lost()` callbacks when the detected UID changes.
-
-### `ArtifactSlot`
-
-Per-slot state machine (also defined inline in `babel_artifact_puzzle.py`):
-
-| State         | Value | Meaning                           |
-|---------------|-------|-----------------------------------|
-| `SLOT_OFF`    | 0     | Puzzle not yet active             |
-| `SLOT_WAITING`| 1     | Active, no tag present            |
-| `SLOT_CORRECT`| 2     | Correct tag detected, magnet held |
-| `SLOT_INVALID`| 3     | Wrong tag, magnet released        |
-
-Magnet control via `rat_magnet.Magnet` (that utility is small enough to import directly). `render(patterns, params)` draws both LED segments for the slot based on current state.
-
-### LED Patterns (CTP strings)
-
-The CTP pattern strings for this puzzle are **placeholders** in the current code and need to be replaced with actual canopy tool output before deployment:
-
-- `_PAT_INITIALIZING`, `_PAT_OFF`, `_PAT_WAITING`, `_PAT_CORRECT`, `_PAT_INVALID`, `_PAT_COMPLETED`
-
-Semantic mapping per slot state:
-- `SLOT_OFF`     → `pat_off` (dim ambient, α=0.3)
-- `SLOT_WAITING` → `pat_waiting` (slow animated pulse, α=0.8)
-- `SLOT_CORRECT` → `pat_correct` (solid celebration, α=1.0)
-- `SLOT_INVALID` → `pat_invalid` (red flash, α=1.0)
-
-### Expected RFID Tags
-
-```python
-EXPECTED_TAGS = ["aabbccdd", "11223344", "55667788"]   # replace with real UIDs
-```
-
-### Display
-
-Each `MediumDisplay` shows a 128×128 symbol image from `artifacts/slot_N.pbm` (P4 PBM). Images are loaded fresh on each display update (no caching, to keep RAM low on the ESP).
-
-### Winning Condition
-
-All three slots in `SLOT_CORRECT`. Checked after every `EVENT_SLOT_CHANGED`. Broadcasts `artifactPuzzleSolved`.
+On `finishedBoot`, the Pi responds with `gameUpdate`. If state is `puzzle2Active`, the box enters `MODE_PLAYING` and starts scanning. If state is later (puzzle already solved), it enters `MODE_COMPLETED`.
 
 ---
 
 ## Puzzle 3 — Constellation Puzzle
 
-**File:** `babel_constellation_puzzle.py` | **Class:** `BabelConstellationPuzzle`
+**File:** `babel_constellation_puzzle.py` | **Class:** `BabelConstellationPuzzle` | **Param:** `pigeon=True/False`
 
-### Hardware
+### Behaviour
 
-| Component         | Connection                                      |
-|-------------------|-------------------------------------------------|
-| MediumDisplay × 3 | I2C via MUX, ports 1–3                          |
-| Cable pins        | `fern.D1`, `D2`, `D3` — GPIO outputs, probe HIGH |
-| Plug pins         | `fern.D4`, `D5`, `D6`, `D7` — GPIO inputs, PULL_DOWN |
+Both boxes operate independently. Each has 3 cables and 4 plug sockets. When a connection changes, the box broadcasts `constellationUpdate` including the `box` field. The Pi tracks all 6 connections (3 from each box) and advances to `puzzle4Active` when all 6 are simultaneously correct.
 
-**No local LEDs.** The Raspberry Pi handles all constellation LED rendering for this puzzle based on MQTT messages.
+The ESP puzzle itself still detects and broadcasts its own 3-cable win (`constellationPuzzleSolved`), but the Pi makes the final call on advancing.
 
-### Cable Detection Algorithm
+### Correct Connections
 
-Polling task at `POLL_INTERVAL = 0.1 s`, settle delay `CABLE_SETTLE_S = 0.005 s`:
+Each box has its own `CORRECT_CONNECTIONS` dict (same physical definition, same logical symbol pairs). The Pi mirrors the correct mapping for both boxes to check win state.
 
-```python
-for i, cable_obj in enumerate(self._cable_pin_objs):
-    cable_obj.on()                          # drive HIGH
-    await asyncio.sleep(CABLE_SETTLE_S)
-    found_plug = None
-    for j, plug_obj in enumerate(self._plug_pin_objs):
-        if plug_obj.value() == 1:
-            found_plug = PLUG_PINS[j]
-            break
-    cable_obj.off()
-    new_connections[CABLE_PINS[i]] = found_plug
-```
+### constellationUpdate Payload
 
-If `new_connections != self._connections`, updates state and calls `_update_state(EVENT_CONNECTIONS_CHANGED)`.
-
-### Correct Answer
-
-```python
-CORRECT_CONNECTIONS = {fern.D1: fern.D4, fern.D2: fern.D6, fern.D3: fern.D5}
-```
-
-Human-readable names for MQTT serialisation:
-```python
-CABLE_NAMES = {fern.D1: "cable1", fern.D2: "cable2", fern.D3: "cable3"}
-```
-
-### MQTT Behaviour
-
-Every time connections change (any cable plugged/unplugged):
 ```json
-{ "event": "constellationUpdate", "id": "constellation_puzzle",
-  "connections": { "cable1": "<plug_pin_value>", "cable2": null, "cable3": "<plug_pin_value>" } }
+{ "event": "constellationUpdate", "id": "constellation_puzzle", "box": "pigeon",
+  "connections": { "cable1": 26, "cable2": null, "cable3": 28 } }
 ```
 
-On win:
-```json
-{ "event": "constellationPuzzleSolved", "id": "constellation_puzzle" }
-```
+### State Recovery
 
-### Display
-
-Each `MediumDisplay` shows a 128×128 symbol image from `constellations/slot_N.pbm` (P4 PBM) indicating which plug its cable should go into.
-
-### Winning Condition
-
-`self._connections == CORRECT_CONNECTIONS` for all three cables simultaneously.
+On `finishedBoot` while state is `puzzle3Active`, the Pi's `gameUpdate` includes the current `constellation_connections` for both boxes. Each box restores its own `_connections` dict from `connections[box]` and re-renders.
 
 ---
 
 ## Puzzle 4 — Word Puzzle
 
-**File:** `babel_word_puzzle.py` | **Class:** `BabelWordPuzzle`
+**File:** `babel_word_puzzle.py` | **Class:** `BabelWordPuzzle` | **Param:** `pigeon=True/False`
 
-Three `MediumDisplay` screens + three `RotaryEncoder` knobs. All encoders share I2C address `0x36` and are isolated by mux ports (shared `asyncio.Lock()` required). Activates on `gameUpdate` with `state: "puzzle4Active"`. Broadcasts `wordPuzzleCompleted` on win.
+### Layout
 
-The word lists and winning combination (`WINNING_COMBO = (0, 0, 0)`) are hardcoded and need to be set to the actual puzzle content before deployment.
+Each physical box has 6 displays. The Pigeon box controls **dials 0–2** (words 0–2); the Elephant box controls **dials 3–5** (words 3–5). Both boxes show all 6 displays simultaneously.
+
+| Display index | Controlled by   | Pigeon box shows    | Elephant box shows  |
+|---------------|-----------------|---------------------|---------------------|
+| 0             | Pigeon dial 0   | `p_<word0>.bin`     | `E_<word0>.bin`     |
+| 1             | Pigeon dial 1   | `p_<word1>.bin`     | `E_<word1>.bin`     |
+| 2             | Pigeon dial 2   | `p_<word2>.bin`     | `E_<word2>.bin`     |
+| 3             | Elephant dial 3 | `p_<word3>.bin`     | `E_<word3>.bin`     |
+| 4             | Elephant dial 4 | `p_<word4>.bin`     | `E_<word4>.bin`     |
+| 5             | Elephant dial 5 | `p_<word5>.bin`     | `E_<word5>.bin`     |
+
+### Cross-Box Knob Synchronisation
+
+When any dial turns, the local puzzle broadcasts `wordKnobChanged` to the Pi. The Pi updates `word_selections[dial]` and rebroadcasts `wordKnobChanged` to all devices. Both boxes receive it and update the appropriate display (using their own image set based on `pigeon`).
+
+This means both boxes always show the same word indices; they just render them in their own visual language.
+
+### Win Condition
+
+Pi checks `word_selections == WINNING_COMBO` after every `wordKnobChanged`. When matched, Pi broadcasts `gameUpdate` with `state: "gameComplete"`.
+
+### State Recovery
+
+On `finishedBoot` while state is `puzzle4Active`, the Pi includes `word_selections` in `gameUpdate`. Each box restores all six display positions and re-renders.
+
+### SYMBOLS List
+
+Same symbol list for both boxes, but path prefix differs by `pigeon`:
+- Pigeon: `images/p_<word>.bin`
+- Elephant: `images/E_<word>.bin`
+
+`WINNING_COMBO` is a 6-tuple, e.g. `(2, 2, 2, 1, 1, 1)`, set to the actual puzzle answer before deployment.
 
 ---
 
-## Raspberry Pi
+## Raspberry Pi — Game Master
 
-The Pi has three responsibilities: MQTT broker, constellation LED rendering, and the win sequence.
+The Pi has four responsibilities: MQTT broker, global state management, constellation LED rendering, and the win sequence. It is the single source of truth for game phase.
 
 ### MQTT Broker
 
-Run **Mosquitto** on the Pi. All five devices (4 ESPs + Pi itself as a client) connect to it.
+Run **Mosquitto** on the Pi. All nine devices (8 ESPs + Pi client) connect to it.
 
-```
-# /etc/mosquitto/mosquitto.conf
-listener 1883
-allow_anonymous true
+### State Object
+
+```python
+state = {
+    "phase": "init",  # init | puzzle1Active | puzzle2Active | puzzle3Active | puzzle4Active | gameComplete
+
+    # Per-box puzzle completion flags
+    "completed": {
+        "pigeon":   {"time": False, "artifact": False, "constellation": False, "word": False},
+        "elephant": {"time": False, "artifact": False, "constellation": False, "word": False},
+    },
+
+    # Time puzzle target (set when elephant chooses a time)
+    "time_target": None,  # None | {"hour": int, "minute": int}
+
+    # Constellation connections (updated on every constellationUpdate)
+    "constellation_connections": {
+        "pigeon":   {"cable1": None, "cable2": None, "cable3": None},
+        "elephant": {"cable1": None, "cable2": None, "cable3": None},
+    },
+
+    # Correct constellation answers (mirrored from ESP config)
+    "constellation_correct": {
+        "pigeon":   {"cable1": D4, "cable2": D6, "cable3": D5},
+        "elephant": {"cable1": D4, "cable2": D6, "cable3": D5},
+    },
+
+    # Word puzzle dial positions (6 total; pigeon owns 0-2, elephant owns 3-5)
+    "word_selections": [0, 0, 0, 0, 0, 0],
+
+    # Winning word combination
+    "word_winning_combo": [2, 2, 2, 1, 1, 1],  # set to actual answer
+
+    # Button hold tracking for game start
+    "holding": {"pigeon": False, "elephant": False},
+    "hold_start": {"pigeon": None, "elephant": None},
+}
 ```
 
-The Pi's Python client also subscribes to `ratlantis` to drive the LED and box logic.
+### Event Handlers
+
+#### `finishedBoot`
+Respond with a `gameUpdate` restoring the puzzle to its correct state.
+
+```python
+def on_finished_boot(box, puzzle_id):
+    send_game_update()   # includes current phase + all relevant state fields
+```
+
+#### `holdButton`
+Track which boxes are currently holding. If both are holding within 2 seconds of each other, transition `init → puzzle1Active` and send `gameUpdate`.
+
+```python
+def on_hold_button(box, holding):
+    state["holding"][box] = holding
+    state["hold_start"][box] = time.time() if holding else None
+    if all(state["holding"].values()):
+        starts = list(state["hold_start"].values())
+        if abs(starts[0] - starts[1]) <= 2.0:
+            transition_to("puzzle1Active")
+    elif state["phase"] == "init":
+        pass  # one box released, stay in init
+```
+
+#### `timeChosen`
+Store the target time and relay it to all devices via `gameUpdate`.
+
+```python
+def on_time_chosen(hour, minute):
+    state["time_target"] = {"hour": hour, "minute": minute}
+    send_game_update()  # rebroadcast with time_target so pigeon box gets it
+```
+
+#### `timePuzzleSolved`
+Mark pigeon time as complete. Elephant time is implicitly complete (it chose the time). Advance if both done.
+
+```python
+def on_time_puzzle_solved(box):
+    state["completed"][box]["time"] = True
+    state["completed"]["elephant"]["time"] = True  # elephant always complete once it chose
+    maybe_advance()
+```
+
+#### `artifactPuzzleSolved`
+
+```python
+def on_artifact_puzzle_solved(box):
+    state["completed"][box]["artifact"] = True
+    maybe_advance()
+```
+
+#### `constellationUpdate`
+Update tracked connections. Check if all 6 are simultaneously correct.
+
+```python
+def on_constellation_update(box, connections):
+    state["constellation_connections"][box] = connections
+    # relay to LED renderer
+    render_constellation_leds()
+    # check win: all 6 connections match correct
+    if all_constellations_correct():
+        state["completed"]["pigeon"]["constellation"] = True
+        state["completed"]["elephant"]["constellation"] = True
+        maybe_advance()
+```
+
+#### `constellationPuzzleSolved`
+Ignored for phase advancement — Pi uses `constellationUpdate` to check all 6. This event is still useful for local LED celebration on the ESP.
+
+#### `wordKnobChanged`
+Update state and relay to all devices. Check win.
+
+```python
+def on_word_knob_changed(dial, value):
+    state["word_selections"][dial] = value
+    relay({"event": "wordKnobChanged", "dial": dial, "value": value})
+    if state["word_selections"] == state["word_winning_combo"]:
+        transition_to("gameComplete")
+```
+
+### `maybe_advance()`
+
+Checks whether both boxes have completed the current phase and transitions to the next:
+
+```python
+PHASE_ORDER = ["puzzle1Active", "puzzle2Active", "puzzle3Active", "puzzle4Active", "gameComplete"]
+PHASE_KEY   = {"puzzle1Active": "time", "puzzle2Active": "artifact",
+               "puzzle3Active": "constellation", "puzzle4Active": "word"}
+
+def maybe_advance():
+    key = PHASE_KEY.get(state["phase"])
+    if key and all(state["completed"][b][key] for b in ("pigeon", "elephant")):
+        next_phase = PHASE_ORDER[PHASE_ORDER.index(state["phase"]) + 1]
+        transition_to(next_phase)
+
+def transition_to(phase):
+    state["phase"] = phase
+    send_game_update()
+    if phase == "gameComplete":
+        run_win_sequence()
+```
+
+### `send_game_update()`
+
+Broadcasts a single `gameUpdate` message with all state fields every ESP might need:
+
+```python
+def send_game_update():
+    msg = {
+        "event": "gameUpdate",
+        "state": state["phase"],
+        "time_target": state["time_target"],
+        "constellation_connections": state["constellation_connections"],
+        "word_selections": state["word_selections"],
+    }
+    mqtt_client.publish("ratlantis", json.dumps(msg))
+```
 
 ### Constellation LED Rendering
 
-The Pi controls an LED strip that physically surrounds or represents the three constellation stations. It listens for `constellationUpdate` messages and lights up each constellation's LEDs as its cable is correctly connected.
-
-**Message consumed:**
-```json
-{ "event": "constellationUpdate", "connections": { "cable1": "...", "cable2": null, "cable3": "..." } }
-```
-
-**Rendering logic:** For each cable, compare its connected plug against the correct plug. If correct, illuminate that constellation's LEDs with a "solved" pattern; if incorrect or unplugged, show a dim or off state.
-
-The correct plug mapping must be mirrored on the Pi so it knows which `cable→plug` pair means "solved" for each constellation.
-
-**Message consumed for final state:**
-```json
-{ "event": "constellationPuzzleSolved" }
-```
-
-On this event, run a celebration pattern across all constellation LEDs.
+Same as before: Pi controls an LED strip representing the 6 constellation stations (3 per box). On `constellationUpdate`, compare each cable→plug pair against the correct mapping; illuminate correctly-connected constellations with a solved pattern.
 
 ### Win Sequence
 
-On receiving:
-```json
-{ "event": "gameUpdate", "state": "gameComplete" }
-```
-
-The Pi executes the win sequence in order:
-
-1. **Celebration lighting** — run a full win animation on all Pi-controlled LEDs (could span the whole room or just the constellation strip, depending on wiring).
-2. **Secret box** — trigger a relay or servo to open the box. This could be a GPIO output connected to a solenoid lock, a servo, or a relay board.
-
-**Example (relay on GPIO pin 17):**
-```python
-import RPi.GPIO as GPIO
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(17, GPIO.OUT)
-GPIO.output(17, GPIO.HIGH)   # energise to unlock
-```
+On `gameComplete`:
+1. Run celebration animation across all Pi-controlled LEDs.
+2. Trigger relay/servo to open the secret box.
 
 ### Pi Software Structure
 
 ```
 ratlantis_pi/
-├── main.py               # entry point, starts broker client + tasks
-├── mqtt_client.py        # wraps paho-mqtt, dispatches events
-├── constellation_leds.py # LED strip control for constellation puzzle
-├── win_sequence.py       # celebration lights + box trigger
-└── config.py             # MQTT host, pin numbers, correct connection map
+├── main.py                  # entry point, starts broker client + tasks
+├── game_state.py            # state dict, transition logic, maybe_advance()
+├── mqtt_client.py           # wraps paho-mqtt, dispatches to handlers
+├── event_handlers.py        # one function per incoming event type
+├── constellation_leds.py    # LED strip rendering for constellation puzzle
+├── win_sequence.py          # celebration lights + box trigger
+└── config.py                # MQTT host, pin numbers, correct connection maps, winning combo
 ```
-
-The Pi client uses **paho-mqtt** (not MicroPython's `umqtt`). The LED strip is driven with **rpi_ws281x** or **neopixel** library depending on the strip type.
 
 ---
 
 ## Code Architecture (ESP Boards)
 
-All four puzzle files follow the same structure:
+All puzzle classes share the same structure and accept a `pigeon` boolean:
 
-```
+```python
 class Babel<PuzzleName>:
     current_mode = MODE_INITIALIZING
 
-    def __init__(self, name, has_wifi=True): ...
+    def __init__(self, name, pigeon=True, has_wifi=True): ...
     async def start(self, ...hardware pins...): ...
 
-    def _init_segments(self): ...        # canopy.Segment per LED zone
-    def _init_patterns(self): ...        # canopy.Pattern per visual state
+    def _image_path(self, word):
+        prefix = "p" if self.pigeon else "E"
+        return "images/{}_{}.bin".format(prefix, word)
 
     def _on_wifi_connected(self): ...
     def _on_mqtt_message(self, topic, msg): ...
-    def _handle_remote_event(self, command, data): ...
+    def _handle_game_update(self, data): ...  # restores full state from Pi payload
 
     def _check_win(self): ...
-    def _update_state(self, event, should_broadcast=True): ...
+    def _update_state(self, event, **kwargs): ...
 
-    async def _display_loop(self): ...   # wakes on asyncio.Event
+    async def _display_loop(self): ...
     async def _update_displays(self): ...
-    async def _render_loop(self): ...    # fixed 100 ms cadence
+    async def _render_loop(self): ...
 ```
 
 ### Key Design Decisions
 
-**Single `_update_state()` entry point.** All events — hardware callbacks, MQTT, button polling — funnel through one method. Mode transitions and broadcasts happen there.
+**Pi as game master.** No ESP acts as game master. The Pi owns phase transitions. Removing the time puzzle's old game-master role eliminates the single point of failure that was the most complex puzzle.
 
-**`asyncio.Event` for display wakeup.** `_display_loop` sleeps until `_display_event.set()` is called, avoiding unnecessary I2C traffic on idle frames. Encoder changes also set the event (not just mode changes) so the display stays responsive.
+**`finishedBoot` → `gameUpdate` recovery.** Any ESP that reboots mid-game immediately signals the Pi. The Pi responds with the full state. Each puzzle's `_handle_game_update()` reads the relevant fields and enters the correct mode, restoring display and LED state. No puzzle needs to remember anything across reboots.
 
-**I2C MUX + shared lock.** Where multiple devices share the same I2C address (encoders in word puzzle; RFID readers in artifact puzzle), a single `asyncio.Lock()` prevents concurrent mux port switching. The time puzzle encoders use distinct addresses so no lock is needed.
+**`box` field on all outgoing messages.** Every ESP message includes `"box": "pigeon"` or `"box": "elephant"`. The Pi uses this to route and track per-box completion independently.
 
-**`NoMux` wrapper.** The time puzzle's `LargeDisplay` is not behind a mux. `NoMux` (from `i2c_mux`) gives it the same `select()`/`deselect()` interface as mux-backed displays so the `Display` class works unchanged.
+**`wordKnobChanged` relay via Pi.** Knob events go ESP → Pi → all ESPs. The Pi is the relay and the win checker. Both boxes always show consistent word displays because they both receive the same relay.
 
-**LED render loop at fixed 100 ms.** Display updates are event-driven; LED updates are time-driven for smooth animation regardless of input rate.
+**`pigeon` parameter selects image prefix and encoder presence.** The elephant Time Puzzle skips encoder initialisation entirely. The Word Puzzle uses `pigeon` to determine which dial range to claim (0–2 vs 3–5) and which image prefix to load.
 
-**`canopy.Segment` for LED zones.** Each logical LED region gets its own `Segment` so patterns are targeted independently. The artifact puzzle uses a stride-7 layout; the clock face uses pre-built arrays of per-position segments.
+**Hold detection for game start.** The Pi detects simultaneous holds via timestamps. ESPs just report `holdButton: true/false`. This avoids timing-sensitive logic on the constrained ESP.
 
-**Game master on Puzzle 1.** `BabelTimePuzzle._handle_puzzle_solved()` maps each incoming `*Solved` event to the next `gameUpdate` state string. If this board crashes mid-game the others freeze in their current mode — acceptable given the physical game context.
+**`asyncio.Event` for display wakeup, 100 ms render loop for LEDs.** Same as before.
 
-**CTP pattern strings are placeholders in Puzzle 2.** `babel_artifact_puzzle.py` uses `"CTP-PLACEHOLDER_*"` strings that must be replaced with real canopy tool output before the board is deployed.
+**I2C MUX + shared lock** where multiple devices share an address. Same as before.
 
 ---
 
 ## File Summary
 
-| File                           | Runs on  | Status          |
-|--------------------------------|----------|-----------------|
-| `babel_time_puzzle.py`         | ESP #1   | Written          |
-| `babel_artifact_puzzle.py`     | ESP #2   | Written (needs real CTP strings + RFID tag UIDs) |
-| `babel_constellation_puzzle.py`| ESP #3   | Written          |
-| `babel_word_puzzle.py`         | ESP #4   | Written (needs real word lists + winning combo)  |
-| `ratlantis_pi/`                | Pi       | To be written    |
+| File                           | Runs on       | Status                                                                  |
+|--------------------------------|---------------|-------------------------------------------------------------------------|
+| `babel_time_puzzle.py`         | ESP #1 ×2     | Needs pigeon param, elephant-branch (no encoders, random time choice)   |
+| `babel_artifact_puzzle.py`     | ESP #2 ×2     | Needs pigeon param, image path prefix, real RFID UIDs                   |
+| `babel_constellation_puzzle.py`| ESP #3 ×2     | Needs pigeon param, box field in MQTT, Pi handles 6-way win             |
+| `babel_word_puzzle.py`         | ESP #4 ×2     | Needs pigeon param, dial-range split, cross-box relay via Pi            |
+| `ratlantis_pi/`                | Pi            | To be written — game master, state, LED renderer, win sequence          |
 
-Each ESP's `main.py` imports the relevant class and calls `await puzzle.start(...)`.
+Each ESP's `main.py` imports the relevant class and calls `await puzzle.start(pigeon=True/False, ...)`.

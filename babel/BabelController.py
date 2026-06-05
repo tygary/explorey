@@ -73,10 +73,12 @@ class BabelController:
         try:
             data = json.loads(payload)
         except (ValueError, UnicodeDecodeError):
+            logger.warning("Bad MQTT payload: %r", payload)
             return
 
         event = data.get("event")
         box   = data.get("box")
+        logger.info("[MQTT IN] event=%-28s box=%s", event, box or "-")
 
         # Update shared render state for both pigeon and elephant
         with self._lock:
@@ -117,30 +119,39 @@ class BabelController:
     def _on_hold_button(self, box, holding):
         self._gs["holding"][box]    = holding
         self._gs["hold_start"][box] = time.time() if holding else None
+        logger.info("Hold button: box=%-10s holding=%s  state=%s",
+                    box, holding, {k: v for k, v in self._gs["holding"].items()})
 
         if all(self._gs["holding"].values()):
             t = list(self._gs["hold_start"].values())
             if all(t) and abs(t[0] - t[1]) <= 2.0:
+                logger.info("Both buttons held simultaneously — starting game")
                 self._transition_to(STATE_PUZZLE_1)
         elif not holding and self._gs["phase"] not in (STATE_INIT, STATE_COMPLETE):
+            logger.info("Button released mid-game — resetting to init")
             self._transition_to(STATE_INIT)
 
     def _on_time_chosen(self, hour, minute):
+        logger.info("Time chosen: %02d:%02d", hour or 0, minute or 0)
         self._gs["time_target"] = {"hour": hour, "minute": minute}
         self._send_game_update()
 
     def _on_time_puzzle_solved(self, box):
+        logger.info("Time puzzle SOLVED by %s", box)
         self._gs["completed"][box]["time"] = True
         self._gs["completed"][BOX_ELEPHANT]["time"] = True  # elephant always done once it chose
         self._maybe_advance()
 
     def _on_artifact_puzzle_solved(self, box):
+        logger.info("Artifact puzzle SOLVED by %s", box)
         self._gs["completed"][box]["artifact"] = True
         self._maybe_advance()
 
     def _on_constellation_update(self, box, connections):
+        logger.info("Constellation update: box=%-10s connections=%s", box, connections)
         self._gs["constellation_connections"][box] = connections
         if self._all_constellations_correct():
+            logger.info("All constellations CORRECT")
             self._gs["completed"][BOX_PIGEON]["constellation"]   = True
             self._gs["completed"][BOX_ELEPHANT]["constellation"] = True
             self._maybe_advance()
@@ -150,7 +161,10 @@ class BabelController:
             return
         self._gs["word_selections"][dial] = value
         self._mqtt.publish(json.dumps({"event": "wordKnobChanged", "dial": dial, "value": value}))
+        logger.info("Word knob: dial=%s value=%s  selections=%s",
+                    dial, value, self._gs["word_selections"])
         if self._gs["word_selections"] == WINNING_COMBO:
+            logger.info("Winning word combo entered!")
             self._transition_to(STATE_COMPLETE)
 
     # ── State machine ─────────────────────────────────────────────────────────
@@ -159,7 +173,9 @@ class BabelController:
         key = _PHASE_KEY.get(self._gs["phase"])
         if key and all(self._gs["completed"][b][key] for b in (BOX_PIGEON, BOX_ELEPHANT)):
             idx = _PHASE_ORDER.index(self._gs["phase"])
-            self._transition_to(_PHASE_ORDER[idx + 1])
+            next_phase = _PHASE_ORDER[idx + 1]
+            logger.info("Both boxes completed '%s' — advancing to %s", key, next_phase)
+            self._transition_to(next_phase)
 
     def _transition_to(self, phase):
         logger.info("Transitioning to %s", phase)
@@ -193,6 +209,7 @@ class BabelController:
             "constellation_connections": self._gs["constellation_connections"],
             "word_selections":          self._gs["word_selections"],
         }
+        logger.info("[MQTT OUT] gameUpdate state=%s", self._gs["phase"])
         self._mqtt.publish(json.dumps(msg))
 
     def _run_win_sequence(self):

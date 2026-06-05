@@ -6,7 +6,7 @@ BOX_PIGEON   = "pigeon"
 BOX_ELEPHANT = "elephant"
 
 # LED hardware
-LED_PIN        = 18       # GPIO pin (PWM). Use 10 for SPI (/dev/spidev0.0).
+LED_PIN        = 21       # GPIO pin (PWM). Use 10 for SPI (/dev/spidev0.0).
 LED_COUNT      = 283
 LED_FREQ_HZ    = 800000
 LED_DMA        = 10

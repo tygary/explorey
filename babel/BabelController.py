@@ -85,7 +85,7 @@ class BabelController:
 
         event = data.get("event")
         box   = data.get("box")
-        logger.info("[MQTT IN] event=%-28s box=%s", event, box or "-")
+        logger.info("[MQTT IN] %s", payload)
 
         # Update shared render state for both pigeon and elephant
         with self._lock:
@@ -116,7 +116,7 @@ class BabelController:
             elif self._gs["phase"] == STATE_INIT:
                 logger.info("Button press from %s — starting game", box)
                 self._transition_to(STATE_PUZZLE_1)
-        elif event in ("buttonHoldStart", "buttonHoldEnd"):
+        elif event == "holdButton":
             logger.info("Button hold from %s — resetting to init", box)
             self._press_ignore_until = time.monotonic() + 2.0
             self._transition_to(STATE_INIT)

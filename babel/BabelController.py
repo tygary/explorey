@@ -57,7 +57,6 @@ class BabelController:
                     BOX_ELEPHANT: dict(_EMPTY_CONNECTIONS),
                 },
                 "word_selections": [0, 0, 0, 0, 0, 0],
-                "hold_start": {BOX_PIGEON: None, BOX_ELEPHANT: None},
             }
 
     def start(self):
@@ -99,8 +98,13 @@ class BabelController:
     def _dispatch(self, event, box, data):
         if event == "finishedBoot":
             self._send_game_update()
-        elif event == "holdButton":
-            self._on_hold_button(box, data.get("holding", False))
+        elif event == "buttonPress":
+            if self._gs["phase"] == STATE_INIT:
+                logger.info("Button press from %s — starting game", box)
+                self._transition_to(STATE_PUZZLE_1)
+        elif event in ("buttonHoldStart", "buttonHoldEnd"):
+            logger.info("Button hold from %s — resetting to init", box)
+            self._transition_to(STATE_INIT)
         elif event == "timeChosen":
             self._on_time_chosen(data.get("hour"), data.get("minute"))
         elif event == "timePuzzleSolved":
@@ -114,23 +118,6 @@ class BabelController:
             self._on_word_knob_changed(data.get("dial"), data.get("value"))
 
     # ── Game master event handlers ────────────────────────────────────────────
-
-    def _on_hold_button(self, box, holding):
-        logger.info("Hold button: box=%-10s holding=%s", box, holding)
-        now = time.time()
-        if holding:
-            self._gs["hold_start"][box] = now
-        else:
-            start = self._gs["hold_start"][box]
-            self._gs["hold_start"][box] = None
-            if start is None:
-                return
-            if now - start >= 5.0:
-                logger.info("Long hold — resetting to init")
-                self._transition_to(STATE_INIT)
-            elif self._gs["phase"] == STATE_INIT:
-                logger.info("Button press — starting game")
-                self._transition_to(STATE_PUZZLE_1)
 
     def _on_time_chosen(self, hour, minute):
         logger.info("Time chosen: %02d:%02d", hour or 0, minute or 0)
@@ -189,7 +176,6 @@ class BabelController:
                 BOX_ELEPHANT: dict(_EMPTY_CONNECTIONS),
             }
             self._gs["word_selections"] = [0, 0, 0, 0, 0, 0]
-            self._gs["hold_start"]      = {BOX_PIGEON: None, BOX_ELEPHANT: None}
         self._send_game_update()
         if phase == STATE_COMPLETE:
             self._run_win_sequence()

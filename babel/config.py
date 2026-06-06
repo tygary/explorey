@@ -43,20 +43,29 @@ ARROW          = (193, 197)      # 5 px  — arrow pointing to box
 BOX_BORDER     = (198, 207)      # 10 px — frame around box front
 STAR_BG_2      = (208, 282)      # 75-pixel trailing star field
 
-# ── Constellation puzzle cable→LED mapping ────────────────────────────────────
-CABLE_CONSTELLATION_MAP = {
-    "cable1": (DISPLAY_SURROUND_0, CONSTELLATION_A),
-    "cable2": (DISPLAY_SURROUND_1, CONSTELLATION_B),
-    "cable3": (DISPLAY_SURROUND_2, CONSTELLATION_C),
+# ── Constellation puzzle mappings ─────────────────────────────────────────────
+
+# Cable name → display surround LED range (reflects this box's cable status)
+CABLE_DISPLAY_MAP = {
+    "cable1": DISPLAY_SURROUND_0,
+    "cable2": DISPLAY_SURROUND_1,
+    "cable3": DISPLAY_SURROUND_2,
 }
 
-# Correct plug value for each cable — same for both boxes.
-# Must match the fern.D* numeric constants in the MicroPython firmware.
-# fern.D4 = 4, fern.D5 = 5, fern.D6 = 6 — adjust if actual values differ.
-CORRECT_CONNECTIONS = {
-    "cable1": 4,   # fern.D4
-    "cable2": 6,   # fern.D6
-    "cable3": 5,   # fern.D5
+# Cables that must all be "connected" on both boxes to solve the puzzle
+PUZZLE_CABLES = ["cable1", "cable2", "cable3"]
+
+# Constellation name → LED segment.
+# Replace placeholder keys with actual constellation names before deployment.
+CONSTELLATION_LED_MAP = {
+    "placeholder_a": CONSTELLATION_A,
+    "placeholder_b": CONSTELLATION_B,
+    "placeholder_c": CONSTELLATION_C,
+    "placeholder_d": CONSTELLATION_D,
+    "placeholder_e": CONSTELLATION_E,
+    "placeholder_f": CONSTELLATION_F,
+    "placeholder_g": CONSTELLATION_G,
+    "placeholder_h": CONSTELLATION_H,
 }
 
 # ── Word puzzle ───────────────────────────────────────────────────────────────

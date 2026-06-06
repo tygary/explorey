@@ -6,7 +6,7 @@ import time
 from mqtt.MqttClient import MqttClient
 from babel.config import (
     MQTT_TOPIC, BOX_PIGEON, BOX_ELEPHANT,
-    CORRECT_CONNECTIONS, WINNING_COMBO,
+    PUZZLE_CABLES, WINNING_COMBO,
     STATE_INIT, STATE_PUZZLE_1, STATE_PUZZLE_2,
     STATE_PUZZLE_3, STATE_PUZZLE_4, STATE_COMPLETE,
 )
@@ -16,8 +16,6 @@ logger = logging.getLogger(__name__)
 
 _RENDER_FPS = 20
 _FRAME_S    = 1.0 / _RENDER_FPS
-
-_EMPTY_CONNECTIONS = {"cable1": None, "cable2": None, "cable3": None}
 
 _PHASE_ORDER = [STATE_PUZZLE_1, STATE_PUZZLE_2, STATE_PUZZLE_3, STATE_PUZZLE_4, STATE_COMPLETE]
 _PHASE_KEY   = {
@@ -43,8 +41,9 @@ class BabelController:
         self._renderer = LedRenderer()
 
         # Shared render state (read by render loop, written by MQTT thread)
-        self._phase           = STATE_INIT
-        self._own_connections = dict(_EMPTY_CONNECTIONS)
+        self._phase                     = STATE_INIT
+        self._own_cable_status          = {}   # {cable: "connected"/"invalid"} for this box
+        self._all_constellation_statuses = {}  # {box: {name: "connected"/"invalid"}}
 
         # Game master state — pigeon only
         if pigeon:
@@ -52,10 +51,8 @@ class BabelController:
                 "phase": STATE_INIT,
                 "completed": _empty_completed(),
                 "time_target": None,
-                "constellation_connections": {
-                    BOX_PIGEON:   dict(_EMPTY_CONNECTIONS),
-                    BOX_ELEPHANT: dict(_EMPTY_CONNECTIONS),
-                },
+                "constellation_status": {BOX_PIGEON: {}, BOX_ELEPHANT: {}},
+                "cable_status":         {BOX_PIGEON: {}, BOX_ELEPHANT: {}},
                 "word_selections": [0, 0, 0, 0, 0, 0],
             }
 
@@ -84,14 +81,17 @@ class BabelController:
         with self._lock:
             if event == "gameUpdate":
                 self._phase = data.get("state", STATE_INIT)
-                # Restore own constellation connections on reboot recovery
-                own = data.get("constellation_connections", {}).get(self._box)
-                if own:
-                    self._own_connections = own
+                # Recover constellation state on reboot
+                for b, cs in data.get("constellation_status", {}).items():
+                    self._all_constellation_statuses[b] = cs
+                self._own_cable_status = data.get("cable_status", {}).get(self._box, {})
                 if self._phase == STATE_INIT:
-                    self._own_connections = dict(_EMPTY_CONNECTIONS)
-            elif event == "constellationUpdate" and box == self._box:
-                self._own_connections = data.get("connections", dict(_EMPTY_CONNECTIONS))
+                    self._all_constellation_statuses = {}
+                    self._own_cable_status = {}
+            elif event == "constellationUpdate" and box is not None:
+                self._all_constellation_statuses[box] = data.get("connections", {})
+                if box == self._box:
+                    self._own_cable_status = data.get("cable_status", {})
 
         # Game master logic — pigeon only
         if self._pigeon:
@@ -114,7 +114,8 @@ class BabelController:
         elif event == "artifactPuzzleSolved":
             self._on_artifact_puzzle_solved(box)
         elif event == "constellationUpdate":
-            self._on_constellation_update(box, data.get("connections", {}))
+            self._on_constellation_update(box, data.get("connections", {}),
+                                          data.get("cable_status", {}))
         elif event == "wordKnobChanged" and box is not None:
             # Only handle originals from ESPs (box field present); ignore our own relays
             self._on_word_knob_changed(data.get("dial"), data.get("value"))
@@ -137,9 +138,10 @@ class BabelController:
         self._gs["completed"][box]["artifact"] = True
         self._maybe_advance()
 
-    def _on_constellation_update(self, box, connections):
+    def _on_constellation_update(self, box, connections, cable_status):
         logger.info("Constellation update: box=%-10s connections=%s", box, connections)
-        self._gs["constellation_connections"][box] = connections
+        self._gs["constellation_status"][box] = connections
+        self._gs["cable_status"][box]         = cable_status
         if self._all_constellations_correct():
             logger.info("All constellations CORRECT")
             self._gs["completed"][BOX_PIGEON]["constellation"]   = True
@@ -171,31 +173,30 @@ class BabelController:
         logger.info("Transitioning to %s", phase)
         self._gs["phase"] = phase
         if phase == STATE_INIT:
-            self._gs["completed"]                  = _empty_completed()
-            self._gs["time_target"]                = None
-            self._gs["constellation_connections"]  = {
-                BOX_PIGEON:   dict(_EMPTY_CONNECTIONS),
-                BOX_ELEPHANT: dict(_EMPTY_CONNECTIONS),
-            }
-            self._gs["word_selections"] = [0, 0, 0, 0, 0, 0]
+            self._gs["completed"]            = _empty_completed()
+            self._gs["time_target"]          = None
+            self._gs["constellation_status"] = {BOX_PIGEON: {}, BOX_ELEPHANT: {}}
+            self._gs["cable_status"]         = {BOX_PIGEON: {}, BOX_ELEPHANT: {}}
+            self._gs["word_selections"]      = [0, 0, 0, 0, 0, 0]
         self._send_game_update()
         if phase == STATE_COMPLETE:
             self._run_win_sequence()
 
     def _all_constellations_correct(self):
         for box in (BOX_PIGEON, BOX_ELEPHANT):
-            for cable, correct_plug in CORRECT_CONNECTIONS.items():
-                if self._gs["constellation_connections"][box].get(cable) != correct_plug:
-                    return False
+            cs = self._gs["cable_status"][box]
+            if not all(cs.get(cable) == "connected" for cable in PUZZLE_CABLES):
+                return False
         return True
 
     def _send_game_update(self):
         msg = {
-            "event":                    "gameUpdate",
-            "state":                    self._gs["phase"],
-            "time_target":              self._gs["time_target"],
-            "constellation_connections": self._gs["constellation_connections"],
-            "word_selections":          self._gs["word_selections"],
+            "event":                "gameUpdate",
+            "state":                self._gs["phase"],
+            "time_target":          self._gs["time_target"],
+            "constellation_status": self._gs["constellation_status"],
+            "cable_status":         self._gs["cable_status"],
+            "word_selections":      self._gs["word_selections"],
         }
         logger.info("[MQTT OUT] gameUpdate state=%s", self._gs["phase"])
         self._mqtt.publish(json.dumps(msg))
@@ -210,9 +211,23 @@ class BabelController:
         while True:
             now = time.monotonic()
             with self._lock:
-                phase       = self._phase
-                connections = dict(self._own_connections)
-            self._renderer.render(phase, connections)
+                phase      = self._phase
+                own_cables = dict(self._own_cable_status)
+                all_cs     = {b: dict(s) for b, s in self._all_constellation_statuses.items()}
+
+            connected = {
+                name
+                for box_status in all_cs.values()
+                for name, status in box_status.items()
+                if status == "connected"
+            }
+            invalid = {
+                name for name, status in all_cs.get(self._box, {}).items()
+                if status == "invalid"
+            }
+
+            self._renderer.render(phase, own_cables, connected, invalid)
+
             elapsed = time.monotonic() - now
             sleep   = _FRAME_S - elapsed
             if sleep > 0:

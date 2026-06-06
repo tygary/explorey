@@ -1,30 +1,16 @@
 from lighting.PixelControl import PixelControl
 from lighting.Colors import Colors
-from lighting.routines import (
-    BlackoutRoutine, ColorRoutine, PulseRoutine,
-)
+from lighting.routines import BlackoutRoutine, ColorRoutine, PulseRoutine
 from lighting.routines.TwinkleRoutine import (
     TwinkleRoutine, TWINKLE_DEFAULT_COLORS, TWINKLE_RAINBOW_COLORS,
 )
 
 from babel.config import (
     LED_PIN, LED_COUNT, LED_BRIGHTNESS, LED_DMA,
-    CABLE_CONSTELLATION_MAP, CORRECT_CONNECTIONS,
-    DISPLAY_SURROUND_0, DISPLAY_SURROUND_1, DISPLAY_SURROUND_2,
-    STAR_BG_1, STAR_BG_2,
-    CONSTELLATION_A, CONSTELLATION_B, CONSTELLATION_C,
-    CONSTELLATION_D, CONSTELLATION_E, CONSTELLATION_F,
-    CONSTELLATION_G, CONSTELLATION_H,
-    PYRAMID_TOP, INNER_BOX, ARROW, BOX_BORDER,
-    UNUSED_1,
-    STATE_COMPLETE, STATE_PUZZLE_3, GAME_RUNNING_STATES,
+    CABLE_DISPLAY_MAP, CONSTELLATION_LED_MAP,
+    PYRAMID_TOP, INNER_BOX, ARROW, BOX_BORDER, UNUSED_1,
+    STATE_COMPLETE, GAME_RUNNING_STATES,
 )
-
-_CABLE_ORDER = ["cable1", "cable2", "cable3"]
-_SURROUND_SEGS = [DISPLAY_SURROUND_0, DISPLAY_SURROUND_1, DISPLAY_SURROUND_2]
-_PUZZLE_CONST_SEGS = [CONSTELLATION_A, CONSTELLATION_B, CONSTELLATION_C]
-_DECO_CONST_SEGS = [CONSTELLATION_D, CONSTELLATION_E, CONSTELLATION_F,
-                    CONSTELLATION_G, CONSTELLATION_H]
 
 _GREEN_COLORS = [
     [0, 255,  70],
@@ -43,46 +29,32 @@ class LedRenderer:
     def __init__(self):
         self._pixels = PixelControl(LED_COUNT, LED_BRIGHTNESS, LED_PIN, LED_DMA)
 
-        # ── Stars ─────────────────────────────────────────────────────────────
-        star_addrs = _addrs(STAR_BG_1) + _addrs(STAR_BG_2)
-        self._stars = {
-            "twinkle": TwinkleRoutine(self._pixels, star_addrs,
-                                      colors=TWINKLE_DEFAULT_COLORS, max_brightness=0.3),
-            "rainbow": TwinkleRoutine(self._pixels, star_addrs,
-                                      colors=TWINKLE_RAINBOW_COLORS, max_brightness=0.3),
-        }
-
-        # ── Display surrounds (one dict per slot) ─────────────────────────────
-        self._surrounds = []
-        for seg in _SURROUND_SEGS:
+        # ── Display surrounds — one dict per cable ────────────────────────────
+        # Reflects this box's real-time cable status.
+        self._surrounds = {}
+        for cable, seg in CABLE_DISPLAY_MAP.items():
             addrs = _addrs(seg)
-            self._surrounds.append({
-                "off":     BlackoutRoutine(self._pixels, addrs),
-                "active":  PulseRoutine(self._pixels, addrs, color=Colors.purple, rate=0.03),
-                "correct": ColorRoutine(self._pixels, addrs, color=Colors.green),
-            })
+            self._surrounds[cable] = {
+                "off":       BlackoutRoutine(self._pixels, addrs),
+                "connected": ColorRoutine(self._pixels, addrs, color=Colors.green),
+                "invalid":   PulseRoutine(self._pixels, addrs, color=Colors.red, rate=0.15),
+            }
 
-        # ── Puzzle constellations A/B/C (one dict per cable) ──────────────────
-        self._puzzle_constellations = []
-        for seg in _PUZZLE_CONST_SEGS:
+        # ── Constellations — one dict per named constellation ─────────────────
+        # "connected" by any box → green twinkle on both Pis.
+        # "invalid" on this box  → red flash on this Pi only.
+        self._constellation_routines = {}
+        for name, seg in CONSTELLATION_LED_MAP.items():
             addrs = _addrs(seg)
-            self._puzzle_constellations.append({
-                "idle":    TwinkleRoutine(self._pixels, addrs,
-                                         colors=TWINKLE_DEFAULT_COLORS, max_brightness=0.3),
-                "correct": TwinkleRoutine(self._pixels, addrs,
-                                         colors=_GREEN_COLORS, max_brightness=0.7),
-                "rainbow": TwinkleRoutine(self._pixels, addrs,
-                                         colors=TWINKLE_RAINBOW_COLORS, max_brightness=0.3),
-            })
-
-        # ── Decorative constellations D–H ─────────────────────────────────────
-        deco_addrs = sum((_addrs(seg) for seg in _DECO_CONST_SEGS), [])
-        self._deco_constellations = {
-            "idle":    TwinkleRoutine(self._pixels, deco_addrs,
-                                     colors=TWINKLE_DEFAULT_COLORS, max_brightness=0.3),
-            "rainbow": TwinkleRoutine(self._pixels, deco_addrs,
-                                     colors=TWINKLE_RAINBOW_COLORS, max_brightness=0.3),
-        }
+            self._constellation_routines[name] = {
+                "idle":      TwinkleRoutine(self._pixels, addrs,
+                                            colors=TWINKLE_DEFAULT_COLORS, max_brightness=0.3),
+                "connected": TwinkleRoutine(self._pixels, addrs,
+                                            colors=_GREEN_COLORS, max_brightness=0.7),
+                "invalid":   PulseRoutine(self._pixels, addrs, color=Colors.red, rate=0.15),
+                "rainbow":   TwinkleRoutine(self._pixels, addrs,
+                                            colors=TWINKLE_RAINBOW_COLORS, max_brightness=0.3),
+            }
 
         # ── Pyramid top ───────────────────────────────────────────────────────
         pyramid_addrs = _addrs(PYRAMID_TOP)
@@ -90,7 +62,7 @@ class LedRenderer:
             "blue":    ColorRoutine(self._pixels, pyramid_addrs, color=Colors.blue),
             "red":     ColorRoutine(self._pixels, pyramid_addrs, color=Colors.red),
             "rainbow": TwinkleRoutine(self._pixels, pyramid_addrs,
-                                     colors=TWINKLE_RAINBOW_COLORS, max_brightness=0.3),
+                                      colors=TWINKLE_RAINBOW_COLORS, max_brightness=0.3),
         }
 
         # ── Inner box ─────────────────────────────────────────────────────────
@@ -104,7 +76,7 @@ class LedRenderer:
         arrow_addrs = _addrs(ARROW)
         self._arrow = {
             "idle":  PulseRoutine(self._pixels, arrow_addrs, color=[150, 150, 150], rate=0.02),
-            "green": PulseRoutine(self._pixels, arrow_addrs, color=Colors.green,   rate=0.03),
+            "green": ColorRoutine(self._pixels, arrow_addrs, color=Colors.green),
         }
 
         # ── Box border ────────────────────────────────────────────────────────
@@ -117,42 +89,35 @@ class LedRenderer:
         # ── Unused — always black ─────────────────────────────────────────────
         self._unused = BlackoutRoutine(self._pixels, _addrs(UNUSED_1))
 
-    def render(self, game_state, connections):
-        """Tick every active routine for this frame, then flush to the strip."""
-        is_running   = game_state in GAME_RUNNING_STATES
-        is_complete  = game_state == STATE_COMPLETE
-        is_c3_active = game_state == STATE_PUZZLE_3
+        # ── Star backgrounds (no surround needed — built into constellations) ──
+        # Stars are rendered via the constellation idle/rainbow routines;
+        # if you have dedicated star pixel ranges add TwinkleRoutine entries here.
 
-        correct = {
-            cable: (connections.get(cable) == CORRECT_CONNECTIONS[cable])
-            for cable in _CABLE_ORDER
-        }
+    def render(self, game_state, own_cable_status, connected_constellations, invalid_constellations):
+        """
+        game_state             — STATE_* string
+        own_cable_status       — {cable: "connected"/"invalid"} for this box's cables
+        connected_constellations — set of constellation names connected by any box → green
+        invalid_constellations   — set of constellation names invalid on this box → red flash
+        """
+        is_running  = game_state in GAME_RUNNING_STATES
+        is_complete = game_state == STATE_COMPLETE
 
-        # Stars
-        self._stars["rainbow" if is_complete else "twinkle"].tick()
+        # Display surrounds — reflect this box's real-time cable status
+        for cable, routines in self._surrounds.items():
+            status = own_cable_status.get(cable)
+            routines.get(status, routines["off"]).tick()
 
-        # Display surrounds — per slot
-        for i, cable in enumerate(_CABLE_ORDER):
-            if correct[cable]:
-                key = "correct"
-            elif is_c3_active:
-                key = "active"
-            else:
-                key = "off"
-            self._surrounds[i][key].tick()
-
-        # Puzzle constellations — per cable
-        for i, cable in enumerate(_CABLE_ORDER):
+        # Constellations — status-driven across both boxes
+        for name, routines in self._constellation_routines.items():
             if is_complete:
-                key = "rainbow"
-            elif correct[cable]:
-                key = "correct"
+                routines["rainbow"].tick()
+            elif name in connected_constellations:
+                routines["connected"].tick()
+            elif name in invalid_constellations:
+                routines["invalid"].tick()
             else:
-                key = "idle"
-            self._puzzle_constellations[i][key].tick()
-
-        # Decorative constellations
-        self._deco_constellations["rainbow" if is_complete else "idle"].tick()
+                routines["idle"].tick()
 
         # Pyramid
         if is_complete:

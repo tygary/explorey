@@ -9,7 +9,7 @@ BOX_ELEPHANT = "elephant"
 LED_PIN        = 21       # GPIO pin. Use 18 for PWM, 10 for SPI (/dev/spidev0.0).
 LED_FREQ_HZ    = 800000
 LED_DMA        = 10
-LED_BRIGHTNESS = 200      # 0–255
+LED_BRIGHTNESS = 150      # 0–255
 LED_INVERT     = False
 LED_CHANNEL    = 0
 
@@ -32,8 +32,8 @@ PIGEON_LAYOUT = {
     "cable_display": _CABLE_DISPLAY_MAP,
     "star_bgs":     [(12,  24), (62, 136)],
     "box_borders":  [(137, 141), (157, 161)],
-    "arrow":         (142, 145),
-    "inner_box":     (146, 156),
+    "arrow":         (142, 146),
+    "inner_box":     (147, 156),
     "pyramid_top":   (223, 227),
     "unused":       [(56,  61), (201, 202)],
     "constellations": {
@@ -53,8 +53,8 @@ ELEPHANT_LAYOUT = {
     "cable_display": _CABLE_DISPLAY_MAP,
     "star_bgs":     [(12,  24), (59, 133)],
     "box_borders":  [(134, 138), (154, 158)],
-    "arrow":         (139, 142),
-    "inner_box":     (143, 153),
+    "arrow":         (139, 143),
+    "inner_box":     (144, 153),
     "pyramid_top":   (218, 221),
     "unused":       [(45,  58), (202, 202)],
     "constellations": {

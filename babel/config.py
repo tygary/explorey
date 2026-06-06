@@ -76,6 +76,10 @@ PUZZLE_CABLES = ["cable1", "cable2", "cable3"]
 # ── Word puzzle ───────────────────────────────────────────────────────────────
 WINNING_COMBO = [2, 2, 2, 1, 1, 1]   # set to actual answer before deployment
 
+# ── Inner box latch ───────────────────────────────────────────────────────────
+LATCH_PIN            = 6    # IO6 — HIGH = magnet on (locked), LOW = magnet off (unlocked)
+LATCH_UNLOCK_SECONDS = 30
+
 # ── Game state constants ──────────────────────────────────────────────────────
 STATE_INIT     = "init"
 STATE_PUZZLE_1 = "puzzle1Active"

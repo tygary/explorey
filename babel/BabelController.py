@@ -3,6 +3,8 @@ import logging
 import threading
 import time
 
+import RPi.GPIO as GPIO
+
 from mqtt.MqttClient import MqttClient
 from babel.config import (
     MQTT_TOPIC, BOX_PIGEON, BOX_ELEPHANT,
@@ -10,6 +12,7 @@ from babel.config import (
     PIGEON_LAYOUT, ELEPHANT_LAYOUT,
     STATE_INIT, STATE_PUZZLE_1, STATE_PUZZLE_2,
     STATE_PUZZLE_3, STATE_PUZZLE_4, STATE_COMPLETE,
+    LATCH_PIN, LATCH_UNLOCK_SECONDS,
 )
 from babel.led_renderer import LedRenderer
 
@@ -46,8 +49,12 @@ class BabelController:
         self._own_cable_status          = {}   # {cable: "connected"/"invalid"} for this box
         self._all_constellation_statuses = {}  # {box: {name: "connected"/"invalid"}}
 
-        # Game master state — pigeon only
+        # Game master state and hardware — pigeon only
         if pigeon:
+            GPIO.setmode(GPIO.BCM)
+            GPIO.setwarnings(False)
+            GPIO.setup(LATCH_PIN, GPIO.OUT)
+            GPIO.output(LATCH_PIN, GPIO.HIGH)  # locked on boot
             self._gs = {
                 "phase": STATE_INIT,
                 "completed": _empty_completed(),
@@ -174,6 +181,7 @@ class BabelController:
         logger.info("Transitioning to %s", phase)
         self._gs["phase"] = phase
         if phase == STATE_INIT:
+            GPIO.output(LATCH_PIN, GPIO.HIGH)  # re-lock if a win timer was running
             self._gs["completed"]            = _empty_completed()
             self._gs["time_target"]          = None
             self._gs["constellation_status"] = {BOX_PIGEON: {}, BOX_ELEPHANT: {}}
@@ -203,8 +211,15 @@ class BabelController:
         self._mqtt.publish(json.dumps(msg))
 
     def _run_win_sequence(self):
-        logger.info("WIN — running win sequence")
-        # TODO: trigger relay/servo to open the secret box
+        logger.info("WIN — unlocking inner box latch for %s seconds", LATCH_UNLOCK_SECONDS)
+        GPIO.output(LATCH_PIN, GPIO.LOW)
+
+        def relock():
+            time.sleep(LATCH_UNLOCK_SECONDS)
+            GPIO.output(LATCH_PIN, GPIO.HIGH)
+            logger.info("Inner box latch re-locked")
+
+        threading.Thread(target=relock, daemon=True).start()
 
     # ── Render loop ───────────────────────────────────────────────────────────
 

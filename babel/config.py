@@ -74,7 +74,7 @@ ELEPHANT_LAYOUT = {
 PUZZLE_CABLES = ["cable1", "cable2", "cable3"]
 
 # ── Word puzzle ───────────────────────────────────────────────────────────────
-WINNING_COMBO = [2, 2, 2, 1, 1, 1]   # set to actual answer before deployment
+WINNING_COMBO = [5, 8, 9, 3, 6, 2]   # set to actual answer before deployment
 
 # ── Inner box latch ───────────────────────────────────────────────────────────
 LATCH_PIN            = 6    # IO6 — HIGH = magnet on (locked), LOW = magnet off (unlocked)

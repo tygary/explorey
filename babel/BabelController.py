@@ -7,6 +7,7 @@ from mqtt.MqttClient import MqttClient
 from babel.config import (
     MQTT_TOPIC, BOX_PIGEON, BOX_ELEPHANT,
     PUZZLE_CABLES, WINNING_COMBO,
+    PIGEON_LAYOUT, ELEPHANT_LAYOUT,
     STATE_INIT, STATE_PUZZLE_1, STATE_PUZZLE_2,
     STATE_PUZZLE_3, STATE_PUZZLE_4, STATE_COMPLETE,
 )
@@ -38,7 +39,7 @@ class BabelController:
         self._pigeon = pigeon
         self._box    = BOX_PIGEON if pigeon else BOX_ELEPHANT
         self._lock   = threading.Lock()
-        self._renderer = LedRenderer()
+        self._renderer = LedRenderer(PIGEON_LAYOUT if pigeon else ELEPHANT_LAYOUT)
 
         # Shared render state (read by render loop, written by MQTT thread)
         self._phase                     = STATE_INIT

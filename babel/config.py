@@ -5,68 +5,73 @@ MQTT_TOPIC = "ratlantis"
 BOX_PIGEON   = "pigeon"
 BOX_ELEPHANT = "elephant"
 
-# LED hardware
-LED_PIN        = 21       # GPIO pin (PWM). Use 10 for SPI (/dev/spidev0.0).
-LED_COUNT      = 283
+# LED hardware (shared by both boxes)
+LED_PIN        = 21       # GPIO pin. Use 18 for PWM, 10 for SPI (/dev/spidev0.0).
 LED_FREQ_HZ    = 800000
 LED_DMA        = 10
 LED_BRIGHTNESS = 200      # 0–255
 LED_INVERT     = False
 LED_CHANNEL    = 0
 
-# ── LED Segment Ranges (start, end inclusive) ─────────────────────────────────
-# Adjust these to match actual physical wiring.  Everything else derives from them.
+# ── LED Layouts ───────────────────────────────────────────────────────────────
+# Each layout dict fully describes one physical box's LED strip.
+# Edit start/end values here; the renderer derives everything else from them.
+#
+# Segments are (start, end) inclusive.
+# "star_bgs", "box_borders", "unused" are lists — they may appear multiple times.
 
-# 3 constellation-display surrounds, 4 pixels each
-DISPLAY_SURROUND_0 = (0,   3)    # slot 0 / cable1
-DISPLAY_SURROUND_1 = (4,   7)    # slot 1 / cable2
-DISPLAY_SURROUND_2 = (8,  11)    # slot 2 / cable3
-
-STAR_BG_1      = (12,  36)       # 25-pixel star field before main constellations
-
-CONSTELLATION_A = (37,  51)      # 15 px — puzzle cable1
-CONSTELLATION_B = (52,  66)      # 15 px — puzzle cable2
-
-UNUSED_1        = (67,  86)      # 20 px — not rendered
-
-# 6 decorative constellations spread across ~100 pixels
-CONSTELLATION_C = ( 87, 101)     # 15 px — puzzle cable3
-CONSTELLATION_D = (102, 116)     # 15 px — decorative
-CONSTELLATION_E = (117, 131)     # 15 px — decorative
-CONSTELLATION_F = (132, 146)     # 15 px — decorative
-CONSTELLATION_G = (147, 161)     # 15 px — decorative
-CONSTELLATION_H = (162, 176)     # 15 px — decorative
-
-PYRAMID_TOP    = (177, 180)      # 4 px — pyramid accent
-INNER_BOX      = (181, 192)      # 12 px — secret box interior
-ARROW          = (193, 197)      # 5 px  — arrow pointing to box
-BOX_BORDER     = (198, 207)      # 10 px — frame around box front
-STAR_BG_2      = (208, 282)      # 75-pixel trailing star field
-
-# ── Constellation puzzle mappings ─────────────────────────────────────────────
-
-# Cable name → display surround LED range (reflects this box's cable status)
-CABLE_DISPLAY_MAP = {
-    "cable1": DISPLAY_SURROUND_0,
-    "cable2": DISPLAY_SURROUND_1,
-    "cable3": DISPLAY_SURROUND_2,
+# Both boxes share the same cable→display-surround mapping at pixels 0-11.
+_CABLE_DISPLAY_MAP = {
+    "cable1": (8,  11),
+    "cable2": (4,   7),
+    "cable3": (0,   3),
 }
 
-# Cables that must all be "connected" on both boxes to solve the puzzle
+PIGEON_LAYOUT = {
+    "led_count":     227,
+    "cable_display": _CABLE_DISPLAY_MAP,
+    "star_bgs":     [(12,  24), (62, 136)],
+    "box_borders":  [(137, 141), (156, 160)],
+    "arrow":         (142, 145),
+    "inner_box":     (146, 155),
+    "pyramid_top":   (222, 226),
+    "unused":       [(56,  61), (200, 201)],
+    "constellations": {
+        "crab":      (25,  44),
+        "infinity":  (45,  55),
+        "elephant": (161, 171),
+        "worm":     (172, 178),
+        "spaceship":(179, 190),
+        "hole":     (191, 199),
+        "pigeon":   (202, 214),
+        "stick":    (215, 221),
+    },
+}
+
+ELEPHANT_LAYOUT = {
+    "led_count":     221,
+    "cable_display": _CABLE_DISPLAY_MAP,
+    "star_bgs":     [(12,  24), (59, 133)],
+    "box_borders":  [(134, 138), (153, 157)],
+    "arrow":         (139, 142),
+    "inner_box":     (143, 152),
+    "pyramid_top":   (217, 220),
+    "unused":       [(45,  58), (201, 201)],
+    "constellations": {
+        "pigeon":   (25,  38),
+        "worm":     (39,  44),
+        "crab":     (158, 173),
+        "spaceship":(174, 182),
+        "infinity": (183, 188),
+        "elephant": (189, 200),
+        "hole":     (202, 210),
+        "stick":    (211, 216),
+    },
+}
+
+# ── Constellation puzzle ──────────────────────────────────────────────────────
+# Cables that must all be "connected" on both boxes to solve the puzzle.
 PUZZLE_CABLES = ["cable1", "cable2", "cable3"]
-
-# Constellation name → LED segment.
-# Replace placeholder keys with actual constellation names before deployment.
-CONSTELLATION_LED_MAP = {
-    "placeholder_a": CONSTELLATION_A,
-    "placeholder_b": CONSTELLATION_B,
-    "placeholder_c": CONSTELLATION_C,
-    "placeholder_d": CONSTELLATION_D,
-    "placeholder_e": CONSTELLATION_E,
-    "placeholder_f": CONSTELLATION_F,
-    "placeholder_g": CONSTELLATION_G,
-    "placeholder_h": CONSTELLATION_H,
-}
 
 # ── Word puzzle ───────────────────────────────────────────────────────────────
 WINNING_COMBO = [2, 2, 2, 1, 1, 1]   # set to actual answer before deployment

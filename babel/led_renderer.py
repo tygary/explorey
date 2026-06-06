@@ -6,9 +6,7 @@ from lighting.routines.TwinkleRoutine import (
 )
 
 from babel.config import (
-    LED_PIN, LED_COUNT, LED_BRIGHTNESS, LED_DMA,
-    CABLE_DISPLAY_MAP, CONSTELLATION_LED_MAP,
-    PYRAMID_TOP, INNER_BOX, ARROW, BOX_BORDER, UNUSED_1,
+    LED_PIN, LED_FREQ_HZ, LED_DMA, LED_BRIGHTNESS, LED_INVERT, LED_CHANNEL,
     STATE_COMPLETE, GAME_RUNNING_STATES,
 )
 
@@ -25,14 +23,31 @@ def _addrs(seg):
     return list(range(start, end + 1))
 
 
+def _addrs_many(segs):
+    result = []
+    for seg in segs:
+        result.extend(_addrs(seg))
+    return result
+
+
 class LedRenderer:
-    def __init__(self):
-        self._pixels = PixelControl(LED_COUNT, LED_BRIGHTNESS, LED_PIN, LED_DMA)
+    def __init__(self, layout):
+        self._pixels = PixelControl(
+            layout["led_count"], LED_BRIGHTNESS, LED_PIN, LED_DMA
+        )
+
+        # ── Star backgrounds ──────────────────────────────────────────────────
+        star_addrs = _addrs_many(layout["star_bgs"])
+        self._stars = {
+            "twinkle": TwinkleRoutine(self._pixels, star_addrs,
+                                      colors=TWINKLE_DEFAULT_COLORS, max_brightness=0.3),
+            "rainbow": TwinkleRoutine(self._pixels, star_addrs,
+                                      colors=TWINKLE_RAINBOW_COLORS, max_brightness=0.3),
+        }
 
         # ── Display surrounds — one dict per cable ────────────────────────────
-        # Reflects this box's real-time cable status.
         self._surrounds = {}
-        for cable, seg in CABLE_DISPLAY_MAP.items():
+        for cable, seg in layout["cable_display"].items():
             addrs = _addrs(seg)
             self._surrounds[cable] = {
                 "off":       BlackoutRoutine(self._pixels, addrs),
@@ -41,10 +56,8 @@ class LedRenderer:
             }
 
         # ── Constellations — one dict per named constellation ─────────────────
-        # "connected" by any box → green twinkle on both Pis.
-        # "invalid" on this box  → red flash on this Pi only.
         self._constellation_routines = {}
-        for name, seg in CONSTELLATION_LED_MAP.items():
+        for name, seg in layout["constellations"].items():
             addrs = _addrs(seg)
             self._constellation_routines[name] = {
                 "idle":      TwinkleRoutine(self._pixels, addrs,
@@ -57,7 +70,7 @@ class LedRenderer:
             }
 
         # ── Pyramid top ───────────────────────────────────────────────────────
-        pyramid_addrs = _addrs(PYRAMID_TOP)
+        pyramid_addrs = _addrs(layout["pyramid_top"])
         self._pyramid = {
             "blue":    ColorRoutine(self._pixels, pyramid_addrs, color=Colors.blue),
             "red":     ColorRoutine(self._pixels, pyramid_addrs, color=Colors.red),
@@ -66,49 +79,47 @@ class LedRenderer:
         }
 
         # ── Inner box ─────────────────────────────────────────────────────────
-        inner_addrs = _addrs(INNER_BOX)
+        inner_addrs = _addrs(layout["inner_box"])
         self._inner_box = {
             "off":   BlackoutRoutine(self._pixels, inner_addrs),
             "white": ColorRoutine(self._pixels, inner_addrs, color=Colors.white),
         }
 
         # ── Arrow ─────────────────────────────────────────────────────────────
-        arrow_addrs = _addrs(ARROW)
+        arrow_addrs = _addrs(layout["arrow"])
         self._arrow = {
             "idle":  PulseRoutine(self._pixels, arrow_addrs, color=[150, 150, 150], rate=0.02),
             "green": ColorRoutine(self._pixels, arrow_addrs, color=Colors.green),
         }
 
-        # ── Box border ────────────────────────────────────────────────────────
-        border_addrs = _addrs(BOX_BORDER)
+        # ── Box border (both segments combined) ───────────────────────────────
+        border_addrs = _addrs_many(layout["box_borders"])
         self._box_border = {
             "idle":  PulseRoutine(self._pixels, border_addrs, color=[150, 150, 150], rate=0.02),
-            "green": PulseRoutine(self._pixels, border_addrs, color=Colors.green,   rate=0.03),
+            "green": PulseRoutine(self._pixels, border_addrs, color=Colors.green, rate=0.03),
         }
 
-        # ── Unused — always black ─────────────────────────────────────────────
-        self._unused = BlackoutRoutine(self._pixels, _addrs(UNUSED_1))
-
-        # ── Star backgrounds (no surround needed — built into constellations) ──
-        # Stars are rendered via the constellation idle/rainbow routines;
-        # if you have dedicated star pixel ranges add TwinkleRoutine entries here.
+        # ── Unused gaps — always black ────────────────────────────────────────
+        self._unused = BlackoutRoutine(self._pixels, _addrs_many(layout["unused"]))
 
     def render(self, game_state, own_cable_status, connected_constellations, invalid_constellations):
         """
-        game_state             — STATE_* string
-        own_cable_status       — {cable: "connected"/"invalid"} for this box's cables
-        connected_constellations — set of constellation names connected by any box → green
-        invalid_constellations   — set of constellation names invalid on this box → red flash
+        game_state               — STATE_* string
+        own_cable_status         — {cable: "connected"/"invalid"} for this box
+        connected_constellations — set of names connected by any box → green twinkle
+        invalid_constellations   — set of names invalid on this box  → red flash
         """
         is_running  = game_state in GAME_RUNNING_STATES
         is_complete = game_state == STATE_COMPLETE
 
-        # Display surrounds — reflect this box's real-time cable status
-        for cable, routines in self._surrounds.items():
-            status = own_cable_status.get(cable)
-            routines.get(status, routines["off"]).tick()
+        # Stars
+        self._stars["rainbow" if is_complete else "twinkle"].tick()
 
-        # Constellations — status-driven across both boxes
+        # Display surrounds — cable status on this box only
+        for cable, routines in self._surrounds.items():
+            routines.get(own_cable_status.get(cable), routines["off"]).tick()
+
+        # Constellations — cross-box connected = green, own invalid = red
         for name, routines in self._constellation_routines.items():
             if is_complete:
                 routines["rainbow"].tick()
@@ -119,7 +130,7 @@ class LedRenderer:
             else:
                 routines["idle"].tick()
 
-        # Pyramid
+        # Pyramid top
         if is_complete:
             self._pyramid["rainbow"].tick()
         elif is_running:
@@ -136,7 +147,7 @@ class LedRenderer:
         # Box border
         self._box_border["green" if is_complete else "idle"].tick()
 
-        # Unused gap
+        # Unused gaps
         self._unused.tick()
 
         self._pixels.render()

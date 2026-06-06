@@ -77,8 +77,8 @@ PUZZLE_CABLES = ["cable1", "cable2", "cable3"]
 WINNING_COMBO = [5, 8, 9, 3, 6, 2]   # set to actual answer before deployment
 
 # ── Inner box latch ───────────────────────────────────────────────────────────
-LATCH_PIN            = 6    # IO6 — HIGH = magnet on (locked), LOW = magnet off (unlocked)
-LATCH_UNLOCK_SECONDS = 30
+LATCH_PIN        = 6    # IO6 — HIGH = magnet on (locked), LOW = magnet off (unlocked)
+WIN_RESET_SECONDS = 60  # latch stays unlocked for this long, then game resets to init
 
 # ── Game state constants ──────────────────────────────────────────────────────
 STATE_INIT     = "init"

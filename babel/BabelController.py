@@ -12,7 +12,7 @@ from babel.config import (
     PIGEON_LAYOUT, ELEPHANT_LAYOUT,
     STATE_INIT, STATE_PUZZLE_1, STATE_PUZZLE_2,
     STATE_PUZZLE_3, STATE_PUZZLE_4, STATE_COMPLETE,
-    LATCH_PIN, LATCH_UNLOCK_SECONDS,
+    LATCH_PIN, WIN_RESET_SECONDS,
 )
 from babel.led_renderer import LedRenderer
 
@@ -55,6 +55,7 @@ class BabelController:
             GPIO.setwarnings(False)
             GPIO.setup(LATCH_PIN, GPIO.OUT)
             GPIO.output(LATCH_PIN, GPIO.HIGH)  # locked on boot
+            self._win_cancel = threading.Event()
             self._gs = {
                 "phase": STATE_INIT,
                 "completed": _empty_completed(),
@@ -181,7 +182,8 @@ class BabelController:
         logger.info("Transitioning to %s", phase)
         self._gs["phase"] = phase
         if phase == STATE_INIT:
-            GPIO.output(LATCH_PIN, GPIO.HIGH)  # re-lock if a win timer was running
+            self._win_cancel.set()
+            GPIO.output(LATCH_PIN, GPIO.HIGH)
             self._gs["completed"]            = _empty_completed()
             self._gs["time_target"]          = None
             self._gs["constellation_status"] = {BOX_PIGEON: {}, BOX_ELEPHANT: {}}
@@ -211,15 +213,18 @@ class BabelController:
         self._mqtt.publish(json.dumps(msg))
 
     def _run_win_sequence(self):
-        logger.info("WIN — unlocking inner box latch for %s seconds", LATCH_UNLOCK_SECONDS)
+        logger.info("WIN — unlocking inner box latch for %s seconds", WIN_RESET_SECONDS)
+        self._win_cancel.clear()
         GPIO.output(LATCH_PIN, GPIO.LOW)
 
-        def relock():
-            time.sleep(LATCH_UNLOCK_SECONDS)
-            GPIO.output(LATCH_PIN, GPIO.HIGH)
-            logger.info("Inner box latch re-locked")
+        def expire():
+            cancelled = self._win_cancel.wait(WIN_RESET_SECONDS)
+            if not cancelled:
+                logger.info("Win timer expired — relocking and resetting to init")
+                GPIO.output(LATCH_PIN, GPIO.HIGH)
+                self._transition_to(STATE_INIT)
 
-        threading.Thread(target=relock, daemon=True).start()
+        threading.Thread(target=expire, daemon=True).start()
 
     # ── Render loop ───────────────────────────────────────────────────────────
 

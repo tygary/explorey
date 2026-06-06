@@ -62,8 +62,7 @@ class LedRenderer:
             self._constellation_routines[name] = {
                 "idle":      TwinkleRoutine(self._pixels, addrs,
                                             colors=TWINKLE_DEFAULT_COLORS, max_brightness=0.3),
-                "connected": TwinkleRoutine(self._pixels, addrs,
-                                            colors=_GREEN_COLORS, max_brightness=0.7),
+                "connected": ColorRoutine(self._pixels, addrs, color=Colors.green),
                 "invalid":   PulseRoutine(self._pixels, addrs, color=Colors.red, rate=0.15),
                 "rainbow":   TwinkleRoutine(self._pixels, addrs,
                                             colors=TWINKLE_RAINBOW_COLORS, max_brightness=0.3),

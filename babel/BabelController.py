@@ -55,7 +55,8 @@ class BabelController:
             GPIO.setwarnings(False)
             GPIO.setup(LATCH_PIN, GPIO.OUT)
             GPIO.output(LATCH_PIN, GPIO.HIGH)  # locked on boot
-            self._win_cancel = threading.Event()
+            self._win_cancel        = threading.Event()
+            self._press_ignore_until = 0.0
             self._gs = {
                 "phase": STATE_INIT,
                 "completed": _empty_completed(),
@@ -110,11 +111,14 @@ class BabelController:
         if event == "finishedBoot":
             self._send_game_update()
         elif event == "buttonPress":
-            if self._gs["phase"] == STATE_INIT:
+            if time.monotonic() < self._press_ignore_until:
+                logger.info("Button press from %s ignored (post-hold cooldown)", box)
+            elif self._gs["phase"] == STATE_INIT:
                 logger.info("Button press from %s — starting game", box)
                 self._transition_to(STATE_PUZZLE_1)
         elif event in ("buttonHoldStart", "buttonHoldEnd"):
             logger.info("Button hold from %s — resetting to init", box)
+            self._press_ignore_until = time.monotonic() + 2.0
             self._transition_to(STATE_INIT)
         elif event == "timeChosen":
             self._on_time_chosen(data.get("hour"), data.get("minute"))

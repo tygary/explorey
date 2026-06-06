@@ -63,6 +63,8 @@ class BabelController:
         logger.info("Starting BabelController (%s)", self._box)
         self._mqtt = MqttClient(topic=MQTT_TOPIC, hostname="10.0.1.149")
         self._mqtt.listen(self._on_message)
+        if self._pigeon:
+            self._send_game_update()
         threading.Thread(target=self._render_loop, daemon=True).start()
 
     # ── MQTT ──────────────────────────────────────────────────────────────────

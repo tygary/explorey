@@ -49,12 +49,14 @@ class BabelController:
         self._own_cable_status          = {}   # {cable: "connected"/"invalid"} for this box
         self._all_constellation_statuses = {}  # {box: {name: "connected"/"invalid"}}
 
-        # Game master state and hardware — pigeon only
+        # Latch — both boxes have one on the same pin
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setwarnings(False)
+        GPIO.setup(LATCH_PIN, GPIO.OUT)
+        GPIO.output(LATCH_PIN, GPIO.HIGH)  # locked on boot
+
+        # Game master state — pigeon only
         if pigeon:
-            GPIO.setmode(GPIO.BCM)
-            GPIO.setwarnings(False)
-            GPIO.setup(LATCH_PIN, GPIO.OUT)
-            GPIO.output(LATCH_PIN, GPIO.HIGH)  # locked on boot
             self._win_cancel        = threading.Event()
             self._press_ignore_until = 0.0
             self._gs = {
@@ -100,6 +102,8 @@ class BabelController:
                 if self._phase == STATE_INIT:
                     self._all_constellation_statuses = {}
                     self._own_cable_status = {}
+                if not self._pigeon:
+                    GPIO.output(LATCH_PIN, GPIO.LOW if self._phase == STATE_COMPLETE else GPIO.HIGH)
             elif event == "constellationUpdate" and box is not None:
                 self._all_constellation_statuses[box] = data.get("connections", {})
                 if box == self._box:

@@ -63,13 +63,17 @@ class BabelController:
         GPIO.setup(LATCH_PIN, GPIO.OUT)
         GPIO.output(LATCH_PIN, GPIO.HIGH)  # locked on boot
 
+        # Audio — both boxes
+        self._sound           = BabelSoundSystem()
+        self._prev_phase      = STATE_INIT
+        self._prev_own_cables = {}   # {cable: status} for this box, used for connection sounds
+        self._timeout_cancel  = threading.Event()
+
         # Game master state — pigeon only
         if pigeon:
             self._win_cancel         = threading.Event()
-            self._timeout_cancel     = threading.Event()
             self._press_ignore_until = 0.0
             self._prev_cable_status  = {BOX_PIGEON: {}, BOX_ELEPHANT: {}}
-            self._sound              = BabelSoundSystem()
             self._gs = {
                 "phase": STATE_INIT,
                 "completed": _empty_completed(),
@@ -123,6 +127,8 @@ class BabelController:
         # Game master logic — pigeon only
         if self._pigeon:
             self._dispatch(event, box, data)
+        else:
+            self._handle_elephant_sounds(event, box, data)
 
     def _dispatch(self, event, box, data):
         if event == "finishedBoot":
@@ -149,6 +155,43 @@ class BabelController:
         elif event == "wordKnobChanged" and box is not None:
             # Only handle originals from ESPs (box field present); ignore our own relays
             self._on_word_knob_changed(data.get("dial"), data.get("value"))
+
+    # ── Elephant sound handlers ───────────────────────────────────────────────
+
+    def _handle_elephant_sounds(self, event, box, data):
+        if event == "gameUpdate":
+            new_phase = data.get("state", STATE_INIT)
+            if new_phase != self._prev_phase:
+                self._play_phase_sound(new_phase)
+                if new_phase in (STATE_PUZZLE_1, STATE_PUZZLE_2, STATE_PUZZLE_3, STATE_PUZZLE_4):
+                    self._start_puzzle_timer()
+                else:
+                    self._timeout_cancel.set()
+                self._prev_phase = new_phase
+        elif event == "constellationUpdate" and box == self._box:
+            self._play_cable_sounds(data.get("cable_status", {}))
+        elif event == "artifactPuzzleSolved":
+            self._sound.play_correct_connection()
+
+    def _play_phase_sound(self, phase):
+        if phase == STATE_INIT:
+            self._prev_own_cables = {}
+            self._sound.play_reset()
+        elif phase == STATE_PUZZLE_1:
+            self._sound.play_game_start()
+        elif phase in (STATE_PUZZLE_2, STATE_PUZZLE_3, STATE_PUZZLE_4):
+            self._sound.play_puzzle_complete()
+        elif phase == STATE_COMPLETE:
+            self._sound.play_you_win()
+
+    def _play_cable_sounds(self, cable_status):
+        for cable, status in cable_status.items():
+            if status != self._prev_own_cables.get(cable):
+                if status == "connected":
+                    self._sound.play_correct_connection()
+                elif status == "invalid":
+                    self._sound.play_incorrect_connection()
+        self._prev_own_cables = dict(cable_status)
 
     # ── Game master event handlers ────────────────────────────────────────────
 
@@ -221,6 +264,7 @@ class BabelController:
             self._gs["cable_status"]         = {BOX_PIGEON: {}, BOX_ELEPHANT: {}}
             self._gs["word_selections"]      = [0, 0, 0, 0, 0, 0]
             self._prev_cable_status          = {BOX_PIGEON: {}, BOX_ELEPHANT: {}}
+            self._prev_own_cables            = {}
             self._sound.play_reset()
         elif phase == STATE_PUZZLE_1:
             self._sound.play_game_start()
@@ -274,8 +318,10 @@ class BabelController:
 
         def _timer():
             cancelled = self._timeout_cancel.wait(_GAME_TIMEOUT_S - _OUT_OF_TIME_WARN)
-            if not cancelled:
-                self._sound.play_out_of_time()
+            if cancelled:
+                return
+            self._sound.play_out_of_time()
+            if self._pigeon:
                 cancelled = self._timeout_cancel.wait(_OUT_OF_TIME_WARN)
                 if not cancelled:
                     logger.info("Puzzle timer expired — resetting to init")

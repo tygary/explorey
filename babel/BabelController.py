@@ -15,6 +15,7 @@ from babel.config import (
     LATCH_PIN, WIN_RESET_SECONDS,
 )
 from babel.led_renderer import LedRenderer
+from babel.BabelDmx import BabelDmx
 
 logger = logging.getLogger(__name__)
 
@@ -43,6 +44,8 @@ class BabelController:
         self._box    = BOX_PIGEON if pigeon else BOX_ELEPHANT
         self._lock   = threading.Lock()
         self._renderer = LedRenderer(PIGEON_LAYOUT if pigeon else ELEPHANT_LAYOUT)
+        self._dmx = BabelDmx()
+
 
         # Shared render state (read by render loop, written by MQTT thread)
         self._phase                     = STATE_INIT
@@ -258,6 +261,8 @@ class BabelController:
             }
 
             self._renderer.render(phase, own_cables, connected, invalid)
+            self._dmx.change_mode(phase)
+            self._dmx.update()
 
             elapsed = time.monotonic() - now
             sleep   = _FRAME_S - elapsed

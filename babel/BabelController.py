@@ -72,6 +72,8 @@ class BabelController:
         self._mqtt.listen(self._on_message)
         if self._pigeon:
             self._send_game_update()
+        else:
+            self._mqtt.publish(json.dumps({"event": "finishedBoot", "box": self._box}))
         threading.Thread(target=self._render_loop, daemon=True).start()
 
     # ── MQTT ──────────────────────────────────────────────────────────────────

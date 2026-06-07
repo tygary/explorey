@@ -1,12 +1,19 @@
 from lighting.DmxPy import DmxPy
+from lighting.lib.DmxPyFt232 import DmxPyFt232
 import time
+
+DRIVER_ENTTEC = "enttec"
+DRIVER_FT232  = "ft232"
 
 
 class DmxControl(object):
     dmx = None
 
-    def __init__(self):
-        self.dmx = DmxPy("/dev/ttyUSB0")
+    def __init__(self, port="/dev/ttyUSB0", driver=DRIVER_ENTTEC):
+        if driver == DRIVER_FT232:
+            self.dmx = DmxPyFt232(port)
+        else:
+            self.dmx = DmxPy(port)
 
     def setLight(self, channelStart, color):
         self.dmx.set_channel(channelStart, color[0])

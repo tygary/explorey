@@ -1,6 +1,6 @@
 import random
 
-from lighting.DmxControl import DmxControl
+from lighting.DmxControl import DmxControl, DRIVER_ENTTEC, DRIVER_FT232
 from babel.config import STATE_INIT, STATE_COMPLETE, GAME_RUNNING_STATES
 
 FIXTURE_1 = 10
@@ -34,8 +34,8 @@ _FINALE_OFFSETS = [0.99, 0.33, 0.66]
 
 
 class BabelDmx:
-    def __init__(self):
-        self._dmx = DmxControl()
+    def __init__(self, driver=DRIVER_ENTTEC):
+        self._dmx = DmxControl(driver=driver)
         self._mode = None
         self._finale_values = list(_FINALE_OFFSETS)
         self._finale_directions = [True, False, True]  # True = increasing

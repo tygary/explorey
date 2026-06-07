@@ -16,6 +16,7 @@ from babel.config import (
 )
 from babel.led_renderer import LedRenderer
 from babel.BabelDmx import BabelDmx
+from lighting.DmxControl import DRIVER_ENTTEC, DRIVER_FT232
 
 logger = logging.getLogger(__name__)
 
@@ -44,7 +45,7 @@ class BabelController:
         self._box    = BOX_PIGEON if pigeon else BOX_ELEPHANT
         self._lock   = threading.Lock()
         self._renderer = LedRenderer(PIGEON_LAYOUT if pigeon else ELEPHANT_LAYOUT)
-        self._dmx = BabelDmx()
+        self._dmx = BabelDmx(driver=DRIVER_ENTTEC if pigeon else DRIVER_FT232)
 
 
         # Shared render state (read by render loop, written by MQTT thread)

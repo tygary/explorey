@@ -16,9 +16,13 @@ from babel.config import (
 )
 from babel.led_renderer import LedRenderer
 from babel.BabelDmx import BabelDmx
+from babel.BabelSoundSystem import BabelSoundSystem
 from lighting.DmxControl import DRIVER_ENTTEC, DRIVER_FT232
 
 logger = logging.getLogger(__name__)
+
+_GAME_TIMEOUT_S   = 300   # 5 minutes per puzzle phase
+_OUT_OF_TIME_WARN =   5   # seconds before timeout to play warning
 
 _RENDER_FPS = 20
 _FRAME_S    = 1.0 / _RENDER_FPS
@@ -61,8 +65,11 @@ class BabelController:
 
         # Game master state — pigeon only
         if pigeon:
-            self._win_cancel        = threading.Event()
+            self._win_cancel         = threading.Event()
+            self._timeout_cancel     = threading.Event()
             self._press_ignore_until = 0.0
+            self._prev_cable_status  = {BOX_PIGEON: {}, BOX_ELEPHANT: {}}
+            self._sound              = BabelSoundSystem()
             self._gs = {
                 "phase": STATE_INIT,
                 "completed": _empty_completed(),
@@ -158,11 +165,20 @@ class BabelController:
 
     def _on_artifact_puzzle_solved(self, box):
         logger.info("Artifact puzzle SOLVED by %s", box)
+        self._sound.play_correct_connection()
         self._gs["completed"][box]["artifact"] = True
         self._maybe_advance()
 
     def _on_constellation_update(self, box, connections, cable_status):
         logger.info("Constellation update: box=%-10s connections=%s", box, connections)
+        prev = self._prev_cable_status.get(box, {})
+        for cable, status in cable_status.items():
+            if status != prev.get(cable):
+                if status == "connected":
+                    self._sound.play_correct_connection()
+                elif status == "invalid":
+                    self._sound.play_incorrect_connection()
+        self._prev_cable_status[box] = dict(cable_status)
         self._gs["constellation_status"][box] = connections
         self._gs["cable_status"][box]         = cable_status
         if self._all_constellations_correct():
@@ -197,14 +213,26 @@ class BabelController:
         self._gs["phase"] = phase
         if phase == STATE_INIT:
             self._win_cancel.set()
+            self._timeout_cancel.set()
             GPIO.output(LATCH_PIN, GPIO.HIGH)
             self._gs["completed"]            = _empty_completed()
             self._gs["time_target"]          = None
             self._gs["constellation_status"] = {BOX_PIGEON: {}, BOX_ELEPHANT: {}}
             self._gs["cable_status"]         = {BOX_PIGEON: {}, BOX_ELEPHANT: {}}
             self._gs["word_selections"]      = [0, 0, 0, 0, 0, 0]
+            self._prev_cable_status          = {BOX_PIGEON: {}, BOX_ELEPHANT: {}}
+            self._sound.play_reset()
+        elif phase == STATE_PUZZLE_1:
+            self._sound.play_game_start()
+            self._start_puzzle_timer()
+        elif phase in (STATE_PUZZLE_2, STATE_PUZZLE_3, STATE_PUZZLE_4):
+            self._sound.play_puzzle_complete()
+            self._start_puzzle_timer()
+        elif phase == STATE_COMPLETE:
+            self._timeout_cancel.set()
         self._send_game_update()
         if phase == STATE_COMPLETE:
+            self._sound.play_you_win()
             self._run_win_sequence()
 
     def _all_constellations_correct(self):
@@ -239,6 +267,21 @@ class BabelController:
                 self._transition_to(STATE_INIT)
 
         threading.Thread(target=expire, daemon=True).start()
+
+    def _start_puzzle_timer(self):
+        self._timeout_cancel.set()
+        self._timeout_cancel.clear()
+
+        def _timer():
+            cancelled = self._timeout_cancel.wait(_GAME_TIMEOUT_S - _OUT_OF_TIME_WARN)
+            if not cancelled:
+                self._sound.play_out_of_time()
+                cancelled = self._timeout_cancel.wait(_OUT_OF_TIME_WARN)
+                if not cancelled:
+                    logger.info("Puzzle timer expired — resetting to init")
+                    self._transition_to(STATE_INIT)
+
+        threading.Thread(target=_timer, daemon=True).start()
 
     # ── Render loop ───────────────────────────────────────────────────────────
 

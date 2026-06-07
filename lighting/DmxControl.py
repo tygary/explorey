@@ -59,15 +59,15 @@ class DmxControl(object):
     def setRfFixture(self, channelStart, color, dimmer=255):
         # Rockville RF1/RF4 10-channel mode
         # color is [R, G, B, W, A, UV] (0-255 each)
-        self.dmx.set_channel(channelStart + 0, dimmer)   # CH1: Dimmer
-        self.dmx.set_channel(channelStart + 1, 0)         # CH2: Strobe off
-        self.dmx.set_channel(channelStart + 2, color[0])  # CH3: Red
-        self.dmx.set_channel(channelStart + 3, color[1])  # CH4: Green
-        self.dmx.set_channel(channelStart + 4, color[2])  # CH5: Blue
-        self.dmx.set_channel(channelStart + 5, color[3])  # CH6: White
-        self.dmx.set_channel(channelStart + 6, color[4])  # CH7: Amber
-        self.dmx.set_channel(channelStart + 7, color[5])  # CH8: UV
-        self.dmx.set_channel(channelStart + 8, 0)         # CH9: Macro off (manual mode)
+        self.dmx.set_channel(channelStart + 0, dimmer)   # CH1: Master dimmer
+        self.dmx.set_channel(channelStart + 1, color[0]) # CH2: Red
+        self.dmx.set_channel(channelStart + 2, color[1]) # CH3: Green
+        self.dmx.set_channel(channelStart + 3, color[2]) # CH4: Blue
+        self.dmx.set_channel(channelStart + 4, color[3]) # CH5: White
+        self.dmx.set_channel(channelStart + 5, color[4]) # CH6: Amber
+        self.dmx.set_channel(channelStart + 6, color[5]) # CH7: UV
+        self.dmx.set_channel(channelStart + 7, 0)         # CH8: Strobe off (0-9 = off)
+        self.dmx.set_channel(channelStart + 8, 0)         # CH9: Manual mode (0-39)
         self.dmx.set_channel(channelStart + 9, 0)         # CH10: Speed
 
     def setBlackLight(self, channelStart, brightness):

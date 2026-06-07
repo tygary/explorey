@@ -22,7 +22,7 @@ class DmxPyFt232:
         )
         # Most FT232RL RS485 modules tie DE (Driver Enable) to RTS.
         # Assert it once so the chip stays in transmit mode.
-        self.serial.rts = True
+        self.serial.rts = False  # DE pin is active-low on this stick
         # Index 0 = DMX start code (0x00), indices 1-512 = channels
         self._data = bytearray(513)
 

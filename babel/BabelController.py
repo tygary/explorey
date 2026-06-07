@@ -262,8 +262,11 @@ class BabelController:
             }
 
             self._renderer.render(phase, own_cables, connected, invalid)
-            self._dmx.change_mode(phase)
-            self._dmx.update()
+            try:
+                self._dmx.change_mode(phase)
+                self._dmx.update()
+            except Exception:
+                logger.exception("DMX error")
 
             elapsed = time.monotonic() - now
             sleep   = _FRAME_S - elapsed

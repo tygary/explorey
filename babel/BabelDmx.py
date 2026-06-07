@@ -89,4 +89,6 @@ class BabelDmx:
                         self._finale_directions[i] = True
                 dimmer = int(self._finale_values[i] * 255)
                 self._dmx.setRfFixture(ch, FINALE_COLORS[i], dimmer)
-            self._dmx.render()
+        # Always render every frame — DMX is a continuous stream and wireless
+        # transmitters need ongoing frames to keep broadcasting.
+        self._dmx.render()

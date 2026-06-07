@@ -1,3 +1,4 @@
+import time
 import serial
 
 
@@ -35,13 +36,9 @@ class DmxPyFt232:
             self._data[i] = 0
 
     def render(self):
-        # Generate BREAK by sending 0x00 at a lower baud rate.
-        # At 100000 baud: start bit + 8 zero bits = 90µs low (spec min 88µs).
-        # The 2 stop bits that follow are high, giving the MAB for free.
-        self.serial.baudrate = 100000
-        self.serial.write(b'\x00')
-        self.serial.flush()
-        # Switch back to DMX baud and send start code + 512 channels
-        self.serial.baudrate = 250000
+        self.serial.break_condition = True
+        time.sleep(0.0001)   # BREAK: 100µs (spec min 88µs)
+        self.serial.break_condition = False
+        time.sleep(0.000012) # MAB: 12µs (spec min 8µs)
         self.serial.write(bytes(self._data))
         self.serial.flush()

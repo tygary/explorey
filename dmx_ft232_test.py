@@ -7,7 +7,7 @@ import serial
 import time
 
 PORT = "/dev/ttyUSB0"
-CHANNEL_VALUE = 200  # bright enough to see if a light responds
+FIXTURES = [10, 20, 30]  # DMX start channels for each fixture
 
 print(f"Opening {PORT} ...")
 try:
@@ -27,8 +27,22 @@ except Exception as e:
 
 print(f"Opened. RTS={s.rts}  CTS={s.cts}  DSR={s.dsr}")
 
-# DMX frame: start code 0x00 + 512 channels all at CHANNEL_VALUE
-frame = bytes([0] + [CHANNEL_VALUE] * 512)
+# Build a frame with proper RF1/RF4 values for each fixture.
+# Sending 200 to every channel hits strobe (CH2) and macro (CH9) which
+# suppress color output — this sets them correctly.
+data = bytearray(513)  # index 0 = start code, rest = channels
+for ch in FIXTURES:
+    data[ch + 0] = 255  # CH1: Dimmer full
+    data[ch + 1] = 0    # CH2: Strobe off
+    data[ch + 2] = 255  # CH3: Red full
+    data[ch + 3] = 0    # CH4: Green
+    data[ch + 4] = 0    # CH5: Blue
+    data[ch + 5] = 0    # CH6: White
+    data[ch + 6] = 0    # CH7: Amber
+    data[ch + 7] = 0    # CH8: UV
+    data[ch + 8] = 0    # CH9: Macro off (manual color mode)
+    data[ch + 9] = 0    # CH10: Speed
+frame = bytes(data)
 
 print("Sending DMX frames continuously.  Watch the wireless transmitter for activity.")
 print("Press Ctrl-C to stop.\n")

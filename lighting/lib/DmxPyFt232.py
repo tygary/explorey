@@ -17,7 +17,12 @@ class DmxPyFt232:
             bytesize=serial.EIGHTBITS,
             parity=serial.PARITY_NONE,
             stopbits=serial.STOPBITS_TWO,
+            rtscts=False,
+            dsrdtr=False,
         )
+        # Most FT232RL RS485 modules tie DE (Driver Enable) to RTS.
+        # Assert it once so the chip stays in transmit mode.
+        self.serial.rts = True
         # Index 0 = DMX start code (0x00), indices 1-512 = channels
         self._data = bytearray(513)
 

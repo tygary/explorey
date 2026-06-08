@@ -150,7 +150,7 @@ class BabelController:
             self._on_time_puzzle_solved(box)
         elif event == "artifactConnected":
             if data.get("box") == self._box:
-                if data.get("correct"):
+                if data.get("valid"):
                     self._sound.play_correct_connection()
                 else:
                     self._sound.play_incorrect_connection()
@@ -186,7 +186,7 @@ class BabelController:
         elif event == "constellationUpdate" and box == self._box:
             self._play_cable_sounds(data.get("cable_status", {}))
         elif event == "artifactConnected" and box == self._box:
-            if data.get("correct"):
+            if data.get("valid"):
                 self._sound.play_correct_connection()
             else:
                 self._sound.play_incorrect_connection()
@@ -232,12 +232,13 @@ class BabelController:
     def _on_constellation_update(self, box, connections, cable_status):
         logger.info("Constellation update: box=%-10s connections=%s", box, connections)
         prev = self._prev_cable_status.get(box, {})
-        for cable, status in cable_status.items():
-            if status != prev.get(cable):
-                if status == "connected":
-                    self._sound.play_correct_connection()
-                elif status == "invalid":
-                    self._sound.play_incorrect_connection()
+        if box == self._box:
+            for cable, status in cable_status.items():
+                if status != prev.get(cable):
+                    if status == "connected":
+                        self._sound.play_correct_connection()
+                    elif status == "invalid":
+                        self._sound.play_incorrect_connection()
         self._prev_cable_status[box] = dict(cable_status)
         self._gs["constellation_status"][box] = connections
         self._gs["cable_status"][box]         = cable_status

@@ -102,14 +102,14 @@ class BabelSoundSystem:
 
     def play_out_of_time(self):
         logger.info("Babel audio: Out of Time")
-        self._play(OUT_OF_TIME, 1.0, loops=0)
+        self._play(OUT_OF_TIME, 0.7, loops=0)
 
     def play_reset(self):
         logger.info("Babel audio: Reset")
         self.stop_all()
-        self._play(RESET, 0.8, loops=0)
+        self._play(RESET, 0.6, loops=0)
 
     def play_you_win(self):
         logger.info("Babel audio: You Win")
         self.stop_all()
-        self._play(YOU_WIN, 0.8, loops=0)
+        self._play(YOU_WIN, 0.6, loops=0)

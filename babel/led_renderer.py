@@ -88,7 +88,7 @@ class LedRenderer:
         arrow_addrs = _addrs(layout["arrow"])
         self._arrow = {
             "idle":  PulseRoutine(self._pixels, arrow_addrs, color=[150, 150, 150], rate=0.02),
-            "green": ColorRoutine(self._pixels, arrow_addrs, color=Colors.green),
+            "flash": PulseRoutine(self._pixels, arrow_addrs, color=Colors.green, rate=0.15),
         }
 
         # ── Box border (both segments combined) ───────────────────────────────
@@ -141,7 +141,7 @@ class LedRenderer:
         self._inner_box["white" if is_complete else "off"].tick()
 
         # Arrow
-        self._arrow["green" if is_complete else "idle"].tick()
+        self._arrow["flash" if is_complete else "idle"].tick()
 
         # Box border
         self._box_border["green" if is_complete else "idle"].tick()

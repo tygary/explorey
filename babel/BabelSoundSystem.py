@@ -107,9 +107,9 @@ class BabelSoundSystem:
     def play_reset(self):
         logger.info("Babel audio: Reset")
         self.stop_all()
-        self._play(RESET, 0.6, loops=0)
+        self._play(RESET, 0.4, loops=0)
 
     def play_you_win(self):
         logger.info("Babel audio: You Win")
         self.stop_all()
-        self._play(YOU_WIN, 0.6, loops=0)
+        self._play(YOU_WIN, 0.3, loops=0)

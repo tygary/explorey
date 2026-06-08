@@ -147,6 +147,12 @@ class BabelController:
             self._on_time_chosen(data.get("hour"), data.get("minute"))
         elif event == "timePuzzleSolved":
             self._on_time_puzzle_solved(box)
+        elif event == "artifactConnected":
+            if data.get("box") == self._box:
+                if data.get("correct"):
+                    self._sound.play_correct_connection()
+                else:
+                    self._sound.play_incorrect_connection()
         elif event == "artifactPuzzleSolved":
             self._on_artifact_puzzle_solved(box)
         elif event == "constellationUpdate":
@@ -170,8 +176,11 @@ class BabelController:
                 self._prev_phase = new_phase
         elif event == "constellationUpdate" and box == self._box:
             self._play_cable_sounds(data.get("cable_status", {}))
-        elif event == "artifactPuzzleSolved":
-            self._sound.play_correct_connection()
+        elif event == "artifactConnected" and box == self._box:
+            if data.get("correct"):
+                self._sound.play_correct_connection()
+            else:
+                self._sound.play_incorrect_connection()
 
     def _play_phase_sound(self, phase):
         if phase == STATE_INIT:
@@ -208,7 +217,6 @@ class BabelController:
 
     def _on_artifact_puzzle_solved(self, box):
         logger.info("Artifact puzzle SOLVED by %s", box)
-        self._sound.play_correct_connection()
         self._gs["completed"][box]["artifact"] = True
         self._maybe_advance()
 

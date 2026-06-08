@@ -64,10 +64,11 @@ class BabelController:
         GPIO.output(LATCH_PIN, GPIO.HIGH)  # locked on boot
 
         # Audio — both boxes
-        self._sound           = BabelSoundSystem()
-        self._prev_phase      = STATE_INIT
-        self._prev_own_cables = {}   # {cable: status} for this box, used for connection sounds
-        self._timeout_cancel  = threading.Event()
+        self._sound               = BabelSoundSystem()
+        self._prev_phase          = STATE_INIT
+        self._prev_own_cables     = {}   # {cable: status} for this box, used for connection sounds
+        self._timeout_cancel      = threading.Event()
+        self._service_door_cancel = threading.Event()
 
         # Game master state — pigeon only
         if pigeon:
@@ -161,6 +162,9 @@ class BabelController:
         elif event == "wordKnobChanged" and box is not None:
             # Only handle originals from ESPs (box field present); ignore our own relays
             self._on_word_knob_changed(data.get("dial"), data.get("value"))
+        elif event == "openServiceDoor" and box == self._box:
+            if self._gs["phase"] == STATE_INIT:
+                self._open_service_door()
 
     # ── Elephant sound handlers ───────────────────────────────────────────────
 
@@ -168,12 +172,17 @@ class BabelController:
         if event == "gameUpdate":
             new_phase = data.get("state", STATE_INIT)
             if new_phase != self._prev_phase:
+                if new_phase != STATE_INIT:
+                    self._service_door_cancel.set()
                 self._play_phase_sound(new_phase)
                 if new_phase in (STATE_PUZZLE_1, STATE_PUZZLE_2, STATE_PUZZLE_3, STATE_PUZZLE_4):
                     self._start_puzzle_timer()
                 else:
                     self._timeout_cancel.set()
                 self._prev_phase = new_phase
+        elif event == "openServiceDoor" and box == self._box:
+            if self._phase == STATE_INIT:
+                self._open_service_door()
         elif event == "constellationUpdate" and box == self._box:
             self._play_cable_sounds(data.get("cable_status", {}))
         elif event == "artifactConnected" and box == self._box:
@@ -259,8 +268,25 @@ class BabelController:
             logger.info("Both boxes completed '%s' — advancing to %s", key, next_phase)
             self._transition_to(next_phase)
 
+    def _open_service_door(self):
+        logger.info("Service door opening for %s — 30 seconds", self._box)
+        self._service_door_cancel.set()
+        self._service_door_cancel.clear()
+        GPIO.output(LATCH_PIN, GPIO.LOW)
+
+        def expire():
+            cancelled = self._service_door_cancel.wait(30)
+            if not cancelled:
+                logger.info("Service door timer expired — relocking %s", self._box)
+                GPIO.output(LATCH_PIN, GPIO.HIGH)
+
+        threading.Thread(target=expire, daemon=True).start()
+
     def _transition_to(self, phase):
         logger.info("Transitioning to %s", phase)
+        if self._gs["phase"] == STATE_INIT and phase != STATE_INIT:
+            self._service_door_cancel.set()
+            GPIO.output(LATCH_PIN, GPIO.HIGH)
         self._gs["phase"] = phase
         if phase == STATE_INIT:
             self._win_cancel.set()
